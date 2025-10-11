@@ -1,0 +1,23 @@
+{
+    "iron wire sm-ex": {
+        "name": "Iron Wire (Smelter Extruder)",
+        "inputs": {"iron ore": 5},
+        "outputs": {"iron wire": 2},
+        "machines": ["smelter extruder"],
+        "description": "Smelts iron ore and produces iron wire."
+    },
+    "iron gear small": {
+        "name": "Iron Gear (Small)",
+        "inputs": {"iron wire": 2},
+        "outputs": {"iron gear small": 2},
+        "machines": ["component printer"],
+        "description": "Crafts a small gear of iron."
+    },
+    "mine iron ore": {
+        "name": "Mine (Iron Ore)",
+        "inputs": {},
+        "outputs": {"iron ore": 1},
+        "machines": ["miner"],
+        "description": "Extract iron ore from local vein."
+    }
+}

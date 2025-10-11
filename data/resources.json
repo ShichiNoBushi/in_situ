@@ -1,0 +1,68 @@
+{
+    "iron": {
+        "name": "Iron",
+        "abbreviation": "El-Fe",
+        "type": "element",
+        "subtypes": ["metal", "structural"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "A common metal used for building and machine components."
+    },
+    "stone": {
+        "name": "Stone",
+        "abbreviation": "Stone",
+        "type": "compound",
+        "subtypes": ["mineral"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.1,
+        "description": "A common mineral on rocky planets."
+    },
+    "iron ore": {
+        "name": "Iron Ore",
+        "abbreviation": "FeOre",
+        "type": "compound",
+        "subtypes": ["mineral"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.3,
+        "description": "An ore that refines into iron."
+    },
+    "iron wire": {
+        "name": "Iron Wire",
+        "abbreviation": "Wire-Fe",
+        "type": "component",
+        "subtypes": ["wire", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "Iron extruded and wound into thin wire."
+    },
+    "iron gear small": {
+        "name": "Iron Gear (Small)",
+        "abbreviation": "Gear-Fe-Sm",
+        "type": "component",
+        "subtypes": ["gear", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "Small iron gears used in machines."
+    },
+    "energy": {
+        "name": "Energy",
+        "abbreviation": "Eng",
+        "type": "energy",
+        "subtypes": [],
+        "phase": "energy",
+        "unit": "Wh",
+        "starting amount": 10.0,
+        "value": 0.2,
+        "description": "Energy used to power machines."
+    }
+}

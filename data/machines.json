@@ -1,0 +1,26 @@
+{
+    "miner": {
+        "name": "Automated Miner",
+        "cost": {"iron": 20},
+        "starting amount": 0,
+        "description": "Extracts raw ore from the ground."
+    },
+    "smelter extruder": {
+        "name": "Smelter Extruder",
+        "cost": {"iron": 20},
+        "starting amount": 1,
+        "description": "Smelts raw ore and extrudes into metal wire."
+    },
+    "component printer": {
+        "name": "Component Printer",
+        "cost": {"iron": 20},
+        "starting amount": 1,
+        "description": "Uses resources to construct small machine components."
+    },
+    "solar array": {
+        "name": "Solar Panel Array",
+        "cost": {"iron": 20},
+        "starting amount": 0,
+        "description": "Array of solar panels to generate energy."
+    }
+}
