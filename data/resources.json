@@ -10,6 +10,17 @@
         "value": 0.5,
         "description": "A common metal used for building and machine components."
     },
+    "plutonium": {
+        "name": "Plutonium",
+        "abbreviation": "El-Pu",
+        "type": "element",
+        "subtypes": ["metal", "radioactive"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 100.0,
+        "description": "A radioactive rare earth metal used in nuclear fission reactions."
+    },
     "stone": {
         "name": "Stone",
         "abbreviation": "Stone",
@@ -53,6 +64,17 @@
         "starting amount": 0.0,
         "value": 0.5,
         "description": "Small iron gears used in machines."
+    },
+    "iron plate": {
+        "name": "Iron Plate",
+        "abbreviation": "Plate-Fe",
+        "type": "component",
+        "subtypes": ["sheet", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "A flat plate made of iron used in construction."
     },
     "energy": {
         "name": "Energy",

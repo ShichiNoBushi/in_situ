@@ -1,7 +1,7 @@
 {
     "miner": {
         "name": "Automated Miner",
-        "cost": {"iron": 20},
+        "cost": {"iron plate": 10, "iron gear small": 10},
         "starting amount": 0,
         "description": "Extracts raw ore from the ground."
     },
@@ -16,6 +16,12 @@
         "cost": {"iron": 20},
         "starting amount": 1,
         "description": "Uses resources to construct small machine components."
+    },
+    "srg": {
+        "name": "Stirling Radioisotope Generator (SRG)",
+        "cost": {"iron": 20, "plutonium": 1},
+        "starting amount": 1,
+        "description": "Uses a radioactive isotope to steadily generate energy."
     },
     "solar array": {
         "name": "Solar Panel Array",

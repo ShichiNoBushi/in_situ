@@ -1,23 +1,37 @@
 {
     "iron wire sm-ex": {
         "name": "Iron Wire (Smelter Extruder)",
-        "inputs": {"iron ore": 5},
+        "inputs": {"iron ore": 5, "energy": 1},
         "outputs": {"iron wire": 2},
         "machines": ["smelter extruder"],
         "description": "Smelts iron ore and produces iron wire."
     },
-    "iron gear small": {
+    "iron gear small print": {
         "name": "Iron Gear (Small)",
-        "inputs": {"iron wire": 2},
+        "inputs": {"iron wire": 2, "energy": 0.5},
         "outputs": {"iron gear small": 2},
         "machines": ["component printer"],
         "description": "Crafts a small gear of iron."
     },
+    "iron plate print": {
+        "name": "Iron Plate",
+        "inputs": {"iron wire": 5, "energy": 1},
+        "outputs": {"iron plate": 5},
+        "machines": ["component printer"],
+        "description": "Crafts a plate if iron"
+    },
     "mine iron ore": {
         "name": "Mine (Iron Ore)",
-        "inputs": {},
+        "inputs": {"energy": 1},
         "outputs": {"iron ore": 1},
         "machines": ["miner"],
         "description": "Extract iron ore from local vein."
+    },
+    "generate energy": {
+        "name": "Generate Energy",
+        "inputs": {},
+        "outputs": {"energy": 1},
+        "machines": ["srg", "solar array"],
+        "description": "Passively generates energy"
     }
 }
