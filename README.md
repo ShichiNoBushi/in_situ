@@ -17,18 +17,36 @@ The game currently has a simple GUI displaying available resources and machines.
 ## Features
 
 * Resources
-    * Iron: Common resource for construction.
+    * Elements
+        * Iron: Common resource for construction.
+        * Copper: Common resource for electronics
+        * Plutonium: Rare earth metal (unavailable)
+    * Minerals
+        * Stone: Common mineral from earth
+        * Iron Ore: Common ore that refines to iron
+        * Copper Ore: Common ore that refines to copper
+    * Components
+        * Iron Wire: Iron extruded into thin wire
+        * Copper Wire: Copper extruded into thin wire
+        * Iron Gear (Small): Small gear made of iron
+        * Iron Plate: Thin plate made of iron
+        * Copper Plate: Thin plate made of copper
     * Energy: Energy to run machines
 
 * Machines
-    * Miner: Automatically collects iron. Produces 1 unit per second per machine and costs 0.5 energy per second per machine. Production is reduced if not enough energy is available.
+    * Miner: Automatically collects minerals. Produces 1 unit per second per machine and costs 0.5 energy per second per machine. Production is reduced if not enough energy is available.
+    * Smelter Extruder: Refines ore and extrudes into wire
+    * Component Printer: Crafts small components from wire and filament
     * SRG: Stirling Radioisotope Generator. Produces 1 unit of energy per second.
+    * Solar Array: Produces energy from solar radiation
 
 ## Future Improvements
 
-* More raw resources like stone, copper, and ice
+* More raw resources like ice
+* Extract resources from atmosphere like CO2
 * Advanced resources produced from other resources like gears, rods, and plates
 * Machines to process resources
+* Explorable regions
 * Byproducts from processing resources with variable ratios
 * Refinement processes to improve resource production efficiency
 * Expanded GUI

@@ -1,0 +1,20 @@
+{
+    "mine iron ore": {
+        "resource": "iron ore",
+        "amount": 5.0,
+        "time": 1.0,
+        "action": "Mine Iron Ore"
+    },
+    "mine copper ore": {
+        "resource": "copper ore",
+        "amount": 5.0,
+        "time": 1.0,
+        "action": "Mine Copper Ore"
+    },
+    "mine stone": {
+        "resource": "stone",
+        "amount": 5.0,
+        "time": 1.0,
+        "action": "Mine Stone"
+    }
+}

@@ -10,6 +10,17 @@
         "value": 0.5,
         "description": "A common metal used for building and machine components."
     },
+    "copper": {
+        "name": "Copper",
+        "abbreviation": "El-Cu",
+        "type": "element",
+        "subtypes": ["metal", "electronic"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "A common metal with high conductivity frequently used for electricity."
+    },
     "plutonium": {
         "name": "Plutonium",
         "abbreviation": "El-Pu",
@@ -43,6 +54,17 @@
         "value": 0.3,
         "description": "An ore that refines into iron."
     },
+    "copper ore": {
+        "name": "Copper Ore",
+        "abbreviation": "CuOre",
+        "type": "compound",
+        "subtypes": ["mineral"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.3,
+        "description": "An ore that refines into copper."
+    },
     "iron wire": {
         "name": "Iron Wire",
         "abbreviation": "Wire-Fe",
@@ -53,6 +75,17 @@
         "starting amount": 0.0,
         "value": 0.5,
         "description": "Iron extruded and wound into thin wire."
+    },
+    "copper wire": {
+        "name": "Copper Wire",
+        "abbreviation": "Wire-Cu",
+        "type": "component",
+        "suptypes": ["wire", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "Copper extruded and wound into thin wire."
     },
     "iron gear small": {
         "name": "Iron Gear (Small)",
@@ -75,6 +108,17 @@
         "starting amount": 0.0,
         "value": 0.5,
         "description": "A flat plate made of iron used in construction."
+    },
+    "copper plate": {
+        "name": "Copper Plate",
+        "abbreviation": "Plate-Cu",
+        "type": "component",
+        "subtypes": ["sheet", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "A flat plate made of copper used in construction."
     },
     "energy": {
         "name": "Energy",
