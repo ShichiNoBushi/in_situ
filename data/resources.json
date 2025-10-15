@@ -65,6 +65,17 @@
         "value": 0.3,
         "description": "An ore that refines into copper."
     },
+    "ice": {
+        "name": "Ice",
+        "abbreviation": "Ice",
+        "type": "compound",
+        "subtypes": ["mineral"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.1,
+        "description": "Frozen water."
+    },
     "iron wire": {
         "name": "Iron Wire",
         "abbreviation": "Wire-Fe",
@@ -98,6 +109,17 @@
         "value": 0.5,
         "description": "Small iron gears used in machines."
     },
+    "iron rod": {
+        "name": "Iron Rod",
+        "abbreviation": "Rod-Fe",
+        "type": "component",
+        "subtypes": ["rod", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "A thick, sturdy rod of iron."
+    },
     "iron plate": {
         "name": "Iron Plate",
         "abbreviation": "Plate-Fe",
@@ -119,6 +141,17 @@
         "starting amount": 0.0,
         "value": 0.5,
         "description": "A flat plate made of copper used in construction."
+    },
+    "magnet": {
+        "name": "Magnet",
+        "abbreviation": "Mag-Fe",
+        "type": "component",
+        "subtypes": ["magnet", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "A magnetized piece of iron."
     },
     "energy": {
         "name": "Energy",

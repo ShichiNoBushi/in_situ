@@ -17,6 +17,12 @@
         "starting amount": 1,
         "description": "Uses resources to construct small machine components."
     },
+    "magnetizer": {
+        "name": "Magnetizer",
+        "cost": {"iron plate": 10, "copper wire": 10},
+        "starting amount": 0,
+        "description": "Turns inert ferrous metal into magnets."
+    },
     "srg": {
         "name": "Stirling Radioisotope Generator (SRG)",
         "cost": {"iron": 20, "plutonium": 1},
