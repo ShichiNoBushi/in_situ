@@ -1,4 +1,26 @@
 {
+    "hydrogen": {
+        "name": "Hydrogen",
+        "abbreviation": "El-H2",
+        "type": "element",
+        "subtypes": ["gas"],
+        "phase": "gas",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.2,
+        "description": "An elemental gas used in many chemical reactions and nuclear fusion."
+    },
+    "oxygen": {
+        "name": "Oxygen",
+        "abbreviation": "El-O2",
+        "type": "element",
+        "subtypes": ["gas", "oxidizer", "life support"],
+        "phase": "gas",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.2,
+        "description": "An elemental gas used in many chemical reactions and as an oxidizer."
+    },
     "iron": {
         "name": "Iron",
         "abbreviation": "El-Fe",
@@ -64,6 +86,17 @@
         "starting amount": 0.0,
         "value": 0.3,
         "description": "An ore that refines into copper."
+    },
+    "water": {
+        "name": "Water",
+        "abbreviation": "H2O",
+        "type": "compound",
+        "subtypes": ["life support"],
+        "phase": "liquid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.3,
+        "description": "Liquid water."
     },
     "ice": {
         "name": "Ice",

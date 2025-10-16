@@ -48,6 +48,20 @@
         "machines": ["magnetizer"],
         "description": "Convert inert iron rod into a magnet."
     },
+    "melt ice": {
+        "name": "Melt Ice",
+        "inputs": {"ice": 1},
+        "outputs": {"water": 1},
+        "machines": ["smelter extruder"],
+        "description": "Melt ice into liquid water."
+    },
+    "electrolyze water": {
+        "name": "Electrolyze Water",
+        "inputs": {"water": 1.5},
+        "outputs": {"hydrogen": 1.0, "oxygen": 0.5},
+        "machines": ["electrolyzer"],
+        "description": "Electrolyze and seperate water into hygrogen and oxygen."
+    },
     "mine stone": {
         "name": "Mine (Stone)",
         "inputs": {"energy": 1},
@@ -72,7 +86,7 @@
     "mine ice": {
         "name": "Mine (Ice)",
         "inputs": {"energy": 1},
-        "outputs": {"iron ore": 1},
+        "outputs": {"ice": 1},
         "machines": ["miner"],
         "description": "Extract ice from a local deposit."
     },

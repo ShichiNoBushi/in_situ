@@ -23,6 +23,12 @@
         "starting amount": 0,
         "description": "Turns inert ferrous metal into magnets."
     },
+    "electrolyzer": {
+        "name": "Electrolyzer",
+        "cost": {"iron plate": 10, "copper wire": 10},
+        "starting amount": 0,
+        "description": "Uses to electrical polarity to seperate compounds."
+    },
     "srg": {
         "name": "Stirling Radioisotope Generator (SRG)",
         "cost": {"iron": 20, "plutonium": 1},
