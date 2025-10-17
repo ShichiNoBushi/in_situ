@@ -3,54 +3,63 @@
         "name": "Automated Miner",
         "cost": {"iron plate": 10, "iron gear small": 10},
         "starting amount": 0,
+        "available": false,
         "description": "Extracts raw ore from the ground."
     },
     "smelter extruder": {
         "name": "Smelter Extruder",
         "cost": {"iron": 20},
         "starting amount": 1,
+        "available": false,
         "description": "Smelts raw ore and extrudes into metal wire."
     },
     "component printer": {
         "name": "Component Printer",
         "cost": {"iron": 20},
         "starting amount": 1,
+        "available": false,
         "description": "Uses resources to construct small machine components."
     },
     "parts assembler": {
         "name": "Parts Assembler",
         "cost": {"iron": 20},
         "starting amount": 1,
+        "available": false,
         "description": "A machine that automatically crafts components with fine precision."
     },
     "magnetizer": {
         "name": "Magnetizer",
         "cost": {"iron plate": 10, "copper wire": 10},
         "starting amount": 0,
+        "available": false,
         "description": "Turns inert ferrous metal into magnets."
     },
     "crusher": {
         "name": "Crusher",
         "cost": {"iron plate": 10, "iron gear small": 5, "electric motor": 5},
         "starting amount": 0,
+        "available": false,
         "description": "Crushes stone and minerals into aggrigate and dust."
     },
     "electrolyzer": {
         "name": "Electrolyzer",
         "cost": {"iron plate": 10, "copper wire": 10},
         "starting amount": 0,
+        "available": false,
         "description": "Uses to electrical polarity to seperate compounds."
     },
     "srg": {
         "name": "Stirling Radioisotope Generator (SRG)",
         "cost": {"iron": 20, "plutonium": 1},
         "starting amount": 1,
+        "available": false,
         "description": "Uses a radioactive isotope to steadily generate energy."
     },
     "solar array": {
         "name": "Solar Panel Array",
         "cost": {"iron": 20},
         "starting amount": 0,
+        "available": false,
         "description": "Array of solar panels to generate energy."
     }
 }

@@ -1,0 +1,32 @@
+{
+    "introduction": {
+        "name": "Introduction",
+        "start": true,
+        "requirement": {
+            "resources": {"iron ore": 20},
+            "machines": {}
+        },
+        "unlocks": {
+            "quests": ["basic ore refinement"],
+            "recipes": ["iron wire sm-ex"],
+            "machines": []
+        },
+        "text": "Start-up sequence initiated...\n\nGreetings, Pioneer. You have been tasked with establishing a new outpost on an uninhabitted planet. The environment isn't ideal for organic life, but it has been identified to be rich in resources. For that reason, you, an artificial sapience (AS) operating a robotic frame, have been deployed to manage the new outpost and development into an industrial base.\n\nI am your assistant AI. I am not as advanced an intelligence as you, but I will help guide you through the process using the data provided in my database. To keep you on track as you get started, most of the recipes and machine schematics have been locked except for the most critical. As you learn the basic tasks and production, more advanced technologies will be opened up.\n\nFor the sake of minimizing initial costs, we are practicing In Situ Resource Utilization (ISRU) to establish this outpost. You are provided the most basic machinery in order to process local resources and develop more advanced machinery. To improve chances, we have established our outpost in a region detected to have deposits of iron, copper, and ice.\n\nTo get started, go to the nearby deposit of iron ore, mine some samples, and return here. You will then be introduced to your first stage of refining ores and minerals. Before you go out, remember to activate your stirling radioisotope generator (SRG). It will be your source of energy until you are able to create other methods of energy generation.",
+        "hint": "Mine iron ore by selecting it from the Harvest option menu and click the \"Harvest\" button.\n\nDon't forget to activate the SRG by clicking the \"Inactive\" button and start generating energy."
+    },
+    "basic ore refinement": {
+        "name": "Basic ore refinement",
+        "start": false,
+        "requirement": {
+            "resources": {"iron wire": 20},
+            "machines": {}
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": ["iron gear small", "iron plate"],
+            "machines": []
+        },
+        "text": "Scanning mineral... Iron ore confirmed...\n\nWell done, Pioneer. Iron ore is the most critical resource for creating machines and structures. Iron is very durable for its weight, though it's not the best metal. It will be good enough for now until you gain access to more advanced metals and alloys like steel, titanium, or aluminum.\n\nTo get started, deposit your iron ore into your smelter-extruder and set it to produce iron wire. Your smelter-extruder is your first critical machine for ISRU and establishing your industrial base. It melts down the ore and outputs it as thin iron wire. It isn't the most efficient process for refining ore and much of it is wasted, but it will work as a start until you construct a more efficient furnace.",
+        "hint": "Make sure that your Smelter-extruder is set to the Iron Wire recipe and activate it. It will continuously consume iron ore and produce wire."
+    }
+}

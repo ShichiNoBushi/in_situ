@@ -11,6 +11,7 @@ def load_json(filename):
 # load JSON data into reources
 HARVEST = load_json("data/harvest.json")
 MACHINES = load_json("data/machines.json")
+QUESTS = load_json("data/quests.json")
 RECIPES = load_json("data/recipes.json")
 RESOURCES = load_json("data/resources.json")
 
@@ -45,6 +46,14 @@ for mid, mach in MACHINES.items():
     starting_amount = mach.get("starting amount", 0)
     for i in range(starting_amount):
         machines.append(Machine(mid))
+
+active_quests = {}
+completed_quests = {}
+
+# initialize starting quests
+for qid, quest in QUESTS.items():
+    if quest.get("start", False):
+        active_quests[qid] = quest
 
 running = True # program is running
 frame_rate = 10 # frames per second
@@ -142,6 +151,45 @@ def format_unit(resource):
 def update_resources():
     for r, label in resource_labels.items():
         label.config(text = format_unit(r))
+
+    check_quests()
+
+# check if any quests completed
+def check_quests():
+    to_complete = []
+
+    for qid, quest in active_quests.items():
+        requirements = quest["requirement"]
+        res_req = requirements["resources"]
+        mach_req = requirements["machines"]
+        res_fulfilled = False
+        mach_fulfilled = False
+        if len(res_req) == 0 or all(resources.get(r, 0) >= amt for r, amt in res_req.items()):
+            res_fulfilled = True
+        if len(requirements["machines"]) == 0 or all(sum(1 for m in machines if m.id == mid) >= amt for mid, amt in mach_req.items()):
+            mach_fulfilled = True
+
+        if res_fulfilled and mach_fulfilled:
+            to_complete.append(qid)
+
+    for qid in to_complete:
+        complete_quest(qid)
+
+def complete_quest(qid):
+    quest = QUESTS[qid]
+    del active_quests[qid]
+    completed_quests[qid] = quest
+
+    for q in quest["unlocks"]["quests"]:
+        active_quests[q] = QUESTS[q]
+
+    for rec in quest["unlocks"]["recipes"]:
+        RECIPES[rec]["available"] = True
+
+    for mach in quest["unlocks"]["machines"]:
+        RECIPES[mach]["available"] = True
+
+    update_quests()
 
 machine_recipes_vars = {} # tk.StringVars dictionary keyed by machine index representing selected recipe
 
@@ -261,9 +309,17 @@ def quit_game():
 root = tk.Tk()
 root.title("In Situ")
 
+# tabs for game menu
+nb_main = ttk.Notebook(root)
+nb_main.pack()
+
+# base tab
+tab_base = ttk.Frame(nb_main)
+nb_main.add(tab_base, text = "Base")
+
 # frames at top and bottom
-frame_top = ttk.Frame(root, padding = 5)
-frame_bottom = ttk.Frame(root, padding = 5)
+frame_top = ttk.Frame(tab_base, padding = 5)
+frame_bottom = ttk.Frame(tab_base, padding = 5)
 frame_top.pack(fill = "both", expand = True)
 frame_bottom.pack(fill = "x")
 
@@ -346,8 +402,49 @@ option_build = ttk.OptionMenu(
 option_build.pack(side = "top")
 ttk.Button(frame_build, text = "Build", command = perform_build).pack(side = "bottom", padx = 5) # button to build machines
 
-ttk.Button(frame_actions, text = "Build Miner", command = build_miner).pack(side = "left", padx = 5) # button to build miner
 ttk.Button(frame_actions, text = "Quit", command = quit_game).pack(side = "right", padx = 5) # button to quit game
+
+def update_quests():
+    txt_active_quests.configure(state = "normal")
+
+    txt_active_quests.delete("1.0", tk.END)
+
+    txt_active_quests.insert("end", "=== Active Quests ===\n")
+    if len(active_quests.values()) > 0:
+        for quest in active_quests.values():
+            txt_active_quests.insert("end", f"{quest['name']}\n")
+            txt_active_quests.insert("end", f"  {quest.get('text', '')}\n\n")
+            if quest.get("hint", "") != "":
+                txt_active_quests.insert("end", f"Hint:\n  {quest['hint']}\n\n")
+    else:
+        txt_active_quests.insert("end", "No active quests.\n\n")
+
+    txt_active_quests.insert("end", "=== Completed Quests ===\n")
+    if len(completed_quests.values()) > 0:
+        for quest in completed_quests.values():
+            txt_active_quests.insert("end", f"{quest['name']}\n")
+            txt_active_quests.insert("end", f"  {quest.get('text', '')}\n\n")
+    else:
+        txt_active_quests.insert("end", "No completed quests.\n\n")
+
+    txt_active_quests.configure(state = "disabled")
+
+# quests tab
+tab_quests = ttk.Frame(nb_main)
+nb_main.add(tab_quests, text = "Quests")
+
+# frame to display quests
+frame_quests = ttk.LabelFrame(tab_quests, text = "Quests")
+frame_quests.pack()
+
+txt_active_quests = tk.Text(frame_quests, wrap = "word", height = 20, width = 60, state = "disabled")
+txt_active_quests.pack(side = "left", fill = "both", expand = True)
+
+scroll_active_quests = ttk.Scrollbar(frame_quests, command = txt_active_quests.yview)
+scroll_active_quests.pack(side = "right", fill = "y")
+txt_active_quests.configure(yscrollcommand = scroll_active_quests.set)
+
+update_quests()
 
 refresh_machine_frames() # update machines
 last_time = time.time() # update current time

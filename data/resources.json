@@ -88,7 +88,7 @@
         "description": "An ore that refines into copper."
     },
     "gravel": {
-        "name": "gravel",
+        "name": "Gravel",
         "abbreviation": "Grvl",
         "type": "compound",
         "subtypes": ["mineral", "aggregate"],

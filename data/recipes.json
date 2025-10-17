@@ -3,6 +3,7 @@
         "name": "Iron Wire (Smelter Extruder)",
         "inputs": {"iron ore": 5, "energy": 1},
         "outputs": {"iron wire": 2},
+        "available": false,
         "machines": ["smelter extruder"],
         "description": "Smelts iron ore and produces iron wire."
     },
@@ -10,6 +11,7 @@
         "name": "Copper Wire (Smelter Extruder)",
         "inputs": {"copper ore": 5, "energy": 1},
         "outputs": {"copper wire": 2},
+        "available": false,
         "machines": ["smelter extruder"],
         "description": "Smelts copper ore and produces copper wire."
     },
@@ -17,6 +19,7 @@
         "name": "Glass Filament (Smelter Extruder)",
         "inputs": {"sand": 5, "energy": 1},
         "outputs": {"glass filament": 2},
+        "available": false,
         "machines": ["smelter extruder"],
         "description": "Melts sand and produces glass filament."
     },
@@ -24,6 +27,7 @@
         "name": "Iron Gear (Small; Printer)",
         "inputs": {"iron wire": 2, "energy": 0.5},
         "outputs": {"iron gear small": 2},
+        "available": false,
         "machines": ["component printer"],
         "description": "Crafts a small gear of iron."
     },
@@ -31,6 +35,7 @@
         "name": "Iron Plate (Printer)",
         "inputs": {"iron wire": 5, "energy": 1},
         "outputs": {"iron plate": 5},
+        "available": false,
         "machines": ["component printer"],
         "description": "Crafts a plate of iron"
     },
@@ -38,6 +43,7 @@
         "name": "Iron Rod (Printer)",
         "inputs": {"iron wire": 5, "energy": 1},
         "outputs": {"iron rod": 5},
+        "available": false,
         "machines": ["component printer"],
         "description": "Crafts a rod of iron"
     },
@@ -45,6 +51,7 @@
         "name": "Copper Plate (Printer)",
         "inputs": {"copper wire": 5, "energy": 1},
         "outputs": {"copper plate": 5},
+        "available": false,
         "machines": ["component printer"],
         "description": "Crafts a plate of copper"
     },
@@ -52,6 +59,7 @@
         "name": "Glass Pane (Printer)",
         "inputs": {"glass filament": 5, "energy": 1},
         "outputs": {"glass pane": 2},
+        "available": false,
         "machines": ["component printer"],
         "description": "Crafts a pane of glass."
     },
@@ -59,6 +67,7 @@
         "name": "Electric Motor",
         "inputs": {"copper wire": 5, "iron plate": 3, "magnet": 1, "energy": 1},
         "outputs": {"electric motor": 5},
+        "available": false,
         "machines": ["parts assembler"],
         "description": "Crafts an electric motor with coiled wire and a magnet"
     },
@@ -66,6 +75,7 @@
         "name": "Magnetize Iron",
         "inputs": {"iron rod": 1, "energy": 2},
         "outputs": {"magnet": 1},
+        "available": false,
         "machines": ["magnetizer"],
         "description": "Convert inert iron rod into a magnet."
     },
@@ -73,6 +83,7 @@
         "name": "Melt Ice",
         "inputs": {"ice": 1, "energy": 0.5},
         "outputs": {"water": 1},
+        "available": false,
         "machines": ["smelter extruder"],
         "description": "Melt ice into liquid water."
     },
@@ -80,6 +91,7 @@
         "name": "Electrolyze Water",
         "inputs": {"water": 1.5},
         "outputs": {"hydrogen": 1.0, "oxygen": 0.5, "energy": 2},
+        "available": false,
         "machines": ["electrolyzer"],
         "description": "Electrolyze and seperate water into hygrogen and oxygen."
     },
@@ -87,6 +99,7 @@
         "name": "Crush Stone",
         "inputs": {"stone": 5, "energy": 1},
         "outputs": {"gravel": 3, "sand": 2},
+        "available": false,
         "machines": ["crusher"],
         "description": "Crushes stone into aggregate."
     },
@@ -94,6 +107,7 @@
         "name": "Mine (Stone)",
         "inputs": {"energy": 1},
         "outputs": {"stone": 1},
+        "available": false,
         "machines": ["miner"],
         "description": "Extract raw stone from the earth."
     },
@@ -101,6 +115,7 @@
         "name": "Mine (Iron Ore)",
         "inputs": {"energy": 1},
         "outputs": {"iron ore": 1},
+        "available": false,
         "machines": ["miner"],
         "description": "Extract iron ore from a local vein."
     },
@@ -108,6 +123,7 @@
         "name": "Mine (Copper Ore)",
         "inputs": {"energy": 1},
         "outputs": {"copper ore": 1},
+        "available": false,
         "machines": ["miner"],
         "description": "Extract copper ore from a local vein."
     },
@@ -115,6 +131,7 @@
         "name": "Mine (Ice)",
         "inputs": {"energy": 1},
         "outputs": {"ice": 1},
+        "available": false,
         "machines": ["miner"],
         "description": "Extract ice from a local deposit."
     },
@@ -122,6 +139,7 @@
         "name": "Generate Energy",
         "inputs": {},
         "outputs": {"energy": 1},
+        "available": false,
         "machines": ["srg", "solar array"],
         "description": "Passively generates energy"
     }
