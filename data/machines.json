@@ -17,11 +17,23 @@
         "starting amount": 1,
         "description": "Uses resources to construct small machine components."
     },
+    "parts assembler": {
+        "name": "Parts Assembler",
+        "cost": {"iron": 20},
+        "starting amount": 1,
+        "description": "A machine that automatically crafts components with fine precision."
+    },
     "magnetizer": {
         "name": "Magnetizer",
         "cost": {"iron plate": 10, "copper wire": 10},
         "starting amount": 0,
         "description": "Turns inert ferrous metal into magnets."
+    },
+    "crusher": {
+        "name": "Crusher",
+        "cost": {"iron plate": 10, "iron gear small": 5, "electric motor": 5},
+        "starting amount": 0,
+        "description": "Crushes stone and minerals into aggrigate and dust."
     },
     "electrolyzer": {
         "name": "Electrolyzer",

@@ -87,6 +87,28 @@
         "value": 0.3,
         "description": "An ore that refines into copper."
     },
+    "gravel": {
+        "name": "gravel",
+        "abbreviation": "Grvl",
+        "type": "compound",
+        "subtypes": ["mineral", "aggregate"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.1,
+        "description": "Stone cruched into an aggregate of small pieces."
+    },
+    "sand": {
+        "name": "Sand",
+        "abbreviation": "Sand",
+        "type": "compound",
+        "subtypes": ["mineral", "aggregate"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.2,
+        "description": "Fine grains of quartz or silica."
+    },
     "water": {
         "name": "Water",
         "abbreviation": "H2O",
@@ -130,6 +152,17 @@
         "starting amount": 0.0,
         "value": 0.5,
         "description": "Copper extruded and wound into thin wire."
+    },
+    "glass filament": {
+        "name": "Glass Filament",
+        "abbreviation": "GlsFbr",
+        "type": "component",
+        "subtypes": ["wire", "glass"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.2,
+        "description": "A thin filament of glass."
     },
     "iron gear small": {
         "name": "Iron Gear (Small)",
@@ -175,6 +208,17 @@
         "value": 0.5,
         "description": "A flat plate made of copper used in construction."
     },
+    "glass pane": {
+        "name": "Glass Pane",
+        "abbreviation": "GlsPane",
+        "type": "component",
+        "subtypes": ["sheet", "glass"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.3,
+        "description": "A sheet of transparent glass."
+    },
     "magnet": {
         "name": "Magnet",
         "abbreviation": "Mag-Fe",
@@ -185,6 +229,17 @@
         "starting amount": 0.0,
         "value": 0.5,
         "description": "A magnetized piece of iron."
+    },
+    "electric motor": {
+        "name": "Electric Motor",
+        "abbreviation": "motor",
+        "type": "component",
+        "subtypes": ["mechanical", "electronic"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.7,
+        "description": "A motor using electromagnetism to convert electricity into mechanical work or vice versa."
     },
     "energy": {
         "name": "Energy",
