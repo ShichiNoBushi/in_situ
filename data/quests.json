@@ -23,7 +23,7 @@
         },
         "unlocks": {
             "quests": [],
-            "recipes": ["iron gear small", "iron plate"],
+            "recipes": ["iron gear small print", "iron plate print"],
             "machines": []
         },
         "text": "Scanning mineral... Iron ore confirmed...\n\nWell done, Pioneer. Iron ore is the most critical resource for creating machines and structures. Iron is very durable for its weight, though it's not the best metal. It will be good enough for now until you gain access to more advanced metals and alloys like steel, titanium, or aluminum.\n\nTo get started, deposit your iron ore into your smelter-extruder and set it to produce iron wire. Your smelter-extruder is your first critical machine for ISRU and establishing your industrial base. It melts down the ore and outputs it as thin iron wire. It isn't the most efficient process for refining ore and much of it is wasted, but it will work as a start until you construct a more efficient furnace.",

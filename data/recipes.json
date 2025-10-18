@@ -139,7 +139,7 @@
         "name": "Generate Energy",
         "inputs": {},
         "outputs": {"energy": 1},
-        "available": false,
+        "available": true,
         "machines": ["srg", "solar array"],
         "description": "Passively generates energy"
     }

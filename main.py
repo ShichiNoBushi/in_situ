@@ -64,6 +64,7 @@ def run_updates():
     time_delta = time.time() - last_time # time difference from last update
     process_machines(time_delta) # operate all active machines
     update_resources() # update resource displays
+    check_quests() # check for completed quests
     last_time = time.time() # update time
     if running:
         root.after(1000 // frame_rate, run_updates) # loop
@@ -190,8 +191,27 @@ def complete_quest(qid):
         RECIPES[mach]["available"] = True
 
     update_quests()
+    refresh_build_menu()
+    refresh_machine_frames()
 
 machine_recipes_vars = {} # tk.StringVars dictionary keyed by machine index representing selected recipe
+
+# update available machines
+def refresh_build_menu():
+    menu = option_build["menu"]
+    menu.delete(0, "end")
+
+    available_machines = [data["name"] for data in MACHINES.values() if data.get("available", False)]
+
+    if not available_machines:
+        machine_var.set("")
+        menu.add_command(label = "No available machines", command = lambda: machine_var.set(""))
+        return
+    
+    for name in available_machines:
+        menu.add_command(label = name, command = lambda value = name: machine_var.set(value))
+
+    machine_var.set(available_machines[0])
 
 # update machine display
 def refresh_machine_frames():
@@ -221,9 +241,16 @@ def refresh_machine_frames():
         # assign StringVar to index in dictionary
         machine_recipes_vars[i] = var
 
-        if m.recipes: # if machine has recipes
+        available_recipes = [r for r in m.recipes if RECIPES.get(r, {}).get("available", False)]
+        if available_recipes: # if machine has available recipes
             # option menu to select recipe from list available to machine
-            option = ttk.OptionMenu(subframe, var, var.get(), *m.recipes, command = lambda selected, idx = i: change_machine_recipe(idx, selected))
+            option = ttk.OptionMenu(
+                subframe,
+                var,
+                var.get() if var.get() in available_recipes else available_recipes[0],
+                *available_recipes,
+                command = lambda selected, idx = i: change_machine_recipe(idx, selected)
+            )
             option.grid(row = 0, column = 1, sticky = "e", padx = 2, pady = 2)
         else:
             # label to display no recipes available to machine
@@ -406,10 +433,11 @@ ttk.Button(frame_actions, text = "Quit", command = quit_game).pack(side = "right
 
 def update_quests():
     txt_active_quests.configure(state = "normal")
+    txt_completed_quests.configure(state = "normal")
 
     txt_active_quests.delete("1.0", tk.END)
+    txt_completed_quests.delete("1.0", tk.END)
 
-    txt_active_quests.insert("end", "=== Active Quests ===\n")
     if len(active_quests.values()) > 0:
         for quest in active_quests.values():
             txt_active_quests.insert("end", f"{quest['name']}\n")
@@ -419,33 +447,45 @@ def update_quests():
     else:
         txt_active_quests.insert("end", "No active quests.\n\n")
 
-    txt_active_quests.insert("end", "=== Completed Quests ===\n")
     if len(completed_quests.values()) > 0:
         for quest in completed_quests.values():
-            txt_active_quests.insert("end", f"{quest['name']}\n")
-            txt_active_quests.insert("end", f"  {quest.get('text', '')}\n\n")
+            txt_completed_quests.insert("end", f"{quest['name']}\n")
+            txt_completed_quests.insert("end", f"  {quest.get('text', '')}\n\n")
     else:
-        txt_active_quests.insert("end", "No completed quests.\n\n")
+        txt_completed_quests.insert("end", "No completed quests.\n\n")
 
     txt_active_quests.configure(state = "disabled")
+    txt_completed_quests.configure(state = "disabled")
+
+    refresh_build_menu()
 
 # quests tab
 tab_quests = ttk.Frame(nb_main)
 nb_main.add(tab_quests, text = "Quests")
 
 # frame to display quests
-frame_quests = ttk.LabelFrame(tab_quests, text = "Quests")
-frame_quests.pack()
+frame_aquests = ttk.LabelFrame(tab_quests, text = "Active Quests")
+frame_cquests = ttk.LabelFrame(tab_quests, text = "Completed Quests")
+frame_aquests.pack(side = "top")
+frame_cquests.pack(side = "bottom")
 
-txt_active_quests = tk.Text(frame_quests, wrap = "word", height = 20, width = 60, state = "disabled")
+txt_active_quests = tk.Text(frame_aquests, wrap = "word", height = 20, width = 60, state = "disabled")
 txt_active_quests.pack(side = "left", fill = "both", expand = True)
 
-scroll_active_quests = ttk.Scrollbar(frame_quests, command = txt_active_quests.yview)
+scroll_active_quests = ttk.Scrollbar(frame_aquests, command = txt_active_quests.yview)
 scroll_active_quests.pack(side = "right", fill = "y")
 txt_active_quests.configure(yscrollcommand = scroll_active_quests.set)
 
+txt_completed_quests = tk.Text(frame_cquests, wrap = "word", height = 20, width = 60, state = "disabled")
+txt_completed_quests.pack(side = "left", fill = "both", expand = True)
+
+scroll_completed_quests = ttk.Scrollbar(frame_cquests, command = txt_completed_quests.yview)
+scroll_completed_quests.pack(side = "right", fill = "y")
+txt_completed_quests.configure(yscrollcommand = scroll_completed_quests.set)
+
 update_quests()
 
+refresh_build_menu() # update buildable machines
 refresh_machine_frames() # update machines
 last_time = time.time() # update current time
 root.after(1000 // frame_rate, run_updates) # begin update loop
