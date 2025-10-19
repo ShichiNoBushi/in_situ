@@ -1,0 +1,49 @@
+{
+    "harvest": {
+        "resource": "",
+        "amount": 0.0,
+        "time": 0.0,
+        "action": ""
+    },
+    "machine": {
+        "name": "",
+        "cost": {},
+        "starting amount": 0,
+        "available": false,
+        "description": ""
+    },
+    "quest": {
+        "name": "",
+        "start": false,
+        "requirement": {
+            "resources": {},
+            "machines": {}
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": [],
+            "machines": []
+        },
+        "text": "",
+        "hint": ""
+    },
+    "recipe": {
+        "name": "",
+        "inputs": {},
+        "outputs": {},
+        "available": false,
+        "machines": [],
+        "description": ""
+    },
+    "resource": {
+        "name": "",
+        "abbreviation": "",
+        "type": "",
+        "subtypes": [],
+        "phase": "",
+        "unit": "",
+        "starting amount": 0.0,
+        "value": 0.0,
+        "description": ""
+    }
+}

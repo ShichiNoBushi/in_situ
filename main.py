@@ -32,6 +32,28 @@ class Machine:
     def set_recipe(self, index): # assign working recipe
         self.current_recipe = self.recipes[index]
 
+# dictionaries to map ids to names
+harv_action_to_key = {}
+mach_name_to_key = {}
+qst_name_to_key = {}
+rec_name_to_key = {}
+res_name_to_key = {}
+
+for hid, harvest in HARVEST.items():
+    harv_action_to_key[harvest["action"]] = hid
+
+for mid, machine in MACHINES.items():
+    mach_name_to_key[machine["name"]] = mid
+
+for qid, quest in QUESTS.items():
+    qst_name_to_key[quest["name"]] = qid
+
+for rid, recipe in RECIPES.items():
+    rec_name_to_key[recipe["name"]] = rid
+
+for rid, resource in RESOURCES.items():
+    res_name_to_key[resource["name"]] = rid
+
 resources = {} # list of resource stockpiles
 
 # assign starting values to initial stockpiles
@@ -101,7 +123,7 @@ def can_craft(name, time_delta):
 # run all active machine recipes for amount of time passed
 def process_machines(time_delta):
     for mach in machines:
-        if not mach.active or not mach.current_recipe:
+        if not mach.active or not mach.current_recipe or not RECIPES[mach.current_recipe]["available"]:
             continue # ignore if inactive
 
         ratio = can_craft(mach.current_recipe, time_delta) # ratio based on available resources for recipe
@@ -125,10 +147,12 @@ def process_machines(time_delta):
 def toggle_machine_active(idx):
     machines[idx].toggle_active()
     refresh_machine_frames()
+
 # set machine's active recipe and update
 def change_machine_recipe(idx, selected):
-    if selected in machines[idx].recipes:
-        machines[idx].current_recipe = selected
+    selected_id = rec_name_to_key[selected]
+    if selected_id in machines[idx].recipes:
+        machines[idx].current_recipe = selected_id
 
 # return formatted value based on unit and factor of 1,000 (M, k, _, m)
 def format_unit(resource):
@@ -176,21 +200,26 @@ def check_quests():
     for qid in to_complete:
         complete_quest(qid)
 
+# mark a quest as completed and unlock related machines, recipes, and quests
 def complete_quest(qid):
     quest = QUESTS[qid]
-    del active_quests[qid]
-    completed_quests[qid] = quest
+    del active_quests[qid] # remove quest from active quests
+    completed_quests[qid] = quest # add quest to completed quests
 
+    # add next quest(s) to active quests
     for q in quest["unlocks"]["quests"]:
         active_quests[q] = QUESTS[q]
 
+    # unlock recipes
     for rec in quest["unlocks"]["recipes"]:
         RECIPES[rec]["available"] = True
 
+    # unlock machines
     for mach in quest["unlocks"]["machines"]:
-        RECIPES[mach]["available"] = True
+        MACHINES[mach]["available"] = True
 
     update_quests()
+    check_quests() # check if new quests are already fulfilled
     refresh_build_menu()
     refresh_machine_frames()
 
@@ -236,12 +265,12 @@ def refresh_machine_frames():
         btn.grid(row = 0, column = 0, sticky = "w", padx = 2, pady = 2)
 
         # variable representing currently selected recipe
-        var = tk.StringVar(value = m.current_recipe if m.current_recipe else "")
+        var = tk.StringVar(value = RECIPES[m.current_recipe]["name"] if m.current_recipe else "")
 
         # assign StringVar to index in dictionary
         machine_recipes_vars[i] = var
 
-        available_recipes = [r for r in m.recipes if RECIPES.get(r, {}).get("available", False)]
+        available_recipes = [RECIPES[r]["name"] for r in m.recipes if RECIPES.get(r, {}).get("available", False)]
         if available_recipes: # if machine has available recipes
             # option menu to select recipe from list available to machine
             option = ttk.OptionMenu(
@@ -285,10 +314,8 @@ def harvest_resource(harvest):
 # harvests resource based on selected action
 def perform_harvest():
     action = harvest_var.get()
-    for key, data in HARVEST.items():
-        if data.get("action") == action:
-            harvest_resource(data)
-            break
+    harvest_id = harv_action_to_key[action]
+    harvest_resource(HARVEST[harvest_id])
 
 # build machine and update
 def build_machine(key):
@@ -307,9 +334,8 @@ def build_machine(key):
 
 def perform_build():
     machine = machine_var.get()
-    for key, data in MACHINES.items():
-        if data.get("name") == machine:
-            build_machine(key)
+    machine_id = mach_name_to_key[machine]
+    build_machine(machine_id)
 
 # build ore miner and update
 def build_miner():
@@ -404,7 +430,7 @@ frame_build = ttk.Frame(frame_actions)
 frame_build.pack(side = "left", padx = 5)
 
 # StringVar for selected harvest actions
-harvest_var = tk.StringVar(value = list(HARVEST.keys())[0] if HARVEST else "")
+harvest_var = tk.StringVar(value = list(HARVEST.values())[0]["action"] if HARVEST else "")
 
 # menu to select harvest action
 option_harvest = ttk.OptionMenu(
@@ -417,7 +443,8 @@ option_harvest.pack(side = "top")
 ttk.Button(frame_harvest, text = "Harvest", command = perform_harvest).pack(side = "bottom", padx = 5) # button to harvest resources
 
 # StringVar for selected machine to build
-machine_var = tk.StringVar(value = list(MACHINES.keys())[0] if HARVEST else "")
+available_machines = [m["name"] for m in MACHINES.values() if m.get("available", False)]
+machine_var = tk.StringVar(value = available_machines[0] if available_machines else "")
 
 # menu to select machine to build
 option_build = ttk.OptionMenu(
