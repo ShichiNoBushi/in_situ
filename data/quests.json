@@ -7,26 +7,86 @@
             "machines": {}
         },
         "unlocks": {
-            "quests": ["basic ore refinement"],
+            "quests": ["basic ore refinement pt1"],
             "recipes": ["iron wire sm-ex"],
             "machines": []
         },
         "text": "Start-up sequence initiated...\n\nGreetings, Pioneer. You have been tasked with establishing a new outpost on an uninhabitted planet. The environment isn't ideal for organic life, but it has been identified to be rich in resources. For that reason, you, an artificial sapience (AS) operating a robotic frame, have been deployed to manage the new outpost and development into an industrial base.\n\nI am your assistant AI. I am not as advanced an intelligence as you, but I will help guide you through the process using the data provided in my database. To keep you on track as you get started, most of the recipes and machine schematics have been locked except for the most critical. As you learn the basic tasks and production, more advanced technologies will be opened up.\n\nFor the sake of minimizing initial costs, we are practicing In Situ Resource Utilization (ISRU) to establish this outpost. You are provided the most basic machinery in order to process local resources and develop more advanced machinery. To improve chances, we have established our outpost in a region detected to have deposits of iron, copper, and ice.\n\nTo get started, go to the nearby deposit of iron ore, mine some samples, and return here. You will then be introduced to your first stage of refining ores and minerals. Before you go out, remember to activate your stirling radioisotope generator (SRG). It will be your source of energy until you are able to create other methods of energy generation.",
         "hint": "Mine iron ore by selecting it from the Harvest option menu and click the \"Harvest\" button.\n\nDon't forget to activate the SRG by clicking the \"Inactive\" button and start generating energy."
     },
-    "basic ore refinement": {
-        "name": "Basic ore refinement",
+    "basic ore refinement pt1": {
+        "name": "Basic Ore Refinement Part I",
         "start": false,
         "requirement": {
             "resources": {"iron wire": 20},
             "machines": {}
         },
         "unlocks": {
-            "quests": [],
-            "recipes": ["iron gear small print", "iron plate print"],
+            "quests": ["basic ore refinement pt2"],
+            "recipes": ["iron gear small print", "iron plate print", "copper wire sm-ex"],
             "machines": []
         },
         "text": "Scanning mineral... Iron ore confirmed...\n\nWell done, Pioneer. Iron ore is the most critical resource for creating machines and structures. Iron is very durable for its weight, though it's not the best metal. It will be good enough for now until you gain access to more advanced metals and alloys like steel, titanium, or aluminum.\n\nTo get started, deposit your iron ore into your smelter-extruder and set it to produce iron wire. Your smelter-extruder is your first critical machine for ISRU and establishing your industrial base. It melts down the ore and outputs it as thin iron wire. It isn't the most efficient process for refining ore and much of it is wasted, but it will work as a start until you construct a more efficient furnace.",
         "hint": "Make sure that your Smelter-extruder is set to the Iron Wire recipe and activate it. It will continuously consume iron ore and produce wire."
+    },
+    "basic ore refinement pt2": {
+        "name": "Basic Ore Refinement Part II",
+        "start": false,
+        "requirement": {
+            "resources": {"copper wire": 20},
+            "machines": {}
+        },
+        "unlocks": {
+            "quests": ["electromagnetism pt1"],
+            "recipes": ["iron rod print"],
+            "machines": ["magnetizer"]
+        },
+        "text": "Confirmed iron wire produced...\n\nAnother machine provided to you for ISRU is the component printer. It accepts wires, filaments, and other thin flexible materials and uses it to craft solid components via additive construction. I have unlocked for you the recipes for iron plates and small iron gears which will be necessary for many machines. I recommend setting it to create metal plates as they will be needed soon. If you start getting low on iron wire, remember to collect more iron ore and insert it into the smelter-extruder.\n\nAnother common metal that will be useful is copper. Copper is highly conductive and important for electronics. It isn't as good a conductor as gold, but given it is far more common, it serves the function well enough. A copper ore deposit has also been detected near the landing site. Mine some copper ore and put it in the smelter-extruder to produce copper wire.",
+        "hint": "Set the Harvest option to copper ore and harvest. Once you have copper ore, set the smelter-extruder to produce copper wire.\n\nYou can also set the component printer to produce iron plates while collecting and processing copper."
+    },
+    "electromagnetism pt1": {
+        "name": "Electromagnetism Part I",
+        "start": false,
+        "requirement": {
+            "resources": {"iron rod": 10},
+            "machines": {"magnetizer": 1}
+        },
+        "unlocks": {
+            "quests": ["electromagnetism pt2"],
+            "recipes": ["magnetize iron"],
+            "machines": []
+        },
+        "text": "You have also produced copper wire. Well done, Pioneer.\n\nTo begin producing more advanced parts for machines, you will need to create motors that can convert electrical current into rotational mechanical energy. But before we can accomplish that we will need to create permanent magnets.\n\nBy winding wire into a coil and passing a current through it, you will create a magnetic field. Then if you expose iron to a powerful magnetic field and heat it, its domains will align and become magnetized.\n\nMake sure you have enough iron plates and copper wire and build a magnetizer. Also make some iron rods so they may be used in the magnetizer to produce magnets.",
+        "hint": "Under the build menu, select the magnetizer machine. Make sure you have 10g of iron plates and copper wire, then click the \"Build\" button. Also set the component printer to produce iron rods."
+    },
+    "electromagnetism pt2": {
+        "name": "Electromagnetism Part III",
+        "start": false,
+        "requirement": {
+            "resources": {"magnet": 10},
+            "machines": {}
+        },
+        "unlocks": {
+            "quests": ["electromagnetism pt3"],
+            "recipes": ["electric motor"],
+            "machines": []
+        },
+        "text": "Iron rods confirmed... Magnetizer confirmed...\n\nNow that you have constructed the new machine, creating permanent magnets is simple. Just provide it with iron rods, and it will magnetize them. Don't worry if the magnets are too large. They can be easily divided into smaller magnets. No matter how small pieces you break a magnet into, they will all have north and south poles. There are no known means of creating magnetic monopoles.",
+        "hint": "Set the new magnetizer to produce magnets, and don't forget to activate it. If you are getting low on energy, deactivate some of your other machines."
+    },
+    "electromagnetism pt3": {
+        "name": "Electromagnetism Part III",
+        "start": false,
+        "requirement": {
+            "resources": {"electric motor": 10},
+            "machines": {}
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": [],
+            "machines": []
+        },
+        "text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
+        "hint": ""
     }
 }
