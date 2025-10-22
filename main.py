@@ -184,17 +184,16 @@ def check_quests():
     to_complete = []
 
     for qid, quest in active_quests.items():
-        requirements = quest["requirement"]
-        res_req = requirements["resources"]
-        mach_req = requirements["machines"]
-        res_fulfilled = False
-        mach_fulfilled = False
-        if len(res_req) == 0 or all(resources.get(r, 0) >= amt for r, amt in res_req.items()):
-            res_fulfilled = True
-        if len(requirements["machines"]) == 0 or all(sum(1 for m in machines if m.id == mid) >= amt for mid, amt in mach_req.items()):
-            mach_fulfilled = True
+        requirements = quest.get("requirement", {})
+        res_req = requirements.get("resources", {})
+        mach_req = requirements.get("machines", {})
+        quest_req = requirements.get("quests", [])
 
-        if res_fulfilled and mach_fulfilled:
+        res_fulfilled = len(res_req) == 0 or all(resources.get(r, 0) >= amt for r, amt in res_req.items())
+        mach_fulfilled = len(mach_req) == 0 or all(sum(1 for m in machines if m.id == mid) >= amt for mid, amt in mach_req.items())
+        quest_fulfilled = len(quest_req) == 0 or all(req in completed_quests for req in quest_req)
+
+        if res_fulfilled and mach_fulfilled and quest_fulfilled:
             to_complete.append(qid)
 
     for qid in to_complete:

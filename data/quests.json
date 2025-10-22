@@ -4,7 +4,8 @@
         "start": true,
         "requirement": {
             "resources": {"iron ore": 20},
-            "machines": {}
+            "machines": {},
+            "quests": []
         },
         "unlocks": {
             "quests": ["basic ore refinement pt1"],
@@ -19,7 +20,8 @@
         "start": false,
         "requirement": {
             "resources": {"iron wire": 20},
-            "machines": {}
+            "machines": {},
+            "quests": []
         },
         "unlocks": {
             "quests": ["basic ore refinement pt2"],
@@ -34,7 +36,8 @@
         "start": false,
         "requirement": {
             "resources": {"copper wire": 20},
-            "machines": {}
+            "machines": {},
+            "quests": []
         },
         "unlocks": {
             "quests": ["electromagnetism pt1"],
@@ -49,7 +52,8 @@
         "start": false,
         "requirement": {
             "resources": {"iron rod": 10},
-            "machines": {"magnetizer": 1}
+            "machines": {"magnetizer": 1},
+            "quests": []
         },
         "unlocks": {
             "quests": ["electromagnetism pt2"],
@@ -64,7 +68,8 @@
         "start": false,
         "requirement": {
             "resources": {"magnet": 10},
-            "machines": {}
+            "machines": {},
+            "quests": []
         },
         "unlocks": {
             "quests": ["electromagnetism pt3"],
@@ -79,14 +84,47 @@
         "start": false,
         "requirement": {
             "resources": {"electric motor": 10},
-            "machines": {}
+            "machines": {},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": ["mineral processing", "splitting water"],
+            "recipes": [],
+            "machines": ["crusher", "electrolyzer"]
+        },
+        "text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
+        "hint": ""
+    },
+    "mineral processing": {
+        "name": "Mineral Processing",
+        "start": false,
+        "requirement": {
+            "resources": {},
+            "machines": {"crusher": 1},
+            "quests": []
         },
         "unlocks": {
             "quests": [],
             "recipes": [],
             "machines": []
         },
-        "text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
+        "text": "[Placeholder]",
+        "hint": ""
+    },
+    "splitting water": {
+        "name": "Splitting Water",
+        "start": false,
+        "requirement": {
+            "resources": {},
+            "machines": {"electrolyzer": 1},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": [],
+            "machines": []
+        },
+        "text": "[Placeholder]",
         "hint": ""
     }
 }

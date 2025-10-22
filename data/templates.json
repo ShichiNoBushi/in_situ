@@ -17,7 +17,8 @@
         "start": false,
         "requirement": {
             "resources": {},
-            "machines": {}
+            "machines": {},
+            "quests": []
         },
         "unlocks": {
             "quests": [],
