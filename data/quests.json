@@ -88,12 +88,28 @@
             "quests": []
         },
         "unlocks": {
-            "quests": ["mineral processing", "splitting water"],
+            "quests": ["power generation", "mineral processing", "splitting water"],
             "recipes": [],
-            "machines": ["crusher", "electrolyzer"]
+            "machines": ["crusher", "electrolyzer", "wind turbine"]
         },
         "text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
         "hint": ""
+    },
+    "power generation": {
+        "name": "Power Generation",
+        "start": false,
+        "requirement": {
+            "resources": {},
+            "machines": {"wind turbine": 1},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": [],
+            "machines": []
+        },
+        "text": "Now that you are constructing and using more machines, the SRG will not be able to support all of them at the same time. So you will need to build more generators.\n\nMotors convert electrical energy to rotational motion, but the reverse is also possible. Moving the magnet within a coil of wire will induce electrical current. A common natural resource to produce renewable energy is wind, and given what parts are able to create right now, this is now possible. Create some iron plates and rods, copper wire, and electric motors then build a wind turbine.",
+        "hint": "You will need 5g of iron plates, 10g of iron rods, 5g of copper wire, and 5g of electric motors. You may need to deactivate some of your machines so some of these resources aren't automatically being crafted."
     },
     "mineral processing": {
         "name": "Mineral Processing",

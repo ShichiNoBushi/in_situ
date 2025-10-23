@@ -55,6 +55,13 @@
         "available": false,
         "description": "Uses a radioactive isotope to steadily generate energy."
     },
+    "wind turbine": {
+        "name": "Wind Turbine",
+        "cost": {"iron plate": 5, "iron rod": 10, "copper wire": 5, "electric motor": 5},
+        "starting amount": 0,
+        "available": false,
+        "description": "A turbine designed to catch wind currents to generate energy"
+    },
     "solar array": {
         "name": "Solar Panel Array",
         "cost": {"iron": 20},

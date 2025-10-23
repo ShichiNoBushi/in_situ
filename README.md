@@ -11,16 +11,26 @@ Make sure Python 3 is installed on the computer running this program. Then in yo
 The game currently has a simple GUI displaying available resources and machines.
 
 ### Buttons
-* "Mine Iron": Manually collect iron. Produces 5 units.
-* "Build Miner": Constructs a miner that automatically collects iron. Costs 20 iron to construct. Produces 1 unit per second per machine and costs 0.5 Energy per second per machine. Production is reduced if not enough energy is available.
+* "Harvest": Manually collect mineral from local deposits. Produces 5 units.
+* "Build": Constructs a selected machine.
+* Machine Fields
+    * Active/Inactive: Turns the machine on or off
+    * Recipe: Select unlocked recipe to process resources
 
 ## Features
 
 * Resources
     * Elements
+        * Hydrogen: H2
+        * Oxygen: O2
         * Iron: Common resource for construction.
         * Copper: Common resource for electronics
         * Plutonium: Rare earth metal (unavailable)
+    * Compounds
+        * Gravel: Stone aggregate
+        * Sand: Pulverized quartz
+        * Water: Liquid water (H20)
+        * Ice: Frozen water
     * Minerals
         * Stone: Common mineral from earth
         * Iron Ore: Common ore that refines to iron
@@ -28,21 +38,33 @@ The game currently has a simple GUI displaying available resources and machines.
     * Components
         * Iron Wire: Iron extruded into thin wire
         * Copper Wire: Copper extruded into thin wire
+        * Glass Filament: Glass in thin threads
         * Iron Gear (Small): Small gear made of iron
         * Iron Plate: Thin plate made of iron
+        * Iron Rod: Long round rod of iron
         * Copper Plate: Thin plate made of copper
+        * Glass Pane: Flat sheet of glass
+        * Magnet: Magnetized rod of iron
+        * Electric Motor: Motor that converts electricity to mechanical energy or vice versa
     * Energy: Energy to run machines
 
 * Machines
     * Miner: Automatically collects minerals. Produces 1 unit per second per machine and costs 0.5 energy per second per machine. Production is reduced if not enough energy is available.
     * Smelter Extruder: Refines ore and extrudes into wire
     * Component Printer: Crafts small components from wire and filament
+    * Parts Assembler: Crafts moving parts with fine precision
     * SRG: Stirling Radioisotope Generator. Produces 1 unit of energy per second.
+    * Magnetizer: Magnetizes iron rods into permanent magnets
+    * Crusher: Grinds ores and stone into finer aggregates
+    * Electrolyzer: Seperates compounds via electrolysis
+    * Wind Turbine: Uses wind energy to produce electricity
     * Solar Array: Produces energy from solar radiation
+
+* Quest System: Quests provided by assistant AI instructs the player in processing resources and constructing machines and progressively unlocks recipes and machines to advance technology
 
 ## Future Improvements
 
-* More raw resources like ice
+* More raw resources like other ores
 * Extract resources from atmosphere like CO2
 * Advanced resources produced from other resources like gears, rods, and plates
 * Machines to process resources
@@ -50,5 +72,4 @@ The game currently has a simple GUI displaying available resources and machines.
 * Byproducts from processing resources with variable ratios
 * Refinement processes to improve resource production efficiency
 * Expanded GUI
-* Quest-based technology system
 * Introductory tutorial

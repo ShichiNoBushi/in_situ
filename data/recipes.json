@@ -140,7 +140,7 @@
         "inputs": {},
         "outputs": {"energy": 1},
         "available": true,
-        "machines": ["srg", "solar array"],
+        "machines": ["srg", "wind turbine", "solar array"],
         "description": "Passively generates energy"
     }
 }
