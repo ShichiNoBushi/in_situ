@@ -120,12 +120,60 @@
             "quests": []
         },
         "unlocks": {
+            "quests": ["breaking rocks"],
+            "recipes": ["crush stone"],
+            "machines": []
+        },
+        "text": "As introduced earlier, the machines provided to you are relatively inefficient, and you will need more advanced machines that will work more efficiently getting more out of it and producing less waste. Though you also need to keep in mind that you need to \"live off the land\" and use every resource available. Not only does that mean nothing goes to waste but you also need to find value in resources available to you that you would otherwise consider worthless. Everything is made of basic elements, and with advanced enough technology, you should be able to make something out of anything. And if its advanced enough, not even the elements would be able to restrict you.\n\nYour next step is to find a use for the rock that is in such great abundance around you. To process the stone, one machine you can use is one that can crush stone and other minerals into finer aggregate like gravel and sand. You have the schematics to build a crusher.",
+        "hint": "Build a crusher using 10g of iron plates, 5g of small iron gears, and 5g of electric motors."
+    },
+    "breaking rocks": {
+        "name": "Breaking Rocks",
+        "start": false,
+        "requirement": {
+            "resources": {"gravel": 15, "sand": 10},
+            "machines": {},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": ["blowing glass"],
+            "recipes": ["glass filament sm-ex"],
+            "machines": []
+        },
+        "text": "With the crusher, you can pulverize minerals into aggregate. You will be instructed what to do with ores, but for now you will only use stone which will be crushed into gravel and sand.\n\nMine some rock from the regalith around you and put it in the crusher.",
+        "hint": "Select rock from the harvest menu and collect rock. Then activate the crusher to produce gravel and sand."
+    },
+    "blowing glass": {
+        "name": "Blowing Glass",
+        "start": false,
+        "requirement": {
+            "resources": {"glass filament": 10},
+            "machines": {},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": ["a huge pane"],
+            "recipes": ["glass pane print"],
+            "machines": []
+        },
+        "text": "Sand is an aggrigate of quartz or silica (silicon oxide). There will be many more purposes for it later, but for now we will focus on creating glass. Gravel was also created from crushing rock, but we will find uses for it too later.\n\nReturn to your smelter-extruder and process the sand through it. Much like your ores, it will be extruded as fine glass filament which also has many uses itself, but we will focus on using it as an intermediate material.",
+        "hint": "Set your smelter-extruder to produce glass filament."
+    },
+    "a huge pane": {
+        "name": "A Huge Pane",
+        "start": false,
+        "requirement": {
+            "resources": {"glass pane": 10},
+            "machines": {},
+            "quests": []
+        },
+        "unlocks": {
             "quests": [],
             "recipes": [],
             "machines": []
         },
-        "text": "[Placeholder]",
-        "hint": ""
+        "text": "Much like metal wire, the glass filament can be used in your component printer to produce static parts out of it. Glass panes can be used as transparent windows for machines or structures.\n\nSet your component printer to produce glass panes and feed glass filament into it.",
+        "hint": "Set the component printer to produce glass panes."
     },
     "splitting water": {
         "name": "Splitting Water",
