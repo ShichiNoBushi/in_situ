@@ -153,6 +153,7 @@ def change_machine_recipe(idx, selected):
     selected_id = rec_name_to_key[selected]
     if selected_id in machines[idx].recipes:
         machines[idx].current_recipe = selected_id
+        update_recipe_cost_label(idx)
 
 # return formatted value based on unit and factor of 1,000 (M, k, _, m)
 def format_unit(resource):
@@ -223,6 +224,7 @@ def complete_quest(qid):
     refresh_machine_frames()
 
 machine_recipes_vars = {} # tk.StringVars dictionary keyed by machine index representing selected recipe
+machine_recipes_labels = {} # dictionary of labels to display costs of selected recipe
 
 # update available machines
 def refresh_build_menu():
@@ -232,8 +234,8 @@ def refresh_build_menu():
     available_machines = [data["name"] for data in MACHINES.values() if data.get("available", False)]
 
     if not available_machines:
-        machine_var.set("")
-        menu.add_command(label = "No available machines", command = lambda: machine_var.set(""))
+        machine_var.set("No available machines")
+        menu.add_command(label = "No available machines", command = lambda: machine_var.set("No available machines"))
         return
     
     for name in available_machines:
@@ -247,6 +249,7 @@ def refresh_machine_frames():
     for widget in frame_machines.winfo_children():
         widget.destroy()
     machine_recipes_vars.clear()
+    machine_recipes_labels.clear()
     
     # for each crafted machine
     for i, m in enumerate(machines):
@@ -284,7 +287,40 @@ def refresh_machine_frames():
             # label to display no recipes available to machine
             ttk.Label(subframe, text = "No recipes").grid(row = 0, column = 1, sticky = "e", padx = 2, pady = 2)
 
+        rec = RECIPES[m.current_recipe]
+
+        label_recipe_cost = ttk.Label(subframe, text = "No recipe selected", wraplength = 200, justify = "left")
+        label_recipe_cost.grid(row = 1, column = 0, columnspan = 2)
+        machine_recipes_labels[i] = label_recipe_cost
+
+        update_recipe_cost_label(i)
+
     update_scroll_region()
+    update_build_resources()
+
+def update_recipe_cost_label(idx):
+    mach = machines[idx]
+    rec_id = mach.current_recipe
+    rec = RECIPES.get(rec_id, {})
+
+    label = machine_recipes_labels.get(idx)
+    if not label:
+        return
+    
+    if not rec or not rec.get("available", False):
+        label.config(text = "No recipe selected")
+        return
+    
+    inputs = rec.get("inputs", {})
+    if not inputs:
+        label.config(text = "No input cost")
+
+    cost_str_list = []
+    for res, amt in inputs.items():
+        res_name = RESOURCES.get(res, {}).get("name", res)
+        cost_str_list.append(f"{res_name}: {amt}")
+
+    label.config(text = "\n".join(cost_str_list))
 
 # check if machine can be built
 def can_build(name):
@@ -445,15 +481,41 @@ ttk.Button(frame_harvest, text = "Harvest", command = perform_harvest).pack(side
 available_machines = [m["name"] for m in MACHINES.values() if m.get("available", False)]
 machine_var = tk.StringVar(value = available_machines[0] if available_machines else "")
 
+def update_build_resources():
+    mach = MACHINES.get(mach_name_to_key.get(machine_var.get(), ""), {})
+
+    if not mach:
+        label_build_resources.config(text = "No machine selected")
+        return
+    
+    build_resources = mach.get("cost", {})
+    res_str_list = []
+
+    if not build_resources:
+        label_build_resources.config(text = "Error: No Resource Cost")
+        return
+
+    for res, amt in build_resources.items():
+        res_str_list.append(f"{RESOURCES.get(res, {}).get('name', 'No Name')}: {amt}")
+
+    label_build_resources.config(text = "\n".join(res_str_list))
+
+machine_var.trace_add("write", lambda *args: update_build_resources())
+
 # menu to select machine to build
 option_build = ttk.OptionMenu(
     frame_build,
     machine_var,
     MACHINES[machine_var.get()]["name"] if machine_var.get() in MACHINES else "",
-    *[data["name"] for data in MACHINES.values()]
+    *[data["name"] for data in MACHINES.values()],
 )
 option_build.pack(side = "top")
 ttk.Button(frame_build, text = "Build", command = perform_build).pack(side = "bottom", padx = 5) # button to build machines
+
+label_build_resources = ttk.Label(frame_build, text = "No machine selected", wraplength = 200, justify = "left")
+label_build_resources.pack(side = "bottom")
+
+update_build_resources()
 
 ttk.Button(frame_actions, text = "Quit", command = quit_game).pack(side = "right", padx = 5) # button to quit game
 
