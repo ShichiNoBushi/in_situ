@@ -1,5 +1,6 @@
 import time
 import json
+import platform
 import tkinter as tk
 from tkinter import ttk
 
@@ -153,11 +154,10 @@ def change_machine_recipe(idx, selected):
     selected_id = rec_name_to_key[selected]
     if selected_id in machines[idx].recipes:
         machines[idx].current_recipe = selected_id
-        update_recipe_cost_label(idx)
+        update_recipe_labels(idx)
 
 # return formatted value based on unit and factor of 1,000 (M, k, _, m)
-def format_unit(resource):
-    amount = resources.get(resource, 0.0)
+def format_unit(amount, resource):
     unit = RESOURCES.get(resource, {}).get("unit", "u")
 
     if amount == 0:
@@ -176,7 +176,8 @@ def format_unit(resource):
 # update resource display
 def update_resources():
     for r, label in resource_labels.items():
-        label.config(text = format_unit(r))
+        amt = resources.get(r, 0.0)
+        label.config(text = format_unit(amt, r))
 
     check_quests()
 
@@ -290,37 +291,52 @@ def refresh_machine_frames():
         rec = RECIPES[m.current_recipe]
 
         label_recipe_cost = ttk.Label(subframe, text = "No recipe selected", wraplength = 200, justify = "left")
-        label_recipe_cost.grid(row = 1, column = 0, columnspan = 2)
-        machine_recipes_labels[i] = label_recipe_cost
+        label_recipe_cost.grid(row = 1, column = 0)
+        label_recipe_output = ttk.Label(subframe, text = "", wraplength = 200, justify = "left")
+        label_recipe_output.grid(row = 1, column = 1)
+        machine_recipes_labels[i] = (label_recipe_cost, label_recipe_output)
 
-        update_recipe_cost_label(i)
+        update_recipe_labels(i)
 
     update_scroll_region()
     update_build_resources()
 
-def update_recipe_cost_label(idx):
+def update_recipe_labels(idx):
     mach = machines[idx]
     rec_id = mach.current_recipe
     rec = RECIPES.get(rec_id, {})
 
-    label = machine_recipes_labels.get(idx)
-    if not label:
+    labels = machine_recipes_labels.get(idx)
+    if not labels:
         return
     
+    label_in, label_out = labels
+    
     if not rec or not rec.get("available", False):
-        label.config(text = "No recipe selected")
+        label_in.config(text = "No recipe selected")
+        label_out.config(text = "")
         return
     
     inputs = rec.get("inputs", {})
     if not inputs:
-        label.config(text = "No input cost")
+        label_in.config(text = "No input cost")
+
+    outputs = rec.get("outputs", {})
 
     cost_str_list = []
     for res, amt in inputs.items():
         res_name = RESOURCES.get(res, {}).get("name", res)
-        cost_str_list.append(f"{res_name}: {amt}")
+        amt_format = format_unit(amt, res)
+        cost_str_list.append(f"{res_name}: {amt_format}")
 
-    label.config(text = "\n".join(cost_str_list))
+    output_str_list= []
+    for res, amt in outputs.items():
+        res_name = RESOURCES.get(res, {}).get("name", res)
+        amt_format = format_unit(amt, res)
+        output_str_list.append(f"{res_name}: {amt_format}")
+
+    label_in.config(text = "Input:\n" + "\n".join(cost_str_list))
+    label_out.config(text = "Output:\n" + "\n".join(output_str_list))
 
 # check if machine can be built
 def can_build(name):
@@ -424,11 +440,32 @@ frame_top.columnconfigure(1, weight = 1)
 canvas_machines = tk.Canvas(frame_machines_super)
 canvas_machines.pack(side = "left", fill = "both", expand = True)
 
+def _on_mousewheel(event):
+    canvas_machines.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+def _on_mac_mousewheel(event):
+    canvas_machines.yview_scroll(int(-1 * event.delta), "units")
+
+def _bind_to_mousewheel(event):
+    canvas_machines.bind_all("<MouseWheel>", mousewheel_func)
+    canvas_machines.bind_all("<Button-4>", lambda e: canvas_machines.yview_scroll(-1, "units"))
+    canvas_machines.bind_all("<Button-5>", lambda e: canvas_machines.yview_scroll(1, "units"))
+
+def _unbind_from_mousewheel(event):
+    canvas_machines.unbind_all("<MouseWheel>")
+    canvas_machines.unbind_all("Button-4")
+    canvas_machines.unbind_all("Button-5")
+
 # scrollbar for machines
 scroll_machines = ttk.Scrollbar(frame_machines_super, orient = "vertical", command = canvas_machines.yview)
 scroll_machines.pack(side = "right", fill = "y")
 
 canvas_machines.configure(yscrollcommand = scroll_machines.set)
+
+mousewheel_func = _on_mousewheel
+
+if platform.system() == "Darwin":
+    mousewheel_func = _on_mac_mousewheel
 
 # frame to contain individual frames to display machines
 frame_machines = ttk.LabelFrame(canvas_machines, text = "Machines", padding = 5)
@@ -438,6 +475,8 @@ def update_scroll_region(event = None):
     canvas_machines.configure(scrollregion = canvas_machines.bbox("all"))
 
 frame_machines.bind("<Configure>", update_scroll_region)
+frame_machines.bind("<Enter>", _bind_to_mousewheel)
+frame_machines.bind("<Leave>", _unbind_from_mousewheel)
 
 # labels to display each resource
 resource_labels = {} # dictionary of labels keyed to resources
@@ -448,7 +487,8 @@ for i, r in enumerate(resources):
     ttk.Label(frame_resources, text = RESOURCES[r].get("name", r)).grid(row = i, column = 0, sticky = "w")
 
     # label displaying formatted quantities of resource
-    lbl = ttk.Label(frame_resources, text = format_unit(r), width = 12, anchor = "e")
+    amt = resources.get(r, 0.0)
+    lbl = ttk.Label(frame_resources, text = format_unit(amt, r), width = 12, anchor = "e")
     lbl.grid(row = i, column = 1, sticky = "e")
     resource_labels[r] = lbl # add display label to dictionary
 
@@ -496,7 +536,7 @@ def update_build_resources():
         return
 
     for res, amt in build_resources.items():
-        res_str_list.append(f"{RESOURCES.get(res, {}).get('name', 'No Name')}: {amt}")
+        res_str_list.append(f"{RESOURCES.get(res, {}).get('name', 'No Name')}: {format_unit(amt, res)}")
 
     label_build_resources.config(text = "\n".join(res_str_list))
 
