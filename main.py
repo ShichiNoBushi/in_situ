@@ -56,11 +56,17 @@ for rid, resource in RESOURCES.items():
     res_name_to_key[resource["name"]] = rid
 
 resources = {} # list of resource stockpiles
+res_types = {"untyped": []} # list of resource types with empty list of untyped resources
 
 # assign starting values to initial stockpiles
 for rid, res in RESOURCES.items():
     starting_amount = res.get("starting amount", 0)
     resources[rid] = float(starting_amount)
+    rtype = res.get("type", "untyped")
+    if rtype not in res_types:
+        res_types[rtype] = []
+
+    res_types[rtype].append(rid)
 
 machines = [] # list of constructed machines
 
@@ -283,10 +289,11 @@ def refresh_machine_frames():
                 *available_recipes,
                 command = lambda selected, idx = i: change_machine_recipe(idx, selected)
             )
+            option.config(width = 15)
             option.grid(row = 0, column = 1, sticky = "e", padx = 2, pady = 2)
         else:
             # label to display no recipes available to machine
-            ttk.Label(subframe, text = "No recipes").grid(row = 0, column = 1, sticky = "e", padx = 2, pady = 2)
+            ttk.Label(subframe, text = "No recipes", width = 20).grid(row = 0, column = 1, sticky = "e", padx = 2, pady = 2)
 
         rec = RECIPES[m.current_recipe]
 
@@ -479,17 +486,38 @@ frame_machines.bind("<Enter>", _bind_to_mousewheel)
 frame_machines.bind("<Leave>", _unbind_from_mousewheel)
 
 # labels to display each resource
+type_frames = {}
 resource_labels = {} # dictionary of labels keyed to resources
+
+# create subframes for resource types
+for rtype in res_types.keys():
+    if rtype == "untyped": # skip untyped resources
+        continue
+
+    type_frames[rtype] = ttk.LabelFrame(frame_resources, text = rtype.title(), padding = 5)
+    type_frames[rtype].pack()
+
+if res_types["untyped"]: # if there are any untyped resources, create a subframe for them; ignore otherwise
+    type_frames["untyped"] = ttk.LabelFrame(frame_resources, text = "Untyped", padding = 5)
+
+type_counts = {}
+for t in res_types.keys():
+    type_counts[t] = 0
 
 # for each resource
 for i, r in enumerate(resources):
+    rtype = RESOURCES[r].get("type", "untyped") # assign to resource type
+    subframe = type_frames[rtype] # select subframe for type
+    rownum = type_counts[rtype] # get index for type
+    type_counts[rtype] += 1 # and increment
+
     # label for player visible name of resource
-    ttk.Label(frame_resources, text = RESOURCES[r].get("name", r)).grid(row = i, column = 0, sticky = "w")
+    ttk.Label(subframe, text = RESOURCES[r].get("name", r), width = 20).grid(row = rownum, column = 0, sticky = "w")
 
     # label displaying formatted quantities of resource
     amt = resources.get(r, 0.0)
-    lbl = ttk.Label(frame_resources, text = format_unit(amt, r), width = 12, anchor = "e")
-    lbl.grid(row = i, column = 1, sticky = "e")
+    lbl = ttk.Label(subframe, text = format_unit(amt, r), width = 12, anchor = "e")
+    lbl.grid(row = rownum, column = 1, sticky = "e")
     resource_labels[r] = lbl # add display label to dictionary
 
 # frame for player actions
@@ -514,6 +542,7 @@ option_harvest = ttk.OptionMenu(
     HARVEST[harvest_var.get()]["action"] if harvest_var.get() in HARVEST else "",
     *[data["action"] for data in HARVEST.values()]
 )
+option_harvest.config(width = 15)
 option_harvest.pack(side = "top")
 ttk.Button(frame_harvest, text = "Harvest", command = perform_harvest).pack(side = "bottom", padx = 5) # button to harvest resources
 
@@ -549,6 +578,7 @@ option_build = ttk.OptionMenu(
     MACHINES[machine_var.get()]["name"] if machine_var.get() in MACHINES else "",
     *[data["name"] for data in MACHINES.values()],
 )
+option_build.config(width = 15)
 option_build.pack(side = "top")
 ttk.Button(frame_build, text = "Build", command = perform_build).pack(side = "bottom", padx = 5) # button to build machines
 
