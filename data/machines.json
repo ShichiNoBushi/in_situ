@@ -1,7 +1,7 @@
 {
     "miner": {
         "name": "Automated Miner",
-        "cost": {"iron plate": 10, "iron gear small": 10},
+        "cost": {"iron plate": 20, "iron gear small": 10, "electric motor": 10},
         "starting amount": 0,
         "available": false,
         "description": "Extracts raw ore from the ground."
