@@ -135,6 +135,14 @@
         "machines": ["miner"],
         "description": "Extract ice from a local deposit."
     },
+    "collect atmosphere": {
+        "name": "Collect Atmosphere",
+        "inputs": {"energy": 2},
+        "outputs": {"carbon dioxide": 0.5},
+        "available": true,
+        "machines": ["atmospheric compressor"],
+        "description": "Collects gas from the atmpsphere."
+    },
     "generate energy": {
         "name": "Generate Energy",
         "inputs": {},

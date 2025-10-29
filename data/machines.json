@@ -6,6 +6,13 @@
         "available": false,
         "description": "Extracts raw ore from the ground."
     },
+    "atmospheric compressor": {
+        "name": "Atmospheric Compressor",
+        "cost": {"iron plate": 10, "copper wire": 10, "iron gear small": 5, "electric motor": 5},
+        "starting amount": 0,
+        "available": true,
+        "description": "Collects gasses from the atmosphere."
+    },
     "smelter extruder": {
         "name": "Smelter Extruder",
         "cost": {"iron": 20},

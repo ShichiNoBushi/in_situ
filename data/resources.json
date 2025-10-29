@@ -131,6 +131,17 @@
         "value": 0.1,
         "description": "Frozen water."
     },
+    "carbon dioxide": {
+        "name": "Carbon Dioxide",
+        "abbreviation": "CO2",
+        "type": "compound",
+        "subtypes": ["gas"],
+        "phase": "gas",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.1,
+        "description": "Gas produced by combustion or respiration."
+    },
     "iron wire": {
         "name": "Iron Wire",
         "abbreviation": "Wire-Fe",

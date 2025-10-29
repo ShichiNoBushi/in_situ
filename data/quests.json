@@ -93,7 +93,7 @@
             "machines": ["miner", "crusher", "electrolyzer", "wind turbine"]
         },
         "text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
-        "hint": ""
+        "hint": "You will need iron plates, copper wire, and the magnets you just produced and make them in the parts assembler."
     },
     "automated mining": {
         "name": "automated mining",
