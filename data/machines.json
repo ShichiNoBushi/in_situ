@@ -10,7 +10,7 @@
         "name": "Atmospheric Compressor",
         "cost": {"iron plate": 10, "copper wire": 10, "iron gear small": 5, "electric motor": 5},
         "starting amount": 0,
-        "available": true,
+        "available": false,
         "description": "Collects gasses from the atmosphere."
     },
     "smelter extruder": {

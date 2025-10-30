@@ -89,8 +89,8 @@
     },
     "electrolyze water": {
         "name": "Electrolyze Water",
-        "inputs": {"water": 1.5},
-        "outputs": {"hydrogen": 1.0, "oxygen": 0.5, "energy": 2},
+        "inputs": {"water": 1.8},
+        "outputs": {"hydrogen": 0.2, "oxygen": 1.6, "energy": 2},
         "available": false,
         "machines": ["electrolyzer"],
         "description": "Electrolyze and seperate water into hygrogen and oxygen."
@@ -139,7 +139,7 @@
         "name": "Collect Atmosphere",
         "inputs": {"energy": 2},
         "outputs": {"carbon dioxide": 0.5},
-        "available": true,
+        "available": false,
         "machines": ["atmospheric compressor"],
         "description": "Collects gas from the atmpsphere."
     },

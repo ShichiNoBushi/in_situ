@@ -88,9 +88,9 @@
             "quests": []
         },
         "unlocks": {
-            "quests": ["automated mining", "power generation", "mineral processing", "splitting water"],
-            "recipes": [],
-            "machines": ["miner", "crusher", "electrolyzer", "wind turbine"]
+            "quests": ["automated mining", "power generation", "from thin air", "mineral processing", "splitting water"],
+            "recipes": ["melt ice"],
+            "machines": ["miner", "atmospheric compressor", "crusher", "electrolyzer", "wind turbine"]
         },
         "text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
         "hint": "You will need iron plates, copper wire, and the magnets you just produced and make them in the parts assembler."
@@ -126,6 +126,22 @@
         },
         "text": "Now that you are constructing and using more machines, the SRG will not be able to support all of them at the same time. So you will need to build more generators.\n\nMotors convert electrical energy to rotational motion, but the reverse is also possible. Moving the magnet within a coil of wire will induce electrical current. A common natural resource to produce renewable energy is wind, and given what parts are able to create right now, this is now possible. Create some iron plates and rods, copper wire, and electric motors then build a wind turbine.",
         "hint": "You will need 5g of iron plates, 10g of iron rods, 5g of copper wire, and 5g of electric motors. You may need to deactivate some of your machines so some of these resources aren't automatically being crafted."
+    },
+    "from thin air": {
+        "name": "From Thin Air",
+        "start": false,
+        "requirement": {
+            "resources": {},
+            "machines": {"atmospheric compressor": 1},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": ["collect atmosphere"],
+            "machines": []
+        },
+        "text": "A critical technology you will need is the ability to create polymers like plastic. Unfortunately, there are no signs of fossile fuels detected on this planet, so you won't be able to synthesize polymers from resources like crude oil.\n\nFortunately, there is a plentiful source of carbon, a vital element for polymers, in the very atmosphere of the planet. Carbon dioxide (CO2). For the first step of creating polymers, you will need to collect CO2 from the atmosphere using an atmospheric condensor.",
+        "hint": "An atmospheric compressor will cost 10g iron plates, 10g copper wire, 5g small iron gears, and 5g electric motors."
     },
     "mineral processing": {
         "name": "Mineral Processing",
@@ -195,16 +211,16 @@
         "name": "Splitting Water",
         "start": false,
         "requirement": {
-            "resources": {},
+            "resources": {"water": 10},
             "machines": {"electrolyzer": 1},
             "quests": []
         },
         "unlocks": {
             "quests": [],
-            "recipes": [],
+            "recipes": ["electrolyze water"],
             "machines": []
         },
-        "text": "[Placeholder]",
+        "text": "Water would be a vital resource to support life, but you are not prepared to support a colony of humans or other living organisms. But there are many other utilities for water, particularly the components of water, hydrogen and oxygen. Water isn't as plentiful on this planet as it would be on naturally life sustaining worlds, but there are deposits of it in the form of ice.\n\nThe first step you will need to do is harvest ice from a nearby deposit. If you constructed an automated miner, you can set it to collect ice. You can then melt it in the smelter-extruder and collect the water. Finally, you will need another machine in the form of an electrolyzer.\n\nCollect water and report back after you've constructed the electrolyzer.",
         "hint": ""
     }
 }
