@@ -1,6 +1,7 @@
 import time
 import json
 import platform
+import shlex
 import tkinter as tk
 from tkinter import ttk
 
@@ -201,7 +202,7 @@ def check_quests():
         mach_fulfilled = len(mach_req) == 0 or all(sum(1 for m in machines if m.id == mid) >= amt for mid, amt in mach_req.items())
         quest_fulfilled = len(quest_req) == 0 or all(req in completed_quests for req in quest_req)
 
-        if res_fulfilled and mach_fulfilled and quest_fulfilled:
+        if res_fulfilled and mach_fulfilled and quest_fulfilled and qid not in to_complete:
             to_complete.append(qid)
 
     for qid in to_complete:
@@ -399,20 +400,198 @@ def perform_build():
     machine_id = mach_name_to_key[machine]
     build_machine(machine_id)
 
-# build ore miner and update
-def build_miner():
-    if can_build("miner"): # check if sufficient resources
-        cost = MACHINES["miner"].get("cost", {}) # total resource cost
+# dev give resources
+def give_resources(res, amount):
+    if res not in resources:
+        return f"Resource {res} not found"
+    
+    resources[res] += amount
+    
+    update_resources()
+    check_quests()
+    
+    return f"Gave {format_unit(amount, res)} of {RESOURCES[res]['name']}"
 
-        # remove amount of each required resource
-        for res, amt in cost.items():
-            resources[res] -= amt
+# dev give machine
+def give_machine(mach):
+    if mach not in MACHINES:
+        return f"Machine {mach} not found"
+    
+    machines.append(Machine(mach))
 
-        machines.append(Machine("miner")) # add new machine to list
+    refresh_machine_frames()
+    check_quests()
 
-        # update displays
-        update_resources()
-        refresh_machine_frames()
+    return f"Gave machine {MACHINES[mach]['name']}"
+
+# dev unlock quest
+def unlock_quest(qid):
+    if qid not in QUESTS:
+        return f"Quest {qid} not found"
+    
+    if qid in active_quests or qid in completed_quests:
+        return f"Quest {QUESTS[qid]['name']} already unlocked or completed"
+    
+    active_quests[qid] = QUESTS[qid]
+    update_quests()
+    check_quests()
+
+    return f"Unlocked quest {QUESTS[qid]['name']}"
+
+# dev complete quest
+def complete_quest_dev(qid):
+    if qid not in QUESTS:
+        return f"Quest {qid} not found"
+    
+    if qid in completed_quests:
+        return f"Quest {QUESTS[qid]['name']} already completed"
+    
+    quest = QUESTS[qid]
+    
+    if qid in active_quests:
+        del active_quests[qid]
+    completed_quests[qid] = quest
+
+    # add next quest(s) to active quests
+    for q in quest["unlocks"]["quests"]:
+        if q not in completed_quests and q not in active_quests:
+            active_quests[q] = QUESTS[q]
+
+    # unlock recipes
+    for rec in quest["unlocks"]["recipes"]:
+        RECIPES[rec]["available"] = True
+
+    # unlock machines
+    for mach in quest["unlocks"]["machines"]:
+        MACHINES[mach]["available"] = True
+
+    update_quests()
+    check_quests()
+    refresh_build_menu()
+    refresh_machine_frames()
+
+    return f"Quest {QUESTS[qid]['name']} completed"
+
+# dev unlock recipe
+def unlock_recipe(rec):
+    if rec not in RECIPES:
+        return f"Recipe {rec} not found"
+    
+    RECIPES[rec]["available"] = True
+
+    refresh_machine_frames()
+
+    return f"Recipe {RECIPES[rec]['name']} unlocked"
+
+# dev unlock machine
+def unlock_machine(mach):
+    if mach not in MACHINES:
+        return f"Machine {mach} not found"
+    
+    MACHINES[mach]["available"] = True
+
+    refresh_build_menu()
+
+    return f"Machine {MACHINES[mach]['name']} unlocked"
+
+# parse dev command and execute function
+def execute_dev_command():
+    cmd = entry_dev_command.get().strip()
+
+    try:
+        tokens = shlex.split(cmd)
+    except Exception:
+        label_dev_feedback.config(text = "Invalid command syntax")
+        entry_dev_command.delete(0, tk.END)
+        return
+    
+    if not tokens:
+        label_dev_feedback.config(text = "No command entered")
+        entry_dev_command.delete(0, tk.END)
+        return
+    
+    action = tokens[0]
+    feedback = ""
+
+    try:
+        if action == "give" and len(tokens) >= 3:
+            sub = tokens[1].lower()
+
+            if sub == "resource" and len(tokens) >= 4:
+                res = tokens[2].lower()
+
+                if res in RESOURCES:
+                    try:
+                        amt = float(tokens[3])
+                    except Exception:
+                        feedback = "Invalid amount"
+                    else:
+                        feedback = give_resources(res, amt)
+                else:
+                    feedback = f"Resource {res} not found"
+
+            elif sub == "machine" and len(tokens) >= 3:
+                mach = tokens[2].lower()
+
+                if mach in MACHINES:
+                    feedback = give_machine(mach)
+                else:
+                    feedback = f"Machine {mach} not found"
+
+            else:
+                feedback = "Unknown give command"
+        elif action == "unlock" and len(tokens) >= 3:
+            sub = tokens[1].lower()
+
+            if sub == "quest":
+                qid = tokens[2].lower()
+
+                if qid in QUESTS:
+                    feedback = unlock_quest(qid)
+                else:
+                    feedback = f"Quest {qid} not found"
+
+            elif sub == "recipe":
+                rec = tokens[2].lower()
+
+                if rec in RECIPES:
+                    feedback = unlock_recipe(rec)
+                else:
+                    feedback = f"Recipe {rec} not found"
+
+            elif sub == "machine":
+                mach = tokens[2].lower()
+
+                if mach in MACHINES:
+                    feedback = unlock_machine(mach)
+                else:
+                    feedback = f"Machine {mach} not found"
+
+            else:
+                feedback = "Unknown unlock command"
+
+        elif action == "complete":
+            sub = tokens[1].lower()
+
+            if sub == "quest" and len(tokens) >= 3:
+                qid = tokens[2].lower()
+
+                if qid in QUESTS:
+                    feedback = complete_quest_dev(qid)
+                else:
+                    feedback = f"Quest {qid} not found"
+
+            else:
+                feedback = "Unknown complete command"
+
+        else:
+            feedback = "Unknown command"
+
+    except Exception as e:
+        feedback = f"Error: {str(e)}"
+
+    label_dev_feedback.config(text = feedback)
+    entry_dev_command.delete(0, tk.END)
 
 # end game
 def quit_game():
@@ -591,8 +770,6 @@ label_build_resources.pack(side = "bottom")
 
 update_build_resources()
 
-ttk.Button(frame_actions, text = "Quit", command = quit_game).pack(side = "right", padx = 5) # button to quit game
-
 def update_quests():
     txt_active_quests.configure(state = "normal")
     txt_completed_quests.configure(state = "normal")
@@ -628,8 +805,8 @@ nb_main.add(tab_quests, text = "Quests")
 # frame to display quests
 frame_aquests = ttk.LabelFrame(tab_quests, text = "Active Quests")
 frame_cquests = ttk.LabelFrame(tab_quests, text = "Completed Quests")
-frame_aquests.pack(side = "top")
-frame_cquests.pack(side = "bottom")
+frame_aquests.grid(row = 0, column = 0)
+frame_cquests.grid(row = 1, column = 0)
 
 txt_active_quests = tk.Text(frame_aquests, wrap = "word", height = 20, width = 60, state = "disabled")
 txt_active_quests.pack(side = "left", fill = "both", expand = True)
@@ -644,6 +821,24 @@ txt_completed_quests.pack(side = "left", fill = "both", expand = True)
 scroll_completed_quests = ttk.Scrollbar(frame_cquests, command = txt_completed_quests.yview)
 scroll_completed_quests.pack(side = "right", fill = "y")
 txt_completed_quests.configure(yscrollcommand = scroll_completed_quests.set)
+
+# options tab
+tab_options = ttk.Frame(nb_main)
+nb_main.add(tab_options, text = "Options")
+
+ttk.Button(tab_options, text = "Quit", command = quit_game).pack(side = "top", padx = 5) # button to quit game
+
+frame_dev_commands = tk.Frame(tab_options)
+frame_dev_commands.pack(side = "bottom", fill = "x", padx = 10, pady = 10)
+
+entry_dev_command = tk.Entry(frame_dev_commands, width = 40)
+entry_dev_command.bind("<Return>", lambda event: execute_dev_command())
+entry_dev_command.grid(row = 0, column = 0, padx = 2, pady = 2)
+
+ttk.Button(frame_dev_commands, text = "Execute", command = execute_dev_command).grid(row = 0, column = 1, padx = 2, pady = 2)
+
+label_dev_feedback = ttk.Label(frame_dev_commands, text = "")
+label_dev_feedback.grid(row = 1, column = 0, padx = 2, pady = 2)
 
 update_quests()
 
