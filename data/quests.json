@@ -136,7 +136,7 @@
             "quests": []
         },
         "unlocks": {
-            "quests": [],
+            "quests": ["equivalent exchange"],
             "recipes": ["collect atmosphere"],
             "machines": []
         },
@@ -216,11 +216,27 @@
             "quests": []
         },
         "unlocks": {
-            "quests": [],
+            "quests": ["equivalent exchange"],
             "recipes": ["electrolyze water"],
             "machines": []
         },
         "text": "Water would be a vital resource to support life, but you are not prepared to support a colony of humans or other living organisms. But there are many other utilities for water, particularly the components of water, hydrogen and oxygen. Water isn't as plentiful on this planet as it would be on naturally life sustaining worlds, but there are deposits of it in the form of ice.\n\nThe first step you will need to do is harvest ice from a nearby deposit. If you constructed an automated miner, you can set it to collect ice. You can then melt it in the smelter-extruder and collect the water. Finally, you will need another machine in the form of an electrolyzer.\n\nCollect water and report back after you've constructed the electrolyzer.",
         "hint": ""
+    },
+    "equivalent exchange": {
+        "name": "Equivalent Exchange",
+        "start": false,
+        "requirement": {
+            "resources": {},
+            "machines": {},
+            "quests": ["from thin air", "splitting water"]
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": [],
+            "machines": ["chemical reactor"]
+        },
+        "text": "You are starting to become a modern day alchemist, breaking down substances to make other desired substances. While chemistry is more complicated than alchemy requiring special equipment to force chemical reactions, it is accessible to anyone without supernatural talents as well as being more stable and carries less risk of producing warp phenomena. It is generally understood that exploiting the known physical laws of the universe is safer than methods that work around them. You should know that the planet you are on is in wild space far from civilized territory, and it is wise to be safe.\n\nIn the next steps, you will able to use elements and compounds to produce useful chemicals.",
+        "hint": "In order to proceed, you will need to complete the quests \"From Thin Air\" and \"Splitting Water\"."
     }
 }

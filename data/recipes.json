@@ -95,6 +95,14 @@
         "machines": ["electrolyzer"],
         "description": "Electrolyze and seperate water into hygrogen and oxygen."
     },
+    "sabatier reaction": {
+        "name": "Sabatier Reaction",
+        "inputs": {"carbon dioxide": 2.2, "hydrogen": 0.404, "energy": 2},
+        "outputs": {"methane": 0.802, "water": 1.802},
+        "available": false,
+        "machines": ["chemical reactor"],
+        "description": "React carbon dioxide with hydrogen to create methane with water as a byproduct."
+    },
     "crush stone": {
         "name": "Crush Stone",
         "inputs": {"stone": 5, "energy": 1},

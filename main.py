@@ -209,13 +209,17 @@ def check_quests():
 
 # mark a quest as completed and unlock related machines, recipes, and quests
 def complete_quest(qid):
+    if qid in completed_quests:
+        return
+
     quest = QUESTS[qid]
     del active_quests[qid] # remove quest from active quests
     completed_quests[qid] = quest # add quest to completed quests
 
     # add next quest(s) to active quests
     for q in quest["unlocks"]["quests"]:
-        active_quests[q] = QUESTS[q]
+        if q not in completed_quests and q not in active_quests:
+            active_quests[q] = QUESTS[q]
 
     # unlock recipes
     for rec in quest["unlocks"]["recipes"]:

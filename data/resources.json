@@ -142,6 +142,17 @@
         "value": 0.1,
         "description": "Gas produced by combustion or respiration."
     },
+    "methane": {
+        "name": "Methane",
+        "abbreviation": "CH4",
+        "type": "compound",
+        "subtypes": ["gas"],
+        "phase": "gas",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.3,
+        "description": "Natural gas hydrocarbon used in combustion and chemical reactions."
+    },
     "iron wire": {
         "name": "Iron Wire",
         "abbreviation": "Wire-Fe",
