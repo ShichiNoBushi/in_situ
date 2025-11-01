@@ -186,6 +186,11 @@ def update_resources():
         amt = resources.get(r, 0.0)
         label.config(text = format_unit(amt, r))
 
+    for i in range(len(machines)):
+        update_recipe_labels(i)
+
+    refresh_build_menu()
+
     check_quests()
 
 # check if any quests completed
@@ -268,8 +273,9 @@ def refresh_machine_frames():
         mach_name = MACHINES[m.id].get("name", m.id) # player visible name of machine
 
         # frame specific to machine
-        subframe = ttk.LabelFrame(frame_machines, text = mach_name, padding = 5)
+        subframe = ttk.LabelFrame(frame_machines, text = mach_name, width = 500, height = 150, padding = 5)
         subframe.grid(row = i, column = 0)
+        subframe.grid_propagate(False)
 
         # text displaying machine Active/Inactive
         btn_text = "Active" if m.active else "Inactive"
@@ -302,9 +308,9 @@ def refresh_machine_frames():
 
         rec = RECIPES[m.current_recipe]
 
-        label_recipe_cost = ttk.Label(subframe, text = "No recipe selected", wraplength = 200, justify = "left")
+        label_recipe_cost = ttk.Label(subframe, text = "No recipe selected", wraplength = 220, justify = "left", width = 20)
         label_recipe_cost.grid(row = 1, column = 0)
-        label_recipe_output = ttk.Label(subframe, text = "", wraplength = 200, justify = "left")
+        label_recipe_output = ttk.Label(subframe, text = "", wraplength = 220, justify = "left", width = 20)
         label_recipe_output.grid(row = 1, column = 1)
         machine_recipes_labels[i] = (label_recipe_cost, label_recipe_output)
 
@@ -338,8 +344,9 @@ def update_recipe_labels(idx):
     cost_str_list = []
     for res, amt in inputs.items():
         res_name = RESOURCES.get(res, {}).get("name", res)
+        res_format = format_unit(resources[res], res)
         amt_format = format_unit(amt, res)
-        cost_str_list.append(f"{res_name}: {amt_format}")
+        cost_str_list.append(f"{res_name}: {res_format} / {amt_format}")
 
     output_str_list= []
     for res, amt in outputs.items():
@@ -748,7 +755,7 @@ def update_build_resources():
         return
 
     for res, amt in build_resources.items():
-        res_str_list.append(f"{RESOURCES.get(res, {}).get('name', 'No Name')}: {format_unit(amt, res)}")
+        res_str_list.append(f"{RESOURCES.get(res, {}).get('name', 'No Name')}: {format_unit(resources[res], res)} / {format_unit(amt, res)}")
 
     label_build_resources.config(text = "\n".join(res_str_list))
 
@@ -765,7 +772,7 @@ option_build.config(width = 15)
 option_build.pack(side = "top")
 ttk.Button(frame_build, text = "Build", command = perform_build).pack(side = "bottom", padx = 5) # button to build machines
 
-label_build_resources = ttk.Label(frame_build, text = "No machine selected", wraplength = 200, justify = "left")
+label_build_resources = ttk.Label(frame_build, text = "No machine selected", wraplength = 200, justify = "left", width = 25)
 label_build_resources.pack(side = "bottom")
 
 update_build_resources()
