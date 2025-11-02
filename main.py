@@ -189,7 +189,7 @@ def update_resources():
     for i in range(len(machines)):
         update_recipe_labels(i)
 
-    refresh_build_menu()
+    update_build_resources()
 
     check_quests()
 
@@ -255,10 +255,15 @@ def refresh_build_menu():
         menu.add_command(label = "No available machines", command = lambda: machine_var.set("No available machines"))
         return
     
+    current_selection = machine_var.get()
+
     for name in available_machines:
         menu.add_command(label = name, command = lambda value = name: machine_var.set(value))
 
-    machine_var.set(available_machines[0])
+    if current_selection in available_machines:
+        machine_var.set(current_selection)
+    else:
+        machine_var.set(available_machines[0])
 
 # update machine display
 def refresh_machine_frames():

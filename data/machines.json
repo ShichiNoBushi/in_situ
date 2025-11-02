@@ -48,6 +48,13 @@
         "available": false,
         "description": "Crushes stone and minerals into aggrigate and dust."
     },
+    "mixer": {
+        "name": "Mixer",
+        "cost": {"iron plate": 10, "iron gear small": 5, "electric motor": 5},
+        "starting amount": 0,
+        "available": false,
+        "description": "Combines liquids and dusts."
+    },
     "electrolyzer": {
         "name": "Electrolyzer",
         "cost": {"iron plate": 10, "copper wire": 10},

@@ -111,6 +111,22 @@
         "machines": ["crusher"],
         "description": "Crushes stone into aggregate."
     },
+    "pulverize gravel": {
+        "name": "Pulverize Gravel",
+        "inputs": {"gravel": 5, "energy": 1},
+        "outputs": {"stone dust": 2},
+        "available": false,
+        "machines": ["crusher"],
+        "description": "Further grinds gravel into fine stone dust."
+    },
+    "mix clay": {
+        "name": "Mix Clay",
+        "inputs": {"stone dust": 2, "water": 1, "energy": 1},
+        "outputs": {"clay slurry": 3},
+        "available": false,
+        "machines": ["mixer"],
+        "description": "Further grinds gravel into fine stone dust."
+    },
     "mine stone": {
         "name": "Mine (Stone)",
         "inputs": {"energy": 1},

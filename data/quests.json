@@ -168,12 +168,44 @@
             "quests": []
         },
         "unlocks": {
-            "quests": ["blowing glass"],
-            "recipes": ["glass filament sm-ex"],
+            "quests": ["obliterating rocks", "blowing glass"],
+            "recipes": ["glass filament sm-ex", "pulverize gravel"],
             "machines": []
         },
         "text": "With the crusher, you can pulverize minerals into aggregate. You will be instructed what to do with ores, but for now you will only use stone which will be crushed into gravel and sand.\n\nMine some rock from the regalith around you and put it in the crusher.",
         "hint": "Select rock from the harvest menu and collect rock. Then activate the crusher to produce gravel and sand."
+    },
+    "obliterating rocks": {
+        "name": "Obliterating Rocks",
+        "start": false,
+        "requirement": {
+            "resources": {"stone dust": 10},
+            "machines": {},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": ["mixology on the rocks"],
+            "recipes": ["mix clay"],
+            "machines": ["mixer"]
+        },
+        "text": "Gravel can have some uses later on, but you will need to crush them further into a fine dust to use them for construction.",
+        "hint": "Select the pulverize gravel recipe in the crusher and produce 10g of stone dust."
+    },
+    "mixology on the rocks": {
+        "name": "Mixology on the Rocks",
+        "start": false,
+        "requirement": {
+            "resources": {"clay slurry": 10},
+            "machines": {"mixer": 1},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": [],
+            "machines": []
+        },
+        "text": "Now you will need to combine fluids and powders to create mixtures. Build a mixer machine and set it to mix clay combining stone dust and water. The resulting clay slurry could be used for making ceramics later, but for now it will function as a mortar to be used in bonding bricks into walls and other structures.",
+        "hint": "Build a mixer with 10g iron plates, 5g small iron gears, and 5g electric motors. Then set it to perform the mix clay recipe to combine stone dust with water. You may need to collect ice and melt it in the smelter-extruder."
     },
     "blowing glass": {
         "name": "Blowing Glass",

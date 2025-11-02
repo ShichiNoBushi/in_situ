@@ -98,6 +98,17 @@
         "value": 0.1,
         "description": "Stone cruched into an aggregate of small pieces."
     },
+    "stone dust": {
+        "name": "Stone Dust",
+        "abbreviation": "StDst",
+        "type": "compound",
+        "subtypes": ["mineral", "aggregate"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.1,
+        "description": "Stone pulverized into a fine dust."
+    },
     "sand": {
         "name": "Sand",
         "abbreviation": "Sand",
@@ -108,6 +119,17 @@
         "starting amount": 0.0,
         "value": 0.2,
         "description": "Fine grains of quartz or silica."
+    },
+    "clay slurry": {
+        "name": "Clay Slurry",
+        "abbreviation": "ClSlry",
+        "type": "compound",
+        "subtypes": ["mineral", "aggregate"],
+        "phase": "liquid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.2,
+        "description": "A mixture of fine stone dust and water to be used as a bonding paste."
     },
     "water": {
         "name": "Water",
@@ -186,6 +208,17 @@
         "value": 0.2,
         "description": "A thin filament of glass."
     },
+    "stone brick": {
+        "name": "Stone Brick",
+        "abbreviation": "StBrk",
+        "type": "component",
+        "subtypes": ["mineral", "brick"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.2,
+        "description": "Stone carved and sculpted into uniform bricks."
+    },
     "iron gear small": {
         "name": "Iron Gear (Small)",
         "abbreviation": "Gear-Fe-Sm",
@@ -262,6 +295,17 @@
         "starting amount": 0.0,
         "value": 0.7,
         "description": "A motor using electromagnetism to convert electricity into mechanical work or vice versa."
+    },
+    "induction coil": {
+        "name": "Induction Coil",
+        "abbreviation": "IndCoil",
+        "type": "component",
+        "subtypes": ["heating", "electronic"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.7,
+        "description": "A coil that uses magnetic induction to efficiently generate heat."
     },
     "energy": {
         "name": "Energy",
