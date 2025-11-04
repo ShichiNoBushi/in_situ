@@ -241,6 +241,17 @@
         "value": 0.5,
         "description": "A thick, sturdy rod of iron."
     },
+    "iron blade": {
+        "name": "Iron Blade",
+        "abbreviation": "Blade-Fe",
+        "type": "component",
+        "subtypes": ["blade", "metal"],
+        "phase": "solid",
+        "unit": "g",
+        "starting amount": 0.0,
+        "value": 0.5,
+        "description": "A sharp blade made of iron for cutting or carving."
+    },
     "iron plate": {
         "name": "Iron Plate",
         "abbreviation": "Plate-Fe",

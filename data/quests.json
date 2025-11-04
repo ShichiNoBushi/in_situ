@@ -200,12 +200,28 @@
             "quests": []
         },
         "unlocks": {
+            "quests": ["masonry"],
+            "recipes": ["iron blade print", "carve stone brick"],
+            "machines": ["stone carver"]
+        },
+        "text": "Now you will need to combine fluids and powders to create mixtures. Build a mixer machine and set it to mix clay combining stone dust and water. The resulting clay slurry could be used for making ceramics later, but for now it will function as a mortar to be used in bonding bricks into walls and other structures.",
+        "hint": "Build a mixer with 10g iron plates, 5g small iron gears, and 5g electric motors. Then set it to perform the mix clay recipe to combine stone dust with water. You may need to collect ice and melt it in the smelter-extruder."
+    },
+    "masonry": {
+        "name": "Masonry",
+        "start": false,
+        "requirement": {
+            "resources": {"stone brick": 20},
+            "machines": {"stone carver": 1},
+            "quests": []
+        },
+        "unlocks": {
             "quests": [],
             "recipes": [],
             "machines": []
         },
-        "text": "Now you will need to combine fluids and powders to create mixtures. Build a mixer machine and set it to mix clay combining stone dust and water. The resulting clay slurry could be used for making ceramics later, but for now it will function as a mortar to be used in bonding bricks into walls and other structures.",
-        "hint": "Build a mixer with 10g iron plates, 5g small iron gears, and 5g electric motors. Then set it to perform the mix clay recipe to combine stone dust with water. You may need to collect ice and melt it in the smelter-extruder."
+        "text": "In order to build proper constructions, especially structures that are durable or heat resistant, you will need to build out of stone. While there is no shortage of rock around you, it isn't convenient to build with especially as you mine it out of the ground. Since stone isn't as malleable as metal, it will need to be carved and sculpted into uniform bricks.\n\nBefore you can build your stone carver machine, you will need to make some blades to cut stone with. You can print them in the component printer. Once you have built the carver, set it to carve stone bricks. It will also produce stone dust as waste.",
+        "hint": "Iron blades can be made in the component printer. A stone carver will require 10g iron plates, 5g iron blades, and 5g electric motors."
     },
     "blowing glass": {
         "name": "Blowing Glass",

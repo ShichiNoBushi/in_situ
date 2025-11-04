@@ -55,6 +55,13 @@
         "available": false,
         "description": "Combines liquids and dusts."
     },
+    "stone carver": {
+        "name": "Stone Carver",
+        "cost": {"iron plate": 10, "iron blade": 5, "electric motor": 5},
+        "starting amount": 0,
+        "available": false,
+        "description": "Carves stone into specified shapes."
+    },
     "electrolyzer": {
         "name": "Electrolyzer",
         "cost": {"iron plate": 10, "copper wire": 10},

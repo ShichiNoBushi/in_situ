@@ -47,6 +47,14 @@
         "machines": ["component printer"],
         "description": "Crafts a rod of iron"
     },
+    "iron blade print": {
+        "name": "Iron Blade (Printer)",
+        "inputs": {"iron wire": 5, "energy": 1},
+        "outputs": {"iron blade": 5},
+        "available": false,
+        "machines": ["component printer"],
+        "description": "Crafts a sharp blade of iron"
+    },
     "copper plate print": {
         "name": "Copper Plate (Printer)",
         "inputs": {"copper wire": 5, "energy": 1},
@@ -126,6 +134,14 @@
         "available": false,
         "machines": ["mixer"],
         "description": "Further grinds gravel into fine stone dust."
+    },
+    "carve stone brick": {
+        "name": "Carve Stone Brick",
+        "inputs": {"stone": 5, "energy": 1},
+        "outputs": {"stone brick": 4, "stone dust": 1},
+        "available": false,
+        "machines": ["stone carver"],
+        "description": "Carves stone into uniform bricks."
     },
     "mine stone": {
         "name": "Mine (Stone)",
