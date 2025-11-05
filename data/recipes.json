@@ -23,6 +23,22 @@
         "machines": ["smelter extruder"],
         "description": "Melts sand and produces glass filament."
     },
+    "smelt iron": {
+        "name": "Smelt Iron",
+        "inputs": {"iron ore": 5, "energy": 1},
+        "outputs": {"iron": 3},
+        "available": false,
+        "machines": ["induction smelter"],
+        "description": "Smelts iron ore into raw iron."
+    },
+    "smelt copper": {
+        "name": "Smelt Copper",
+        "inputs": {"copper ore": 5, "energy": 1},
+        "outputs": {"copper": 3},
+        "available": false,
+        "machines": ["induction smelter"],
+        "description": "Smelts copper ore into raw copper."
+    },
     "iron gear small print": {
         "name": "Iron Gear (Small; Printer)",
         "inputs": {"iron wire": 2, "energy": 0.5},
@@ -78,6 +94,14 @@
         "available": false,
         "machines": ["parts assembler"],
         "description": "Crafts an electric motor with coiled wire and a magnet"
+    },
+    "induction coil": {
+        "name": "Induction Coil",
+        "inputs": {"copper wire": 3, "iron plate": 2, "energy": 2},
+        "outputs": {"induction coil": 5},
+        "available": false,
+        "machines": ["parts assembler"],
+        "description": "Craft a coil to generate heat through magnetic induction."
     },
     "magnetize iron": {
         "name": "Magnetize Iron",
