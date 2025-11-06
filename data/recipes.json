@@ -87,6 +87,38 @@
         "machines": ["component printer"],
         "description": "Crafts a pane of glass."
     },
+    "iron gear small mold": {
+        "name": "Iron Gear (Small; Mold)",
+        "inputs": {"iron": 4, "energy": 0.5},
+        "outputs": {"iron gear small": 4},
+        "available": false,
+        "machines": ["component mold"],
+        "description": "Crafts a small gear of iron from a mold."
+    },
+    "iron blade mold": {
+        "name": "Iron Blade (Mold)",
+        "inputs": {"iron": 4, "energy": 0.5},
+        "outputs": {"iron blade": 4},
+        "available": false,
+        "machines": ["component mold"],
+        "description": "Crafts a sharp blade of iron from a mold."
+    },
+    "iron plate press": {
+        "name": "Iron Plate (Press)",
+        "inputs": {"iron": 4, "energy": 0.5},
+        "outputs": {"iron plate": 4},
+        "available": false,
+        "machines": ["roller press"],
+        "description": "Rolls iron into flat plates."
+    },
+    "copper plate press": {
+        "name": "Copper Plate (Press)",
+        "inputs": {"copper": 4, "energy": 0.5},
+        "outputs": {"copper plate": 4},
+        "available": false,
+        "machines": ["roller press"],
+        "description": "Rolls copper into flat plates."
+    },
     "electric motor": {
         "name": "Electric Motor",
         "inputs": {"copper wire": 5, "iron plate": 3, "magnet": 1, "energy": 1},

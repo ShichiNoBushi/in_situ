@@ -69,6 +69,20 @@
         "available": false,
         "description": "Uses induction heating to perform metalurgy recipes."
     },
+    "roller press": {
+        "name": "Roller Press",
+        "cost": {"iron plate": 10, "iron gear small": 5, "induction coil": 2, "electric motor": 5},
+        "starting amount": 0,
+        "available": false,
+        "description": "Presses raw metal into plates, sheets, and foil."
+    },
+    "component mold": {
+        "name": "Component Mold",
+        "cost": {"iron plate": 10, "induction coil": 5, "electric motor": 5},
+        "starting amount": 0,
+        "available": false,
+        "description": "Creates solid component parts in shaped molds."
+    },
     "electrolyzer": {
         "name": "Electrolyzer",
         "cost": {"iron plate": 10, "copper wire": 10},
