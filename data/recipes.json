@@ -119,6 +119,30 @@
         "machines": ["roller press"],
         "description": "Rolls copper into flat plates."
     },
+    "extrude iron wire": {
+        "name": "Iron Wire (Extrude)",
+        "inputs": {"iron": 4, "energy": 0.5},
+        "outputs": {"iron wire": 4},
+        "available": false,
+        "machines": ["extruder"],
+        "description": "Extrudes iron into thin wire."
+    },
+    "extrude iron rod": {
+        "name": "Iron Rod (Extrude)",
+        "inputs": {"iron": 4, "energy": 0.5},
+        "outputs": {"iron rod": 4},
+        "available": false,
+        "machines": ["extruder"],
+        "description": "Extrudes iron into thick rods."
+    },
+    "extrude copper wire": {
+        "name": "Copper Wire (Extrude)",
+        "inputs": {"copper": 4, "energy": 0.5},
+        "outputs": {"copper wire": 4},
+        "available": false,
+        "machines": ["extruder"],
+        "description": "Extrudes copper into thin wire."
+    },
     "electric motor": {
         "name": "Electric Motor",
         "inputs": {"copper wire": 5, "iron plate": 3, "magnet": 1, "energy": 1},

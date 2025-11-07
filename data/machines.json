@@ -83,6 +83,13 @@
         "available": false,
         "description": "Creates solid component parts in shaped molds."
     },
+    "extruder": {
+        "name": "Extruder",
+        "cost": {"iron plate": 10, "induction coil": 5, "electric motor": 5},
+        "starting amount": 0,
+        "available": false,
+        "description": "Extrudes materials as long, round pieces of varrying widths.."
+    },
     "electrolyzer": {
         "name": "Electrolyzer",
         "cost": {"iron plate": 10, "copper wire": 10},
