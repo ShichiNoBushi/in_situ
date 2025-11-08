@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch76hukot0cbd"]
+
+[ext_resource type="PackedScene" uid="uid://cdi03e7hbg46" path="res://MachinePanel.tscn" id="1_wtcfe"]
+
+[node name="Root" type="Node2D"]
+
+[node name="TabContainer" type="TabContainer" parent="."]
+offset_right = 1728.0
+offset_bottom = 972.0
+tab_alignment = 1
+current_tab = 0
+
+[node name="Base" type="Control" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Label" type="Label" parent="TabContainer/Base"]
+layout_mode = 0
+offset_left = 357.0
+offset_top = 233.0
+offset_right = 397.0
+offset_bottom = 256.0
+text = "This is the Base tab."
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="TabContainer/Base"]
+layout_mode = 0
+offset_left = 1051.0
+offset_right = 1421.0
+offset_bottom = 731.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/ScrollContainer2"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Base"]
+layout_mode = 0
+offset_left = 1421.0
+offset_right = 1727.625
+offset_bottom = 731.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/ScrollContainer"]
+layout_mode = 2
+
+[node name="MachinePanel" parent="TabContainer/Base/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
+layout_mode = 2
+
+[node name="MachinePanel2" parent="TabContainer/Base/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
+layout_mode = 2
+
+[node name="MachinePanel3" parent="TabContainer/Base/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
+layout_mode = 2
+
+[node name="MachinePanel4" parent="TabContainer/Base/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
+layout_mode = 2
+
+[node name="Quests" type="Control" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="TabContainer/Quests"]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 244.0
+offset_right = 510.0
+offset_bottom = 267.0
+text = "This is the Quests tab."
+
+[node name="Options" type="Control" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Button" type="Button" parent="TabContainer/Options"]
+layout_mode = 0
+offset_left = 506.0
+offset_top = 22.0
+offset_right = 621.0
+offset_bottom = 53.0
+text = "Quit"

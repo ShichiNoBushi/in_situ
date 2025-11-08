@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://cdi03e7hbg46"]
+
+[node name="MachinePanel" type="Control"]
+custom_minimum_size = Vector2(0, 275)
+layout_mode = 3
+offset_right = 300.0
+offset_bottom = 275.0
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 275.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 274.0
+
+[node name="MachineName" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+
+[node name="CheckButton" type="CheckButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Active"
+
+[node name="OptionButton" type="OptionButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 1
+popup/item_0/text = "No Recipes Available"
+popup/item_0/id = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Inputs" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+text = "Inputs:
+No Recipe"
+
+[node name="Outputs" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+text = "Outputs:
+No Recipe"
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 25)
+layout_mode = 2
+show_percentage = false

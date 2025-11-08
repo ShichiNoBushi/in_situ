@@ -1,338 +1,338 @@
 {
-    "introduction": {
-        "name": "Introduction",
-        "start": true,
-        "requirement": {
-            "resources": {"iron ore": 20},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["basic ore refinement pt1"],
-            "recipes": ["iron wire sm-ex"],
-            "machines": []
-        },
-        "text": "Start-up sequence initiated...\n\nGreetings, Pioneer. You have been tasked with establishing a new outpost on an uninhabitted planet. The environment isn't ideal for organic life, but it has been identified to be rich in resources. For that reason, you, an artificial sapience (AS) operating a robotic frame, have been deployed to manage the new outpost and development into an industrial base.\n\nI am your assistant AI. I am not as advanced an intelligence as you, but I will help guide you through the process using the data provided in my database. To keep you on track as you get started, most of the recipes and machine schematics have been locked except for the most critical. As you learn the basic tasks and production, more advanced technologies will be opened up.\n\nFor the sake of minimizing initial costs, we are practicing In Situ Resource Utilization (ISRU) to establish this outpost. You are provided the most basic machinery in order to process local resources and develop more advanced machinery. To improve chances, we have established our outpost in a region detected to have deposits of iron, copper, and ice.\n\nTo get started, go to the nearby deposit of iron ore, mine some samples, and return here. You will then be introduced to your first stage of refining ores and minerals. Before you go out, remember to activate your stirling radioisotope generator (SRG). It will be your source of energy until you are able to create other methods of energy generation.",
-        "hint": "Mine iron ore by selecting it from the Harvest option menu and click the \"Harvest\" button.\n\nDon't forget to activate the SRG by clicking the \"Inactive\" button and start generating energy."
-    },
-    "basic ore refinement pt1": {
-        "name": "Basic Ore Refinement Part I",
-        "start": false,
-        "requirement": {
-            "resources": {"iron wire": 20},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["basic ore refinement pt2"],
-            "recipes": ["iron gear small print", "iron plate print", "copper wire sm-ex"],
-            "machines": []
-        },
-        "text": "Scanning mineral... Iron ore confirmed...\n\nWell done, Pioneer. Iron ore is the most critical resource for creating machines and structures. Iron is very durable for its weight, though it's not the best metal. It will be good enough for now until you gain access to more advanced metals and alloys like steel, titanium, or aluminum.\n\nTo get started, deposit your iron ore into your smelter-extruder and set it to produce iron wire. Your smelter-extruder is your first critical machine for ISRU and establishing your industrial base. It melts down the ore and outputs it as thin iron wire. It isn't the most efficient process for refining ore and much of it is wasted, but it will work as a start until you construct a more efficient furnace.",
-        "hint": "Make sure that your Smelter-extruder is set to the Iron Wire recipe and activate it. It will continuously consume iron ore and produce wire."
-    },
-    "basic ore refinement pt2": {
-        "name": "Basic Ore Refinement Part II",
-        "start": false,
-        "requirement": {
-            "resources": {"copper wire": 20},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["electromagnetism pt1"],
-            "recipes": ["iron rod print"],
-            "machines": ["magnetizer"]
-        },
-        "text": "Confirmed iron wire produced...\n\nAnother machine provided to you for ISRU is the component printer. It accepts wires, filaments, and other thin flexible materials and uses it to craft solid components via additive construction. I have unlocked for you the recipes for iron plates and small iron gears which will be necessary for many machines. I recommend setting it to create metal plates as they will be needed soon. If you start getting low on iron wire, remember to collect more iron ore and insert it into the smelter-extruder.\n\nAnother common metal that will be useful is copper. Copper is highly conductive and important for electronics. It isn't as good a conductor as gold, but given it is far more common, it serves the function well enough. A copper ore deposit has also been detected near the landing site. Mine some copper ore and put it in the smelter-extruder to produce copper wire.",
-        "hint": "Set the Harvest option to copper ore and harvest. Once you have copper ore, set the smelter-extruder to produce copper wire.\n\nYou can also set the component printer to produce iron plates while collecting and processing copper."
-    },
-    "electromagnetism pt1": {
-        "name": "Electromagnetism Part I",
-        "start": false,
-        "requirement": {
-            "resources": {"iron rod": 10},
-            "machines": {"magnetizer": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["electromagnetism pt2"],
-            "recipes": ["magnetize iron"],
-            "machines": []
-        },
-        "text": "You have also produced copper wire. Well done, Pioneer.\n\nTo begin producing more advanced parts for machines, you will need to create motors that can convert electrical current into rotational mechanical energy. But before we can accomplish that we will need to create permanent magnets.\n\nBy winding wire into a coil and passing a current through it, you will create a magnetic field. Then if you expose iron to a powerful magnetic field and heat it, its domains will align and become magnetized.\n\nMake sure you have enough iron plates and copper wire and build a magnetizer. Also make some iron rods so they may be used in the magnetizer to produce magnets.",
-        "hint": "Under the build menu, select the magnetizer machine. Make sure you have 10g of iron plates and copper wire, then click the \"Build\" button. Also set the component printer to produce iron rods."
-    },
-    "electromagnetism pt2": {
-        "name": "Electromagnetism Part III",
-        "start": false,
-        "requirement": {
-            "resources": {"magnet": 10},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["electromagnetism pt3"],
-            "recipes": ["electric motor"],
-            "machines": []
-        },
-        "text": "Iron rods confirmed... Magnetizer confirmed...\n\nNow that you have constructed the new machine, creating permanent magnets is simple. Just provide it with iron rods, and it will magnetize them. Don't worry if the magnets are too large. They can be easily divided into smaller magnets. No matter how small pieces you break a magnet into, they will all have north and south poles. There are no known means of creating magnetic monopoles.",
-        "hint": "Set the new magnetizer to produce magnets, and don't forget to activate it. If you are getting low on energy, deactivate some of your other machines."
-    },
-    "electromagnetism pt3": {
-        "name": "Electromagnetism Part III",
-        "start": false,
-        "requirement": {
-            "resources": {"electric motor": 10},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["automated mining", "power generation", "from thin air", "mineral processing", "splitting water"],
-            "recipes": ["melt ice"],
-            "machines": ["miner", "atmospheric compressor", "crusher", "electrolyzer", "wind turbine"]
-        },
-        "text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
-        "hint": "You will need iron plates, copper wire, and the magnets you just produced and make them in the parts assembler."
-    },
-    "automated mining": {
-        "name": "automated mining",
-        "start": false,
-        "requirement": {
-            "resources": {},
-            "machines": {"miner": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": [],
-            "recipes": ["mine stone", "mine iron ore", "mine copper ore", "mine ice"],
-            "machines": []
-        },
-        "text": "Now that you can make motors, it is time to get the machines to do work for you and save yourself from having to harvest the raw resources yourself.\n\nThe schematics for an automated miner have been unlocked for you.",
-        "hint": "The miner is an expensive machine but worth it for to work it will save you. It costs 20g iron plates, 10g small iron gears, and 10g electric motors."
-    },
-    "power generation": {
-        "name": "Power Generation",
-        "start": false,
-        "requirement": {
-            "resources": {},
-            "machines": {"wind turbine": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": [],
-            "recipes": [],
-            "machines": []
-        },
-        "text": "Now that you are constructing and using more machines, the SRG will not be able to support all of them at the same time. So you will need to build more generators.\n\nMotors convert electrical energy to rotational motion, but the reverse is also possible. Moving the magnet within a coil of wire will induce electrical current. A common natural resource to produce renewable energy is wind, and given what parts are able to create right now, this is now possible. Create some iron plates and rods, copper wire, and electric motors then build a wind turbine.",
-        "hint": "You will need 5g of iron plates, 10g of iron rods, 5g of copper wire, and 5g of electric motors. You may need to deactivate some of your machines so some of these resources aren't automatically being crafted."
-    },
-    "from thin air": {
-        "name": "From Thin Air",
-        "start": false,
-        "requirement": {
-            "resources": {},
-            "machines": {"atmospheric compressor": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["equivalent exchange"],
-            "recipes": ["collect atmosphere"],
-            "machines": []
-        },
-        "text": "A critical technology you will need is the ability to create polymers like plastic. Unfortunately, there are no signs of fossile fuels detected on this planet, so you won't be able to synthesize polymers from resources like crude oil.\n\nFortunately, there is a plentiful source of carbon, a vital element for polymers, in the very atmosphere of the planet. Carbon dioxide (CO2). For the first step of creating polymers, you will need to collect CO2 from the atmosphere using an atmospheric condensor.",
-        "hint": "An atmospheric compressor will cost 10g iron plates, 10g copper wire, 5g small iron gears, and 5g electric motors."
-    },
-    "mineral processing": {
-        "name": "Mineral Processing",
-        "start": false,
-        "requirement": {
-            "resources": {},
-            "machines": {"crusher": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["breaking rocks"],
-            "recipes": ["crush stone"],
-            "machines": []
-        },
-        "text": "As introduced earlier, the machines provided to you are relatively inefficient, and you will need more advanced machines that will work more efficiently getting more out of it and producing less waste. Though you also need to keep in mind that you need to \"live off the land\" and use every resource available. Not only does that mean nothing goes to waste but you also need to find value in resources available to you that you would otherwise consider worthless. Everything is made of basic elements, and with advanced enough technology, you should be able to make something out of anything. And if its advanced enough, not even the elements would be able to restrict you.\n\nYour next step is to find a use for the rock that is in such great abundance around you. To process the stone, one machine you can use is one that can crush stone and other minerals into finer aggregate like gravel and sand. You have the schematics to build a crusher.",
-        "hint": "Build a crusher using 10g of iron plates, 5g of small iron gears, and 5g of electric motors."
-    },
-    "breaking rocks": {
-        "name": "Breaking Rocks",
-        "start": false,
-        "requirement": {
-            "resources": {"gravel": 15, "sand": 10},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["obliterating rocks", "blowing glass"],
-            "recipes": ["glass filament sm-ex", "pulverize gravel"],
-            "machines": []
-        },
-        "text": "With the crusher, you can pulverize minerals into aggregate. You will be instructed what to do with ores, but for now you will only use stone which will be crushed into gravel and sand.\n\nMine some rock from the regalith around you and put it in the crusher.",
-        "hint": "Select rock from the harvest menu and collect rock. Then activate the crusher to produce gravel and sand."
-    },
-    "obliterating rocks": {
-        "name": "Obliterating Rocks",
-        "start": false,
-        "requirement": {
-            "resources": {"stone dust": 10},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["mixology on the rocks"],
-            "recipes": ["mix clay"],
-            "machines": ["mixer"]
-        },
-        "text": "Gravel can have some uses later on, but you will need to crush them further into a fine dust to use them for construction.",
-        "hint": "Select the pulverize gravel recipe in the crusher and produce 10g of stone dust."
-    },
-    "mixology on the rocks": {
-        "name": "Mixology on the Rocks",
-        "start": false,
-        "requirement": {
-            "resources": {"clay slurry": 10},
-            "machines": {"mixer": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["masonry"],
-            "recipes": ["iron blade print", "carve stone brick"],
-            "machines": ["stone carver"]
-        },
-        "text": "Now you will need to combine fluids and powders to create mixtures. Build a mixer machine and set it to mix clay combining stone dust and water. The resulting clay slurry could be used for making ceramics later, but for now it will function as a mortar to be used in bonding bricks into walls and other structures.",
-        "hint": "Build a mixer with 10g iron plates, 5g small iron gears, and 5g electric motors. Then set it to perform the mix clay recipe to combine stone dust with water. You may need to collect ice and melt it in the smelter-extruder."
-    },
-    "masonry": {
-        "name": "Masonry",
-        "start": false,
-        "requirement": {
-            "resources": {"stone brick": 20},
-            "machines": {"stone carver": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["induction pt1"],
-            "recipes": ["induction coil"],
-            "machines": []
-        },
-        "text": "In order to build proper constructions, especially structures that are durable or heat resistant, you will need to build out of stone. While there is no shortage of rock around you, it isn't convenient to build with especially as you mine it out of the ground. Since stone isn't as malleable as metal, it will need to be carved and sculpted into uniform bricks.\n\nBefore you can build your stone carver machine, you will need to make some blades to cut stone with. You can print them in the component printer. Once you have built the carver, set it to carve stone bricks. It will also produce stone dust as waste.",
-        "hint": "Iron blades can be made in the component printer. A stone carver will require 10g iron plates, 5g iron blades, and 5g electric motors."
-    },
-    "induction pt1": {
-        "name": "Induction Part I",
-        "start": false,
-        "requirement": {
-            "resources": {"induction coil": 20},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["induction pt2"],
-            "recipes": [],
-            "machines": ["induction smelter"]
-        },
-        "text": "By passing alternating currents through coils of wire, you can generate fluctuating magnetic fields that induce eddy currents, and when ferromagnetic metals such as iron are exposed to them, they will generate heat. Because of this property, induction heating is both safe as it only heats specific materials and is also efficient compared to other methods such as resistive heating.\n\nThe recipe for crafting induction coils has been unlocked for the parts assembler. Craft some of them before building the next critical industrial machine.",
-        "hint": "Induction coils require copper coils and iron plates and are made in the parts assembler. Make 20g of them."
-    },
-    "induction pt2": {
-        "name": "Induction Part II",
-        "start": false,
-        "requirement": {
-            "resources": {},
-            "machines": {"induction smelter": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": [],
-            "recipes": ["smelt iron", "smelt copper", "iron gear small mold", "iron blade mold", "iron plate press", "copper plate press", "extrude iron wire", "extrude iron rod", "extrude copper wire"],
-            "machines": ["roller press", "component mold", "extruder"]
-        },
-        "text": "The induction smelter is the first industrial smelter you will construct and also your first step to moving from relying on your starting machine setup. It uses heat generated by induction but needs walls of stone bricks to resist and hold in the intense heat.",
-        "hint": "The induction smelter requires 10g iron plates, 10g stone bricks, 2g clay slurry, 5g induction coils, and 5g electric motors."
-    },
-    "blowing glass": {
-        "name": "Blowing Glass",
-        "start": false,
-        "requirement": {
-            "resources": {"glass filament": 10},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["a huge pane"],
-            "recipes": ["glass pane print"],
-            "machines": []
-        },
-        "text": "Sand is an aggrigate of quartz or silica (silicon oxide). There will be many more purposes for it later, but for now we will focus on creating glass. Gravel was also created from crushing rock, but we will find uses for it too later.\n\nReturn to your smelter-extruder and process the sand through it. Much like your ores, it will be extruded as fine glass filament which also has many uses itself, but we will focus on using it as an intermediate material.",
-        "hint": "Set your smelter-extruder to produce glass filament."
-    },
-    "a huge pane": {
-        "name": "A Huge Pane",
-        "start": false,
-        "requirement": {
-            "resources": {"glass pane": 10},
-            "machines": {},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": [],
-            "recipes": [],
-            "machines": []
-        },
-        "text": "Much like metal wire, the glass filament can be used in your component printer to produce static parts out of it. Glass panes can be used as transparent windows for machines or structures.\n\nSet your component printer to produce glass panes and feed glass filament into it.",
-        "hint": "Set the component printer to produce glass panes."
-    },
-    "splitting water": {
-        "name": "Splitting Water",
-        "start": false,
-        "requirement": {
-            "resources": {"water": 10},
-            "machines": {"electrolyzer": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": ["equivalent exchange"],
-            "recipes": ["electrolyze water"],
-            "machines": []
-        },
-        "text": "Water would be a vital resource to support life, but you are not prepared to support a colony of humans or other living organisms. But there are many other utilities for water, particularly the components of water, hydrogen and oxygen. Water isn't as plentiful on this planet as it would be on naturally life sustaining worlds, but there are deposits of it in the form of ice.\n\nThe first step you will need to do is harvest ice from a nearby deposit. If you constructed an automated miner, you can set it to collect ice. You can then melt it in the smelter-extruder and collect the water. Finally, you will need another machine in the form of an electrolyzer.\n\nCollect water and report back after you've constructed the electrolyzer.",
-        "hint": ""
-    },
-    "equivalent exchange": {
-        "name": "Equivalent Exchange",
-        "start": false,
-        "requirement": {
-            "resources": {},
-            "machines": {},
-            "quests": ["from thin air", "splitting water"]
-        },
-        "unlocks": {
-            "quests": ["chemistry 101"],
-            "recipes": ["sabatier reaction"],
-            "machines": ["chemical reactor"]
-        },
-        "text": "You are starting to become a modern day alchemist, breaking down substances to make other desired substances. While chemistry is more complicated than alchemy requiring special equipment to force chemical reactions, it is accessible to anyone without supernatural talents as well as being more stable and carries less risk of producing warp phenomena. It is generally understood that exploiting the known physical laws of the universe is safer than methods that work around them. You should know that the planet you are on is in wild space far from civilized territory, and it is wise to be safe.\n\nIn the next steps, you will able to use elements and compounds to produce useful chemicals.",
-        "hint": "In order to proceed, you will need to complete the quests \"From Thin Air\" and \"Splitting Water\"."
-    },
-    "chemistry 101": {
-        "name": "Chemistry 101",
-        "start": false,
-        "requirement": {
-            "resources": {"methane": 20},
-            "machines": {"chemical reactor": 1},
-            "quests": []
-        },
-        "unlocks": {
-            "quests": [],
-            "recipes": [],
-            "machines": []
-        },
-        "text": "The first chemical reaction you will learn is the Sabatier Reaction. It takes ingredients as carbon dioxide (CO2) and hydrogen (H2) and produces methane (CH4) and water (H2O). The water can then be recycled and electrolized again into its base elements to continue reacting with more atmosphereic CO2. The methane can then be used to create other organic compounds or even in a combustion generator to generate electricity.",
-        "hint": "Build a chemical reactor with 10g iron plates, 10g copper wire, 5g copper plates, 2g induction coils, and 5g electric motors. Then set it to perform the sabatier reaction recipe."
-    }
+	"introduction": {
+		"name": "Introduction",
+		"start": true,
+		"requirement": {
+			"resources": {"iron ore": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["basic ore refinement pt1"],
+			"recipes": ["iron wire sm-ex"],
+			"machines": []
+		},
+		"text": "Start-up sequence initiated...\n\nGreetings, Pioneer. You have been tasked with establishing a new outpost on an uninhabitted planet. The environment isn't ideal for organic life, but it has been identified to be rich in resources. For that reason, you, an artificial sapience (AS) operating a robotic frame, have been deployed to manage the new outpost and development into an industrial base.\n\nI am your assistant AI. I am not as advanced an intelligence as you, but I will help guide you through the process using the data provided in my database. To keep you on track as you get started, most of the recipes and machine schematics have been locked except for the most critical. As you learn the basic tasks and production, more advanced technologies will be opened up.\n\nFor the sake of minimizing initial costs, we are practicing In Situ Resource Utilization (ISRU) to establish this outpost. You are provided the most basic machinery in order to process local resources and develop more advanced machinery. To improve chances, we have established our outpost in a region detected to have deposits of iron, copper, and ice.\n\nTo get started, go to the nearby deposit of iron ore, mine some samples, and return here. You will then be introduced to your first stage of refining ores and minerals. Before you go out, remember to activate your stirling radioisotope generator (SRG). It will be your source of energy until you are able to create other methods of energy generation.",
+		"hint": "Mine iron ore by selecting it from the Harvest option menu and click the \"Harvest\" button.\n\nDon't forget to activate the SRG by clicking the \"Inactive\" button and start generating energy."
+	},
+	"basic ore refinement pt1": {
+		"name": "Basic Ore Refinement Part I",
+		"start": false,
+		"requirement": {
+			"resources": {"iron wire": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["basic ore refinement pt2"],
+			"recipes": ["iron gear small print", "iron plate print", "copper wire sm-ex"],
+			"machines": []
+		},
+		"text": "Scanning mineral... Iron ore confirmed...\n\nWell done, Pioneer. Iron ore is the most critical resource for creating machines and structures. Iron is very durable for its weight, though it's not the best metal. It will be good enough for now until you gain access to more advanced metals and alloys like steel, titanium, or aluminum.\n\nTo get started, deposit your iron ore into your smelter-extruder and set it to produce iron wire. Your smelter-extruder is your first critical machine for ISRU and establishing your industrial base. It melts down the ore and outputs it as thin iron wire. It isn't the most efficient process for refining ore and much of it is wasted, but it will work as a start until you construct a more efficient furnace.",
+		"hint": "Make sure that your Smelter-extruder is set to the Iron Wire recipe and activate it. It will continuously consume iron ore and produce wire."
+	},
+	"basic ore refinement pt2": {
+		"name": "Basic Ore Refinement Part II",
+		"start": false,
+		"requirement": {
+			"resources": {"copper wire": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["electromagnetism pt1"],
+			"recipes": ["iron rod print"],
+			"machines": ["magnetizer"]
+		},
+		"text": "Confirmed iron wire produced...\n\nAnother machine provided to you for ISRU is the component printer. It accepts wires, filaments, and other thin flexible materials and uses it to craft solid components via additive construction. I have unlocked for you the recipes for iron plates and small iron gears which will be necessary for many machines. I recommend setting it to create metal plates as they will be needed soon. If you start getting low on iron wire, remember to collect more iron ore and insert it into the smelter-extruder.\n\nAnother common metal that will be useful is copper. Copper is highly conductive and important for electronics. It isn't as good a conductor as gold, but given it is far more common, it serves the function well enough. A copper ore deposit has also been detected near the landing site. Mine some copper ore and put it in the smelter-extruder to produce copper wire.",
+		"hint": "Set the Harvest option to copper ore and harvest. Once you have copper ore, set the smelter-extruder to produce copper wire.\n\nYou can also set the component printer to produce iron plates while collecting and processing copper."
+	},
+	"electromagnetism pt1": {
+		"name": "Electromagnetism Part I",
+		"start": false,
+		"requirement": {
+			"resources": {"iron rod": 10},
+			"machines": {"magnetizer": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["electromagnetism pt2"],
+			"recipes": ["magnetize iron"],
+			"machines": []
+		},
+		"text": "You have also produced copper wire. Well done, Pioneer.\n\nTo begin producing more advanced parts for machines, you will need to create motors that can convert electrical current into rotational mechanical energy. But before we can accomplish that we will need to create permanent magnets.\n\nBy winding wire into a coil and passing a current through it, you will create a magnetic field. Then if you expose iron to a powerful magnetic field and heat it, its domains will align and become magnetized.\n\nMake sure you have enough iron plates and copper wire and build a magnetizer. Also make some iron rods so they may be used in the magnetizer to produce magnets.",
+		"hint": "Under the build menu, select the magnetizer machine. Make sure you have 10g of iron plates and copper wire, then click the \"Build\" button. Also set the component printer to produce iron rods."
+	},
+	"electromagnetism pt2": {
+		"name": "Electromagnetism Part III",
+		"start": false,
+		"requirement": {
+			"resources": {"magnet": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["electromagnetism pt3"],
+			"recipes": ["electric motor"],
+			"machines": []
+		},
+		"text": "Iron rods confirmed... Magnetizer confirmed...\n\nNow that you have constructed the new machine, creating permanent magnets is simple. Just provide it with iron rods, and it will magnetize them. Don't worry if the magnets are too large. They can be easily divided into smaller magnets. No matter how small pieces you break a magnet into, they will all have north and south poles. There are no known means of creating magnetic monopoles.",
+		"hint": "Set the new magnetizer to produce magnets, and don't forget to activate it. If you are getting low on energy, deactivate some of your other machines."
+	},
+	"electromagnetism pt3": {
+		"name": "Electromagnetism Part III",
+		"start": false,
+		"requirement": {
+			"resources": {"electric motor": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["automated mining", "power generation", "from thin air", "mineral processing", "splitting water"],
+			"recipes": ["melt ice"],
+			"machines": ["miner", "atmospheric compressor", "crusher", "electrolyzer", "wind turbine"]
+		},
+		"text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
+		"hint": "You will need iron plates, copper wire, and the magnets you just produced and make them in the parts assembler."
+	},
+	"automated mining": {
+		"name": "automated mining",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"miner": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["mine stone", "mine iron ore", "mine copper ore", "mine ice"],
+			"machines": []
+		},
+		"text": "Now that you can make motors, it is time to get the machines to do work for you and save yourself from having to harvest the raw resources yourself.\n\nThe schematics for an automated miner have been unlocked for you.",
+		"hint": "The miner is an expensive machine but worth it for to work it will save you. It costs 20g iron plates, 10g small iron gears, and 10g electric motors."
+	},
+	"power generation": {
+		"name": "Power Generation",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"wind turbine": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "Now that you are constructing and using more machines, the SRG will not be able to support all of them at the same time. So you will need to build more generators.\n\nMotors convert electrical energy to rotational motion, but the reverse is also possible. Moving the magnet within a coil of wire will induce electrical current. A common natural resource to produce renewable energy is wind, and given what parts are able to create right now, this is now possible. Create some iron plates and rods, copper wire, and electric motors then build a wind turbine.",
+		"hint": "You will need 5g of iron plates, 10g of iron rods, 5g of copper wire, and 5g of electric motors. You may need to deactivate some of your machines so some of these resources aren't automatically being crafted."
+	},
+	"from thin air": {
+		"name": "From Thin Air",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"atmospheric compressor": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["equivalent exchange"],
+			"recipes": ["collect atmosphere"],
+			"machines": []
+		},
+		"text": "A critical technology you will need is the ability to create polymers like plastic. Unfortunately, there are no signs of fossile fuels detected on this planet, so you won't be able to synthesize polymers from resources like crude oil.\n\nFortunately, there is a plentiful source of carbon, a vital element for polymers, in the very atmosphere of the planet. Carbon dioxide (CO2). For the first step of creating polymers, you will need to collect CO2 from the atmosphere using an atmospheric condensor.",
+		"hint": "An atmospheric compressor will cost 10g iron plates, 10g copper wire, 5g small iron gears, and 5g electric motors."
+	},
+	"mineral processing": {
+		"name": "Mineral Processing",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"crusher": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["breaking rocks"],
+			"recipes": ["crush stone"],
+			"machines": []
+		},
+		"text": "As introduced earlier, the machines provided to you are relatively inefficient, and you will need more advanced machines that will work more efficiently getting more out of it and producing less waste. Though you also need to keep in mind that you need to \"live off the land\" and use every resource available. Not only does that mean nothing goes to waste but you also need to find value in resources available to you that you would otherwise consider worthless. Everything is made of basic elements, and with advanced enough technology, you should be able to make something out of anything. And if its advanced enough, not even the elements would be able to restrict you.\n\nYour next step is to find a use for the rock that is in such great abundance around you. To process the stone, one machine you can use is one that can crush stone and other minerals into finer aggregate like gravel and sand. You have the schematics to build a crusher.",
+		"hint": "Build a crusher using 10g of iron plates, 5g of small iron gears, and 5g of electric motors."
+	},
+	"breaking rocks": {
+		"name": "Breaking Rocks",
+		"start": false,
+		"requirement": {
+			"resources": {"gravel": 15, "sand": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["obliterating rocks", "blowing glass"],
+			"recipes": ["glass filament sm-ex", "pulverize gravel"],
+			"machines": []
+		},
+		"text": "With the crusher, you can pulverize minerals into aggregate. You will be instructed what to do with ores, but for now you will only use stone which will be crushed into gravel and sand.\n\nMine some rock from the regalith around you and put it in the crusher.",
+		"hint": "Select rock from the harvest menu and collect rock. Then activate the crusher to produce gravel and sand."
+	},
+	"obliterating rocks": {
+		"name": "Obliterating Rocks",
+		"start": false,
+		"requirement": {
+			"resources": {"stone dust": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["mixology on the rocks"],
+			"recipes": ["mix clay"],
+			"machines": ["mixer"]
+		},
+		"text": "Gravel can have some uses later on, but you will need to crush them further into a fine dust to use them for construction.",
+		"hint": "Select the pulverize gravel recipe in the crusher and produce 10g of stone dust."
+	},
+	"mixology on the rocks": {
+		"name": "Mixology on the Rocks",
+		"start": false,
+		"requirement": {
+			"resources": {"clay slurry": 10},
+			"machines": {"mixer": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["masonry"],
+			"recipes": ["iron blade print", "carve stone brick"],
+			"machines": ["stone carver"]
+		},
+		"text": "Now you will need to combine fluids and powders to create mixtures. Build a mixer machine and set it to mix clay combining stone dust and water. The resulting clay slurry could be used for making ceramics later, but for now it will function as a mortar to be used in bonding bricks into walls and other structures.",
+		"hint": "Build a mixer with 10g iron plates, 5g small iron gears, and 5g electric motors. Then set it to perform the mix clay recipe to combine stone dust with water. You may need to collect ice and melt it in the smelter-extruder."
+	},
+	"masonry": {
+		"name": "Masonry",
+		"start": false,
+		"requirement": {
+			"resources": {"stone brick": 20},
+			"machines": {"stone carver": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["induction pt1"],
+			"recipes": ["induction coil"],
+			"machines": []
+		},
+		"text": "In order to build proper constructions, especially structures that are durable or heat resistant, you will need to build out of stone. While there is no shortage of rock around you, it isn't convenient to build with especially as you mine it out of the ground. Since stone isn't as malleable as metal, it will need to be carved and sculpted into uniform bricks.\n\nBefore you can build your stone carver machine, you will need to make some blades to cut stone with. You can print them in the component printer. Once you have built the carver, set it to carve stone bricks. It will also produce stone dust as waste.",
+		"hint": "Iron blades can be made in the component printer. A stone carver will require 10g iron plates, 5g iron blades, and 5g electric motors."
+	},
+	"induction pt1": {
+		"name": "Induction Part I",
+		"start": false,
+		"requirement": {
+			"resources": {"induction coil": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["induction pt2"],
+			"recipes": [],
+			"machines": ["induction smelter"]
+		},
+		"text": "By passing alternating currents through coils of wire, you can generate fluctuating magnetic fields that induce eddy currents, and when ferromagnetic metals such as iron are exposed to them, they will generate heat. Because of this property, induction heating is both safe as it only heats specific materials and is also efficient compared to other methods such as resistive heating.\n\nThe recipe for crafting induction coils has been unlocked for the parts assembler. Craft some of them before building the next critical industrial machine.",
+		"hint": "Induction coils require copper coils and iron plates and are made in the parts assembler. Make 20g of them."
+	},
+	"induction pt2": {
+		"name": "Induction Part II",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"induction smelter": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["smelt iron", "smelt copper", "iron gear small mold", "iron blade mold", "iron plate press", "copper plate press", "extrude iron wire", "extrude iron rod", "extrude copper wire"],
+			"machines": ["roller press", "component mold", "extruder"]
+		},
+		"text": "The induction smelter is the first industrial smelter you will construct and also your first step to moving from relying on your starting machine setup. It uses heat generated by induction but needs walls of stone bricks to resist and hold in the intense heat.",
+		"hint": "The induction smelter requires 10g iron plates, 10g stone bricks, 2g clay slurry, 5g induction coils, and 5g electric motors."
+	},
+	"blowing glass": {
+		"name": "Blowing Glass",
+		"start": false,
+		"requirement": {
+			"resources": {"glass filament": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["a huge pane"],
+			"recipes": ["glass pane print"],
+			"machines": []
+		},
+		"text": "Sand is an aggrigate of quartz or silica (silicon oxide). There will be many more purposes for it later, but for now we will focus on creating glass. Gravel was also created from crushing rock, but we will find uses for it too later.\n\nReturn to your smelter-extruder and process the sand through it. Much like your ores, it will be extruded as fine glass filament which also has many uses itself, but we will focus on using it as an intermediate material.",
+		"hint": "Set your smelter-extruder to produce glass filament."
+	},
+	"a huge pane": {
+		"name": "A Huge Pane",
+		"start": false,
+		"requirement": {
+			"resources": {"glass pane": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "Much like metal wire, the glass filament can be used in your component printer to produce static parts out of it. Glass panes can be used as transparent windows for machines or structures.\n\nSet your component printer to produce glass panes and feed glass filament into it.",
+		"hint": "Set the component printer to produce glass panes."
+	},
+	"splitting water": {
+		"name": "Splitting Water",
+		"start": false,
+		"requirement": {
+			"resources": {"water": 10},
+			"machines": {"electrolyzer": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["equivalent exchange"],
+			"recipes": ["electrolyze water"],
+			"machines": []
+		},
+		"text": "Water would be a vital resource to support life, but you are not prepared to support a colony of humans or other living organisms. But there are many other utilities for water, particularly the components of water, hydrogen and oxygen. Water isn't as plentiful on this planet as it would be on naturally life sustaining worlds, but there are deposits of it in the form of ice.\n\nThe first step you will need to do is harvest ice from a nearby deposit. If you constructed an automated miner, you can set it to collect ice. You can then melt it in the smelter-extruder and collect the water. Finally, you will need another machine in the form of an electrolyzer.\n\nCollect water and report back after you've constructed the electrolyzer.",
+		"hint": ""
+	},
+	"equivalent exchange": {
+		"name": "Equivalent Exchange",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {},
+			"quests": ["from thin air", "splitting water"]
+		},
+		"unlocks": {
+			"quests": ["chemistry 101"],
+			"recipes": ["sabatier reaction"],
+			"machines": ["chemical reactor"]
+		},
+		"text": "You are starting to become a modern day alchemist, breaking down substances to make other desired substances. While chemistry is more complicated than alchemy requiring special equipment to force chemical reactions, it is accessible to anyone without supernatural talents as well as being more stable and carries less risk of producing warp phenomena. It is generally understood that exploiting the known physical laws of the universe is safer than methods that work around them. You should know that the planet you are on is in wild space far from civilized territory, and it is wise to be safe.\n\nIn the next steps, you will able to use elements and compounds to produce useful chemicals.",
+		"hint": "In order to proceed, you will need to complete the quests \"From Thin Air\" and \"Splitting Water\"."
+	},
+	"chemistry 101": {
+		"name": "Chemistry 101",
+		"start": false,
+		"requirement": {
+			"resources": {"methane": 20},
+			"machines": {"chemical reactor": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "The first chemical reaction you will learn is the Sabatier Reaction. It takes ingredients as carbon dioxide (CO2) and hydrogen (H2) and produces methane (CH4) and water (H2O). The water can then be recycled and electrolized again into its base elements to continue reacting with more atmosphereic CO2. The methane can then be used to create other organic compounds or even in a combustion generator to generate electricity.",
+		"hint": "Build a chemical reactor with 10g iron plates, 10g copper wire, 5g copper plates, 2g induction coils, and 5g electric motors. Then set it to perform the sabatier reaction recipe."
+	}
 }

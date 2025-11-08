@@ -1,26 +1,26 @@
 {
-    "mine stone": {
-        "resource": "stone",
-        "amount": 5.0,
-        "time": 1.0,
-        "action": "Mine Stone"
-    },
-    "mine iron ore": {
-        "resource": "iron ore",
-        "amount": 5.0,
-        "time": 1.0,
-        "action": "Mine Iron Ore"
-    },
-    "mine copper ore": {
-        "resource": "copper ore",
-        "amount": 5.0,
-        "time": 1.0,
-        "action": "Mine Copper Ore"
-    },
-    "mine ice": {
-        "resource": "ice",
-        "amount": 5.0,
-        "time": 1.0,
-        "action": "Mine Ice"
-    }
+	"mine stone": {
+		"resource": "stone",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Stone"
+	},
+	"mine iron ore": {
+		"resource": "iron ore",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Iron Ore"
+	},
+	"mine copper ore": {
+		"resource": "copper ore",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Copper Ore"
+	},
+	"mine ice": {
+		"resource": "ice",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Ice"
+	}
 }

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b618dfccesdqg"]
+
+[node name="ResourceLabel" type="Control"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 0
+offset_right = 374.0
+offset_bottom = 25.0
+
+[node name="NameLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+text = "Resource Name"
+
+[node name="AmountLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(95, 0)
+layout_mode = 2
+text = "00.00g"
+horizontal_alignment = 2
