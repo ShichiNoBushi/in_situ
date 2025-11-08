@@ -99,7 +99,7 @@
     },
     "chemical reactor": {
         "name": "Chemical Reactor",
-        "cost": {"iron plate": 10, "copper wire": 10, "copper plate": 5, "electric motor": 5},
+        "cost": {"iron plate": 10, "copper wire": 10, "copper plate": 5, "induction coil": 2, "electric motor": 5},
         "starting amount": 0,
         "available": false,
         "description": "Combines elements and chemicals in sealed environments to trigger chemical reactions."

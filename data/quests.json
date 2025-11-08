@@ -312,11 +312,27 @@
             "quests": ["from thin air", "splitting water"]
         },
         "unlocks": {
-            "quests": [],
-            "recipes": [],
+            "quests": ["chemistry 101"],
+            "recipes": ["sabatier reaction"],
             "machines": ["chemical reactor"]
         },
         "text": "You are starting to become a modern day alchemist, breaking down substances to make other desired substances. While chemistry is more complicated than alchemy requiring special equipment to force chemical reactions, it is accessible to anyone without supernatural talents as well as being more stable and carries less risk of producing warp phenomena. It is generally understood that exploiting the known physical laws of the universe is safer than methods that work around them. You should know that the planet you are on is in wild space far from civilized territory, and it is wise to be safe.\n\nIn the next steps, you will able to use elements and compounds to produce useful chemicals.",
         "hint": "In order to proceed, you will need to complete the quests \"From Thin Air\" and \"Splitting Water\"."
+    },
+    "chemistry 101": {
+        "name": "Chemistry 101",
+        "start": false,
+        "requirement": {
+            "resources": {"methane": 20},
+            "machines": {"chemical reactor": 1},
+            "quests": []
+        },
+        "unlocks": {
+            "quests": [],
+            "recipes": [],
+            "machines": []
+        },
+        "text": "The first chemical reaction you will learn is the Sabatier Reaction. It takes ingredients as carbon dioxide (CO2) and hydrogen (H2) and produces methane (CH4) and water (H2O). The water can then be recycled and electrolized again into its base elements to continue reacting with more atmosphereic CO2. The methane can then be used to create other organic compounds or even in a combustion generator to generate electricity.",
+        "hint": "Build a chemical reactor with 10g iron plates, 10g copper wire, 5g copper plates, 2g induction coils, and 5g electric motors. Then set it to perform the sabatier reaction recipe."
     }
 }
