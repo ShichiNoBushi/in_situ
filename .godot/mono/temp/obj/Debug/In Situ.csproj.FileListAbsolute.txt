@@ -1,0 +1,18 @@
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.csproj.AssemblyReference.cache
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.AssemblyInfoInputs.cache
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.AssemblyInfo.cs
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.csproj.CoreCompileInputs.cache
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.sourcelink.json
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/bin/Debug/In Situ.deps.json
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/bin/Debug/In Situ.runtimeconfig.json
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/bin/Debug/In Situ.dll
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/bin/Debug/In Situ.pdb
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/bin/Debug/GodotSharp.dll
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/bin/Debug/GodotSharpEditor.dll
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.csproj.Up2Date
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.dll
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/refint/In Situ.dll
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.pdb
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/In Situ.genruntimeconfig.cache
+/Users/jameshidahl/workspace/in_situ/.godot/mono/temp/obj/Debug/ref/In Situ.dll

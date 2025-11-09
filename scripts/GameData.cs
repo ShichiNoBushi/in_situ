@@ -4,13 +4,19 @@ using System.Text.Json;
 using System.IO;
 using System.Collections.Generic;
 
-public static class GameData
+public partial class GameData : Node
 {
 	public static Dictionary<string, ResourceData> RESOURCES = new();
 	public static Dictionary<string, HarvestData> HARVEST = new();
 	public static Dictionary<string, MachineData> MACHINES = new();
 	public static Dictionary<string, RecipeData> RECIPES = new();
 	public static Dictionary<string, QuestData> QUESTS = new();
+	
+	public override void _Ready()
+	{
+		LoadAll();
+		GD.Print("Game data loaded automatically.");
+	}
 	
 	public static void LoadAll()
 	{
@@ -36,7 +42,8 @@ public static class GameData
 		}
 		try
 		{
-			string json = File.ReadAllText(filepath);
+			using Godot.FileAccess fa = Godot.FileAccess.Open(filepath, Godot.FileAccess.ModeFlags.Read);
+			string json = fa.GetAsText();
 			return JsonSerializer.Deserialize<T>(json);
 		}
 		catch (Exception e)
