@@ -3,6 +3,7 @@
 [node name="MachinePanel" type="Control"]
 custom_minimum_size = Vector2(0, 275)
 layout_mode = 3
+anchors_preset = 0
 offset_right = 300.0
 offset_bottom = 275.0
 
@@ -20,11 +21,11 @@ offset_bottom = 274.0
 layout_mode = 2
 text = "Name"
 
-[node name="CheckButton" type="CheckButton" parent="Panel/VBoxContainer"]
+[node name="ActiveButton" type="CheckButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Active"
 
-[node name="OptionButton" type="OptionButton" parent="Panel/VBoxContainer"]
+[node name="RecipeOption" type="OptionButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
 selected = 0
 item_count = 1

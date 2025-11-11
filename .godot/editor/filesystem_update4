@@ -1,8 +1,5 @@
-res://node_2d.tscn
+res://Scenes/node_2d.tscn
+res://scripts/MachinesControl.cs
 res://scripts/GameData.cs
-res://data/harvest.json
-res://data/machines.json
-res://data/quests.json
-res://data/recipes.json
-res://data/resources.json
+res://scripts/MachinePanel.cs
 res://scripts/ResourceTest.cs

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bi1x747f6h56g"]
 
-[ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://ResourceLabel.tscn" id="1_jda5u"]
+[ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://Scenes/ResourceLabel.tscn" id="1_jda5u"]
 
 [node name="ResourcePanel" type="Control"]
 custom_minimum_size = Vector2(0, 46)

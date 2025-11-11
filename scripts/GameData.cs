@@ -12,10 +12,25 @@ public partial class GameData : Node
 	public static Dictionary<string, RecipeData> RECIPES = new();
 	public static Dictionary<string, QuestData> QUESTS = new();
 	
+	public static Dictionary<string, string> resNameToKey = new();
+	public static Dictionary<string, string> harvActionToKey = new();
+	public static Dictionary<string, string> machNameToKey = new();
+	public static Dictionary<string, string> recNameToKey = new();
+	public static Dictionary<string, string> qstNameToKey = new();
+	
+	public static Dictionary<string, float> resources = new();
+	public static List<Machine> machines = new();
+	
 	public override void _Ready()
 	{
 		LoadAll();
 		GD.Print("Game data loaded automatically.");
+		
+		BuildNameMaps();
+		
+		GiveStartingMachines();
+		//var machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
+		//machinesControl.AddStartingMachines();
 	}
 	
 	public static void LoadAll()
@@ -50,6 +65,41 @@ public partial class GameData : Node
 		{
 			GD.PrintErr($"Failed to load {filepath}: {e.Message}");
 			return default;
+		}
+	}
+	
+	public static void BuildNameMaps()
+	{
+		foreach (var res in RESOURCES)
+		{
+			resNameToKey[res.Value.name] = res.Key;
+		}
+		foreach (var harv in HARVEST)
+		{
+			harvActionToKey[harv.Value.action] = harv.Key;
+		}
+		foreach (var mach in MACHINES)
+		{
+			machNameToKey[mach.Value.name] = mach.Key;
+		}
+		foreach (var rec in RECIPES)
+		{
+			recNameToKey[rec.Value.name] = rec.Key;
+		}
+		foreach (var qst in QUESTS)
+		{
+			qstNameToKey[qst.Value.name] = qst.Key;
+		}
+	}
+	
+	public static void GiveStartingMachines()
+	{
+		foreach (var mach in MACHINES)
+		{
+			for (int i = 0; i < mach.Value.startingAmount; i++)
+			{
+				machines.Add(new Machine(mach.Key));
+			}
 		}
 	}
 }
@@ -182,5 +232,47 @@ public class QuestUnlock
 		quests = new List<string>();
 		recipes = new List<string>();
 		machines = new List<string>();
+	}
+}
+
+public class Machine
+{
+	public string id {get; private set;}
+	public bool active {get; private set;}
+	public List<string> recipes {get; private set;} = new();
+	public string currentRecipe {get; private set;}
+	
+	public Machine(string machineID)
+	{
+		id = machineID;
+		active = false;
+		
+		recipes = new();
+		foreach (var rec in GameData.RECIPES)
+		{
+			if (rec.Value.machines.Contains(machineID))
+			{
+				recipes.Add(rec.Key);
+			}
+		}
+		
+		if (recipes.Count > 0)
+		{
+			currentRecipe = recipes[0];
+		}
+		else
+		{
+			currentRecipe = "";
+		}
+	}
+	
+	public void ToggleActive(bool on)
+	{
+		active = on;
+	}
+	
+	public void SetRecipe(string rid)
+	{
+		currentRecipe = rid;
 	}
 }

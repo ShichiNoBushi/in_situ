@@ -1,13 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene load_steps=5 format=3 uid="uid://ch76hukot0cbd"]
 
-[ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_0e48y"]
-[ext_resource type="PackedScene" uid="uid://cdi03e7hbg46" path="res://MachinePanel.tscn" id="1_wtcfe"]
-[ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_epypp"]
+[ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
+[ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_6whob"]
+[ext_resource type="Script" uid="uid://hd0m7mmykoag" path="res://scripts/MachinesControl.cs" id="3_u7krg"]
+[ext_resource type="PackedScene" uid="uid://cdi03e7hbg46" path="res://Scenes/MachinePanel.tscn" id="4_6whob"]
 
 [node name="Root" type="Node2D"]
 
 [node name="GameData" type="Node" parent="."]
-script = ExtResource("1_0e48y")
+script = ExtResource("1_hh5uf")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 offset_right = 1728.0
@@ -35,38 +36,28 @@ offset_bottom = 731.0
 
 [node name="ResourceTestLabel" type="Label" parent="TabContainer/BaseTab/ResourceTestScroll"]
 layout_mode = 2
-script = ExtResource("2_epypp")
+script = ExtResource("2_6whob")
 
-[node name="ScrollContainer2" type="ScrollContainer" parent="TabContainer/BaseTab"]
+[node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
 layout_mode = 0
 offset_left = 1051.0
 offset_right = 1421.0
 offset_bottom = 731.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/ScrollContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/ResourceScroll"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/BaseTab"]
+[node name="MachineScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
 layout_mode = 0
 offset_left = 1421.0
 offset_right = 1727.625
 offset_bottom = 731.0
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/MachineScroll"]
 layout_mode = 2
-
-[node name="MachinePanel" parent="TabContainer/BaseTab/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
-layout_mode = 2
-
-[node name="MachinePanel2" parent="TabContainer/BaseTab/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
-layout_mode = 2
-
-[node name="MachinePanel3" parent="TabContainer/BaseTab/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
-layout_mode = 2
-
-[node name="MachinePanel4" parent="TabContainer/BaseTab/ScrollContainer/VBoxContainer" instance=ExtResource("1_wtcfe")]
-layout_mode = 2
+script = ExtResource("3_u7krg")
+MachinePanelScene = ExtResource("4_6whob")
 
 [node name="QuestsTab" type="Control" parent="TabContainer"]
 visible = false
