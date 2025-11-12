@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://bi1x747f6h56g"]
-
-[ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://Scenes/ResourceLabel.tscn" id="1_jda5u"]
+[gd_scene format=3 uid="uid://bi1x747f6h56g"]
 
 [node name="ResourcePanel" type="Control"]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 3
+anchors_preset = 0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
@@ -21,9 +21,3 @@ offset_bottom = 40.0
 [node name="TypeLabel" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Resource Type"
-
-[node name="ResourceLabel" parent="Panel/VBoxContainer" instance=ExtResource("1_jda5u")]
-layout_mode = 2
-
-[node name="ResourceLabel2" parent="Panel/VBoxContainer" instance=ExtResource("1_jda5u")]
-layout_mode = 2

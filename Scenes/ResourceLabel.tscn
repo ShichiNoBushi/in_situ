@@ -3,15 +3,16 @@
 [node name="ResourceLabel" type="Control"]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 3
+anchors_preset = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 0
-offset_right = 374.0
+offset_right = 370.0
 offset_bottom = 25.0
 
 [node name="NameLabel" type="Label" parent="HBoxContainer"]
-custom_minimum_size = Vector2(270, 0)
+custom_minimum_size = Vector2(260, 0)
 layout_mode = 2
 text = "Resource Name"
 

@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cdi03e7hbg46"]
+[gd_scene load_steps=2 format=3 uid="uid://cdi03e7hbg46"]
+
+[ext_resource type="Script" uid="uid://vxikyx7p4hlw" path="res://scripts/MachinePanel.cs" id="1_56xds"]
 
 [node name="MachinePanel" type="Control"]
 custom_minimum_size = Vector2(0, 275)
@@ -6,6 +8,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 300.0
 offset_bottom = 275.0
+script = ExtResource("1_56xds")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0

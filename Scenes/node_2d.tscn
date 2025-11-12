@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene load_steps=8 format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
 [ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_6whob"]
+[ext_resource type="Script" uid="uid://b62cq2a5o0yuq" path="res://scripts/ResourceControl.cs" id="3_tx0tn"]
 [ext_resource type="Script" uid="uid://hd0m7mmykoag" path="res://scripts/MachinesControl.cs" id="3_u7krg"]
 [ext_resource type="PackedScene" uid="uid://cdi03e7hbg46" path="res://Scenes/MachinePanel.tscn" id="4_6whob"]
+[ext_resource type="PackedScene" uid="uid://bi1x747f6h56g" path="res://Scenes/ResourcePanel.tscn" id="4_wjtap"]
+[ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://Scenes/ResourceLabel.tscn" id="5_v7gqg"]
 
 [node name="Root" type="Node2D"]
 
@@ -46,6 +49,9 @@ offset_bottom = 731.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/ResourceScroll"]
 layout_mode = 2
+script = ExtResource("3_tx0tn")
+ResourcePanelScene = ExtResource("4_wjtap")
+ResourceLabelScene = ExtResource("5_v7gqg")
 
 [node name="MachineScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
 layout_mode = 0

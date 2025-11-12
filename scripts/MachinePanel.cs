@@ -2,9 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MachinePanel : PanelContainer
+public partial class MachinePanel : Control
 {
-	private Machine machine;
+	public Machine machine {get; set;}
 	
 	private Label nameLabel;
 	private CheckButton activeButton;
@@ -16,6 +16,7 @@ public partial class MachinePanel : PanelContainer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GD.Print("MachinePanel: _Ready() called...");
 		nameLabel = GetNode<Label>("Panel/VBoxContainer/MachineName");
 		activeButton = GetNode<CheckButton>("Panel/VBoxContainer/ActiveButton");
 		recipeMenu = GetNode<OptionButton>("Panel/VBoxContainer/RecipeOption");
@@ -27,13 +28,12 @@ public partial class MachinePanel : PanelContainer
 		recipeMenu.ItemSelected += OnRecipeSelected;
 	}
 	
-	public void Initialize(Machine mach)
+	public void Initialize()
 	{
-		machine = mach;
-		nameLabel.Text = GameData.MACHINES[mach.id].name;
+		nameLabel.Text = GameData.MACHINES[machine.id].name;
 		
 		recipeMenu.Clear();
-		foreach (var rid in mach.recipes)
+		foreach (var rid in machine.recipes)
 		{
 			recipeMenu.AddItem(GameData.RECIPES[rid].name);
 		}

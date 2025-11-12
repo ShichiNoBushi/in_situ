@@ -3,3 +3,7 @@ res://scripts/MachinesControl.cs
 res://scripts/GameData.cs
 res://scripts/MachinePanel.cs
 res://scripts/ResourceTest.cs
+res://Scenes/MachinePanel.tscn
+res://Scenes/ResourcePanel.tscn
+res://scripts/ResourceControl.cs
+res://Scenes/ResourceLabel.tscn

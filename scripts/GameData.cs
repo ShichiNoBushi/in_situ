@@ -23,11 +23,13 @@ public partial class GameData : Node
 	
 	public override void _Ready()
 	{
+		GD.Print("GameData._Ready() called from ", GetPath());
 		LoadAll();
 		GD.Print("Game data loaded automatically.");
 		
 		BuildNameMaps();
 		
+		GiveStartingResources();
 		GiveStartingMachines();
 		//var machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
 		//machinesControl.AddStartingMachines();
@@ -92,13 +94,26 @@ public partial class GameData : Node
 		}
 	}
 	
+	public static void GiveStartingResources()
+	{
+		GD.Print("GameData: Giving Starting Resources...");
+		
+		foreach(var res in RESOURCES)
+		{
+			resources[res.Key] = res.Value.startingAmount;
+		}
+	}
+	
 	public static void GiveStartingMachines()
 	{
+		GD.Print("GameData: Giving Starting Machines...");
+		
 		foreach (var mach in MACHINES)
 		{
 			for (int i = 0; i < mach.Value.startingAmount; i++)
 			{
 				machines.Add(new Machine(mach.Key));
+				GD.Print($"GameData: Adding machine {mach.Value.name}");
 			}
 		}
 	}
