@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://onrhwsj7frpm"]
+
+[ext_resource type="Script" uid="uid://cwju1t2p20fso" path="res://scripts/HarvestControl.cs" id="1_c0a31"]
+
+[node name="HarvestPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c0a31")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 230.0
+offset_bottom = 100.0
+
+[node name="HarvestMenu" type="OptionButton" parent="Panel"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 8.0
+offset_right = 226.0
+offset_bottom = 36.0
+
+[node name="HarvestButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 40.0
+offset_right = 183.0
+offset_bottom = 71.0
+text = "Harvest"
+
+[node name="HarvestProgress" type="ProgressBar" parent="Panel"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 72.0
+offset_right = 226.0
+offset_bottom = 99.0
+show_percentage = false

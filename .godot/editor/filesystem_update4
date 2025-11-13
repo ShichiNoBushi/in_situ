@@ -7,3 +7,5 @@ res://Scenes/MachinePanel.tscn
 res://Scenes/ResourcePanel.tscn
 res://scripts/ResourceControl.cs
 res://Scenes/ResourceLabel.tscn
+res://Scenes/HarvestPanel.tscn
+res://scripts/HarvestControl.cs

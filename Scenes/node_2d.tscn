@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene load_steps=9 format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
 [ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_6whob"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cdi03e7hbg46" path="res://Scenes/MachinePanel.tscn" id="4_6whob"]
 [ext_resource type="PackedScene" uid="uid://bi1x747f6h56g" path="res://Scenes/ResourcePanel.tscn" id="4_wjtap"]
 [ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://Scenes/ResourceLabel.tscn" id="5_v7gqg"]
+[ext_resource type="PackedScene" uid="uid://onrhwsj7frpm" path="res://Scenes/HarvestPanel.tscn" id="8_v7gqg"]
 
 [node name="Root" type="Node2D"]
 
@@ -64,6 +65,18 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 script = ExtResource("3_u7krg")
 MachinePanelScene = ExtResource("4_6whob")
+
+[node name="HarvestPanel" parent="TabContainer/BaseTab" instance=ExtResource("8_v7gqg")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 462.0
+offset_top = 767.0
+offset_right = 462.0
+offset_bottom = 767.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="QuestsTab" type="Control" parent="TabContainer"]
 visible = false

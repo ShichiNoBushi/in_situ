@@ -67,5 +67,9 @@ public partial class ResourceControl : VBoxContainer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		foreach(var res in GameData.resources)
+		{
+			rlabels[res.Key].Text = res.Value.ToString();
+		}
 	}
 }
