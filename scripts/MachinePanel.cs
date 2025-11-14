@@ -20,8 +20,8 @@ public partial class MachinePanel : Control
 		nameLabel = GetNode<Label>("Panel/VBoxContainer/MachineName");
 		activeButton = GetNode<CheckButton>("Panel/VBoxContainer/ActiveButton");
 		recipeMenu = GetNode<OptionButton>("Panel/VBoxContainer/RecipeOption");
-		inputLabel = GetNode<Label>("Panel/VBoxContainer/HBoxContainer/Input");
-		outputLabel = GetNode<Label>("Panel/VBoxContainer/HBoxContainer/Output");
+		inputLabel = GetNode<Label>("Panel/VBoxContainer/HBoxContainer/Inputs");
+		outputLabel = GetNode<Label>("Panel/VBoxContainer/HBoxContainer/Outputs");
 		recipeProgress = GetNode<ProgressBar>("Panel/VBoxContainer/ProgressBar");
 		
 		activeButton.Toggled += OnActiveToggled;
@@ -38,8 +38,7 @@ public partial class MachinePanel : Control
 			recipeMenu.AddItem(GameData.RECIPES[rid].name);
 		}
 		
-		inputLabel.Text = "";
-		outputLabel.Text = "";
+		DisplayRecipeResources();
 		recipeProgress.Value = 0;
 	}
 	
@@ -55,10 +54,66 @@ public partial class MachinePanel : Control
 		
 		string recipeID = machine.recipes[(int)index];
 		machine.SetRecipe(recipeID);
+		
+		DisplayRecipeResources();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		DisplayRecipeResources();
+	}
+	
+	private void DisplayRecipeResources()
+	{
+		if (GameData.RECIPES.ContainsKey(machine.currentRecipe))
+		{
+			RecipeData recipe = GameData.RECIPES[machine.currentRecipe];
+			
+			Dictionary<string, float> inputs = recipe.inputs;
+			Dictionary<string, float> outputs = recipe.outputs;
+			
+			String inputDisplay = "Input:";
+			
+			if (inputs.Count > 0)
+			{
+				foreach(var res in inputs)
+				{
+					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
+					String availResForm = GameData.FormatUnit(GameData.resources[res.Key], res.Key);
+					String inputResForm = GameData.FormatUnit(res.Value, res.Key);
+					inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
+				}
+			}
+			else
+			{
+				inputDisplay += "\nNo inputs";
+			}
+			
+			inputLabel.Text = inputDisplay;
+			
+			String outputDisplay = "Output:";
+			
+			if (outputs.Count > 0)
+			{
+				foreach(var res in outputs)
+				{
+					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
+					String outputResForm = GameData.FormatUnit(res.Value, res.Key);
+					outputDisplay += $"\n{resAbbrev}: {outputResForm}";
+				}
+			}
+			else
+			{
+				outputDisplay += "\nNo outputs";
+			}
+			
+			outputLabel.Text = outputDisplay;
+		}
+		else
+		{
+			inputLabel.Text = "Recipe Invalid";
+			outputLabel.Text = "";
+		}
 	}
 }

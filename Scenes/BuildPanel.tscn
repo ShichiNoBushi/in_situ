@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://krtatr5ambw4"]
+
+[ext_resource type="Script" uid="uid://dq3te6rdten4s" path="res://scripts/BuildControl.cs" id="1_h15d7"]
+
+[node name="BuildPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h15d7")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 350.0
+offset_bottom = 200.0
+
+[node name="MachineMenu" type="OptionButton" parent="Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 342.0
+offset_bottom = 42.0
+
+[node name="BuildButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 48.0
+offset_right = 244.0
+offset_bottom = 79.0
+text = "Build
+"
+
+[node name="CostScroll" type="ScrollContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 81.0
+offset_right = 342.0
+offset_bottom = 169.0
+
+[node name="ResourceLabel" type="Label" parent="Panel/CostScroll"]
+layout_mode = 2
+text = "No machine selected."
+
+[node name="BuildProgress" type="ProgressBar" parent="Panel"]
+layout_mode = 0
+offset_top = 169.0
+offset_right = 350.0
+offset_bottom = 196.0
+show_percentage = false

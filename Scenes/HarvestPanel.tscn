@@ -13,28 +13,28 @@ script = ExtResource("1_c0a31")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 230.0
-offset_bottom = 100.0
+offset_right = 300.0
+offset_bottom = 200.0
 
 [node name="HarvestMenu" type="OptionButton" parent="Panel"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 226.0
-offset_bottom = 36.0
+offset_left = 38.0
+offset_top = 35.0
+offset_right = 260.0
+offset_bottom = 63.0
 
 [node name="HarvestButton" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 45.0
-offset_top = 40.0
-offset_right = 183.0
-offset_bottom = 71.0
+offset_left = 84.0
+offset_top = 100.0
+offset_right = 222.0
+offset_bottom = 131.0
 text = "Harvest"
 
 [node name="HarvestProgress" type="ProgressBar" parent="Panel"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 72.0
-offset_right = 226.0
-offset_bottom = 99.0
+offset_left = 38.0
+offset_top = 160.0
+offset_right = 260.0
+offset_bottom = 187.0
 show_percentage = false

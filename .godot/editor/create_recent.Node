@@ -1,8 +1,8 @@
+ScrollContainer
 ProgressBar
-CenterContainer
+Label
 Button
 OptionButton
 Panel
-Label
-ScrollContainer
+CenterContainer
 Node

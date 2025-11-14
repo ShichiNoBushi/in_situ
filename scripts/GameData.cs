@@ -3,6 +3,7 @@ using System;
 using System.Text.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class GameData : Node
 {
@@ -21,6 +22,10 @@ public partial class GameData : Node
 	public static Dictionary<string, float> resources = new();
 	public static List<Machine> machines = new();
 	
+	public static ResourceControl resourceControl;
+	public static MachinesControl machinesControl;
+	public static HarvestControl harvestControl;
+	
 	public override void _Ready()
 	{
 		GD.Print("GameData._Ready() called from ", GetPath());
@@ -31,8 +36,17 @@ public partial class GameData : Node
 		
 		GiveStartingResources();
 		GiveStartingMachines();
+		
+		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
+		machinesControl = GetNode<MachinesControl>("../TabContainer/BaseTab/MachineScroll/VBoxContainer");
+		harvestControl = GetNode<HarvestControl>("../TabContainer/BaseTab/HarvestPanel");
 		//var machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
 		//machinesControl.AddStartingMachines();
+	}
+	
+	public override void _Process(double delta)
+	{
+		ProcessMachines(delta);
 	}
 	
 	public static void LoadAll()
@@ -116,6 +130,121 @@ public partial class GameData : Node
 				GD.Print($"GameData: Adding machine {mach.Value.name}");
 			}
 		}
+	}
+	
+	public static String FormatUnit(float amount, String resource)
+	{
+		String unit = GameData.RESOURCES.ContainsKey(resource)
+			? GameData.RESOURCES[resource].unit
+			: "u";
+		
+		string prefix;
+		float display;
+		
+		if (amount >= 900000)
+		{
+			prefix = "M";
+			display = amount / 1000000f;
+		}
+		else if (amount >= 900)
+		{
+			prefix = "k";
+			display = amount / 1000f;
+		}
+		else if (amount == 0 || amount >= 0.9)
+		{
+			prefix = "";
+			display = amount;
+		}
+		else if (amount >= 0.0009)
+		{
+			prefix = "m";
+			display = amount * 1000f;
+		}
+		else
+		{
+			return "Negligible";
+		}
+		
+		return $"{display:0.##} {prefix}{unit}";
+	}
+	
+	private void ProcessMachines(double delta)
+	{
+		foreach (Machine mach in machines)
+		{
+			if (mach.active && GameData.RECIPES.ContainsKey(mach.currentRecipe))
+			{
+				float ratio = CanCraft(mach.currentRecipe, delta);
+				
+				if (ratio > 0)
+				{
+					RecipeData recipe = GameData.RECIPES[mach.currentRecipe];
+					Dictionary<String, float> inputs = recipe.inputs;
+					
+					foreach (var res in inputs)
+					{
+						GameData.resources[res.Key] = Math.Max(0f, GameData.resources[res.Key] - res.Value * (float)delta * ratio);
+					}
+					
+					Dictionary<String, float> outputs = recipe.outputs;
+					
+					foreach (var res in outputs)
+					{
+						GameData.resources[res.Key] += res.Value * (float)delta * ratio;
+					}
+				}
+			}
+		}
+	}
+	
+	private float CanCraft(String name, double delta)
+	{
+		if (!GameData.RECIPES.ContainsKey(name))
+		{
+			return 0f;
+		}
+		
+		RecipeData recipe = GameData.RECIPES[name];
+		Dictionary<String, float> inputs = recipe.inputs;
+		
+		if (inputs.Count == 0)
+		{
+			return 1f;
+		}
+		
+		List<float> ratios = new();
+		
+		foreach (var res in inputs)
+		{
+			if (res.Value <= 0)
+			{
+				continue;
+			}
+			
+			float available = GameData.resources.ContainsKey(res.Key)
+				? GameData.resources[res.Key]
+				: 0f;
+			float required = res.Value * (float)delta;
+			
+			if (required != 0 && available < required)
+			{
+				ratios.Add(available / required);
+			}
+		}
+		
+		if (ratios.Count == 0)
+		{
+			return 1f;
+		}
+		
+		float minRatio = ratios.Min();
+		if (minRatio <= 0f)
+		{
+			return 0f;
+		}
+		
+		return Math.Clamp(minRatio, 0f, 1f);
 	}
 }
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene load_steps=10 format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
 [ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_6whob"]
+[ext_resource type="PackedScene" uid="uid://krtatr5ambw4" path="res://Scenes/BuildPanel.tscn" id="2_chwn1"]
 [ext_resource type="Script" uid="uid://b62cq2a5o0yuq" path="res://scripts/ResourceControl.cs" id="3_tx0tn"]
 [ext_resource type="Script" uid="uid://hd0m7mmykoag" path="res://scripts/MachinesControl.cs" id="3_u7krg"]
 [ext_resource type="PackedScene" uid="uid://cdi03e7hbg46" path="res://Scenes/MachinePanel.tscn" id="4_6whob"]
@@ -23,6 +24,13 @@ current_tab = 0
 [node name="BaseTab" type="Control" parent="TabContainer"]
 layout_mode = 2
 metadata/_tab_index = 0
+
+[node name="BuildPanel" parent="TabContainer/BaseTab" instance=ExtResource("2_chwn1")]
+layout_mode = 1
+offset_left = 1345.0
+offset_top = 739.0
+offset_right = 1345.0
+offset_bottom = 739.0
 
 [node name="Label" type="Label" parent="TabContainer/BaseTab"]
 layout_mode = 0
@@ -71,10 +79,10 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 462.0
-offset_top = 767.0
-offset_right = 462.0
-offset_bottom = 767.0
+offset_left = 1030.0
+offset_top = 739.0
+offset_right = 1030.0
+offset_bottom = 739.0
 grow_horizontal = 1
 grow_vertical = 1
 

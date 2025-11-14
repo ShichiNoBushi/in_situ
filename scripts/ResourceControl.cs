@@ -69,7 +69,7 @@ public partial class ResourceControl : VBoxContainer
 	{
 		foreach(var res in GameData.resources)
 		{
-			rlabels[res.Key].Text = res.Value.ToString();
+			rlabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
 		}
 	}
 }
