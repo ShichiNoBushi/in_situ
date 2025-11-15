@@ -1,8 +1,11 @@
-ScrollContainer
-ProgressBar
 Label
-Button
-OptionButton
+ScrollContainer
 Panel
+Button
+VBoxContainer
+ItemList
+HBoxContainer
+ProgressBar
+OptionButton
 CenterContainer
 Node

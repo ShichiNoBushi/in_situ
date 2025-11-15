@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene load_steps=11 format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
 [ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_6whob"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bi1x747f6h56g" path="res://Scenes/ResourcePanel.tscn" id="4_wjtap"]
 [ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://Scenes/ResourceLabel.tscn" id="5_v7gqg"]
 [ext_resource type="PackedScene" uid="uid://onrhwsj7frpm" path="res://Scenes/HarvestPanel.tscn" id="8_v7gqg"]
+[ext_resource type="Script" uid="uid://d3tvug5vn80j4" path="res://scripts/QuestControl.cs" id="10_hvaui"]
 
 [node name="Root" type="Node2D"]
 
@@ -19,25 +20,12 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 
 [node name="BaseTab" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
-
-[node name="BuildPanel" parent="TabContainer/BaseTab" instance=ExtResource("2_chwn1")]
-layout_mode = 1
-offset_left = 1345.0
-offset_top = 739.0
-offset_right = 1345.0
-offset_bottom = 739.0
-
-[node name="Label" type="Label" parent="TabContainer/BaseTab"]
-layout_mode = 0
-offset_left = 55.0
-offset_right = 208.0
-offset_bottom = 23.0
-text = "This is the Base tab."
 
 [node name="ResourceTestScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
 layout_mode = 0
@@ -74,6 +62,30 @@ layout_mode = 2
 script = ExtResource("3_u7krg")
 MachinePanelScene = ExtResource("4_6whob")
 
+[node name="QuestPanel" type="Panel" parent="TabContainer/BaseTab"]
+layout_mode = 0
+offset_left = 645.0
+offset_top = 739.0
+offset_right = 1011.0
+offset_bottom = 934.0
+
+[node name="QuestLabel" type="Label" parent="TabContainer/BaseTab/QuestPanel"]
+layout_mode = 0
+offset_left = 136.0
+offset_right = 234.0
+offset_bottom = 23.0
+text = "Active Quest"
+
+[node name="ObjectiveScroll" type="ScrollContainer" parent="TabContainer/BaseTab/QuestPanel"]
+layout_mode = 0
+offset_top = 23.0
+offset_right = 366.0
+offset_bottom = 195.0
+
+[node name="ObjectiveLabel" type="Label" parent="TabContainer/BaseTab/QuestPanel/ObjectiveScroll"]
+layout_mode = 2
+text = "ERROR"
+
 [node name="HarvestPanel" parent="TabContainer/BaseTab" instance=ExtResource("8_v7gqg")]
 layout_mode = 0
 anchors_preset = 0
@@ -86,18 +98,75 @@ offset_bottom = 739.0
 grow_horizontal = 1
 grow_vertical = 1
 
+[node name="BuildPanel" parent="TabContainer/BaseTab" instance=ExtResource("2_chwn1")]
+layout_mode = 1
+offset_left = 1353.0
+offset_top = 739.0
+offset_right = -25.0
+offset_bottom = -2.0
+
 [node name="QuestsTab" type="Control" parent="TabContainer"]
-visible = false
 layout_mode = 2
+script = ExtResource("10_hvaui")
 metadata/_tab_index = 1
 
-[node name="Label" type="Label" parent="TabContainer/QuestsTab"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/QuestsTab"]
 layout_mode = 0
-offset_left = 340.0
-offset_top = 244.0
-offset_right = 510.0
-offset_bottom = 267.0
-text = "This is the Quests tab."
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1710.0
+offset_bottom = 920.0
+
+[node name="QuestVBox" type="VBoxContainer" parent="TabContainer/QuestsTab/HBoxContainer"]
+custom_minimum_size = Vector2(850, 910)
+layout_mode = 2
+
+[node name="ActiveScroll" type="ScrollContainer" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox"]
+custom_minimum_size = Vector2(850, 460)
+layout_mode = 2
+
+[node name="ActiveList" type="ItemList" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox/ActiveScroll"]
+custom_minimum_size = Vector2(850, 460)
+layout_mode = 2
+
+[node name="CompleteScroll" type="ScrollContainer" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox"]
+custom_minimum_size = Vector2(850, 460)
+layout_mode = 2
+
+[node name="CompleteList" type="ItemList" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox/CompleteScroll"]
+custom_minimum_size = Vector2(850, 460)
+layout_mode = 2
+
+[node name="DisplayVBox" type="VBoxContainer" parent="TabContainer/QuestsTab/HBoxContainer"]
+layout_mode = 2
+
+[node name="DisplayScroll" type="ScrollContainer" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox"]
+custom_minimum_size = Vector2(850, 850)
+layout_mode = 2
+
+[node name="DisplayLabel" type="Label" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox/DisplayScroll"]
+custom_minimum_size = Vector2(850, 0)
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="Panel" type="Panel" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="TrackButton" type="Button" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox/Panel"]
+layout_mode = 0
+offset_left = 338.0
+offset_top = 21.0
+offset_right = 439.0
+offset_bottom = 52.0
+text = "Track Quest"
+
+[node name="QuestTestLabel" type="Label" parent="TabContainer/QuestsTab"]
+layout_mode = 0
+offset_left = 553.0
+offset_top = 33.0
+offset_right = 904.0
+offset_bottom = 679.0
 
 [node name="OptionsTab" type="Control" parent="TabContainer"]
 visible = false

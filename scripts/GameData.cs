@@ -22,9 +22,17 @@ public partial class GameData : Node
 	public static Dictionary<string, float> resources = new();
 	public static List<Machine> machines = new();
 	
+	public static QuestData trackedQuest;
+	
 	public static ResourceControl resourceControl;
 	public static MachinesControl machinesControl;
 	public static HarvestControl harvestControl;
+	public static BuildControl buildControl;
+	public static QuestControl questControl;
+	
+	public static Label objectiveLabel;
+	
+	private static bool questUpdateFunctioning;
 	
 	public override void _Ready()
 	{
@@ -40,13 +48,20 @@ public partial class GameData : Node
 		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
 		machinesControl = GetNode<MachinesControl>("../TabContainer/BaseTab/MachineScroll/VBoxContainer");
 		harvestControl = GetNode<HarvestControl>("../TabContainer/BaseTab/HarvestPanel");
-		//var machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
-		//machinesControl.AddStartingMachines();
+		buildControl = GetNode<BuildControl>("../TabContainer/BaseTab/BuildPanel");
+		questControl = GetNode<QuestControl>("../TabContainer/QuestsTab");
+		
+		objectiveLabel = GetNode<Label>("../TabContainer/BaseTab/QuestPanel/ObjectiveScroll/ObjectiveLabel");
+		
+		questUpdateFunctioning = true;
+		
+		UpdateQuestTracking();
 	}
 	
 	public override void _Process(double delta)
 	{
 		ProcessMachines(delta);
+		UpdateQuestTracking();
 	}
 	
 	public static void LoadAll()
@@ -129,6 +144,94 @@ public partial class GameData : Node
 				machines.Add(new Machine(mach.Key));
 				GD.Print($"GameData: Adding machine {mach.Value.name}");
 			}
+		}
+	}
+	
+	public static void UpdateQuestTracking()
+	{
+		if (!questUpdateFunctioning)
+		{
+			return;
+		}
+		
+		if (questControl != null && trackedQuest != null && trackedQuest.name != "No name")
+		{
+			String text = trackedQuest.name;
+			
+			QuestRequirement requirements = trackedQuest.requirement;
+			
+			if (requirements.resources.Count > 0)
+			{
+				text += "\n\nResources:";
+				
+				foreach (var res in requirements.resources)
+				{
+					ResourceData resource = RESOURCES[res.Key];
+					float available = resources[res.Key];
+					
+					text += $"\n{resource.name}: {FormatUnit(available, res.Key)} / {FormatUnit(res.Value, res.Key)}";
+				}
+			}
+			
+			if (requirements.machines.Count > 0)
+			{
+				text += "\n\nMachines:";
+				
+				foreach (var mach in requirements.machines)
+				{
+					MachineData machine = MACHINES[mach.Key];
+					int machineCount = 0;
+					
+					foreach (Machine mach2 in machines)
+					{
+						if (mach2.id == mach.Key)
+						{
+							machineCount++;
+						}
+					}
+					
+					text += $"\n{machine.name}: {machineCount} / {mach.Value}";
+				}
+			}
+			
+			if (requirements.quests.Count > 0)
+			{
+				text += "\n\nQuests:";
+				
+				foreach (var qst in requirements.quests)
+				{
+					QuestData quest = QUESTS[qst];
+					String questState;
+					
+					bool active = questControl.activeQuests.ContainsKey(qst);
+					bool complete = questControl.completeQuests.ContainsKey(qst);
+					
+					if (active && complete)
+					{
+						questState = "Error: A & C";
+					}
+					else if (active)
+					{
+						questState = "Active";
+					}
+					else if (complete)
+					{
+						questState = "Complete";
+					}
+					else
+					{
+						questState = "Incomplete";
+					}
+					
+					text += $"\n{quest.name}: {questState}";
+				}
+			}
+			
+			objectiveLabel.Text = text;
+		}
+		else
+		{
+			objectiveLabel.Text = "No quest tracked.";
 		}
 	}
 	
