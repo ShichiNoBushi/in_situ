@@ -58,6 +58,23 @@ public partial class QuestControl : Control
 	{
 	}
 	
+	public void UpdateQuestLists()
+	{
+		activeList.Clear();
+		completeList.Clear();
+		displayLabel.Text = "No quest selected";
+		
+		foreach (var quest in activeQuests)
+		{
+			activeList.AddItem(quest.Value.name);
+		}
+		
+		foreach (var quest in completeQuests)
+		{
+			completeList.AddItem(quest.Value.name);
+		}
+	}
+	
 	private void DisplayQuestsTest()
 	{
 		GD.Print("QuestControl: Testing loaded quests...");

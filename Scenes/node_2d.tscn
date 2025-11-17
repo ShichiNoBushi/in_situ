@@ -20,10 +20,9 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 1
+current_tab = 0
 
 [node name="BaseTab" type="Control" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -106,6 +105,7 @@ offset_right = -25.0
 offset_bottom = -2.0
 
 [node name="QuestsTab" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 script = ExtResource("10_hvaui")
 metadata/_tab_index = 1
@@ -147,6 +147,7 @@ layout_mode = 2
 [node name="DisplayLabel" type="Label" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox/DisplayScroll"]
 custom_minimum_size = Vector2(850, 0)
 layout_mode = 2
+text = "No quest selected"
 autowrap_mode = 2
 
 [node name="Panel" type="Panel" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox"]

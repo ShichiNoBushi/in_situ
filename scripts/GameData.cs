@@ -62,6 +62,7 @@ public partial class GameData : Node
 	{
 		ProcessMachines(delta);
 		UpdateQuestTracking();
+		CheckQuests();
 	}
 	
 	public static void LoadAll()
@@ -348,6 +349,86 @@ public partial class GameData : Node
 		}
 		
 		return Math.Clamp(minRatio, 0f, 1f);
+	}
+	
+	private static void CheckQuests()
+	{
+		List<String> toComplete = new();
+		
+		foreach (var quest in questControl.activeQuests)
+		{
+			if (IsQuestFulfilled(quest.Value))
+			{
+				toComplete.Add(quest.Key);
+				GD.Print($"GameData: {quest.Value.name} quest completed");
+			}
+		}
+		
+		foreach (var questKey in toComplete)
+		{
+			CompleteQuest(questKey);
+		}
+	}
+	
+	private static bool IsQuestFulfilled(QuestData quest)
+	{
+		QuestRequirement requirements = quest.requirement;
+		Dictionary<String, float> resRequirements = requirements.resources;
+		Dictionary<String, int> machRequirements = requirements.machines;
+		List<String> qstRequirements = requirements.quests;
+		
+		bool resFulfilled = resRequirements.All(res => GameData.resources[res.Key] >= res.Value);
+		bool machFulfilled = machRequirements.All(mach => GameData.machines.Count(m => m.id == mach.Key) >= mach.Value);
+		bool qstFulfilled = qstRequirements.All(qst => questControl.completeQuests.ContainsKey(qst));
+		
+		return resFulfilled && machFulfilled && qstFulfilled;
+	}
+	
+	private static void CompleteQuest(String questKey)
+	{
+		if (questControl.completeQuests.ContainsKey(questKey))
+		{
+			return;
+		}
+		
+		QuestData quest = QUESTS[questKey];
+		questControl.activeQuests.Remove(questKey);
+		questControl.completeQuests[questKey] = quest;
+		
+		GD.Print($"Completing quest {quest.name}");
+		
+		QuestUnlock unlocks = quest.unlocks;
+		
+		foreach (var q in unlocks.quests)
+		{
+			if (!questControl.activeQuests.ContainsKey(q))
+			{
+				GD.Print($"Unlock quest {QUESTS[q].name}");
+				questControl.activeQuests[q] = QUESTS[q];
+			}
+		}
+		
+		foreach (var rec in unlocks.recipes)
+		{
+			GD.Print($"Unlock recipe {RECIPES[rec].name}");
+			RECIPES[rec].available = true;
+		}
+		
+		foreach (var mach in unlocks.machines)
+		{
+			GD.Print($"Unlock machine {MACHINES[mach].name}");
+			MACHINES[mach].available = true;
+		}
+		
+		GD.Print("GameData: Updating menus...");
+		
+		questControl.UpdateQuestLists();
+		
+		GD.Print("GameData: checking unlocked quests...");
+		CheckQuests();
+		
+		buildControl.UpdateBuildMenu();
+		machinesControl.UpdateMachinePanels();
 	}
 }
 

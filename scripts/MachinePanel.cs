@@ -32,11 +32,7 @@ public partial class MachinePanel : Control
 	{
 		nameLabel.Text = GameData.MACHINES[machine.id].name;
 		
-		recipeMenu.Clear();
-		foreach (var rid in machine.recipes)
-		{
-			recipeMenu.AddItem(GameData.RECIPES[rid].name);
-		}
+		UpdateRecipeMenu();
 		
 		DisplayRecipeResources();
 		recipeProgress.Value = 0;
@@ -62,6 +58,36 @@ public partial class MachinePanel : Control
 	public override void _Process(double delta)
 	{
 		DisplayRecipeResources();
+	}
+	
+	public void UpdateRecipeMenu()
+	{
+		GD.Print($"MachinePanel: Updating menu for {GameData.MACHINES[machine.id].name}");
+		recipeMenu.Clear();
+			
+		bool found = false;
+		
+		foreach (var rid in machine.recipes)
+		{
+			RecipeData recipe = GameData.RECIPES[rid];
+			
+			if (recipe.available)
+			{
+				GD.Print($"Adding recipe {recipe.name} for {GameData.MACHINES[machine.id].name}");
+				recipeMenu.AddItem(recipe.name);
+				found = true;
+			}
+		}
+		
+		recipeMenu.Disabled = !found;
+		
+		if (!found)
+		{
+			recipeMenu.AddItem("No available recipes");
+		}
+		
+		recipeMenu.Select(0);
+		machine.SetRecipe(GameData.recNameToKey[recipeMenu.GetItemText(0)]);
 	}
 	
 	private void DisplayRecipeResources()

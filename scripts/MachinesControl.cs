@@ -41,6 +41,18 @@ public partial class MachinesControl : VBoxContainer
 			GD.PrintErr($"Error initializing MachinePanel for {mach.id}: {e}");
 		}
 	}
+	
+	public void UpdateMachinePanels()
+	{
+		GD.Print("MachinesControl: Updating panel recipe menues...");
+		foreach (var child in GetChildren())
+		{
+			if (child is MachinePanel mp)
+			{
+				mp.UpdateRecipeMenu();
+			}
+		}
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

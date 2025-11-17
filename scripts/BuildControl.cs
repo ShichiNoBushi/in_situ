@@ -25,10 +25,7 @@ public partial class BuildControl : Control
 		resourceLabel = GetNode<Label>("Panel/CostScroll/ResourceLabel");
 		buildProgress = GetNode<ProgressBar>("Panel/BuildProgress");
 		
-		foreach (var mach in GameData.MACHINES)
-		{
-			machineMenu.AddItem(mach.Value.name);
-		}
+		UpdateBuildMenu();
 		
 		int idx = machineMenu.GetSelectedId();
 		machKey = GameData.machNameToKey[machineMenu.GetItemText(idx)];
@@ -59,6 +56,39 @@ public partial class BuildControl : Control
 		}
 		
 		DisplayResources();
+	}
+	
+	public void UpdateBuildMenu()
+	{
+		GD.Print("BuildControl: Updating build menu...");
+		machineMenu.Clear();
+		
+		bool found = false;
+		
+		foreach (var mach in GameData.MACHINES)
+		{
+			if (mach.Value.available)
+			{
+				GD.Print($"BuildControl: Adding machine {mach.Value.name}");
+				machineMenu.AddItem(mach.Value.name);
+				found = true;
+			}
+		}
+		
+		machineMenu.Disabled = !found;
+		
+		if (!found)
+		{
+			GD.Print("BuildControl: No machines available");
+			machineMenu.AddItem("No available machines");
+		}
+		else
+		{
+			machineMenu.Select(0);
+			GD.Print("BuildControl: Selecting machine id 0");
+			SelectMachine((long)0);
+			GD.Print("BuildControl: Mahchine selected");
+		}
 	}
 	
 	private bool EnoughResources()
@@ -108,6 +138,7 @@ public partial class BuildControl : Control
 	private void SelectMachine(long index)
 	{
 		machKey = GameData.machNameToKey[machineMenu.GetItemText((int)index)];
+		GD.Print($"BuildControl: Selecting machine {GameData.MACHINES[machKey]} at index {index}");
 		selectedMachine = GameData.MACHINES[machKey];
 	}
 	
