@@ -71,7 +71,7 @@ public partial class MachinePanel : Control
 		{
 			RecipeData recipe = GameData.RECIPES[rid];
 			
-			if (recipe.available)
+			if (GameData.unlockAllRecipes || recipe.available)
 			{
 				GD.Print($"Adding recipe {recipe.name} for {GameData.MACHINES[machine.id].name}");
 				recipeMenu.AddItem(recipe.name);
@@ -83,11 +83,16 @@ public partial class MachinePanel : Control
 		
 		if (!found)
 		{
+			GD.Print($"MachinePanel: No recipes available for {GameData.MACHINES[machine.id].name}");
 			recipeMenu.AddItem("No available recipes");
 		}
-		
-		recipeMenu.Select(0);
-		machine.SetRecipe(GameData.recNameToKey[recipeMenu.GetItemText(0)]);
+		else
+		{
+			GD.Print("MachinePanel: Selecting recipe at index 0");
+			recipeMenu.Select(0);
+			machine.SetRecipe(GameData.recNameToKey[recipeMenu.GetItemText(0)]);
+			GD.Print("MachinePanel: Recipe selected");
+		}
 	}
 	
 	private void DisplayRecipeResources()

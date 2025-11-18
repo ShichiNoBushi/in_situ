@@ -33,6 +33,8 @@ public partial class GameData : Node
 	public static Label objectiveLabel;
 	
 	private static bool questUpdateFunctioning;
+	public static bool unlockAllMachines;
+	public static bool unlockAllRecipes;
 	
 	public override void _Ready()
 	{
@@ -54,6 +56,8 @@ public partial class GameData : Node
 		objectiveLabel = GetNode<Label>("../TabContainer/BaseTab/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
 		questUpdateFunctioning = true;
+		unlockAllMachines = false;
+		unlockAllRecipes = false;
 		
 		UpdateQuestTracking();
 	}
@@ -427,8 +431,12 @@ public partial class GameData : Node
 		GD.Print("GameData: checking unlocked quests...");
 		CheckQuests();
 		
+		GD.Print("GameData: Calling buildControl.UpdateBuildMenu()");
 		buildControl.UpdateBuildMenu();
+		GD.Print("GameData: Calling machinesControl.UpdateMachinePanels()");
 		machinesControl.UpdateMachinePanels();
+		
+		GD.Print($"-- GameData: Finished quest completion events for quest {quest.name} --");
 	}
 }
 

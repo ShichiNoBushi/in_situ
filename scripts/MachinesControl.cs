@@ -44,7 +44,7 @@ public partial class MachinesControl : VBoxContainer
 	
 	public void UpdateMachinePanels()
 	{
-		GD.Print("MachinesControl: Updating panel recipe menues...");
+		GD.Print("MachinesControl: Updating panel recipe menus...");
 		foreach (var child in GetChildren())
 		{
 			if (child is MachinePanel mp)

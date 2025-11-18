@@ -64,7 +64,7 @@
 		"hint": "Under the build menu, select the magnetizer machine. Make sure you have 10g of iron plates and copper wire, then click the \"Build\" button. Also set the component printer to produce iron rods."
 	},
 	"electromagnetism pt2": {
-		"name": "Electromagnetism Part III",
+		"name": "Electromagnetism Part II",
 		"start": false,
 		"requirement": {
 			"resources": {"magnet": 10},

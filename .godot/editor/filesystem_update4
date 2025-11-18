@@ -12,3 +12,4 @@ res://scripts/HarvestControl.cs
 res://Scenes/BuildPanel.tscn
 res://scripts/BuildControl.cs
 res://scripts/QuestControl.cs
+res://data/quests.json

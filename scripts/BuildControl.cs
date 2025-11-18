@@ -17,23 +17,47 @@ public partial class BuildControl : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GD.Print("BuildControl: _Ready() called...");
+		
 		building = false;
 		buildTimer = 0f;
 		
+		GD.Print("BuildControl: Assigning node references...");
+		GD.Print("    MachineMenu");
 		machineMenu = GetNode<OptionButton>("Panel/MachineMenu");
+		GD.Print("    BuildButton");
 		buildButton = GetNode<Button>("Panel/BuildButton");
+		GD.Print("    ResourceLabel");
 		resourceLabel = GetNode<Label>("Panel/CostScroll/ResourceLabel");
+		GD.Print("    BuildProgress");
 		buildProgress = GetNode<ProgressBar>("Panel/BuildProgress");
 		
 		UpdateBuildMenu();
+		GD.Print("BuildControl: UpdateBuildMenu() successfully completed");
 		
-		int idx = machineMenu.GetSelectedId();
-		machKey = GameData.machNameToKey[machineMenu.GetItemText(idx)];
-		selectedMachine = GameData.MACHINES[machKey];
+		int idx = machineMenu.GetSelected();
+		GD.Print($"BuildControl: index set to {idx}"); //_Ready() stops here <--
+		
+		String selected = machineMenu.GetItemText(idx);
+		if (GameData.machNameToKey.ContainsKey(selected))
+		{
+			machKey = GameData.machNameToKey[selected];
+			GD.Print($"BuildControl: machKey is {machKey}");
+			selectedMachine = GameData.MACHINES[machKey];
+			GD.Print($"BuildControl: At start, selectedMachine is {selectedMachine.name}");
+		}
+		else
+		{
+			machKey = "";
+			selectedMachine = null;
+			GD.Print("BuildControl: At start, selectedMachine is null");
+		}
 		
 		DisplayResources();
 		
+		GD.Print("BuildControl: Assigning StartBuild() function");
 		buildButton.Pressed += StartBuild;
+		GD.Print("BuildControl: Assigning SelectMachine() function");
 		machineMenu.ItemSelected += SelectMachine;
 		
 		buildProgress.Value = 0f;
@@ -67,7 +91,7 @@ public partial class BuildControl : Control
 		
 		foreach (var mach in GameData.MACHINES)
 		{
-			if (mach.Value.available)
+			if (GameData.unlockAllMachines || mach.Value.available)
 			{
 				GD.Print($"BuildControl: Adding machine {mach.Value.name}");
 				machineMenu.AddItem(mach.Value.name);
@@ -86,17 +110,45 @@ public partial class BuildControl : Control
 		{
 			machineMenu.Select(0);
 			GD.Print("BuildControl: Selecting machine id 0");
-			SelectMachine((long)0);
-			GD.Print("BuildControl: Mahchine selected");
+			if (machineMenu.ItemCount > 0)
+			{
+				try
+				{
+					SelectMachine(machineMenu.GetSelected());
+				}
+				catch (Exception e)
+				{
+					GD.PrintErr($"BuildControl: Error selecting item {machineMenu.GetSelected()}: {e.Message}");
+				}
+			}
+			GD.Print("BuildControl: Machine selected");
 		}
+		
+		/*if (machineMenu.ItemCount > 0)
+		{
+			SelectMachine(machineMenu.GetSelected());
+		}*/
 	}
 	
 	private bool EnoughResources()
 	{
+		GD.Print("BuildControl: Checking resources...");
 		foreach(var res in selectedMachine.cost)
 		{
-			if (GameData.resources[res.Key] < res.Value)
+			if (!GameData.resources.ContainsKey(res.Key))
 			{
+				GD.PrintErr($"BuildControl: Resource {res.Key} does not exist in GameData.resources");
+				return false;
+			}
+			
+			float available = GameData.resources[res.Key];
+			float required = res.Value;
+			
+			GD.Print($"BuildControl: Checking cost {GameData.RESOURCES[res.Key].name} have {available} need {required}");
+			
+			if (available < required)
+			{
+				GD.Print($"BuildControl: Insufficient resources ({GameData.RESOURCES[res.Key].name})");
 				return false;
 			}
 		}
@@ -106,16 +158,24 @@ public partial class BuildControl : Control
 	
 	private void StartBuild()
 	{
-		//if (!building && EnoughResources())
-		if (!building)
+		GD.Print("BuildControl: Checking build...");
+		
+		if (selectedMachine == null)
 		{
+			GD.Print("BuildControl: selected machine null value");
+			return;
+		}
+		
+		if (!building && EnoughResources())
+		{
+			GD.Print($"BuildControl: Building maching {selectedMachine.name}");
 			buildButton.Disabled = true;
 			machineMenu.Disabled = true;
 			
-			/*foreach(var res in selectedMachine.cost)
+			foreach(var res in selectedMachine.cost)
 			{
 				GameData.resources[res.Key] -= res.Value;
-			}*/
+			}
 			
 			building = true;
 		}
@@ -137,9 +197,28 @@ public partial class BuildControl : Control
 	
 	private void SelectMachine(long index)
 	{
-		machKey = GameData.machNameToKey[machineMenu.GetItemText((int)index)];
-		GD.Print($"BuildControl: Selecting machine {GameData.MACHINES[machKey]} at index {index}");
+		int menuIdx = (int)index;
+		
+		if (menuIdx < 0 || menuIdx >= machineMenu.ItemCount)
+		{
+			GD.PrintErr("BuildControl: Invalid item ID in SelectMachine()");
+			selectedMachine = null;
+			return;
+		}
+		
+		String machName = machineMenu.GetItemText((int)index);
+		
+		if (!GameData.machNameToKey.ContainsKey(machName))
+		{
+			GD.Print($"BuildControl: Machine name {machName} not in machNameToKey");
+			selectedMachine = null;
+			return;
+		}
+		
+		machKey = GameData.machNameToKey[machName];
 		selectedMachine = GameData.MACHINES[machKey];
+		
+		GD.Print($"BuildControl: Selected machine {machName}");
 	}
 	
 	private void DisplayResources()
