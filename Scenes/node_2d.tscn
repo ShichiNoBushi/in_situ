@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene load_steps=13 format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
 [ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_6whob"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://Scenes/ResourceLabel.tscn" id="5_v7gqg"]
 [ext_resource type="PackedScene" uid="uid://onrhwsj7frpm" path="res://Scenes/HarvestPanel.tscn" id="8_v7gqg"]
 [ext_resource type="Script" uid="uid://d3tvug5vn80j4" path="res://scripts/QuestControl.cs" id="10_hvaui"]
+[ext_resource type="PackedScene" uid="uid://1qwolok3tcso" path="res://Scenes/DevControl.tscn" id="11_2ooml"]
+[ext_resource type="Script" uid="uid://co1uc6kkcug1r" path="res://scripts/DevControl.cs" id="12_p20hg"]
 
 [node name="Root" type="Node2D"]
 
@@ -20,9 +22,10 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 2
 
 [node name="BaseTab" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -172,7 +175,6 @@ offset_right = 904.0
 offset_bottom = 679.0
 
 [node name="OptionsTab" type="Control" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -183,3 +185,11 @@ offset_top = 23.0
 offset_right = 904.0
 offset_bottom = 54.0
 text = "Quit"
+
+[node name="DevControl" parent="TabContainer/OptionsTab" instance=ExtResource("11_2ooml")]
+layout_mode = 1
+offset_left = 18.0
+offset_top = 774.0
+offset_right = 18.0
+offset_bottom = 774.0
+script = ExtResource("12_p20hg")

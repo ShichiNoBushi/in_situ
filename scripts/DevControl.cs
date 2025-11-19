@@ -1,0 +1,283 @@
+using Godot;
+using System;
+using System.Text;
+using System.Collections.Generic;
+
+public partial class DevControl : Control
+{
+	private LineEdit devLine;
+	private Button enterButton;
+	private Label devLabel;
+	
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		GD.Print("DevControl: _Ready() called...");
+		
+		devLine = GetNode<LineEdit>("Panel/DevLine");
+		enterButton = GetNode<Button>("Panel/EnterButton");
+		devLabel = GetNode<Label>("Panel/DevLabel");
+		
+		devLine.TextSubmitted += SubmitText;
+		enterButton.Pressed += SubmitButton;
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
+	
+	private void SubmitText(String text)
+	{
+		ExecuteCommand(text);
+		devLine.Clear();
+	}
+	
+	private void SubmitButton()
+	{
+		ExecuteCommand(devLine.Text);
+		devLine.Clear();
+	}
+	
+	private void ExecuteCommand(String text)
+	{
+		GD.Print($"DevControl: Command entered \"{text}\"");
+		
+		String[] args = SplitQuoted(text);
+		
+		String cmd = args[0].ToLower();
+		
+		try
+		{
+			switch (cmd)
+			{
+				case "give":
+					HandleGive(args);
+					break;
+				case "unlock":
+					HandleUnlock(args);
+					break;
+				case "complete":
+					HandleComplete(args);
+					break;
+				default:
+					devLabel.Text = $"Unknown command {cmd}";
+					break;
+			}
+		}
+		catch (Exception e)
+		{
+			String message = $"DevControl: Error {e.Message}";
+			devLabel.Text = message;
+			GD.PrintErr(message);
+		}
+	}
+	
+	private void HandleGive(String[] args)
+	{
+		if (args.Length < 4)
+		{
+			devLabel.Text = "Give format \"give resource <name> <amount>\"";
+			return;
+		}
+		
+		String category = args[1].ToLower();
+		
+		if (category == "resource")
+		{
+			String resName = args[2];
+			
+			if (!float.TryParse(args[3], out float amount))
+			{
+				devLabel.Text = $"Invalid amount: {args[3]}";
+				return;
+			}
+			
+			if (!GameData.RESOURCES.ContainsKey(resName))
+			{
+				if (GameData.resNameToKey.ContainsKey(resName))
+				{
+					resName = GameData.resNameToKey[resName];
+				}
+				else
+				{
+					devLabel.Text = $"No such resource {resName}";
+					return;
+				}
+			}
+			
+			GameData.resources[resName] += amount;
+			
+			devLabel.Text = $"Gave {amount} of {GameData.RESOURCES[resName].name}.";
+		}
+		else
+		{
+			devLabel.Text = "Give format \"give resource <name> <amount>\"";
+		}
+	}
+	
+	private void HandleUnlock(String[] args)
+	{
+		if (args.Length < 3)
+		{
+			devLabel.Text = "Unlock format \"unlock recipe/machine/quest <name>\"";
+			return;
+		}
+		
+		String type = args[1].ToLower();
+		String name = args[2];
+		
+		switch(type)
+		{
+			case "recipe":
+				if (!GameData.RECIPES.ContainsKey(name))
+				{
+					if(GameData.recNameToKey.ContainsKey(name))
+					{
+						name = GameData.recNameToKey[name];
+					}
+					else
+					{
+						devLabel.Text = $"No such recipe {name}";
+						return;
+					}
+				}
+				
+				GameData.RECIPES[name].available = true;
+				GameData.machinesControl.UpdateMachinePanels();
+				devLabel.Text = $"Unlocked recipe {GameData.RECIPES[name].name}";
+				break;
+			case "machine":
+				if (!GameData.MACHINES.ContainsKey(name))
+				{
+					if(GameData.machNameToKey.ContainsKey(name))
+					{
+						name = GameData.machNameToKey[name];
+					}
+					else
+					{
+						devLabel.Text = $"No such machine {name}";
+						return;
+					}
+				}
+				
+				GameData.MACHINES[name].available = true;
+				GameData.buildControl.UpdateBuildMenu();
+				devLabel.Text = $"Unlocked machine {GameData.MACHINES[name].name}";
+				break;
+			case "quest":
+				if (!GameData.QUESTS.ContainsKey(name))
+				{
+					if (GameData.qstNameToKey.ContainsKey(name))
+					{
+						name = GameData.qstNameToKey[name];
+					}
+					else
+					{
+						devLabel.Text = $"No such quest {name}";
+						return;
+					}
+				}
+				
+				QuestControl qc = GameData.questControl;
+				
+				if (qc.completeQuests.ContainsKey(name))
+				{
+					devLabel.Text = $"Quest {GameData.QUESTS[name].name} already completed";
+					return;
+				}
+				if (qc.activeQuests.ContainsKey(name))
+				{
+					devLabel.Text = $"Quest {GameData.QUESTS[name].name} already active";
+					return;
+				}
+				
+				qc.activeQuests[name] = GameData.QUESTS[name];
+				qc.UpdateQuestLists();
+				GameData.CheckQuests();
+				devLabel.Text = $"Unlocked quest {GameData.QUESTS[name].name}";
+				break;
+			default:
+				devLabel.Text = "Unlock format \"unlock recipe/machine/quest <name>\"";
+				break;
+		}
+	}
+	
+	private void HandleComplete(String[] args)
+	{
+		if (args.Length < 3)
+		{
+			devLabel.Text = "Complete format \"complete quest <name>\"";
+			return;
+		}
+		
+		String type = args[1].ToLower();
+		String name = args[2];
+		
+		if (type == "quest")
+		{
+			if (!GameData.QUESTS.ContainsKey(name))
+			{
+				if (GameData.qstNameToKey.ContainsKey(name))
+				{
+					name = GameData.qstNameToKey[name];
+				}
+				else
+				{
+					devLabel.Text = $"No such quest {name}";
+					return;
+				}
+			}
+			
+			QuestControl qc = GameData.questControl;
+			
+			if (qc.completeQuests.ContainsKey(name))
+			{
+				devLabel.Text = $"Quest {name} already completed";
+				return;
+			}
+				
+			GameData.CompleteQuest(name);
+			
+			devLabel.Text = $"Quest {GameData.QUESTS[name].name} completed";
+		}
+		else
+		{
+			devLabel.Text = "Complete format \"complete quest <name>\"";
+		}
+	}
+	
+	private static string[] SplitQuoted(string input)
+	{
+		List<String> result = new();
+		bool inQuotes = false;
+		StringBuilder current = new();
+
+		foreach (char c in input)
+		{
+			if (c == '"')
+			{
+				inQuotes = !inQuotes;
+				continue;
+			}
+
+			if (!inQuotes && char.IsWhiteSpace(c))
+			{
+				if (current.Length > 0)
+				{
+					result.Add(current.ToString());
+					current.Clear();
+				}
+			}
+			else
+			{
+				current.Append(c);
+			}
+		}
+
+		if (current.Length > 0)
+			result.Add(current.ToString());
+
+		return result.ToArray();
+	}
+}

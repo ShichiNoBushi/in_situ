@@ -13,3 +13,5 @@ res://Scenes/BuildPanel.tscn
 res://scripts/BuildControl.cs
 res://scripts/QuestControl.cs
 res://data/quests.json
+res://Scenes/DevControl.tscn
+res://scripts/DevControl.cs

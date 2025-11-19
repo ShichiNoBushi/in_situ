@@ -355,7 +355,7 @@ public partial class GameData : Node
 		return Math.Clamp(minRatio, 0f, 1f);
 	}
 	
-	private static void CheckQuests()
+	public static void CheckQuests()
 	{
 		List<String> toComplete = new();
 		
@@ -388,7 +388,7 @@ public partial class GameData : Node
 		return resFulfilled && machFulfilled && qstFulfilled;
 	}
 	
-	private static void CompleteQuest(String questKey)
+	public static void CompleteQuest(String questKey)
 	{
 		if (questControl.completeQuests.ContainsKey(questKey))
 		{
