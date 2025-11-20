@@ -36,11 +36,13 @@ text = "Build
 layout_mode = 0
 offset_left = 4.0
 offset_top = 81.0
-offset_right = 342.0
-offset_bottom = 169.0
+offset_right = 344.0
+offset_bottom = 171.0
 
-[node name="ResourceLabel" type="Label" parent="Panel/CostScroll"]
+[node name="ResourceLabel" type="RichTextLabel" parent="Panel/CostScroll"]
+custom_minimum_size = Vector2(340, 90)
 layout_mode = 2
+bbcode_enabled = true
 text = "No machine selected."
 
 [node name="BuildProgress" type="ProgressBar" parent="Panel"]

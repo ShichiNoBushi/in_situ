@@ -298,7 +298,7 @@
 	},
 	"electric motor": {
 		"name": "Electric Motor",
-		"abbreviation": "motor",
+		"abbreviation": "Motor",
 		"type": "component",
 		"subtypes": ["mechanical", "electronic"],
 		"phase": "solid",

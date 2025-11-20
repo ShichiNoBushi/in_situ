@@ -22,10 +22,9 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 2
+current_tab = 0
 
 [node name="BaseTab" type="Control" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -175,6 +174,7 @@ offset_right = 904.0
 offset_bottom = 679.0
 
 [node name="OptionsTab" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

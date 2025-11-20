@@ -11,7 +11,7 @@ public partial class BuildControl : Control
 	
 	OptionButton machineMenu;
 	Button buildButton;
-	Label resourceLabel;
+	RichTextLabel resourceLabel;
 	ProgressBar buildProgress;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -23,41 +23,35 @@ public partial class BuildControl : Control
 		buildTimer = 0f;
 		
 		GD.Print("BuildControl: Assigning node references...");
-		GD.Print("    MachineMenu");
 		machineMenu = GetNode<OptionButton>("Panel/MachineMenu");
-		GD.Print("    BuildButton");
 		buildButton = GetNode<Button>("Panel/BuildButton");
-		GD.Print("    ResourceLabel");
-		resourceLabel = GetNode<Label>("Panel/CostScroll/ResourceLabel");
-		GD.Print("    BuildProgress");
+		resourceLabel = GetNode<RichTextLabel>("Panel/CostScroll/ResourceLabel");
 		buildProgress = GetNode<ProgressBar>("Panel/BuildProgress");
+		
+		resourceLabel.TabStops = new float[] {0f, 250f, 300f};
 		
 		UpdateBuildMenu();
 		GD.Print("BuildControl: UpdateBuildMenu() successfully completed");
 		
 		int idx = machineMenu.GetSelected();
-		GD.Print($"BuildControl: index set to {idx}"); //_Ready() stops here <--
+		GD.Print($"BuildControl: index set to {idx}");
 		
 		String selected = machineMenu.GetItemText(idx);
 		if (GameData.machNameToKey.ContainsKey(selected))
 		{
 			machKey = GameData.machNameToKey[selected];
-			GD.Print($"BuildControl: machKey is {machKey}");
 			selectedMachine = GameData.MACHINES[machKey];
-			GD.Print($"BuildControl: At start, selectedMachine is {selectedMachine.name}");
 		}
 		else
 		{
 			machKey = "";
 			selectedMachine = null;
-			GD.Print("BuildControl: At start, selectedMachine is null");
 		}
 		
+		GD.Print("BuildControl: Displaying initial resources...");
 		DisplayResources();
 		
-		GD.Print("BuildControl: Assigning StartBuild() function");
 		buildButton.Pressed += StartBuild;
-		GD.Print("BuildControl: Assigning SelectMachine() function");
 		machineMenu.ItemSelected += SelectMachine;
 		
 		buildProgress.Value = 0f;
@@ -230,7 +224,9 @@ public partial class BuildControl : Control
 			foreach (var res in selectedMachine.cost)
 			{
 				var resData = GameData.RESOURCES[res.Key];
-				resourceCost += $"\n{resData.abbreviation} {GameData.resources[res.Key]} / {res.Value}";
+				//resourceCost += $"\n{resData.abbreviation} {GameData.resources[res.Key]} / {res.Value}";
+				resourceCost += $"\n[code]{resData.abbreviation, -15} {GameData.FormatUnit(GameData.resources[res.Key], res.Key), 8} / {GameData.FormatUnit(res.Value, res.Key), 8}[/code]";
+				//resourceCost += $"\n{resData.abbreviation}\t{GameData.FormatUnit(GameData.resources[res.Key], res.Key)} /\t{GameData.FormatUnit(res.Value, res.Key)}";
 			}
 			
 			resourceLabel.Text = resourceCost;
