@@ -274,7 +274,7 @@ public partial class GameData : Node
 			return "Negligible";
 		}
 		
-		return $"{display:0.##} {prefix}{unit}";
+		return $"{display:0.00} {prefix}{unit}";
 	}
 	
 	private void ProcessMachines(double delta)

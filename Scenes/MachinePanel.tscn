@@ -12,13 +12,13 @@ script = ExtResource("1_56xds")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 300.0
+offset_right = 500.0
 offset_bottom = 275.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 0
-offset_right = 300.0
-offset_bottom = 274.0
+offset_right = 450.0
+offset_bottom = 276.0
 
 [node name="MachineName" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
@@ -39,15 +39,17 @@ popup/item_0/id = 0
 layout_mode = 2
 alignment = 1
 
-[node name="Inputs" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(150, 150)
+[node name="Inputs" type="RichTextLabel" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
+bbcode_enabled = true
 text = "Inputs:
 No Recipe"
 
-[node name="Outputs" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(150, 150)
+[node name="Outputs" type="RichTextLabel" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 2
+bbcode_enabled = true
 text = "Outputs:
 No Recipe"
 

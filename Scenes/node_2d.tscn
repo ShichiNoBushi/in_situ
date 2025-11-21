@@ -42,8 +42,8 @@ script = ExtResource("2_6whob")
 
 [node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
 layout_mode = 0
-offset_left = 995.0
-offset_right = 1365.0
+offset_left = 860.0
+offset_right = 1230.0
 offset_bottom = 731.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/ResourceScroll"]
@@ -54,9 +54,10 @@ ResourceLabelScene = ExtResource("5_v7gqg")
 
 [node name="MachineScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
 layout_mode = 0
-offset_left = 1373.0
-offset_right = 1679.625
-offset_bottom = 731.0
+offset_left = 1230.0
+offset_top = 2.0
+offset_right = 1730.0
+offset_bottom = 733.0
 horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/MachineScroll"]

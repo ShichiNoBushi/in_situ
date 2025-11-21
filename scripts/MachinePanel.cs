@@ -9,8 +9,8 @@ public partial class MachinePanel : Control
 	private Label nameLabel;
 	private CheckButton activeButton;
 	private OptionButton recipeMenu;
-	private Label inputLabel;
-	private Label outputLabel;
+	private RichTextLabel inputLabel;
+	private RichTextLabel outputLabel;
 	private ProgressBar recipeProgress;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -20,8 +20,8 @@ public partial class MachinePanel : Control
 		nameLabel = GetNode<Label>("Panel/VBoxContainer/MachineName");
 		activeButton = GetNode<CheckButton>("Panel/VBoxContainer/ActiveButton");
 		recipeMenu = GetNode<OptionButton>("Panel/VBoxContainer/RecipeOption");
-		inputLabel = GetNode<Label>("Panel/VBoxContainer/HBoxContainer/Inputs");
-		outputLabel = GetNode<Label>("Panel/VBoxContainer/HBoxContainer/Outputs");
+		inputLabel = GetNode<RichTextLabel>("Panel/VBoxContainer/HBoxContainer/Inputs");
+		outputLabel = GetNode<RichTextLabel>("Panel/VBoxContainer/HBoxContainer/Outputs");
 		recipeProgress = GetNode<ProgressBar>("Panel/VBoxContainer/ProgressBar");
 		
 		activeButton.Toggled += OnActiveToggled;
@@ -113,7 +113,8 @@ public partial class MachinePanel : Control
 					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
 					String availResForm = GameData.FormatUnit(GameData.resources[res.Key], res.Key);
 					String inputResForm = GameData.FormatUnit(res.Value, res.Key);
-					inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
+					//inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
+					inputDisplay += $"\n[code]{resAbbrev, -15}:{availResForm, 8} / {inputResForm, 8}[/code]";
 				}
 			}
 			else
@@ -131,7 +132,8 @@ public partial class MachinePanel : Control
 				{
 					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
 					String outputResForm = GameData.FormatUnit(res.Value, res.Key);
-					outputDisplay += $"\n{resAbbrev}: {outputResForm}";
+					//outputDisplay += $"\n{resAbbrev}: {outputResForm}";
+					outputDisplay += $"\n[code]{resAbbrev, -15}:{outputResForm, 8}[/code]";
 				}
 			}
 			else

@@ -225,7 +225,7 @@ public partial class BuildControl : Control
 			{
 				var resData = GameData.RESOURCES[res.Key];
 				//resourceCost += $"\n{resData.abbreviation} {GameData.resources[res.Key]} / {res.Value}";
-				resourceCost += $"\n[code]{resData.abbreviation, -15} {GameData.FormatUnit(GameData.resources[res.Key], res.Key), 8} / {GameData.FormatUnit(res.Value, res.Key), 8}[/code]";
+				resourceCost += $"\n[code]{resData.abbreviation, -20} {GameData.FormatUnit(GameData.resources[res.Key], res.Key), 8} / {GameData.FormatUnit(res.Value, res.Key), 8}[/code]";
 				//resourceCost += $"\n{resData.abbreviation}\t{GameData.FormatUnit(GameData.resources[res.Key], res.Key)} /\t{GameData.FormatUnit(res.Value, res.Key)}";
 			}
 			
