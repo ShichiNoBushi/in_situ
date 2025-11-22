@@ -12,7 +12,7 @@ script = ExtResource("1_56xds")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 500.0
+offset_right = 562.0
 offset_bottom = 275.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
@@ -47,7 +47,7 @@ text = "Inputs:
 No Recipe"
 
 [node name="Outputs" type="RichTextLabel" parent="Panel/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 150)
+custom_minimum_size = Vector2(250, 150)
 layout_mode = 2
 bbcode_enabled = true
 text = "Outputs:
@@ -57,3 +57,27 @@ No Recipe"
 custom_minimum_size = Vector2(300, 25)
 layout_mode = 2
 show_percentage = false
+
+[node name="Available" type="RichTextLabel" parent="Panel"]
+visible = false
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 0
+offset_left = 154.0
+offset_top = 97.0
+offset_right = 304.0
+offset_bottom = 247.0
+bbcode_enabled = true
+text = "
+No resources"
+
+[node name="Produced" type="RichTextLabel" parent="Panel"]
+visible = false
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 0
+offset_left = 329.0
+offset_top = 97.0
+offset_right = 429.0
+offset_bottom = 247.0
+bbcode_enabled = true
+text = "
+No resources"

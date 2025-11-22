@@ -219,15 +219,17 @@ public partial class BuildControl : Control
 	{
 		if(GameData.MACHINES.ContainsKey(machKey))
 		{
-			String resourceCost = "Cost:";
+			String resourceCost = "Cost:\n[table=5]";
 			
 			foreach (var res in selectedMachine.cost)
 			{
 				var resData = GameData.RESOURCES[res.Key];
 				//resourceCost += $"\n{resData.abbreviation} {GameData.resources[res.Key]} / {res.Value}";
-				resourceCost += $"\n[code]{resData.abbreviation, -20} {GameData.FormatUnit(GameData.resources[res.Key], res.Key), 8} / {GameData.FormatUnit(res.Value, res.Key), 8}[/code]";
+				resourceCost += $"\n[cell]{resData.abbreviation}[/cell][cell]:[/cell][cell][right]{GameData.FormatUnit(GameData.resources[res.Key], res.Key)}[/right][/cell][cell]/[/cell][cell][right]{GameData.FormatUnit(res.Value, res.Key)}[/right][/cell]";
 				//resourceCost += $"\n{resData.abbreviation}\t{GameData.FormatUnit(GameData.resources[res.Key], res.Key)} /\t{GameData.FormatUnit(res.Value, res.Key)}";
 			}
+			
+			resourceCost += "\n[/table]";
 			
 			resourceLabel.Text = resourceCost;
 		}
