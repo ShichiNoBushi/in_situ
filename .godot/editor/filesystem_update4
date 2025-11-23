@@ -16,3 +16,4 @@ res://data/quests.json
 res://Scenes/DevControl.tscn
 res://scripts/DevControl.cs
 res://data/resources.json
+res://data/regions.json

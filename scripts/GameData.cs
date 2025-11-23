@@ -7,16 +7,20 @@ using System.Linq;
 
 public partial class GameData : Node
 {
+	public static RandomNumberGenerator rng = new();
+	
 	public static Dictionary<string, ResourceData> RESOURCES = new();
 	public static Dictionary<string, HarvestData> HARVEST = new();
 	public static Dictionary<string, MachineData> MACHINES = new();
 	public static Dictionary<string, RecipeData> RECIPES = new();
+	public static Dictionary<string, RegionData> REGIONS = new();
 	public static Dictionary<string, QuestData> QUESTS = new();
 	
 	public static Dictionary<string, string> resNameToKey = new();
 	public static Dictionary<string, string> harvActionToKey = new();
 	public static Dictionary<string, string> machNameToKey = new();
 	public static Dictionary<string, string> recNameToKey = new();
+	public static Dictionary<string, string> regNameToKey = new();
 	public static Dictionary<string, string> qstNameToKey = new();
 	
 	public static Dictionary<string, float> resources = new();
@@ -39,6 +43,9 @@ public partial class GameData : Node
 	public override void _Ready()
 	{
 		GD.Print("GameData._Ready() called from ", GetPath());
+		rng = new();
+		rng.Randomize();
+		
 		LoadAll();
 		GD.Print("Game data loaded automatically.");
 		
@@ -75,12 +82,14 @@ public partial class GameData : Node
 		string harvestPath = ProjectSettings.GlobalizePath("res://data/harvest.json");
 		string machinePath = ProjectSettings.GlobalizePath("res://data/machines.json");
 		string recipePath = ProjectSettings.GlobalizePath("res://data/recipes.json");
+		string regionsPath = ProjectSettings.GlobalizePath("res://data/regions.json");
 		string questPath = ProjectSettings.GlobalizePath("res://data/quests.json");
 		
 		RESOURCES = LoadJson<Dictionary<string, ResourceData>>(resourcePath);
 		HARVEST = LoadJson<Dictionary<string, HarvestData>>(harvestPath);
 		MACHINES = LoadJson<Dictionary<string, MachineData>>(machinePath);
 		RECIPES = LoadJson<Dictionary<string, RecipeData>>(recipePath);
+		REGIONS = LoadJson<Dictionary<string, RegionData>>(regionsPath);
 		QUESTS = LoadJson<Dictionary<string, QuestData>>(questPath);
 	}
 	
@@ -121,6 +130,10 @@ public partial class GameData : Node
 		foreach (var rec in RECIPES)
 		{
 			recNameToKey[rec.Value.name] = rec.Key;
+		}
+		foreach (var reg in REGIONS)
+		{
+			regNameToKey[reg.Value.name] = reg.Key;
 		}
 		foreach (var qst in QUESTS)
 		{
@@ -568,6 +581,81 @@ public class QuestUnlock
 		quests = new List<string>();
 		recipes = new List<string>();
 		machines = new List<string>();
+	}
+}
+
+public class RegionData
+{
+	public String name {get; set;}
+	public float elevation {get; set;}
+	public float temperature {get; set;}
+	public float pressure {get; set;}
+	public float roughness {get; set;}
+	
+	public Dictionary<String, float> resources {get; set;}
+	public Dictionary<String, float> neighbors {get; set;}
+	public Dictionary<String, float> features {get; set;}
+	public Dictionary<String, float> hazards {get; set;}
+	
+	public RegionData()
+	{
+		name = "No name";
+		elevation = 0f;
+		temperature = 0f;
+		pressure = 0f;
+		roughness = 0f;
+		
+		resources = new();
+		neighbors = new();
+		features = new();
+		hazards = new();
+	}
+}
+
+public class Region
+{
+	public RegionData regData;
+	public int coordX;
+	public int coordY;
+	
+	public Dictionary<string, float> resources;
+	public List<Machine> machines;
+	public List<String> nodes;
+	
+	public Region(RegionData data, (int x, int y) coord, bool starting)
+	{
+		regData = data;
+		coordX = coord.x;
+		coordY = coord.y;
+		
+		resources = new();
+		machines = new();
+		nodes = new();
+		
+		foreach (var res in regData.resources)
+		{
+			if (starting || res.Value >= 1f)
+			{
+				if (res.Value >= 0.6f)
+				{
+					nodes.Add(res.Key);
+				}
+			}
+			else
+			{
+				if (GameData.rng.Randf() < res.Value)
+				{
+					nodes.Add(res.Key);
+				}
+			}
+		}
+		
+		foreach (var res in GameData.RESOURCES)
+		{
+			resources[res.Key] = 0f;
+		}
+		
+		machines = new();
 	}
 }
 
