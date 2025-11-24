@@ -43,7 +43,7 @@ public partial class ResourceControl : VBoxContainer
 			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
 			
 			nLabel.Text = res.Value.name;
-			aLabel.Text = GameData.resources[res.Key].ToString();
+			aLabel.Text = GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key);
 			
 			rlabels[res.Key] = aLabel;
 			
@@ -67,7 +67,7 @@ public partial class ResourceControl : VBoxContainer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		foreach(var res in GameData.resources)
+		foreach(var res in GameData.currentRegion.resources)
 		{
 			rlabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
 		}

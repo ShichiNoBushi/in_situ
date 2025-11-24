@@ -106,7 +106,7 @@ public partial class DevControl : Control
 				}
 			}
 			
-			GameData.resources[resName] += amount;
+			GameData.currentRegion.resources[resName] += amount;
 			
 			devLabel.Text = $"Gave {amount} of {GameData.RESOURCES[resName].name}.";
 		}

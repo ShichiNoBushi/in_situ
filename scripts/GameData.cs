@@ -23,8 +23,11 @@ public partial class GameData : Node
 	public static Dictionary<string, string> regNameToKey = new();
 	public static Dictionary<string, string> qstNameToKey = new();
 	
-	public static Dictionary<string, float> resources = new();
-	public static List<Machine> machines = new();
+	public static Dictionary<(int x, int y), Region> regionMap = new();
+	//public static Dictionary<string, float> resources = new();
+	//public static List<Machine> machines = new();
+	
+	public static Region currentRegion;
 	
 	public static QuestData trackedQuest;
 	
@@ -51,8 +54,13 @@ public partial class GameData : Node
 		
 		BuildNameMaps();
 		
+		regionMap = new();
+		
+		GenerateStartingRegion();
 		GiveStartingResources();
 		GiveStartingMachines();
+		
+		currentRegion = regionMap[(0, 0)];
 		
 		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
 		machinesControl = GetNode<MachinesControl>("../TabContainer/BaseTab/MachineScroll/VBoxContainer");
@@ -141,13 +149,19 @@ public partial class GameData : Node
 		}
 	}
 	
+	public static void GenerateStartingRegion()
+	{
+		(int x, int y) origin = (0, 0);
+		regionMap[origin] = new Region(REGIONS["plains"], origin, true);
+	}
+	
 	public static void GiveStartingResources()
 	{
 		GD.Print("GameData: Giving Starting Resources...");
 		
 		foreach(var res in RESOURCES)
 		{
-			resources[res.Key] = res.Value.startingAmount;
+			regionMap[(0, 0)].resources[res.Key] = res.Value.startingAmount;
 		}
 	}
 	
@@ -159,7 +173,7 @@ public partial class GameData : Node
 		{
 			for (int i = 0; i < mach.Value.startingAmount; i++)
 			{
-				machines.Add(new Machine(mach.Key));
+				regionMap[(0, 0)].machines.Add(new Machine(mach.Key, regionMap[(0, 0)]));
 				GD.Print($"GameData: Adding machine {mach.Value.name}");
 			}
 		}
@@ -185,7 +199,13 @@ public partial class GameData : Node
 				foreach (var res in requirements.resources)
 				{
 					ResourceData resource = RESOURCES[res.Key];
-					float available = resources[res.Key];
+					//float available = resources[res.Key];
+					float available = 0f;
+					
+					foreach (var reg in regionMap)
+					{
+						available += reg.Value.resources[res.Key];
+					}
 					
 					text += $"\n{resource.name}: {FormatUnit(available, res.Key)} / {FormatUnit(res.Value, res.Key)}";
 				}
@@ -200,11 +220,14 @@ public partial class GameData : Node
 					MachineData machine = MACHINES[mach.Key];
 					int machineCount = 0;
 					
-					foreach (Machine mach2 in machines)
+					foreach (var reg in regionMap)
 					{
-						if (mach2.id == mach.Key)
+						foreach (Machine mach2 in reg.Value.machines)
 						{
-							machineCount++;
+							if (mach2.id == mach.Key)
+							{
+								machineCount++;
+							}
 						}
 					}
 					
@@ -292,34 +315,37 @@ public partial class GameData : Node
 	
 	private void ProcessMachines(double delta)
 	{
-		foreach (Machine mach in machines)
+		foreach (var reg in regionMap)
 		{
-			if (mach.active && GameData.RECIPES.ContainsKey(mach.currentRecipe))
+			foreach (Machine mach in reg.Value.machines)
 			{
-				float ratio = CanCraft(mach.currentRecipe, delta);
-				
-				if (ratio > 0)
+				if (mach.active && GameData.RECIPES.ContainsKey(mach.currentRecipe))
 				{
-					RecipeData recipe = GameData.RECIPES[mach.currentRecipe];
-					Dictionary<String, float> inputs = recipe.inputs;
+					float ratio = CanCraft(mach.currentRecipe, mach.location, delta);
 					
-					foreach (var res in inputs)
+					if (ratio > 0)
 					{
-						GameData.resources[res.Key] = Math.Max(0f, GameData.resources[res.Key] - res.Value * (float)delta * ratio);
-					}
-					
-					Dictionary<String, float> outputs = recipe.outputs;
-					
-					foreach (var res in outputs)
-					{
-						GameData.resources[res.Key] += res.Value * (float)delta * ratio;
+						RecipeData recipe = GameData.RECIPES[mach.currentRecipe];
+						Dictionary<String, float> inputs = recipe.inputs;
+						
+						foreach (var res in inputs)
+						{
+							reg.Value.resources[res.Key] = Math.Max(0f, reg.Value.resources[res.Key] - res.Value * (float)delta * ratio);
+						}
+						
+						Dictionary<String, float> outputs = recipe.outputs;
+						
+						foreach (var res in outputs)
+						{
+							reg.Value.resources[res.Key] += res.Value * (float)delta * ratio;
+						}
 					}
 				}
 			}
 		}
 	}
 	
-	private float CanCraft(String name, double delta)
+	private float CanCraft(String name, Region reg, double delta)
 	{
 		if (!GameData.RECIPES.ContainsKey(name))
 		{
@@ -343,8 +369,8 @@ public partial class GameData : Node
 				continue;
 			}
 			
-			float available = GameData.resources.ContainsKey(res.Key)
-				? GameData.resources[res.Key]
+			float available = reg.resources.ContainsKey(res.Key)
+				? reg.resources[res.Key]
 				: 0f;
 			float required = res.Value * (float)delta;
 			
@@ -394,8 +420,38 @@ public partial class GameData : Node
 		Dictionary<String, int> machRequirements = requirements.machines;
 		List<String> qstRequirements = requirements.quests;
 		
-		bool resFulfilled = resRequirements.All(res => GameData.resources[res.Key] >= res.Value);
-		bool machFulfilled = machRequirements.All(mach => GameData.machines.Count(m => m.id == mach.Key) >= mach.Value);
+		//bool resFulfilled = resRequirements.All(res => GameData.resources[res.Key] >= res.Value); //include combined regional resources
+		bool resFulfilled = resRequirements.All(req => 
+		{
+			float total = 0f;
+			foreach (var reg in regionMap.Values)
+			{
+				if (reg.resources.ContainsKey(req.Key))
+				{
+					total += reg.resources[req.Key];
+					if (total >= req.Value)
+					{
+						return true;
+					}
+				}
+			}
+			return total >= req.Value;
+		});
+		//bool machFulfilled = machRequirements.All(mach => GameData.machines.Count(m => m.id == mach.Key) >= mach.Value); //include combined regional machines
+		bool machFulfilled = machRequirements.All(req =>
+		{
+			int total = 0;
+			foreach (var reg in regionMap.Values)
+			{
+				total += reg.machines.Count(m => m.id == req.Key);
+				if (total >= req.Value)
+				{
+					return true;
+				}
+			}
+			return total >= req.Value;
+		});
+		
 		bool qstFulfilled = qstRequirements.All(qst => questControl.completeQuests.ContainsKey(qst));
 		
 		return resFulfilled && machFulfilled && qstFulfilled;
@@ -654,8 +710,6 @@ public class Region
 		{
 			resources[res.Key] = 0f;
 		}
-		
-		machines = new();
 	}
 }
 
@@ -665,10 +719,12 @@ public class Machine
 	public bool active {get; private set;}
 	public List<string> recipes {get; private set;} = new();
 	public string currentRecipe {get; private set;}
+	public Region location {get; private set;}
 	
-	public Machine(string machineID)
+	public Machine(string machineID, Region loc)
 	{
 		id = machineID;
+		location = loc;
 		active = false;
 		
 		recipes = new();

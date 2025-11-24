@@ -129,13 +129,13 @@ public partial class BuildControl : Control
 		GD.Print("BuildControl: Checking resources...");
 		foreach(var res in selectedMachine.cost)
 		{
-			if (!GameData.resources.ContainsKey(res.Key))
+			if (!GameData.currentRegion.resources.ContainsKey(res.Key))
 			{
-				GD.PrintErr($"BuildControl: Resource {res.Key} does not exist in GameData.resources");
+				GD.PrintErr($"BuildControl: Resource {res.Key} does not exist in GameData.currentRegion.resources");
 				return false;
 			}
 			
-			float available = GameData.resources[res.Key];
+			float available = GameData.currentRegion.resources[res.Key];
 			float required = res.Value;
 			
 			GD.Print($"BuildControl: Checking cost {GameData.RESOURCES[res.Key].name} have {available} need {required}");
@@ -168,7 +168,7 @@ public partial class BuildControl : Control
 			
 			foreach(var res in selectedMachine.cost)
 			{
-				GameData.resources[res.Key] -= res.Value;
+				GameData.currentRegion.resources[res.Key] -= res.Value;
 			}
 			
 			building = true;
@@ -180,8 +180,8 @@ public partial class BuildControl : Control
 		building = false;
 		buildTimer = 0f;
 		
-		Machine newMachine = new Machine(machKey);
-		GameData.machines.Add(newMachine);
+		Machine newMachine = new Machine(machKey, GameData.currentRegion);
+		GameData.currentRegion.machines.Add(newMachine);
 		GameData.machinesControl.AddMachinePanel(newMachine);
 		
 		buildProgress.Value = 0;
@@ -224,9 +224,9 @@ public partial class BuildControl : Control
 			foreach (var res in selectedMachine.cost)
 			{
 				var resData = GameData.RESOURCES[res.Key];
-				//resourceCost += $"\n{resData.abbreviation} {GameData.resources[res.Key]} / {res.Value}";
-				resourceCost += $"\n[cell]{resData.abbreviation}[/cell][cell]:[/cell][cell][right]{GameData.FormatUnit(GameData.resources[res.Key], res.Key)}[/right][/cell][cell]/[/cell][cell][right]{GameData.FormatUnit(res.Value, res.Key)}[/right][/cell]";
-				//resourceCost += $"\n{resData.abbreviation}\t{GameData.FormatUnit(GameData.resources[res.Key], res.Key)} /\t{GameData.FormatUnit(res.Value, res.Key)}";
+				//resourceCost += $"\n{resData.abbreviation} {GameData.currentRegion.resources[res.Key]} / {res.Value}";
+				resourceCost += $"\n[cell]{resData.abbreviation}[/cell][cell]:[/cell][cell][right]{GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key)}[/right][/cell][cell]/[/cell][cell][right]{GameData.FormatUnit(res.Value, res.Key)}[/right][/cell]";
+				//resourceCost += $"\n{resData.abbreviation}\t{GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key)} /\t{GameData.FormatUnit(res.Value, res.Key)}";
 			}
 			
 			resourceCost += "\n[/table]";

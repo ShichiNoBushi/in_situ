@@ -101,7 +101,7 @@ public partial class MachinePanel : Control
 	
 	private void DisplayRecipeResources()
 	{
-		if (GameData.RECIPES.ContainsKey(machine.currentRecipe))
+		if (GameData.RECIPES.ContainsKey(machine.currentRecipe) && GameData.RECIPES[machine.currentRecipe].available)
 		{
 			RecipeData recipe = GameData.RECIPES[machine.currentRecipe];
 			
@@ -117,7 +117,7 @@ public partial class MachinePanel : Control
 				foreach(var res in inputs)
 				{
 					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
-					String availResForm = GameData.FormatUnit(GameData.resources[res.Key], res.Key);
+					String availResForm = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
 					String inputResForm = GameData.FormatUnit(res.Value, res.Key);
 					//inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
 					inputDisplay += $"\n[cell]{resAbbrev}[/cell][cell]:[/cell][cell][right]{availResForm}[/right][/cell][cell]/[/cell][cell][right]{inputResForm}[/right][/cell]";

@@ -9,8 +9,8 @@ public partial class MachinesControl : VBoxContainer
 	public override void _Ready()
 	{
 		GD.Print("MachinesControl._Ready() called...");
-		GD.Print($"Machine count: {GameData.machines.Count}");
-		foreach (var mach in GameData.machines)
+		GD.Print($"Machine count: {GameData.currentRegion.machines.Count}");
+		foreach (var mach in GameData.currentRegion.machines)
 		{
 			AddMachinePanel(mach);
 		}
@@ -18,7 +18,7 @@ public partial class MachinesControl : VBoxContainer
 	
 	public void AddStartingMachines()
 	{
-		foreach (var mach in GameData.machines)
+		foreach (var mach in GameData.regionMap[(0, 0)].machines)
 		{
 			AddMachinePanel(mach);
 		}

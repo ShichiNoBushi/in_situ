@@ -70,7 +70,7 @@ public partial class HarvestControl : Control
 		
 		String res = harvestAction.resource;
 		
-		GameData.resources[res] += harvestAction.amount;
+		GameData.currentRegion.resources[res] += harvestAction.amount;
 		
 		harvestProgress.Value = 0;
 		harvestButton.Disabled = false;
