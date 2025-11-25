@@ -31,6 +31,7 @@ public partial class GameData : Node
 	
 	public static QuestData trackedQuest;
 	
+	public static TravelControl travelControl;
 	public static ResourceControl resourceControl;
 	public static MachinesControl machinesControl;
 	public static HarvestControl harvestControl;
@@ -56,12 +57,20 @@ public partial class GameData : Node
 		
 		regionMap = new();
 		
-		GenerateStartingRegion();
+		try
+		{
+			GenerateStartingRegion();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Error generating region {e.Message}");
+		}
 		GiveStartingResources();
 		GiveStartingMachines();
 		
 		currentRegion = regionMap[(0, 0)];
 		
+		travelControl = GetNode<TravelControl>("../TabContainer/BaseTab/TravelPanel");
 		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
 		machinesControl = GetNode<MachinesControl>("../TabContainer/BaseTab/MachineScroll/VBoxContainer");
 		harvestControl = GetNode<HarvestControl>("../TabContainer/BaseTab/HarvestPanel");
@@ -151,8 +160,10 @@ public partial class GameData : Node
 	
 	public static void GenerateStartingRegion()
 	{
+		GD.Print("GameData: Generating starting region...");
 		(int x, int y) origin = (0, 0);
 		regionMap[origin] = new Region(REGIONS["plains"], origin, true);
+		GD.Print("GameData: Starting region generated");
 	}
 	
 	public static void GiveStartingResources()
@@ -680,6 +691,7 @@ public class Region
 	
 	public Region(RegionData data, (int x, int y) coord, bool starting)
 	{
+		GD.Print($"GameData: Generating region at ({coord.x}, {coord.y}) Starting: {starting}");
 		regData = data;
 		coordX = coord.x;
 		coordY = coord.y;
@@ -692,8 +704,10 @@ public class Region
 		{
 			if (starting || res.Value >= 1f)
 			{
-				if (res.Value >= 0.6f)
+				GD.Print($"Attempting generation of node for {GameData.RESOURCES[res.Key].name}");
+				if (res.Value >= 0.2f)
 				{
+					GD.Print($"Adding resource node {GameData.RESOURCES[res.Key].name}");
 					nodes.Add(res.Key);
 				}
 			}
@@ -701,6 +715,7 @@ public class Region
 			{
 				if (GameData.rng.Randf() < res.Value)
 				{
+					GD.Print($"Adding resource node {GameData.RESOURCES[res.Key].name}");
 					nodes.Add(res.Key);
 				}
 			}

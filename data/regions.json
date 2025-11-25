@@ -5,7 +5,7 @@
 		"temperature": 30,
 		"pressure": 0.5,
 		"roughness": 0.2,
-		"resources": {"stone": 1.0, "iron, ore": 0.4, "copper ore": 0.4, "ice": 0.2},
+		"resources": {"stone": 1.0, "iron ore": 0.4, "copper ore": 0.4, "ice": 0.2},
 		"neighbors": {"plains": 100},
 		"features": {},
 		"hazards": {}
