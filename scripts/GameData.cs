@@ -22,6 +22,7 @@ public partial class GameData : Node
 	public static Dictionary<string, string> recNameToKey = new();
 	public static Dictionary<string, string> regNameToKey = new();
 	public static Dictionary<string, string> qstNameToKey = new();
+	public static Dictionary<string, (int x, int y)> coordStringToTuple = new();
 	
 	public static Dictionary<(int x, int y), Region> regionMap = new();
 	//public static Dictionary<string, float> resources = new();
@@ -69,6 +70,8 @@ public partial class GameData : Node
 		GiveStartingMachines();
 		
 		currentRegion = regionMap[(0, 0)];
+		
+		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
 		
 		travelControl = GetNode<TravelControl>("../TabContainer/BaseTab/TravelPanel");
 		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
@@ -162,7 +165,7 @@ public partial class GameData : Node
 	{
 		GD.Print("GameData: Generating starting region...");
 		(int x, int y) origin = (0, 0);
-		regionMap[origin] = new Region(REGIONS["plains"], origin, true);
+		regionMap[origin] = new Region(REGIONS["landing zone"], origin);
 		GD.Print("GameData: Starting region generated");
 	}
 	
@@ -322,6 +325,11 @@ public partial class GameData : Node
 		}
 		
 		return $"{display:0.00} {prefix}{unit}";
+	}
+	
+	public static String CoordToString((int x, int y) coord)
+	{
+		return $"({coord.x}, {coord.y})";
 	}
 	
 	private void ProcessMachines(double delta)
@@ -518,6 +526,161 @@ public partial class GameData : Node
 		
 		GD.Print($"-- GameData: Finished quest completion events for quest {quest.name} --");
 	}
+	
+	public static void TravelTo((int x, int y) coord)
+	{
+		if (regionMap.ContainsKey(coord))
+		{
+			currentRegion = regionMap[coord];
+		}
+		
+		travelControl.UpdateRegions();
+		travelControl.DisplayFeatures();
+	}
+	
+	public static void ExploreRegion((int x, int y) coord)
+	{
+		if (regionMap.ContainsKey(coord))
+		{
+			GD.Print($"GameData: Region {coord} already explored");
+			return;
+		}
+		
+		(int x, int y) north = (coord.x, coord.y + 1);
+		(int x, int y) south = (coord.x, coord.y - 1);
+		(int x, int y) west = (coord.x - 1, coord.y);
+		(int x, int y) east = (coord.x + 1, coord.y);
+		(int x, int y) nw = (coord.x - 1, coord.y + 1);
+		(int x, int y) ne = (coord.x + 1, coord.y + 1);
+		(int x, int y) se = (coord.x + 1, coord.y - 1);
+		(int x, int y) sw = (coord.x - 1, coord.y - 1);
+		
+		List<Region> adjacent = new();
+		List<Region> diagonal = new();
+		
+		if (regionMap.ContainsKey(north))
+		{
+			adjacent.Add(regionMap[north]);
+		}
+		if (regionMap.ContainsKey(south))
+		{
+			adjacent.Add(regionMap[south]);
+		}
+		if (regionMap.ContainsKey(west))
+		{
+			adjacent.Add(regionMap[west]);
+		}
+		if (regionMap.ContainsKey(east))
+		{
+			adjacent.Add(regionMap[east]);
+		}
+		if (regionMap.ContainsKey(nw))
+		{
+			diagonal.Add(regionMap[nw]);
+		}
+		if (regionMap.ContainsKey(ne))
+		{
+			diagonal.Add(regionMap[ne]);
+		}
+		if (regionMap.ContainsKey(se))
+		{
+			diagonal.Add(regionMap[se]);
+		}
+		if (regionMap.ContainsKey(sw))
+		{
+			diagonal.Add(regionMap[sw]);
+		}
+		
+		Dictionary<String, float> weightedBiomes = new();
+		String selectedBiome = "nowhere";
+		String largestBiome = "nowhere";
+		float largestValue = 0f;
+		
+		foreach (var reg in adjacent)
+		{
+			foreach (var neighbor in reg.regData.neighbors)
+			{
+				if (weightedBiomes.ContainsKey(neighbor.Key))
+				{
+					weightedBiomes[neighbor.Key] += neighbor.Value;
+				}
+				else
+				{
+					weightedBiomes[neighbor.Key] = neighbor.Value;
+				}
+				
+				if (weightedBiomes[neighbor.Key] > largestValue)
+				{
+					largestBiome = neighbor.Key;
+					largestValue = weightedBiomes[neighbor.Key];
+				}
+			}
+		}
+		foreach (var reg in diagonal)
+		{
+			foreach (var neighbor in reg.regData.neighbors)
+			{
+				if (weightedBiomes.ContainsKey(neighbor.Key))
+				{
+					weightedBiomes[neighbor.Key] += neighbor.Value / 2;
+				}
+				else
+				{
+					weightedBiomes[neighbor.Key] = neighbor.Value / 2;
+				}
+				
+				if (weightedBiomes[neighbor.Key] > largestValue)
+				{
+					largestBiome = neighbor.Key;
+					largestValue = weightedBiomes[neighbor.Key];
+				}
+			}
+		}
+		
+		float total = 0f;
+		foreach (var w in weightedBiomes.Values)
+		{
+			total += w;
+		}
+		
+		float roll = rng.Randf() * total;
+		
+		float cummulative = 0f;
+		foreach (var w in weightedBiomes)
+		{
+			cummulative += w.Value;
+			if (cummulative >= roll)
+			{
+				selectedBiome = w.Key;
+				break;
+			}
+		}
+		
+		if (cummulative >= total)
+		{
+			selectedBiome = largestBiome;
+		}
+		
+		if (selectedBiome == "nowhere")
+		{
+			GD.Print($"GameData: Error generating region; Total: {total}, Roll: {roll}, Cummulative: {cummulative}");
+			return;
+		}
+		
+		Region explored = new Region(REGIONS[selectedBiome], coord);
+		GD.Print($"GameData: Adding new region {explored.regData.name} at {coord}");
+		regionMap[coord] = explored;
+		coordStringToTuple[CoordToString(coord)] = coord;
+		GD.Print("GameData: Successfully added new region");
+		String regionsList = "";
+		foreach (var c in regionMap.Keys)
+		{
+			regionsList += $"{CoordToString(c)} ";
+		}
+		GD.Print($"GameData: Explored regions {regionsList}");
+		
+		travelControl.UpdateRegions();
+	}
 }
 
 public class ResourceData
@@ -689,9 +852,9 @@ public class Region
 	public List<Machine> machines;
 	public List<String> nodes;
 	
-	public Region(RegionData data, (int x, int y) coord, bool starting)
+	public Region(RegionData data, (int x, int y) coord)
 	{
-		GD.Print($"GameData: Generating region at ({coord.x}, {coord.y}) Starting: {starting}");
+		GD.Print($"GameData: Generating region at ({coord.x}, {coord.y})");
 		regData = data;
 		coordX = coord.x;
 		coordY = coord.y;
@@ -702,22 +865,10 @@ public class Region
 		
 		foreach (var res in regData.resources)
 		{
-			if (starting || res.Value >= 1f)
+			if (res.Value >= 1f || GameData.rng.Randf() < res.Value)
 			{
-				GD.Print($"Attempting generation of node for {GameData.RESOURCES[res.Key].name}");
-				if (res.Value >= 0.2f)
-				{
-					GD.Print($"Adding resource node {GameData.RESOURCES[res.Key].name}");
-					nodes.Add(res.Key);
-				}
-			}
-			else
-			{
-				if (GameData.rng.Randf() < res.Value)
-				{
-					GD.Print($"Adding resource node {GameData.RESOURCES[res.Key].name}");
-					nodes.Add(res.Key);
-				}
+				GD.Print($"Adding resource node {GameData.RESOURCES[res.Key].name}");
+				nodes.Add(res.Key);
 			}
 		}
 		
@@ -725,6 +876,22 @@ public class Region
 		{
 			resources[res.Key] = 0f;
 		}
+	}
+	
+	public bool IsAdjacent(Region reg)
+	{
+		int vectX = Math.Abs(coordX - reg.coordX);
+		int vectY = Math.Abs(coordY - reg.coordY);
+		
+		return vectX == 1 && vectY == 0 || vectX == 0 && vectY == 1;
+	}
+	
+	public bool IsDiagonal(Region reg)
+	{
+		int vectX = Math.Abs(coordX - reg.coordX);
+		int vectY = Math.Abs(coordY - reg.coordY);
+		
+		return vectX == 1 && vectY == 1;
 	}
 }
 

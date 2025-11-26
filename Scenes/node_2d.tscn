@@ -67,6 +67,13 @@ layout_mode = 2
 script = ExtResource("3_u7krg")
 MachinePanelScene = ExtResource("4_6whob")
 
+[node name="TravelPanel" parent="TabContainer/BaseTab" instance=ExtResource("13_he4j0")]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 739.0
+offset_right = 16.0
+offset_bottom = 739.0
+
 [node name="QuestPanel" type="Panel" parent="TabContainer/BaseTab"]
 layout_mode = 0
 offset_left = 645.0
@@ -196,9 +203,3 @@ offset_top = 774.0
 offset_right = 18.0
 offset_bottom = 774.0
 script = ExtResource("12_p20hg")
-
-[node name="TravelPanel" parent="." instance=ExtResource("13_he4j0")]
-offset_left = 16.0
-offset_top = 770.0
-offset_right = 16.0
-offset_bottom = 770.0

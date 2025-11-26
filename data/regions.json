@@ -1,4 +1,15 @@
 {
+	"landing zone": {
+		"name": "Landing Zone",
+		"elevation": 20,
+		"temperature": 30,
+		"pressure": 0.5,
+		"roughness": 0.2,
+		"resources": {"stone": 1.0, "iron ore": 1.0, "copper ore": 1.0, "ice": 1.0},
+		"neighbors": {"plains": 100},
+		"features": {},
+		"hazards": {}
+	},
 	"plains": {
 		"name": "Plains",
 		"elevation": 20,
