@@ -6,7 +6,7 @@
 		"pressure": 0.5,
 		"roughness": 0.2,
 		"resources": {"stone": 1.0, "iron ore": 1.0, "copper ore": 1.0, "ice": 1.0},
-		"neighbors": {"plains": 100},
+		"neighbors": {"plains": 60, "hills": 35, "mountains": 5},
 		"features": {},
 		"hazards": {}
 	},
@@ -17,7 +17,29 @@
 		"pressure": 0.5,
 		"roughness": 0.2,
 		"resources": {"stone": 1.0, "iron ore": 0.4, "copper ore": 0.4, "ice": 0.2},
-		"neighbors": {"plains": 100},
+		"neighbors": {"plains": 60, "hills": 35, "mountains": 5},
+		"features": {},
+		"hazards": {}
+	},
+	"hills": {
+		"name": "Hills",
+		"elevation": 30,
+		"temperature": 20,
+		"pressure": 0.4,
+		"roughness": 0.4,
+		"resources": {"stone": 1.0, "iron ore": 0.5, "copper ore": 0.5, "ice": 0.4},
+		"neighbors": {"plains": 30, "hills": 40, "mountains": 30},
+		"features": {},
+		"hazards": {}
+	},
+	"mountains": {
+		"name": "Mountains",
+		"elevation": 40,
+		"temperature": 10,
+		"pressure": 0.2,
+		"roughness": 0.6,
+		"resources": {"stone": 1.0, "iron ore": 0.7, "copper ore": 0.7, "ice": 0.5},
+		"neighbors": {"plains": 5, "hills": 45, "mountains": 50},
 		"features": {},
 		"hazards": {}
 	}

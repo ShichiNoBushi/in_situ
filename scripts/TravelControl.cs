@@ -49,21 +49,25 @@ public partial class TravelControl : Control
 	
 	public void DisplayFeatures()
 	{
-		Region region = GameData.currentRegion;
-		RegionData data = region.regData;
+		int idx = regionMenu.GetSelected();
+		(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText(idx)];
+		Region current = GameData.currentRegion;
+		Region selected = GameData.regionMap[coord];
+		RegionData currentData = current.regData;
+		RegionData selectedData = selected.regData;
 		
-		currentLabel.Text = $"({region.coordX}, {region.coordY})";
+		currentLabel.Text = $"({current.coordX}, {current.coordY})";
 		
 		String features = "Features:\n\n";
 		
-		features += $"Biome: {data.name}\n\n";
+		features += $"Biome: {selectedData.name}\n\n";
 		
-		features += $"Elevation: {data.elevation}\nTemperature: {data.temperature}\nPressure: {data.pressure}\nRoughness: {data.roughness}\n\n";
+		features += $"Elevation: {selectedData.elevation}\nTemperature: {selectedData.temperature}\nPressure: {selectedData.pressure}\nRoughness: {selectedData.roughness}\n\n";
 		
 		features += "Resourse Deposits:";
-		if (region.nodes.Count > 0)
+		if (selected.nodes.Count > 0)
 		{
-			foreach (var n in region.nodes)
+			foreach (var n in selected.nodes)
 			{
 				features += $"\n{GameData.RESOURCES[n].name}";
 			}
@@ -80,6 +84,8 @@ public partial class TravelControl : Control
 	{
 		(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText((int)index)];
 		Region destination = GameData.regionMap[coord];
+		
+		DisplayFeatures();
 		
 		travelButton.Disabled = !GameData.currentRegion.IsAdjacent(destination);
 	}
