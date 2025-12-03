@@ -529,6 +529,10 @@ public partial class GameData : Node
 	
 	public static void TravelTo((int x, int y) coord)
 	{
+		GD.Print($"GameData: Traveling to ({coord.x}, {coord.y})");
+		
+		machinesControl.SaveRegionPanels();
+		
 		if (regionMap.ContainsKey(coord))
 		{
 			currentRegion = regionMap[coord];
@@ -536,6 +540,15 @@ public partial class GameData : Node
 		
 		travelControl.UpdateRegions();
 		travelControl.DisplayFeatures();
+		
+		try
+		{
+			machinesControl.UpdateRegionMachines();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Error updating machines {e.Message}");
+		}
 	}
 	
 	public static void ExploreRegion((int x, int y) coord)
