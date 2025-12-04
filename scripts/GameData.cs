@@ -32,6 +32,7 @@ public partial class GameData : Node
 	
 	public static QuestData trackedQuest;
 	
+	public static MapControl mapControl;
 	public static TravelControl travelControl;
 	public static ResourceControl resourceControl;
 	public static MachinesControl machinesControl;
@@ -64,7 +65,7 @@ public partial class GameData : Node
 		}
 		catch (Exception e)
 		{
-			GD.PrintErr($"GameData: Error generating region {e.Message}");
+			GD.PrintErr($"GameData: Error generating starting region - {e.Message}");
 		}
 		GiveStartingResources();
 		GiveStartingMachines();
@@ -73,6 +74,7 @@ public partial class GameData : Node
 		
 		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
 		
+		mapControl = GetNode<MapControl>("../TabContainer/BaseTab/MapControl");
 		travelControl = GetNode<TravelControl>("../TabContainer/BaseTab/TravelPanel");
 		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
 		machinesControl = GetNode<MachinesControl>("../TabContainer/BaseTab/MachineScroll/VBoxContainer");
@@ -531,8 +533,6 @@ public partial class GameData : Node
 	{
 		GD.Print($"GameData: Traveling to ({coord.x}, {coord.y})");
 		
-		machinesControl.SaveRegionPanels();
-		
 		if (regionMap.ContainsKey(coord))
 		{
 			currentRegion = regionMap[coord];
@@ -692,6 +692,7 @@ public partial class GameData : Node
 		}
 		GD.Print($"GameData: Explored regions {regionsList}");
 		
+		mapControl.GenerateMap();
 		travelControl.UpdateRegions();
 	}
 }

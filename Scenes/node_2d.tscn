@@ -1,7 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
-[ext_resource type="Script" uid="uid://tlfyp43aug7r" path="res://scripts/ResourceTest.cs" id="2_6whob"]
 [ext_resource type="PackedScene" uid="uid://krtatr5ambw4" path="res://Scenes/BuildPanel.tscn" id="2_chwn1"]
 [ext_resource type="Script" uid="uid://b62cq2a5o0yuq" path="res://scripts/ResourceControl.cs" id="3_tx0tn"]
 [ext_resource type="Script" uid="uid://hd0m7mmykoag" path="res://scripts/MachinesControl.cs" id="3_u7krg"]
@@ -11,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://onrhwsj7frpm" path="res://Scenes/HarvestPanel.tscn" id="8_v7gqg"]
 [ext_resource type="Script" uid="uid://d3tvug5vn80j4" path="res://scripts/QuestControl.cs" id="10_hvaui"]
 [ext_resource type="PackedScene" uid="uid://1qwolok3tcso" path="res://Scenes/DevControl.tscn" id="11_2ooml"]
+[ext_resource type="PackedScene" uid="uid://dtkq85ae14dik" path="res://Scenes/MapControl.tscn" id="11_85gyg"]
 [ext_resource type="Script" uid="uid://co1uc6kkcug1r" path="res://scripts/DevControl.cs" id="12_p20hg"]
 [ext_resource type="PackedScene" uid="uid://bjkmfl7l1ajlw" path="res://Scenes/TravelPanel.tscn" id="13_he4j0"]
 
@@ -29,17 +29,8 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="ResourceTestScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
-visible = false
-layout_mode = 0
-offset_left = 340.0
-offset_top = 58.0
-offset_right = 722.0
-offset_bottom = 731.0
-
-[node name="ResourceTestLabel" type="Label" parent="TabContainer/BaseTab/ResourceTestScroll"]
-layout_mode = 2
-script = ExtResource("2_6whob")
+[node name="MapControl" parent="TabContainer/BaseTab" instance=ExtResource("11_85gyg")]
+layout_mode = 1
 
 [node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
 layout_mode = 0
