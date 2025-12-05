@@ -156,12 +156,40 @@ public partial class TravelControl : Control
 	public void UpdateRegions()
 	{
 		GD.Print("TravelControl: Updating regions menu...");
+		
+		int oldSelectedIdx = regionMenu.GetSelected();
+		String oldSelectedItem = regionMenu.GetItemText(oldSelectedIdx);
+		
 		regionMenu.Clear();
 		
 		foreach (var coord in GameData.regionMap.Keys)
 		{
 			GD.Print($"TravelControl: Adding coordinate {GameData.CoordToString(coord)}");
 			regionMenu.AddItem(GameData.CoordToString(coord));
+		}
+		
+		int selectIdx = -1;
+		
+		if (!string.IsNullOrEmpty(oldSelectedItem))
+		{
+			for (int i = 0; i < regionMenu.ItemCount; i ++)
+			{
+				if (regionMenu.GetItemText(i) == oldSelectedItem)
+				{
+					selectIdx = i;
+					break;
+				}
+			}
+		}
+		
+		if (selectIdx < 0 && regionMenu.ItemCount > 0)
+		{
+			selectIdx = 0;
+		}
+		
+		if (selectIdx >= 0)
+		{
+			regionMenu.Select(selectIdx);
 		}
 		
 		Region current = GameData.currentRegion;

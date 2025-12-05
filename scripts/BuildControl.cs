@@ -79,6 +79,10 @@ public partial class BuildControl : Control
 	public void UpdateBuildMenu()
 	{
 		GD.Print("BuildControl: Updating build menu...");
+		
+		int oldSelectedIdx = machineMenu.GetSelected();
+		String oldSelectedItem = machineMenu.GetItemText(oldSelectedIdx);
+		
 		machineMenu.Clear();
 		
 		bool found = false;
@@ -102,8 +106,31 @@ public partial class BuildControl : Control
 		}
 		else
 		{
-			machineMenu.Select(0);
-			GD.Print("BuildControl: Selecting machine id 0");
+			int selectIdx = -1;
+			
+			if (!string.IsNullOrEmpty(oldSelectedItem) && oldSelectedItem != "No available machines")
+			{
+				for (int i = 0; i < machineMenu.ItemCount; i++)
+				{
+					if (machineMenu.GetItemText(i) == oldSelectedItem)
+					{
+						selectIdx = i;
+						break;
+					}
+				}
+			}
+			
+			if (selectIdx < 0 && machineMenu.ItemCount > 0)
+			{
+				selectIdx = 0;
+			}
+			
+			if (selectIdx >= 0)
+			{
+				machineMenu.Select(selectIdx);
+			}
+			
+			GD.Print($"BuildControl: Selecting machine id {selectIdx}");
 			if (machineMenu.ItemCount > 0)
 			{
 				try
@@ -117,11 +144,6 @@ public partial class BuildControl : Control
 			}
 			GD.Print("BuildControl: Machine selected");
 		}
-		
-		/*if (machineMenu.ItemCount > 0)
-		{
-			SelectMachine(machineMenu.GetSelected());
-		}*/
 	}
 	
 	private bool EnoughResources()

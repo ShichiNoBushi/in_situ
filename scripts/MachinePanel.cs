@@ -67,6 +67,10 @@ public partial class MachinePanel : Control
 	public void UpdateRecipeMenu()
 	{
 		GD.Print($"MachinePanel: Updating menu for {GameData.MACHINES[machine.id].name}");
+		
+		int oldSelectedIdx = recipeMenu.GetSelected();
+		String oldSelectedItem = recipeMenu.GetItemText(oldSelectedIdx);
+		
 		recipeMenu.Clear();
 			
 		bool found = false;
@@ -92,9 +96,33 @@ public partial class MachinePanel : Control
 		}
 		else
 		{
-			GD.Print("MachinePanel: Selecting recipe at index 0");
-			recipeMenu.Select(0);
-			machine.SetRecipe(GameData.recNameToKey[recipeMenu.GetItemText(0)]);
+			int selectIdx = -1;
+			
+			if (!string.IsNullOrEmpty(oldSelectedItem) && oldSelectedItem != "No available recipes")
+			{
+				for (int i = 0; i < recipeMenu.ItemCount; i++)
+				{
+					if (recipeMenu.GetItemText(i) == oldSelectedItem)
+					{
+						selectIdx = i;
+						break;
+					}
+				}
+			}
+			
+			if (selectIdx < 0 && recipeMenu.ItemCount > 0)
+			{
+				selectIdx = 0;
+			}
+			
+			if (selectIdx >= 0)
+			{
+				recipeMenu.Select(selectIdx);
+			}
+			
+			GD.Print($"MachinePanel: Selecting recipe at index {selectIdx}");
+			//recipeMenu.Select(0);
+			machine.SetRecipe(GameData.recNameToKey[recipeMenu.GetItemText(selectIdx)]);
 			GD.Print("MachinePanel: Recipe selected");
 		}
 	}
