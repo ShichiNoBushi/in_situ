@@ -7,11 +7,23 @@ public partial class MapCell : Control
 	public int coordY;
 	
 	public Label cellLabel;
+	//public ColorRect colorRect;
+	public Panel colorPanel;
+	
+	private StyleBoxFlat baseStyle;
+	private StyleBoxFlat style;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		cellLabel = GetNode<Label>("Label");
+		//colorRect = GetNode<ColorRect>("ColorRect");
+		colorPanel = GetNode<Panel>("ColorPanel");
+		
+		baseStyle = (StyleBoxFlat)colorPanel.GetThemeStylebox("panel");
+		style = (StyleBoxFlat)baseStyle.Duplicate();
+		
+		colorPanel.AddThemeStyleboxOverride("panel", style);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -41,5 +53,10 @@ public partial class MapCell : Control
 		{
 			cellLabel.Text = "???";
 		}
+	}
+	
+	public void SetColor(Color bg)
+	{
+		style.BgColor = bg;
 	}
 }

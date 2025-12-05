@@ -13,3 +13,4 @@ res://scripts/ResourceTest.cs
 res://Scenes/node_2d.tscn
 res://scripts/MapCell.cs
 res://scripts/MapControl.cs
+res://Scenes/TravelPanel.tscn

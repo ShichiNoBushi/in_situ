@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://csta1jmbb27nv"]
+[gd_scene load_steps=3 format=3 uid="uid://csta1jmbb27nv"]
 
 [ext_resource type="Script" uid="uid://cx3s6w8ajb5sj" path="res://scripts/MapCell.cs" id="1_ijo6w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ijo6w"]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_detail = 7
 
 [node name="MapCell" type="Control"]
 custom_minimum_size = Vector2(100, 100)
@@ -15,6 +23,30 @@ offset_bottom = -922.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ijo6w")
+
+[node name="BorderRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(94, 94)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 97.0
+offset_bottom = 97.0
+color = Color(0.49019608, 0.49019608, 0.49019608, 1)
+
+[node name="ColorPanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ijo6w")
 
 [node name="Label" type="Label" parent="."]
 custom_minimum_size = Vector2(100, 100)

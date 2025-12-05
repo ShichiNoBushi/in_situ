@@ -88,6 +88,8 @@ public partial class GameData : Node
 		unlockAllMachines = false;
 		unlockAllRecipes = false;
 		
+		//mapControl.UpdateAllColors();
+		
 		UpdateQuestTracking();
 	}
 	
@@ -549,6 +551,8 @@ public partial class GameData : Node
 		{
 			GD.PrintErr($"GameData: Error updating machines {e.Message}");
 		}
+		
+		mapControl.UpdateAllColors();
 	}
 	
 	public static void ExploreRegion((int x, int y) coord)
@@ -693,6 +697,7 @@ public partial class GameData : Node
 		GD.Print($"GameData: Explored regions {regionsList}");
 		
 		mapControl.GenerateMap();
+		mapControl.UpdateAllColors();
 		travelControl.UpdateRegions();
 	}
 }

@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public partial class MapControl : Control
 {
+	private readonly Color COLOR_UNEXPLORED = new Color(0.15f, 0.15f, 0.15f);
+	private readonly Color COLOR_CURRENT = Colors.DarkRed;
+	private readonly Color COLOR_SELECTED = Colors.DarkBlue;
+	private readonly Color COLOR_DEFAULT = Colors.Gray;
+	
+	private (int x, int y) current;
+	private (int x, int y) selected;
+	
 	[Export] public PackedScene MapCellScene;
 	public GridContainer mapGrid;
 	public Dictionary<(int x, int y), MapCell> cells = new();
@@ -14,7 +22,11 @@ public partial class MapControl : Control
 		GD.Print($"MapControl: _Ready() called... {GetPath()}");
 		mapGrid = GetNode<GridContainer>("ScrollContainer/MarginContainer/CenterContainer/MapGrid");
 		cells = new();
+		
+		current = (0, 0);
+		selected = (0, 0);
 		GenerateMap();
+		UpdateAllColors();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -117,6 +129,53 @@ public partial class MapControl : Control
 		catch (Exception e)
 		{
 			GD.PrintErr($"MapControl: Error adding map cells - {e.Message}");
+		}
+	}
+	
+	public void UpdateAllColors()
+	{
+		current = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		selected = current;
+		
+		OptionButton regionMenu = GameData.travelControl.regionMenu;
+		
+		if (regionMenu != null && regionMenu.ItemCount > 0)
+		{
+			int selIdx = regionMenu.GetSelected();
+			String selItem = regionMenu.GetItemText(selIdx);
+			if (GameData.coordStringToTuple.ContainsKey(selItem))
+			{
+				selected = GameData.coordStringToTuple[selItem];
+			}
+			else
+			{
+				selected = (0, 0);
+			}
+		}
+		else
+		{
+			selected = (0, 0);
+		}
+		
+		foreach (var cell in cells)
+		{
+			if (!GameData.regionMap.ContainsKey(cell.Key))
+			{
+				cell.Value.SetColor(COLOR_UNEXPLORED);
+			}
+			else if (cell.Key == selected)
+			{
+				cell.Value.SetColor(COLOR_SELECTED);
+			}
+			else if (cell.Key == current)
+			{
+				cell.Value.SetColor(COLOR_CURRENT);
+			}
+			else
+			{
+				cell.Value.SetColor(COLOR_DEFAULT);
+			}
 		}
 	}
 }

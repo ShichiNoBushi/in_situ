@@ -4,7 +4,7 @@ using System;
 public partial class TravelControl : Control
 {
 	Label currentLabel;
-	OptionButton regionMenu;
+	public OptionButton regionMenu;
 	Button travelButton;
 	OptionButton directionMenu;
 	Button exploreButton;
@@ -88,6 +88,7 @@ public partial class TravelControl : Control
 		DisplayFeatures();
 		
 		travelButton.Disabled = !GameData.currentRegion.IsAdjacent(destination);
+		GameData.mapControl.UpdateAllColors();
 	}
 	
 	private void TravelRegion()
