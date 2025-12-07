@@ -342,7 +342,7 @@ public partial class GameData : Node
 		{
 			foreach (Machine mach in reg.Value.machines)
 			{
-				if (mach.active && GameData.RECIPES.ContainsKey(mach.currentRecipe))
+				if (mach.active && mach.wear < mach.maxWear && GameData.RECIPES.ContainsKey(mach.currentRecipe))
 				{
 					float ratio = CanCraft(mach.currentRecipe, mach.location, delta);
 					
@@ -363,6 +363,8 @@ public partial class GameData : Node
 							reg.Value.resources[res.Key] += res.Value * (float)delta * ratio;
 						}
 					}
+					
+					mach.wear = Math.Min(mach.wear + 0.001f * ratio, mach.maxWear);
 				}
 			}
 		}
@@ -918,6 +920,8 @@ public class Machine
 {
 	public string id {get; private set;}
 	public bool active {get; private set;}
+	public float wear {get; set;}
+	public float maxWear {get; private set;}
 	public List<string> recipes {get; private set;} = new();
 	public string currentRecipe {get; private set;}
 	public Region location {get; private set;}
@@ -927,6 +931,15 @@ public class Machine
 		id = machineID;
 		location = loc;
 		active = false;
+		
+		wear = 0f;
+		maxWear = 0f;
+		
+		MachineData data = GameData.MACHINES[id];
+		foreach (var mach in data.cost.Values)
+		{
+			maxWear += mach;
+		}
 		
 		recipes = new();
 		foreach (var rec in GameData.RECIPES)

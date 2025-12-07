@@ -105,3 +105,15 @@ offset_bottom = 214.0
 
 [node name="WearProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance"]
 layout_mode = 2
+
+[node name="WearLabel" type="Label" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance"]
+layout_mode = 2
+text = "0 / 100"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance"]
+layout_mode = 2
+
+[node name="RepairButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Repair"

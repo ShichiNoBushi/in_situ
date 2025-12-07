@@ -1,3 +1,6 @@
+Button
+HBoxContainer
+Label
 ProgressBar
 VBoxContainer
 Control
@@ -7,9 +10,5 @@ ColorRect
 Node
 CenterContainer
 MarginContainer
-Label
 GridContainer
 ScrollContainer
-Button
-OptionButton
-RichTextLabel

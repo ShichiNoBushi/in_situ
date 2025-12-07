@@ -13,6 +13,8 @@ public partial class MachinePanel : Control
 	private RichTextLabel outputLabel;
 	private ProgressBar recipeProgress;
 	private ProgressBar wearProgress;
+	private Label wearLabel;
+	private Button repairButton;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -25,9 +27,12 @@ public partial class MachinePanel : Control
 		outputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Outputs");
 		recipeProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeProgress");
 		wearProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearProgress");
+		wearLabel = GetNode<Label>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearLabel");
+		repairButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/RepairButton");
 		
 		activeButton.Toggled += OnActiveToggled;
 		recipeMenu.ItemSelected += OnRecipeSelected;
+		repairButton.Pressed += RepairMachine;
 	}
 	
 	public void Initialize()
@@ -37,6 +42,8 @@ public partial class MachinePanel : Control
 		UpdateRecipeMenu();
 		
 		DisplayRecipeResources();
+		DisplayMaintenance();
+		
 		recipeProgress.Value = 0;
 	}
 	
@@ -55,11 +62,18 @@ public partial class MachinePanel : Control
 		
 		DisplayRecipeResources();
 	}
+	
+	private void RepairMachine()
+	{
+		GD.Print($"MachinePanel: Repairing machine {GameData.MACHINES[machine.id].name}");
+		machine.wear = 0f;
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		DisplayRecipeResources();
+		DisplayMaintenance();
 	}
 	
 	public void UpdateRecipeMenu()
@@ -190,5 +204,11 @@ public partial class MachinePanel : Control
 			outputLabel.Text = "";
 			//producedLabel.Text = "";
 		}
+	}
+	
+	private void DisplayMaintenance()
+	{
+		wearProgress.Value = Math.Clamp(machine.wear / machine.maxWear * 100f, 0f, 100f);
+		wearLabel.Text = $"{machine.wear:0.##} / {machine.maxWear}";
 	}
 }
