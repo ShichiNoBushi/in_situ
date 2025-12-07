@@ -11,3 +11,4 @@ res://scripts/QuestControl.cs
 res://scripts/ResourceTest.cs
 res://scripts/MachinesControl.cs
 res://scripts/MapCell.cs
+res://Scenes/MachinePanel.tscn

@@ -7,77 +7,101 @@ custom_minimum_size = Vector2(0, 275)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 562.0
-offset_bottom = 275.0
+offset_bottom = 307.0
 script = ExtResource("1_56xds")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
 offset_right = 562.0
-offset_bottom = 275.0
+offset_bottom = 307.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxMain" type="VBoxContainer" parent="Panel"]
 layout_mode = 0
-offset_right = 450.0
-offset_bottom = 276.0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="MachineName" type="Label" parent="Panel/VBoxContainer"]
+[node name="MachineName" type="Label" parent="Panel/VBoxMain"]
 layout_mode = 2
 text = "Name"
 
-[node name="ActiveButton" type="CheckButton" parent="Panel/VBoxContainer"]
+[node name="ActiveButton" type="CheckButton" parent="Panel/VBoxMain"]
 layout_mode = 2
 text = "Active"
 
-[node name="RecipeOption" type="OptionButton" parent="Panel/VBoxContainer"]
+[node name="MachineTab" type="TabContainer" parent="Panel/VBoxMain"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+current_tab = 0
+
+[node name="Production" type="Control" parent="Panel/VBoxMain/MachineTab"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxProduction" type="VBoxContainer" parent="Panel/VBoxMain/MachineTab/Production"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 214.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RecipeOption" type="OptionButton" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction"]
 layout_mode = 2
 selected = 0
 item_count = 1
 popup/item_0/text = "No Recipes Available"
 popup/item_0/id = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction"]
 layout_mode = 2
 alignment = 1
 
-[node name="Inputs" type="RichTextLabel" parent="Panel/VBoxContainer/HBoxContainer"]
+[node name="Inputs" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 bbcode_enabled = true
 text = "Inputs:
 No Recipe"
 
-[node name="Outputs" type="RichTextLabel" parent="Panel/VBoxContainer/HBoxContainer"]
+[node name="Available" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+bbcode_enabled = true
+text = "
+No resources"
+
+[node name="Outputs" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
 custom_minimum_size = Vector2(250, 150)
 layout_mode = 2
 bbcode_enabled = true
 text = "Outputs:
 No Recipe"
 
-[node name="ProgressBar" type="ProgressBar" parent="Panel/VBoxContainer"]
+[node name="Produced" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 2
+bbcode_enabled = true
+text = "
+No resources"
+
+[node name="RecipProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction"]
 custom_minimum_size = Vector2(300, 25)
 layout_mode = 2
 show_percentage = false
 
-[node name="Available" type="RichTextLabel" parent="Panel"]
+[node name="Maintenance" type="Control" parent="Panel/VBoxMain/MachineTab"]
 visible = false
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 0
-offset_left = 154.0
-offset_top = 97.0
-offset_right = 304.0
-offset_bottom = 247.0
-bbcode_enabled = true
-text = "
-No resources"
+layout_mode = 2
+metadata/_tab_index = 1
 
-[node name="Produced" type="RichTextLabel" parent="Panel"]
-visible = false
-custom_minimum_size = Vector2(100, 150)
+[node name="VBoxMaintenance" type="VBoxContainer" parent="Panel/VBoxMain/MachineTab/Maintenance"]
 layout_mode = 0
-offset_left = 329.0
-offset_top = 97.0
-offset_right = 429.0
-offset_bottom = 247.0
-bbcode_enabled = true
-text = "
-No resources"
+offset_left = 3.0
+offset_right = 560.0
+offset_bottom = 214.0
+
+[node name="WearProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance"]
+layout_mode = 2

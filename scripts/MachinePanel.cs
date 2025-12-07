@@ -10,23 +10,21 @@ public partial class MachinePanel : Control
 	private CheckButton activeButton;
 	private OptionButton recipeMenu;
 	private RichTextLabel inputLabel;
-	//private RichTextLabel availableLabel;
 	private RichTextLabel outputLabel;
-	//private RichTextLabel producedLabel;
 	private ProgressBar recipeProgress;
+	private ProgressBar wearProgress;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		GD.Print("MachinePanel: _Ready() called...");
-		nameLabel = GetNode<Label>("Panel/VBoxContainer/MachineName");
-		activeButton = GetNode<CheckButton>("Panel/VBoxContainer/ActiveButton");
-		recipeMenu = GetNode<OptionButton>("Panel/VBoxContainer/RecipeOption");
-		inputLabel = GetNode<RichTextLabel>("Panel/VBoxContainer/HBoxContainer/Inputs");
-		//availableLabel = GetNode<RichTextLabel>("Panel/VBoxContainer/HBoxContainer/Available");
-		outputLabel = GetNode<RichTextLabel>("Panel/VBoxContainer/HBoxContainer/Outputs");
-		//producedLabel = GetNode<RichTextLabel>("Panel/VBoxContainer/HBoxContainer/Produced");
-		recipeProgress = GetNode<ProgressBar>("Panel/VBoxContainer/ProgressBar");
+		nameLabel = GetNode<Label>("Panel/VBoxMain/MachineName");
+		activeButton = GetNode<CheckButton>("Panel/VBoxMain/ActiveButton");
+		recipeMenu = GetNode<OptionButton>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeOption");
+		inputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Inputs");
+		outputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Outputs");
+		recipeProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeProgress");
+		wearProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearProgress");
 		
 		activeButton.Toggled += OnActiveToggled;
 		recipeMenu.ItemSelected += OnRecipeSelected;

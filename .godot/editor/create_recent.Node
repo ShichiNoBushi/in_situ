@@ -1,3 +1,7 @@
+ProgressBar
+VBoxContainer
+Control
+TabContainer
 Panel
 ColorRect
 Node
@@ -8,7 +12,4 @@ GridContainer
 ScrollContainer
 Button
 OptionButton
-VBoxContainer
 RichTextLabel
-LineEdit
-ItemList
