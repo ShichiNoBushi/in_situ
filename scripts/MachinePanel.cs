@@ -14,6 +14,7 @@ public partial class MachinePanel : Control
 	private ProgressBar recipeProgress;
 	private ProgressBar wearProgress;
 	private Label wearLabel;
+	private Button diagnosticsButton;
 	private Button repairButton;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -27,7 +28,8 @@ public partial class MachinePanel : Control
 		outputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Outputs");
 		recipeProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeProgress");
 		wearProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearProgress");
-		wearLabel = GetNode<Label>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearLabel");
+		wearLabel = GetNode<Label>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearScroll/WearLabel");
+		diagnosticsButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/DiagnosticsButton");
 		repairButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/RepairButton");
 		
 		activeButton.Toggled += OnActiveToggled;
@@ -209,6 +211,6 @@ public partial class MachinePanel : Control
 	private void DisplayMaintenance()
 	{
 		wearProgress.Value = Math.Clamp(machine.wear / machine.maxWear * 100f, 0f, 100f);
-		wearLabel.Text = $"{machine.wear:0.##} / {machine.maxWear}";
+		//wearLabel.Text = $"{machine.wear:0.##} / {machine.maxWear}";
 	}
 }

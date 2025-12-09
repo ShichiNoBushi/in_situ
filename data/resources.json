@@ -7,6 +7,7 @@
 		"phase": "gas",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"hydrogen": 1.0},
 		"value": 0.2,
 		"description": "An elemental gas used in many chemical reactions and nuclear fusion."
 	},
@@ -18,6 +19,7 @@
 		"phase": "gas",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"oxygen": 1.0},
 		"value": 0.2,
 		"description": "An elemental gas used in many chemical reactions and as an oxidizer."
 	},
@@ -29,6 +31,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
 		"description": "A common metal used for building and machine components."
 	},
@@ -40,6 +43,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
 		"description": "A common metal with high conductivity frequently used for electricity."
 	},
@@ -51,6 +55,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"plutonium scrap": 1.0},
 		"value": 100.0,
 		"description": "A radioactive rare earth metal used in nuclear fission reactions."
 	},
@@ -62,6 +67,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"gravel": 1.0},
 		"value": 0.1,
 		"description": "A common mineral on rocky planets."
 	},
@@ -73,6 +79,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron ore": 1.0},
 		"value": 0.3,
 		"description": "An ore that refines into iron."
 	},
@@ -84,6 +91,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"copper ore": 1.0},
 		"value": 0.3,
 		"description": "An ore that refines into copper."
 	},
@@ -95,6 +103,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"gravel": 1.0},
 		"value": 0.1,
 		"description": "Stone cruched into an aggregate of small pieces."
 	},
@@ -106,6 +115,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"stone dust": 1.0},
 		"value": 0.1,
 		"description": "Stone pulverized into a fine dust."
 	},
@@ -117,6 +127,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"sand": 1.0},
 		"value": 0.2,
 		"description": "Fine grains of quartz or silica."
 	},
@@ -128,6 +139,7 @@
 		"phase": "liquid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"clay slurry": 1.0},
 		"value": 0.2,
 		"description": "A mixture of fine stone dust and water to be used as a bonding paste."
 	},
@@ -139,6 +151,7 @@
 		"phase": "liquid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"water": 1.0},
 		"value": 0.3,
 		"description": "Liquid water."
 	},
@@ -150,6 +163,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"ice": 1.0},
 		"value": 0.1,
 		"description": "Frozen water."
 	},
@@ -161,6 +175,7 @@
 		"phase": "gas",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"carbon dioxide": 1.0},
 		"value": 0.1,
 		"description": "Gas produced by combustion or respiration."
 	},
@@ -172,6 +187,7 @@
 		"phase": "gas",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"methane": 1.0},
 		"value": 0.3,
 		"description": "Natural gas hydrocarbon used in combustion and chemical reactions."
 	},
@@ -183,6 +199,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
 		"description": "Iron extruded and wound into thin wire."
 	},
@@ -194,6 +211,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
 		"description": "Copper extruded and wound into thin wire."
 	},
@@ -205,6 +223,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"glass shard": 1.0},
 		"value": 0.2,
 		"description": "A thin filament of glass."
 	},
@@ -216,6 +235,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"gravel": 1.0},
 		"value": 0.2,
 		"description": "Stone carved and sculpted into uniform bricks."
 	},
@@ -227,6 +247,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
 		"description": "Small iron gears used in machines."
 	},
@@ -238,6 +259,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
 		"description": "A thick, sturdy rod of iron."
 	},
@@ -249,6 +271,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
 		"description": "A sharp blade made of iron for cutting or carving."
 	},
@@ -260,6 +283,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
 		"description": "A flat plate made of iron used in construction."
 	},
@@ -271,6 +295,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
 		"description": "A flat plate made of copper used in construction."
 	},
@@ -282,6 +307,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"glass shard": 1.0},
 		"value": 0.3,
 		"description": "A sheet of transparent glass."
 	},
@@ -293,6 +319,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
 		"description": "A magnetized piece of iron."
 	},
@@ -304,6 +331,7 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
 		"description": "A motor using electromagnetism to convert electricity into mechanical work or vice versa."
 	},
@@ -315,8 +343,57 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
+		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
 		"description": "A coil that uses magnetic induction to efficiently generate heat."
+	},
+	"iron scrap": {
+		"name": "Iron Scrap",
+		"abbreviation": "FeScrap",
+		"type": "scrap",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
+		"value": 0.1,
+		"description": "Scraps of damaged iron that can be recycled."
+	},
+	"copper scrap": {
+		"name": "Copper Scrap",
+		"abbreviation": "CuScrap",
+		"type": "scrap",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 1.0},
+		"value": 0.1,
+		"description": "Scraps of damaged copper that can be recycled."
+	},
+	"plutonium scrap": {
+		"name": "Plutonium Scrap",
+		"abbreviation": "PuScrap",
+		"type": "scrap",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"plutonium scrap": 1.0},
+		"value": 0.5,
+		"description": "Scraps of damaged plutonium that can be recycled."
+	},
+	"glass shard": {
+		"name": "Glass Shard",
+		"abbreviation": "GlsShard",
+		"type": "scrap",
+		"subtypes": ["glass"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"glass shard": 1.0},
+		"value": 0.1,
+		"description": "Shards of broken glass that can be recycled."
 	},
 	"energy": {
 		"name": "Energy",
@@ -326,6 +403,7 @@
 		"phase": "energy",
 		"unit": "Wh",
 		"starting amount": 10.0,
+		"scrap": {"energy": 1.0},
 		"value": 0.2,
 		"description": "Energy used to power machines."
 	}

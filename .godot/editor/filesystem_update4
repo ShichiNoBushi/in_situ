@@ -12,3 +12,5 @@ res://scripts/ResourceTest.cs
 res://scripts/MachinesControl.cs
 res://scripts/MapCell.cs
 res://Scenes/MachinePanel.tscn
+res://data/recipes.json
+res://data/resources.json
