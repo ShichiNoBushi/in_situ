@@ -1,0 +1,90 @@
+############################
+# Godot files
+############################
+
+# Godot-specific cache files
+.import/
+.export/
+godot.env
+mono_crash.*.json
+
+# Godot-generated import metadata
+*.import
+
+# Exported builds
+export_presets.cfg
+
+# Backup files created by Godot editor
+*.tmp
+*.bak
+*.old
+
+############################
+# C# / .NET
+############################
+
+# Build outputs
+/bin/
+/obj/
+/.mono/
+/.sln/
+/*.csproj.user
+/*.csproj.DotSettings.*
+
+# NuGet Cache
+.nuget/
+
+############################
+# Visual Studio Code
+############################
+
+.vscode/
+.code/
+
+############################
+# macOS System Files
+############################
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+############################
+# Python (if any helpers/scripts)
+############################
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+############################
+# Logs / Temporary files
+############################
+
+*.log
+*.tmp
+
+############################
+# Godot Export Templates
+############################
+
+# These are installed locally; don't commit them
+.editor_settings-3.tres
+.editor_settings-4.tres (just in case)
+
+############################
+# Your game exports
+############################
+
+# Ignore exported applications
+/*.app
+/*.zip
+/*.pck
+/*.exe
+/*.dll
+/builds/windows/
+/export/windows/
+
+# If you export for multiple platforms:
+build/
