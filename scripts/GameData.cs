@@ -364,7 +364,7 @@ public partial class GameData : Node
 						}
 					}
 					
-					mach.wear = Math.Min(mach.wear + 0.001f * ratio, mach.maxWear);
+					mach.Damage(0.001f * ratio);
 				}
 			}
 		}
@@ -920,8 +920,10 @@ public class Machine
 {
 	public string id {get; private set;}
 	public bool active {get; private set;}
-	public float wear {get; set;}
+	public float wear {get; private set;}
+	public float diagnosedWear {get; private set;}
 	public float maxWear {get; private set;}
+	public Dictionary<String, float> repairComponents {get; private set;} = new();
 	public List<string> recipes {get; private set;} = new();
 	public string currentRecipe {get; private set;}
 	public Region location {get; private set;}
@@ -933,6 +935,7 @@ public class Machine
 		active = false;
 		
 		wear = 0f;
+		diagnosedWear = 0f;
 		maxWear = 0f;
 		
 		MachineData data = GameData.MACHINES[id];
@@ -968,5 +971,130 @@ public class Machine
 	public void SetRecipe(string rid)
 	{
 		currentRecipe = rid;
+	}
+	
+	public void Damage(float dmg)
+	{
+		wear = Math.Min(wear + dmg, maxWear);
+	}
+	
+	public void Repair()
+	{
+		wear = 0f;
+		repairComponents.Clear();
+	}
+	
+	public void Diagnose()
+	{
+		float undiagnosed = wear - diagnosedWear;
+		Dictionary<String, float> workingComponents = new();
+		
+		foreach (var res in GameData.MACHINES[id].cost)
+		{
+			GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
+			if (repairComponents.TryGetValue(res.Key, out float comp))
+			{
+				workingComponents[res.Key] = res.Value - comp;
+			}
+			else
+			{
+				workingComponents[res.Key] = res.Value;
+			}
+		}
+		
+		while (diagnosedWear < wear)
+		{
+			float total = 0f;
+			String selectedComp = "";
+			String largestComp = "";
+			float largestAmount = 0f;
+			foreach (var comp in workingComponents)
+			{
+				total += comp.Value;
+				
+				if (comp.Value > largestAmount)
+				{
+					largestComp = comp.Key;
+					largestAmount = comp.Value;
+				}
+			}
+			
+			float roll = GameData.rng.Randf() * total;
+			
+			float cummulative = 0f;
+			foreach (var comp in workingComponents)
+			{
+				cummulative += comp.Value;
+				if (cummulative >= roll)
+				{
+					selectedComp = comp.Key;
+					break;
+				}
+			}
+			
+			if (cummulative >= total)
+			{
+				selectedComp = largestComp;
+			}
+			
+			GD.Print($"GameData: Selected component {GameData.RESOURCES[selectedComp].name}");
+			
+			if (undiagnosed <= 0.5f)
+			{
+				if (undiagnosed <= workingComponents[selectedComp])
+				{
+					diagnosedWear += undiagnosed;
+					if (diagnosedWear > wear)
+					{
+						undiagnosed -= diagnosedWear - wear;
+						diagnosedWear = wear;
+					}
+					if (repairComponents.ContainsKey(selectedComp))
+					{
+						repairComponents[selectedComp] += undiagnosed;
+					}
+					else
+					{
+						repairComponents[selectedComp] = undiagnosed;
+					}
+				}
+				else
+				{
+					float difference = undiagnosed - workingComponents[selectedComp];
+					if (repairComponents.ContainsKey(selectedComp))
+					{
+						repairComponents[selectedComp] += difference;
+					}
+					else
+					{
+						repairComponents[selectedComp] = difference;
+					}
+					workingComponents[selectedComp] = 0f;
+					diagnosedWear += difference;
+				}
+			}
+			else
+			{
+				roll = GameData.rng.Randf() * workingComponents[selectedComp];
+				roll = Math.Min(roll, undiagnosed);
+				diagnosedWear += roll;
+				if (diagnosedWear > wear)
+				{
+					roll -= diagnosedWear - wear;
+					diagnosedWear = wear;
+				}
+				if (repairComponents.ContainsKey(selectedComp))
+				{
+					repairComponents[selectedComp] += roll;
+				}
+				else
+				{
+					repairComponents[selectedComp] = roll;
+				}
+				workingComponents[selectedComp] -= roll;
+			}
+			
+			undiagnosed = wear - diagnosedWear;
+		}
 	}
 }

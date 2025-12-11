@@ -15,21 +15,21 @@
 	},
 	"smelter extruder": {
 		"name": "Smelter Extruder",
-		"cost": {"iron": 20},
+		"cost": {"iron plate": 10, "iron gear small": 5, "electric motor": 5, "induction coil": 5},
 		"starting amount": 1,
 		"available": false,
 		"description": "Smelts raw ore and extrudes into metal wire."
 	},
 	"component printer": {
 		"name": "Component Printer",
-		"cost": {"iron": 20},
+		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10},
 		"starting amount": 1,
 		"available": false,
 		"description": "Uses resources to construct small machine components."
 	},
 	"parts assembler": {
 		"name": "Parts Assembler",
-		"cost": {"iron": 20},
+		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10},
 		"starting amount": 1,
 		"available": false,
 		"description": "A machine that automatically crafts components with fine precision."
@@ -88,7 +88,7 @@
 		"cost": {"iron plate": 10, "induction coil": 5, "electric motor": 5},
 		"starting amount": 0,
 		"available": false,
-		"description": "Extrudes materials as long, round pieces of varrying widths.."
+		"description": "Extrudes materials as long, round pieces of varrying widths."
 	},
 	"electrolyzer": {
 		"name": "Electrolyzer",
@@ -106,7 +106,7 @@
 	},
 	"srg": {
 		"name": "Stirling Radioisotope Generator (SRG)",
-		"cost": {"iron": 20, "plutonium": 1},
+		"cost": {"iron plate": 10, "iron gear small": 5, "electric motor": 5, "plutonium": 1},
 		"starting amount": 1,
 		"available": false,
 		"description": "Uses a radioactive isotope to steadily generate energy."

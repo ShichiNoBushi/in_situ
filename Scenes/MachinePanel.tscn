@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://vxikyx7p4hlw" path="res://scripts/MachinePanel.cs" id="1_56xds"]
 
 [node name="MachinePanel" type="Control"]
-custom_minimum_size = Vector2(0, 275)
+custom_minimum_size = Vector2(0, 307)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 562.0

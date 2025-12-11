@@ -34,6 +34,7 @@ public partial class MachinePanel : Control
 		
 		activeButton.Toggled += OnActiveToggled;
 		recipeMenu.ItemSelected += OnRecipeSelected;
+		diagnosticsButton.Pressed += DiagnoseMachine;
 		repairButton.Pressed += RepairMachine;
 	}
 	
@@ -65,10 +66,25 @@ public partial class MachinePanel : Control
 		DisplayRecipeResources();
 	}
 	
+	private void DiagnoseMachine()
+	{
+		GD.Print($"MachinePanel: Diagnosing machine {GameData.MACHINES[machine.id].name}");
+		try
+		{
+			machine.Diagnose();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"MachinePanel: Error diagnosing machine - {e.Message}");
+		}
+		DisplayMaintenance();
+		GD.Print("MachinePanel: Diagnostics complete");
+	}
+	
 	private void RepairMachine()
 	{
 		GD.Print($"MachinePanel: Repairing machine {GameData.MACHINES[machine.id].name}");
-		machine.wear = 0f;
+		machine.Repair();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -211,6 +227,27 @@ public partial class MachinePanel : Control
 	private void DisplayMaintenance()
 	{
 		wearProgress.Value = Math.Clamp(machine.wear / machine.maxWear * 100f, 0f, 100f);
-		//wearLabel.Text = $"{machine.wear:0.##} / {machine.maxWear}";
+		
+		String text = "Required Materials:";
+		
+		if (machine.wear == 0f)
+		{
+			text += "\nUndamaged";
+		}
+		else if (machine.diagnosedWear == 0f)
+		{
+			text += "\nUndiagnosed";
+		}
+		else
+		{
+			foreach (var res in machine.repairComponents)
+			{
+				String available = GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key);
+				String needed = GameData.FormatUnit(res.Value, res.Key);
+				text += $"\n{GameData.RESOURCES[res.Key].name} {available} / {needed}";
+			}
+		}
+		
+		wearLabel.Text = text;
 	}
 }
