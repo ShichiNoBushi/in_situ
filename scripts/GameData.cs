@@ -980,8 +980,30 @@ public class Machine
 	
 	public void Repair()
 	{
-		wear = 0f;
-		repairComponents.Clear();
+		//wear = 0f;
+		//repairComponents.Clear();
+		
+		float total = 0f;
+		
+		foreach (var comp in repairComponents)
+		{
+			float available = location.resources[comp.Key];
+			
+			if (available >= comp.Value)
+			{
+				location.resources[comp.Key] -= comp.Value;
+				wear -= comp.Value;
+				diagnosedWear -= comp.Value;
+				repairComponents.Remove(comp.Key);
+			}
+			else
+			{
+				repairComponents[comp.Key] -= available;
+				location.resources[comp.Key] = 0;
+				wear -= available;
+				diagnosedWear -= available;
+			}
+		}
 	}
 	
 	public void Diagnose()

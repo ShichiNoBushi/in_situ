@@ -242,7 +242,7 @@ public partial class MachinePanel : Control
 		{
 			foreach (var res in machine.repairComponents)
 			{
-				String available = GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key);
+				String available = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
 				String needed = GameData.FormatUnit(res.Value, res.Key);
 				text += $"\n{GameData.RESOURCES[res.Key].name} {available} / {needed}";
 			}
