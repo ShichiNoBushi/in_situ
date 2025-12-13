@@ -223,6 +223,22 @@
 		"machines": ["stone carver"],
 		"description": "Carves stone into uniform bricks."
 	},
+	"recycle iron": {
+		"name": "Recycle Iron",
+		"inputs": {"iron scrap": 5, "energy": 0.5},
+		"outputs": {"iron": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"description": "Recycles iron scrap into usable raw iron."
+	},
+	"recycle copper": {
+		"name": "Recycle Copper",
+		"inputs": {"copper scrap": 5, "energy": 0.5},
+		"outputs": {"copper": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"description": "Recycles copper scrap into usable raw copper."
+	},
 	"mine stone": {
 		"name": "Mine (Stone)",
 		"inputs": {"energy": 1},

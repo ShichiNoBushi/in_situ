@@ -102,12 +102,12 @@ public partial class GameData : Node
 	
 	public static void LoadAll()
 	{
-		string resourcePath = ProjectSettings.GlobalizePath("res://data/resources.json");
-		string harvestPath = ProjectSettings.GlobalizePath("res://data/harvest.json");
-		string machinePath = ProjectSettings.GlobalizePath("res://data/machines.json");
-		string recipePath = ProjectSettings.GlobalizePath("res://data/recipes.json");
-		string regionsPath = ProjectSettings.GlobalizePath("res://data/regions.json");
-		string questPath = ProjectSettings.GlobalizePath("res://data/quests.json");
+		string resourcePath = "res://data/resources.json";
+		string harvestPath = "res://data/harvest.json";
+		string machinePath = "res://data/machines.json";
+		string recipePath = "res://data/recipes.json";
+		string regionsPath = "res://data/regions.json";
+		string questPath = "res://data/quests.json";
 		
 		RESOURCES = LoadJson<Dictionary<string, ResourceData>>(resourcePath);
 		HARVEST = LoadJson<Dictionary<string, HarvestData>>(harvestPath);
@@ -119,7 +119,7 @@ public partial class GameData : Node
 	
 	public static T LoadJson<T>(string filepath)
 	{
-		if (!File.Exists(filepath))
+		if (!Godot.FileAccess.FileExists(filepath))
 		{
 			GD.PrintErr($"Missing data file {filepath}");
 			return default;
@@ -717,6 +717,7 @@ public class ResourceData
 	public float startingAmount {get; set;}
 	
 	public float value {get; set;}
+	public Dictionary<string, float> scrap {get; set;}
 	public string description {get; set;}
 	
 	public ResourceData()
@@ -727,6 +728,7 @@ public class ResourceData
 		subtypes = new List<string>();
 		phase = "intangible";
 		unit = "u";
+		scrap = new Dictionary<string, float>();
 	}
 }
 
@@ -980,30 +982,36 @@ public class Machine
 	
 	public void Repair()
 	{
-		//wear = 0f;
-		//repairComponents.Clear();
-		
 		float total = 0f;
 		
 		foreach (var comp in repairComponents)
 		{
 			float available = location.resources[comp.Key];
+			float scrap = 0f;
 			
 			if (available >= comp.Value)
 			{
 				location.resources[comp.Key] -= comp.Value;
-				wear -= comp.Value;
-				diagnosedWear -= comp.Value;
+				total += comp.Value;
 				repairComponents.Remove(comp.Key);
+				scrap = comp.Value;
 			}
 			else
 			{
 				repairComponents[comp.Key] -= available;
 				location.resources[comp.Key] = 0;
-				wear -= available;
-				diagnosedWear -= available;
+				total += available;
+				scrap = available;
+			}
+			
+			foreach (var sc in GameData.RESOURCES[comp.Key].scrap)
+			{
+				location.resources[sc.Key] += scrap * sc.Value;
 			}
 		}
+		
+		wear -= total;
+		diagnosedWear -= total;
 	}
 	
 	public void Diagnose()
