@@ -52,6 +52,33 @@ public partial class HarvestControl : Control
 		}
 	}
 	
+	public void UpdateHarvest()
+	{
+		harvestMenu.Clear();
+		
+		foreach (var node in GameData.currentRegion.nodes)
+		{
+			foreach (var harv in GameData.HARVEST.Values)
+			{
+				if (harv.resource == node)
+				{
+					harvestMenu.AddItem(harv.action);
+					break;
+				}
+			}
+		}
+		
+		if (harvestMenu.ItemCount == 0)
+		{
+			harvestMenu.AddItem("No Deposits");
+			harvestMenu.Disabled = true;
+		}
+		else
+		{
+			harvestMenu.Disabled = false;
+		}
+	}
+	
 	public void StartHarvest()
 	{
 		if (!harvesting)

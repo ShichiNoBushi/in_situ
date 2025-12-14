@@ -555,6 +555,7 @@ public partial class GameData : Node
 		}
 		
 		mapControl.UpdateAllColors();
+		harvestControl.UpdateHarvest();
 	}
 	
 	public static void ExploreRegion((int x, int y) coord)
