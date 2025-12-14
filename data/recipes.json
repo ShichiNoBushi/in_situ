@@ -5,6 +5,7 @@
 		"outputs": {"iron wire": 2},
 		"available": false,
 		"machines": ["smelter extruder"],
+		"local": "",
 		"description": "Smelts iron ore and produces iron wire."
 	},
 	"copper wire sm-ex": {
@@ -13,6 +14,7 @@
 		"outputs": {"copper wire": 2},
 		"available": false,
 		"machines": ["smelter extruder"],
+		"local": "",
 		"description": "Smelts copper ore and produces copper wire."
 	},
 	"glass filament sm-ex": {
@@ -21,6 +23,7 @@
 		"outputs": {"glass filament": 2},
 		"available": false,
 		"machines": ["smelter extruder"],
+		"local": "",
 		"description": "Melts sand and produces glass filament."
 	},
 	"smelt iron": {
@@ -29,6 +32,7 @@
 		"outputs": {"iron": 3},
 		"available": false,
 		"machines": ["induction smelter"],
+		"local": "",
 		"description": "Smelts iron ore into raw iron."
 	},
 	"smelt copper": {
@@ -37,6 +41,7 @@
 		"outputs": {"copper": 3},
 		"available": false,
 		"machines": ["induction smelter"],
+		"local": "",
 		"description": "Smelts copper ore into raw copper."
 	},
 	"iron gear small print": {
@@ -45,6 +50,7 @@
 		"outputs": {"iron gear small": 2},
 		"available": false,
 		"machines": ["component printer"],
+		"local": "",
 		"description": "Crafts a small gear of iron."
 	},
 	"iron plate print": {
@@ -53,6 +59,7 @@
 		"outputs": {"iron plate": 5},
 		"available": false,
 		"machines": ["component printer"],
+		"local": "",
 		"description": "Crafts a plate of iron"
 	},
 	"iron rod print": {
@@ -61,6 +68,7 @@
 		"outputs": {"iron rod": 5},
 		"available": false,
 		"machines": ["component printer"],
+		"local": "",
 		"description": "Crafts a rod of iron"
 	},
 	"iron blade print": {
@@ -69,6 +77,7 @@
 		"outputs": {"iron blade": 5},
 		"available": false,
 		"machines": ["component printer"],
+		"local": "",
 		"description": "Crafts a sharp blade of iron"
 	},
 	"copper plate print": {
@@ -77,6 +86,7 @@
 		"outputs": {"copper plate": 5},
 		"available": false,
 		"machines": ["component printer"],
+		"local": "",
 		"description": "Crafts a plate of copper"
 	},
 	"glass pane print": {
@@ -85,6 +95,7 @@
 		"outputs": {"glass pane": 2},
 		"available": false,
 		"machines": ["component printer"],
+		"local": "",
 		"description": "Crafts a pane of glass."
 	},
 	"iron gear small mold": {
@@ -93,6 +104,7 @@
 		"outputs": {"iron gear small": 4},
 		"available": false,
 		"machines": ["component mold"],
+		"local": "",
 		"description": "Crafts a small gear of iron from a mold."
 	},
 	"iron blade mold": {
@@ -101,6 +113,7 @@
 		"outputs": {"iron blade": 4},
 		"available": false,
 		"machines": ["component mold"],
+		"local": "",
 		"description": "Crafts a sharp blade of iron from a mold."
 	},
 	"iron plate press": {
@@ -109,6 +122,7 @@
 		"outputs": {"iron plate": 4},
 		"available": false,
 		"machines": ["roller press"],
+		"local": "",
 		"description": "Rolls iron into flat plates."
 	},
 	"copper plate press": {
@@ -117,6 +131,7 @@
 		"outputs": {"copper plate": 4},
 		"available": false,
 		"machines": ["roller press"],
+		"local": "",
 		"description": "Rolls copper into flat plates."
 	},
 	"extrude iron wire": {
@@ -125,6 +140,7 @@
 		"outputs": {"iron wire": 4},
 		"available": false,
 		"machines": ["extruder"],
+		"local": "",
 		"description": "Extrudes iron into thin wire."
 	},
 	"extrude iron rod": {
@@ -133,6 +149,7 @@
 		"outputs": {"iron rod": 4},
 		"available": false,
 		"machines": ["extruder"],
+		"local": "",
 		"description": "Extrudes iron into thick rods."
 	},
 	"extrude copper wire": {
@@ -141,6 +158,7 @@
 		"outputs": {"copper wire": 4},
 		"available": false,
 		"machines": ["extruder"],
+		"local": "",
 		"description": "Extrudes copper into thin wire."
 	},
 	"electric motor": {
@@ -149,6 +167,7 @@
 		"outputs": {"electric motor": 10},
 		"available": false,
 		"machines": ["parts assembler"],
+		"local": "",
 		"description": "Crafts an electric motor with coiled wire and a magnet"
 	},
 	"induction coil": {
@@ -157,6 +176,7 @@
 		"outputs": {"induction coil": 5},
 		"available": false,
 		"machines": ["parts assembler"],
+		"local": "",
 		"description": "Craft a coil to generate heat through magnetic induction."
 	},
 	"magnetize iron": {
@@ -165,6 +185,7 @@
 		"outputs": {"magnet": 1},
 		"available": false,
 		"machines": ["magnetizer"],
+		"local": "",
 		"description": "Convert inert iron rod into a magnet."
 	},
 	"melt ice": {
@@ -173,6 +194,7 @@
 		"outputs": {"water": 1},
 		"available": false,
 		"machines": ["smelter extruder"],
+		"local": "",
 		"description": "Melt ice into liquid water."
 	},
 	"electrolyze water": {
@@ -181,6 +203,7 @@
 		"outputs": {"hydrogen": 0.2, "oxygen": 1.6, "energy": 2},
 		"available": false,
 		"machines": ["electrolyzer"],
+		"local": "",
 		"description": "Electrolyze and seperate water into hygrogen and oxygen."
 	},
 	"sabatier reaction": {
@@ -189,6 +212,7 @@
 		"outputs": {"methane": 0.802, "water": 1.802},
 		"available": false,
 		"machines": ["chemical reactor"],
+		"local": "",
 		"description": "React carbon dioxide with hydrogen to create methane with water as a byproduct."
 	},
 	"crush stone": {
@@ -197,6 +221,7 @@
 		"outputs": {"gravel": 3, "sand": 2},
 		"available": false,
 		"machines": ["crusher"],
+		"local": "",
 		"description": "Crushes stone into aggregate."
 	},
 	"pulverize gravel": {
@@ -205,6 +230,7 @@
 		"outputs": {"stone dust": 2},
 		"available": false,
 		"machines": ["crusher"],
+		"local": "",
 		"description": "Further grinds gravel into fine stone dust."
 	},
 	"mix clay": {
@@ -213,6 +239,7 @@
 		"outputs": {"clay slurry": 3},
 		"available": false,
 		"machines": ["mixer"],
+		"local": "",
 		"description": "Further grinds gravel into fine stone dust."
 	},
 	"carve stone brick": {
@@ -221,6 +248,7 @@
 		"outputs": {"stone brick": 4, "stone dust": 1},
 		"available": false,
 		"machines": ["stone carver"],
+		"local": "",
 		"description": "Carves stone into uniform bricks."
 	},
 	"recycle iron": {
@@ -229,6 +257,7 @@
 		"outputs": {"iron": 5},
 		"available": false,
 		"machines": ["induction smelter"],
+		"local": "",
 		"description": "Recycles iron scrap into usable raw iron."
 	},
 	"recycle copper": {
@@ -237,6 +266,7 @@
 		"outputs": {"copper": 5},
 		"available": false,
 		"machines": ["induction smelter"],
+		"local": "",
 		"description": "Recycles copper scrap into usable raw copper."
 	},
 	"mine stone": {
@@ -245,6 +275,7 @@
 		"outputs": {"stone": 1},
 		"available": false,
 		"machines": ["miner"],
+		"local": "mining",
 		"description": "Extract raw stone from the earth."
 	},
 	"mine iron ore": {
@@ -253,6 +284,7 @@
 		"outputs": {"iron ore": 1},
 		"available": false,
 		"machines": ["miner"],
+		"local": "mining",
 		"description": "Extract iron ore from a local vein."
 	},
 	"mine copper ore": {
@@ -261,6 +293,7 @@
 		"outputs": {"copper ore": 1},
 		"available": false,
 		"machines": ["miner"],
+		"local": "mining",
 		"description": "Extract copper ore from a local vein."
 	},
 	"mine ice": {
@@ -269,6 +302,7 @@
 		"outputs": {"ice": 1},
 		"available": false,
 		"machines": ["miner"],
+		"local": "mining",
 		"description": "Extract ice from a local deposit."
 	},
 	"collect atmosphere": {
@@ -277,6 +311,7 @@
 		"outputs": {"carbon dioxide": 0.5},
 		"available": false,
 		"machines": ["atmospheric compressor"],
+		"local": "atmosphere",
 		"description": "Collects gas from the atmpsphere."
 	},
 	"generate energy": {
@@ -285,6 +320,7 @@
 		"outputs": {"energy": 1},
 		"available": true,
 		"machines": ["srg", "wind turbine", "solar array"],
+		"local": "",
 		"description": "Passively generates energy"
 	}
 }

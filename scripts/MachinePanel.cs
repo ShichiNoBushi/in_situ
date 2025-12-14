@@ -109,7 +109,23 @@ public partial class MachinePanel : Control
 		{
 			RecipeData recipe = GameData.RECIPES[rid];
 			
-			if (GameData.unlockAllRecipes || recipe.available)
+			bool local = true;
+			if (recipe.local == "mining")
+			{
+				local = false;
+				List<String> nodes = machine.location.nodes;
+				
+				foreach(var res in GameData.RECIPES[rid].outputs.Keys)
+				{
+					if (nodes.Contains(res))
+					{
+						local = true;
+						break;
+					}
+				}
+			}
+			
+			if (local && (GameData.unlockAllRecipes || recipe.available))
 			{
 				GD.Print($"Adding recipe {recipe.name} for {GameData.MACHINES[machine.id].name}");
 				recipeMenu.AddItem(recipe.name);

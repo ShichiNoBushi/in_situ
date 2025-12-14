@@ -5,10 +5,13 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
+//The main control of the game containing the persistent data.
 public partial class GameData : Node
 {
+	//RNG for random effects.
 	public static RandomNumberGenerator rng = new();
 	
+	//Data references for various imported databases.
 	public static Dictionary<string, ResourceData> RESOURCES = new();
 	public static Dictionary<string, HarvestData> HARVEST = new();
 	public static Dictionary<string, MachineData> MACHINES = new();
@@ -16,6 +19,7 @@ public partial class GameData : Node
 	public static Dictionary<string, RegionData> REGIONS = new();
 	public static Dictionary<string, QuestData> QUESTS = new();
 	
+	//Dictionaries to reference user facing strings to IDs in the above dictionaries.
 	public static Dictionary<string, string> resNameToKey = new();
 	public static Dictionary<string, string> harvActionToKey = new();
 	public static Dictionary<string, string> machNameToKey = new();
@@ -24,14 +28,16 @@ public partial class GameData : Node
 	public static Dictionary<string, string> qstNameToKey = new();
 	public static Dictionary<string, (int x, int y)> coordStringToTuple = new();
 	
+	//Region map referenced by keys of 2D tuples as coordinates.
 	public static Dictionary<(int x, int y), Region> regionMap = new();
-	//public static Dictionary<string, float> resources = new();
-	//public static List<Machine> machines = new();
 	
+	//The region the player is currently in.
 	public static Region currentRegion;
 	
+	//The currently tracked quest.
 	public static QuestData trackedQuest;
 	
+	//Quick references to interfaces within the game.
 	public static MapControl mapControl;
 	public static TravelControl travelControl;
 	public static ResourceControl resourceControl;
@@ -40,23 +46,32 @@ public partial class GameData : Node
 	public static BuildControl buildControl;
 	public static QuestControl questControl;
 	
+	//Label to display the current tracked objective.
 	public static Label objectiveLabel;
 	
+	//A variable to test if a feature is functioning (possibly no longer necessary).
 	private static bool questUpdateFunctioning;
+	
+	//Variables set in development for test purposes.
 	public static bool unlockAllMachines;
 	public static bool unlockAllRecipes;
 	
 	public override void _Ready()
 	{
 		GD.Print("GameData._Ready() called from ", GetPath());
+		
+		//Initialize the RNG.
 		rng = new();
 		rng.Randomize();
 		
+		//Load all the JSON data.
 		LoadAll();
 		GD.Print("Game data loaded automatically.");
 		
+		//Create quick references between names and IDs.
 		BuildNameMaps();
 		
+		//Generate the map.
 		regionMap = new();
 		
 		try
@@ -67,13 +82,16 @@ public partial class GameData : Node
 		{
 			GD.PrintErr($"GameData: Error generating starting region - {e.Message}");
 		}
+		//Create starting resources and machines according to JSON labels.
 		GiveStartingResources();
 		GiveStartingMachines();
 		
+		//Assign the player's initial location as the center of the map.
 		currentRegion = regionMap[(0, 0)];
 		
 		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
 		
+		//Assign control variables.
 		mapControl = GetNode<MapControl>("../TabContainer/BaseTab/MapControl");
 		travelControl = GetNode<TravelControl>("../TabContainer/BaseTab/TravelPanel");
 		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
@@ -84,17 +102,19 @@ public partial class GameData : Node
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/BaseTab/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
+		//Possibly unnecessary test variable.
 		questUpdateFunctioning = true;
+		
+		//Set these to true to unlock all machines or recipes.
 		unlockAllMachines = false;
 		unlockAllRecipes = false;
-		
-		//mapControl.UpdateAllColors();
 		
 		UpdateQuestTracking();
 	}
 	
 	public override void _Process(double delta)
 	{
+		//Process active machines' recipes and check quest completion status.
 		ProcessMachines(delta);
 		UpdateQuestTracking();
 		CheckQuests();
@@ -102,6 +122,7 @@ public partial class GameData : Node
 	
 	public static void LoadAll()
 	{
+		//Load JSON from data files.
 		string resourcePath = "res://data/resources.json";
 		string harvestPath = "res://data/harvest.json";
 		string machinePath = "res://data/machines.json";
@@ -109,6 +130,7 @@ public partial class GameData : Node
 		string regionsPath = "res://data/regions.json";
 		string questPath = "res://data/quests.json";
 		
+		//Assign data to reference variables.
 		RESOURCES = LoadJson<Dictionary<string, ResourceData>>(resourcePath);
 		HARVEST = LoadJson<Dictionary<string, HarvestData>>(harvestPath);
 		MACHINES = LoadJson<Dictionary<string, MachineData>>(machinePath);
@@ -119,11 +141,13 @@ public partial class GameData : Node
 	
 	public static T LoadJson<T>(string filepath)
 	{
+		//Check if file properly exists.
 		if (!Godot.FileAccess.FileExists(filepath))
 		{
 			GD.PrintErr($"Missing data file {filepath}");
 			return default;
 		}
+		//Attempt to load JSON file.
 		try
 		{
 			using Godot.FileAccess fa = Godot.FileAccess.Open(filepath, Godot.FileAccess.ModeFlags.Read);
@@ -139,6 +163,7 @@ public partial class GameData : Node
 	
 	public static void BuildNameMaps()
 	{
+		//Create references from user facing names to reference IDs.
 		foreach (var res in RESOURCES)
 		{
 			resNameToKey[res.Value.name] = res.Key;
@@ -167,6 +192,7 @@ public partial class GameData : Node
 	
 	public static void GenerateStartingRegion()
 	{
+		//Generate the starting region at (0, 0).
 		GD.Print("GameData: Generating starting region...");
 		(int x, int y) origin = (0, 0);
 		regionMap[origin] = new Region(REGIONS["landing zone"], origin);
@@ -177,6 +203,7 @@ public partial class GameData : Node
 	{
 		GD.Print("GameData: Giving Starting Resources...");
 		
+		//Initialize resource quantities based on starting value in JSON data in the starting location.
 		foreach(var res in RESOURCES)
 		{
 			regionMap[(0, 0)].resources[res.Key] = res.Value.startingAmount;
@@ -187,6 +214,7 @@ public partial class GameData : Node
 	{
 		GD.Print("GameData: Giving Starting Machines...");
 		
+		//Give the starting machines depending on JSON available value at starting location.
 		foreach (var mach in MACHINES)
 		{
 			for (int i = 0; i < mach.Value.startingAmount; i++)
@@ -204,20 +232,23 @@ public partial class GameData : Node
 			return;
 		}
 		
+		//Check if questControl and trackedQuest are functioning and a quest is being tracked.
 		if (questControl != null && trackedQuest != null && trackedQuest.name != "No name")
 		{
+			//Reference quest's name and requirements.
 			String text = trackedQuest.name;
 			
 			QuestRequirement requirements = trackedQuest.requirement;
 			
 			if (requirements.resources.Count > 0)
 			{
+				//Display required resources if any.
 				text += "\n\nResources:";
 				
 				foreach (var res in requirements.resources)
 				{
+					//Calculate available resources total among all regions and display along with required amounts.
 					ResourceData resource = RESOURCES[res.Key];
-					//float available = resources[res.Key];
 					float available = 0f;
 					
 					foreach (var reg in regionMap)
@@ -231,10 +262,12 @@ public partial class GameData : Node
 			
 			if (requirements.machines.Count > 0)
 			{
+				//Display required machines if any.
 				text += "\n\nMachines:";
 				
 				foreach (var mach in requirements.machines)
 				{
+					//Count all constructed machines among all regions and display along with required amount.
 					MachineData machine = MACHINES[mach.Key];
 					int machineCount = 0;
 					
@@ -255,10 +288,12 @@ public partial class GameData : Node
 			
 			if (requirements.quests.Count > 0)
 			{
+				//Display required quests completed if any.
 				text += "\n\nQuests:";
 				
 				foreach (var qst in requirements.quests)
 				{
+					//Display quests' current status whether active, completed, or somehow both.
 					QuestData quest = QUESTS[qst];
 					String questState;
 					
@@ -296,6 +331,7 @@ public partial class GameData : Node
 	
 	public static String FormatUnit(float amount, String resource)
 	{
+		//Format unit quantity based on unit it is measured in and largest significant size of unit.
 		String unit = GameData.RESOURCES.ContainsKey(resource)
 			? GameData.RESOURCES[resource].unit
 			: "u";
@@ -305,34 +341,38 @@ public partial class GameData : Node
 		
 		if (amount >= 900000)
 		{
-			prefix = "M";
+			prefix = "M"; //mega
 			display = amount / 1000000f;
 		}
 		else if (amount >= 900)
 		{
-			prefix = "k";
+			prefix = "k"; //kilo
 			display = amount / 1000f;
 		}
 		else if (amount == 0 || amount >= 0.9)
 		{
+			//Displays "0.00 u" if amount is exactly 0.
 			prefix = "";
 			display = amount;
 		}
 		else if (amount >= 0.0009)
 		{
-			prefix = "m";
+			prefix = "m"; //milli
 			display = amount * 1000f;
 		}
 		else
 		{
+			//Displays "Negligible" if amount is greater than 0 but trace amounts.
 			return "Negligible";
 		}
 		
+		//Return formatted string with adjusted amount and units.
 		return $"{display:0.00} {prefix}{unit}";
 	}
 	
 	public static String CoordToString((int x, int y) coord)
 	{
+		//Convert an XY coordinate to a String.
 		return $"({coord.x}, {coord.y})";
 	}
 	
@@ -340,30 +380,38 @@ public partial class GameData : Node
 	{
 		foreach (var reg in regionMap)
 		{
+			//Process each active machine in the region.
 			foreach (Machine mach in reg.Value.machines)
 			{
+				//If machine is turned on, is not excessively damaged, and selected recipe is valid.
 				if (mach.active && mach.wear < mach.maxWear && GameData.RECIPES.ContainsKey(mach.currentRecipe))
 				{
+					//Create a ratio value based on if recipe can be crafted.
 					float ratio = CanCraft(mach.currentRecipe, mach.location, delta);
 					
 					if (ratio > 0)
 					{
+						//Create references to recipe and input resources.
 						RecipeData recipe = GameData.RECIPES[mach.currentRecipe];
 						Dictionary<String, float> inputs = recipe.inputs;
 						
 						foreach (var res in inputs)
 						{
+							//Remove resource from region's storage used in the recipe according to the ratio.
 							reg.Value.resources[res.Key] = Math.Max(0f, reg.Value.resources[res.Key] - res.Value * (float)delta * ratio);
 						}
 						
+						//Create reference to recipe's output.
 						Dictionary<String, float> outputs = recipe.outputs;
 						
 						foreach (var res in outputs)
 						{
+							//Produce crafted resource into region's storage according to the ratio.
 							reg.Value.resources[res.Key] += res.Value * (float)delta * ratio;
 						}
 					}
 					
+					//Damage the machine according to the ratio.
 					mach.Damage(0.001f * ratio);
 				}
 			}
@@ -372,6 +420,8 @@ public partial class GameData : Node
 	
 	private float CanCraft(String name, Region reg, double delta)
 	{
+		//Check if the recipe can be crafted using resources in the region.
+		//Return 1 if completely craftable, 0 if uncraftable, and a value between if partially craftable.
 		if (!GameData.RECIPES.ContainsKey(name))
 		{
 			return 0f;
@@ -380,6 +430,7 @@ public partial class GameData : Node
 		RecipeData recipe = GameData.RECIPES[name];
 		Dictionary<String, float> inputs = recipe.inputs;
 		
+		//If recipe has no required resources.
 		if (inputs.Count == 0)
 		{
 			return 1f;
@@ -391,40 +442,48 @@ public partial class GameData : Node
 		{
 			if (res.Value <= 0)
 			{
+				//Skip if value is somehow 0 or less.
 				continue;
 			}
 			
+			//Determine available resources if a value exists and amount required for recipe adjusted for time passed.
 			float available = reg.resources.ContainsKey(res.Key)
 				? reg.resources[res.Key]
 				: 0f;
 			float required = res.Value * (float)delta;
 			
+			//Add ratio if amount available is insufficient.
 			if (required != 0 && available < required)
 			{
 				ratios.Add(available / required);
 			}
 		}
 		
+		//Return full ratio if all required resources satisfied.
 		if (ratios.Count == 0)
 		{
 			return 1f;
 		}
 		
+		//Determin the smallest ratio among the list and return 0 if 0 or less.
 		float minRatio = ratios.Min();
 		if (minRatio <= 0f)
 		{
 			return 0f;
 		}
 		
+		//Return the ratio between 0 and 1.
 		return Math.Clamp(minRatio, 0f, 1f);
 	}
 	
 	public static void CheckQuests()
 	{
+		//Check active quests for completion.
 		List<String> toComplete = new();
 		
 		foreach (var quest in questControl.activeQuests)
 		{
+			//Add quest to list to complete if requirements are fulfilled.
 			if (IsQuestFulfilled(quest.Value))
 			{
 				toComplete.Add(quest.Key);
@@ -440,12 +499,13 @@ public partial class GameData : Node
 	
 	private static bool IsQuestFulfilled(QuestData quest)
 	{
+		//Check if quest's requirements are fullfilled.
 		QuestRequirement requirements = quest.requirement;
 		Dictionary<String, float> resRequirements = requirements.resources;
 		Dictionary<String, int> machRequirements = requirements.machines;
 		List<String> qstRequirements = requirements.quests;
 		
-		//bool resFulfilled = resRequirements.All(res => GameData.resources[res.Key] >= res.Value); //include combined regional resources
+		//Determine if all the resource requirements among all regions has been met.
 		bool resFulfilled = resRequirements.All(req => 
 		{
 			float total = 0f;
@@ -462,7 +522,7 @@ public partial class GameData : Node
 			}
 			return total >= req.Value;
 		});
-		//bool machFulfilled = machRequirements.All(mach => GameData.machines.Count(m => m.id == mach.Key) >= mach.Value); //include combined regional machines
+		//Determine if all the machine requirements among all regions has been met.
 		bool machFulfilled = machRequirements.All(req =>
 		{
 			int total = 0;
@@ -477,18 +537,23 @@ public partial class GameData : Node
 			return total >= req.Value;
 		});
 		
+		//Determine if all required quests are completed.
 		bool qstFulfilled = qstRequirements.All(qst => questControl.completeQuests.ContainsKey(qst));
 		
+		//Return true of all requirments are satisfied.
 		return resFulfilled && machFulfilled && qstFulfilled;
 	}
 	
 	public static void CompleteQuest(String questKey)
 	{
+		//Designate a quest as completed
 		if (questControl.completeQuests.ContainsKey(questKey))
 		{
+			//Return if quest is somehow already completed.
 			return;
 		}
 		
+		//Remove quest from active quests and add it to completed quests lists.
 		QuestData quest = QUESTS[questKey];
 		questControl.activeQuests.Remove(questKey);
 		questControl.completeQuests[questKey] = quest;
@@ -499,6 +564,7 @@ public partial class GameData : Node
 		
 		foreach (var q in unlocks.quests)
 		{
+			//Set new quest as active if not already in the active quests list.
 			if (!questControl.activeQuests.ContainsKey(q))
 			{
 				GD.Print($"Unlock quest {QUESTS[q].name}");
@@ -508,23 +574,28 @@ public partial class GameData : Node
 		
 		foreach (var rec in unlocks.recipes)
 		{
+			//Unlock recipe.
 			GD.Print($"Unlock recipe {RECIPES[rec].name}");
 			RECIPES[rec].available = true;
 		}
 		
 		foreach (var mach in unlocks.machines)
 		{
+			//Unlock machine.
 			GD.Print($"Unlock machine {MACHINES[mach].name}");
 			MACHINES[mach].available = true;
 		}
 		
 		GD.Print("GameData: Updating menus...");
 		
+		//Update displayed active and completed quests.
 		questControl.UpdateQuestLists();
 		
+		//Check if any newly active quests are already fulfilled.
 		GD.Print("GameData: checking unlocked quests...");
 		CheckQuests();
 		
+		//Update menus for new machines and recipes.
 		GD.Print("GameData: Calling buildControl.UpdateBuildMenu()");
 		buildControl.UpdateBuildMenu();
 		GD.Print("GameData: Calling machinesControl.UpdateMachinePanels()");
@@ -535,16 +606,20 @@ public partial class GameData : Node
 	
 	public static void TravelTo((int x, int y) coord)
 	{
+		//Travel player to designated coordinate.
 		GD.Print($"GameData: Traveling to ({coord.x}, {coord.y})");
 		
+		//Set current region to coordinate if it exists in the map.
 		if (regionMap.ContainsKey(coord))
 		{
 			currentRegion = regionMap[coord];
 		}
 		
+		//Update displays.
 		travelControl.UpdateRegions();
 		travelControl.DisplayFeatures();
 		
+		//Update the list of machines to ones constructed in the new region.
 		try
 		{
 			machinesControl.UpdateRegionMachines();
@@ -554,18 +629,23 @@ public partial class GameData : Node
 			GD.PrintErr($"GameData: Error updating machines {e.Message}");
 		}
 		
+		//Update colored regions on the map.
 		mapControl.UpdateAllColors();
+		//Update the harvest controls for local deposits.
 		harvestControl.UpdateHarvest();
 	}
 	
 	public static void ExploreRegion((int x, int y) coord)
 	{
+		//Explore an adjacent region and add it to the map.
 		if (regionMap.ContainsKey(coord))
 		{
+			//Ignore if region already explored.
 			GD.Print($"GameData: Region {coord} already explored");
 			return;
 		}
 		
+		//Define adjacent and diagnonal coordinates.
 		(int x, int y) north = (coord.x, coord.y + 1);
 		(int x, int y) south = (coord.x, coord.y - 1);
 		(int x, int y) west = (coord.x - 1, coord.y);
@@ -578,6 +658,7 @@ public partial class GameData : Node
 		List<Region> adjacent = new();
 		List<Region> diagonal = new();
 		
+		//Add explored regions to list of adjacent regions.
 		if (regionMap.ContainsKey(north))
 		{
 			adjacent.Add(regionMap[north]);
@@ -594,6 +675,7 @@ public partial class GameData : Node
 		{
 			adjacent.Add(regionMap[east]);
 		}
+		//Add explored regions to list of diagonal regions.
 		if (regionMap.ContainsKey(nw))
 		{
 			diagonal.Add(regionMap[nw]);
@@ -611,11 +693,13 @@ public partial class GameData : Node
 			diagonal.Add(regionMap[sw]);
 		}
 		
+		//Create list of possible biomes with weighted probabilities.
 		Dictionary<String, float> weightedBiomes = new();
 		String selectedBiome = "nowhere";
 		String largestBiome = "nowhere";
 		float largestValue = 0f;
 		
+		//Add adjacent regions' biomes at full value.
 		foreach (var reg in adjacent)
 		{
 			foreach (var neighbor in reg.regData.neighbors)
@@ -636,6 +720,7 @@ public partial class GameData : Node
 				}
 			}
 		}
+		//Add diagonal regions' biomes at half value.
 		foreach (var reg in diagonal)
 		{
 			foreach (var neighbor in reg.regData.neighbors)
@@ -657,38 +742,48 @@ public partial class GameData : Node
 			}
 		}
 		
+		//Explored region's biome is randomly determined and influenced by nearby regions' biomes.
+		//Calculate the total weight of all possible biomes.
 		float total = 0f;
 		foreach (var w in weightedBiomes.Values)
 		{
 			total += w;
 		}
 		
+		//Randomly generate a number between 0 and the total weight.
 		float roll = rng.Randf() * total;
 		
+		//Track a total cummulative value of checked weighted values.
 		float cummulative = 0f;
 		foreach (var w in weightedBiomes)
 		{
+			//Check if the random number falls in the range between the previous weight (or 0) and the current one's.
 			cummulative += w.Value;
 			if (cummulative >= roll)
 			{
+				//Select the biome that the random number is within its range.
 				selectedBiome = w.Key;
 				break;
 			}
 		}
 		
+		//If somehow the cummulative exceeds the total weight, default to the biome with the largest probability.
 		if (cummulative >= total)
 		{
 			selectedBiome = largestBiome;
 		}
 		
+		//Return if a biome wasn't selected.
 		if (selectedBiome == "nowhere")
 		{
 			GD.Print($"GameData: Error generating region; Total: {total}, Roll: {roll}, Cummulative: {cummulative}");
 			return;
 		}
 		
+		//Generate a new region according to the selected biome's data.
 		Region explored = new Region(REGIONS[selectedBiome], coord);
 		GD.Print($"GameData: Adding new region {explored.regData.name} at {coord}");
+		//Add new region to the map.
 		regionMap[coord] = explored;
 		coordStringToTuple[CoordToString(coord)] = coord;
 		GD.Print("GameData: Successfully added new region");
@@ -699,6 +794,7 @@ public partial class GameData : Node
 		}
 		GD.Print($"GameData: Explored regions {regionsList}");
 		
+		//Update interface with new region.
 		mapControl.GenerateMap();
 		mapControl.UpdateAllColors();
 		travelControl.UpdateRegions();
@@ -777,6 +873,7 @@ public class RecipeData
 	public Dictionary<string, float> outputs {get; set;}
 	public bool available {get; set;}
 	public List<string> machines {get; set;}
+	public string local {get; set;}
 	public string description {get; set;}
 	
 	public RecipeData()
@@ -866,6 +963,7 @@ public class RegionData
 	}
 }
 
+//A geographical region within the game world.
 public class Region
 {
 	public RegionData regData;
@@ -878,6 +976,7 @@ public class Region
 	
 	public Region(RegionData data, (int x, int y) coord)
 	{
+		//Generate a new region using region data and the coordinate of the region.
 		GD.Print($"GameData: Generating region at ({coord.x}, {coord.y})");
 		regData = data;
 		coordX = coord.x;
@@ -887,6 +986,7 @@ public class Region
 		machines = new();
 		nodes = new();
 		
+		//Create local resource deposits randomly determined by what's typically available in the region.
 		foreach (var res in regData.resources)
 		{
 			if (res.Value >= 1f || GameData.rng.Randf() < res.Value)
@@ -896,6 +996,7 @@ public class Region
 			}
 		}
 		
+		//Create an empty storage of resources in the region.
 		foreach (var res in GameData.RESOURCES)
 		{
 			resources[res.Key] = 0f;
@@ -904,6 +1005,7 @@ public class Region
 	
 	public bool IsAdjacent(Region reg)
 	{
+		//Check if another region is directly adjacent to this region.
 		int vectX = Math.Abs(coordX - reg.coordX);
 		int vectY = Math.Abs(coordY - reg.coordY);
 		
@@ -912,6 +1014,7 @@ public class Region
 	
 	public bool IsDiagonal(Region reg)
 	{
+		//Check if another region is in a coordinate diagonal to this region.
 		int vectX = Math.Abs(coordX - reg.coordX);
 		int vectY = Math.Abs(coordY - reg.coordY);
 		
@@ -921,6 +1024,7 @@ public class Region
 
 public class Machine
 {
+	//A machine that processes recipes to consume and produce resources.
 	public string id {get; private set;}
 	public bool active {get; private set;}
 	public float wear {get; private set;}
@@ -933,20 +1037,24 @@ public class Machine
 	
 	public Machine(string machineID, Region loc)
 	{
+		//Create a machine using the data ID at designated location.
 		id = machineID;
 		location = loc;
 		active = false;
 		
+		//How much wear a machine has accumulated, has been diagnosed, and how much at which it stops working.
 		wear = 0f;
 		diagnosedWear = 0f;
 		maxWear = 0f;
 		
+		//Maximum wear is calculated as the total mass of components used to construct it.
 		MachineData data = GameData.MACHINES[id];
 		foreach (var mach in data.cost.Values)
 		{
 			maxWear += mach;
 		}
 		
+		//Assign recipes based on which ones are assigned to this machine.
 		recipes = new();
 		foreach (var rec in GameData.RECIPES)
 		{
@@ -968,30 +1076,37 @@ public class Machine
 	
 	public void ToggleActive(bool on)
 	{
+		//Turn machine on/off.
 		active = on;
 	}
 	
 	public void SetRecipe(string rid)
 	{
+		//Select the current recipe to process.
 		currentRecipe = rid;
 	}
 	
 	public void Damage(float dmg)
 	{
+		//Damage the machine and increase wear.
 		wear = Math.Min(wear + dmg, maxWear);
 	}
 	
 	public void Repair()
 	{
+		//Repair the machine, consume repair components, and create recyclable scrap.
 		float total = 0f;
 		
 		foreach (var comp in repairComponents)
 		{
+			//Determine how much of the required resource is available at the machine's location.
 			float available = location.resources[comp.Key];
+			//Track an amount of scrap that would be produced from this resource.
 			float scrap = 0f;
 			
 			if (available >= comp.Value)
 			{
+				//If amount of resource is sufficient, consume the required amount and note that as scrap.
 				location.resources[comp.Key] -= comp.Value;
 				total += comp.Value;
 				repairComponents.Remove(comp.Key);
@@ -999,6 +1114,7 @@ public class Machine
 			}
 			else
 			{
+				//If amount is insufficient, consume all that is available and reduce that amount from amount required taking not of scrap.
 				repairComponents[comp.Key] -= available;
 				location.resources[comp.Key] = 0;
 				total += available;
@@ -1007,19 +1123,24 @@ public class Machine
 			
 			foreach (var sc in GameData.RESOURCES[comp.Key].scrap)
 			{
+				//For each resource used to craft the replaced component, produce the associated scrap component.
 				location.resources[sc.Key] += scrap * sc.Value;
 			}
 		}
 		
+		//Reduce wear and diagnosed wear by the total amount repaired.
 		wear -= total;
 		diagnosedWear -= total;
 	}
 	
 	public void Diagnose()
 	{
+		//Diagnose the necessary resources to repair the machine.
+		//Caluculate the amount of wear undiagnosed from how much has wear has already been diagnosed.
 		float undiagnosed = wear - diagnosedWear;
 		Dictionary<String, float> workingComponents = new();
 		
+		//Determine the amount of working components from what has been already diagnosed to need replacement.
 		foreach (var res in GameData.MACHINES[id].cost)
 		{
 			GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
@@ -1035,6 +1156,8 @@ public class Machine
 		
 		while (diagnosedWear < wear)
 		{
+			//Loop as long as diagnosed wear is less than the current amount of wear.
+			//Calculate the total amounts among working components.
 			float total = 0f;
 			String selectedComp = "";
 			String largestComp = "";
@@ -1050,19 +1173,24 @@ public class Machine
 				}
 			}
 			
+			//Generate a random number up to the total weight of working components.
 			float roll = GameData.rng.Randf() * total;
 			
+			//Track a cummulative total of checked components.
 			float cummulative = 0f;
 			foreach (var comp in workingComponents)
 			{
+				//Determine if the random number is between of the last checked component (or 0) and the current component's.
 				cummulative += comp.Value;
 				if (cummulative >= roll)
 				{
+					//Select this component if the random number is within its range.
 					selectedComp = comp.Key;
 					break;
 				}
 			}
 			
+			//If the cummulative is somehow larger than the total, select the largest component by default.
 			if (cummulative >= total)
 			{
 				selectedComp = largestComp;
@@ -1072,14 +1200,19 @@ public class Machine
 			
 			if (undiagnosed <= 0.5f)
 			{
+				//If the amount of undiagnosed wear is small, assign a fixed amount of the selected component to repair.
 				if (undiagnosed <= workingComponents[selectedComp])
 				{
+					//If the amount of undiagnosed wear is less than the amount of the amount of working components, diagnose the undiagnosed quantity to be repaired.
+					//Increase the amount of wear diagnosed.
 					diagnosedWear += undiagnosed;
 					if (diagnosedWear > wear)
 					{
+						//If diagnosed wear exceeds total wear somehow, recalculated based on the difference and assure they are equal.
 						undiagnosed -= diagnosedWear - wear;
 						diagnosedWear = wear;
 					}
+					//If the currently diagnosed components for repair includes the selected component, increase the value, otherwise create a new entry for it.
 					if (repairComponents.ContainsKey(selectedComp))
 					{
 						repairComponents[selectedComp] += undiagnosed;
@@ -1091,7 +1224,10 @@ public class Machine
 				}
 				else
 				{
+					//If undiagnosed wear is greater than how many of the component is still working.
+					//Calculate the difference between undiagnosed wear and how many of the component is working.
 					float difference = undiagnosed - workingComponents[selectedComp];
+					//If the currently diagnosed components for repair includes the selected component, increase the value, otherwise create a new entry for it.
 					if (repairComponents.ContainsKey(selectedComp))
 					{
 						repairComponents[selectedComp] += difference;
@@ -1100,20 +1236,26 @@ public class Machine
 					{
 						repairComponents[selectedComp] = difference;
 					}
+					//Designate the amount of working components as 0 and increase diagnosed wear by the difference.
 					workingComponents[selectedComp] = 0f;
 					diagnosedWear += difference;
 				}
 			}
 			else
 			{
+				//If there is still a large amount of undiagnosed wear, roll a random number up to the amount of working components.
 				roll = GameData.rng.Randf() * workingComponents[selectedComp];
+				//Set it to the minimum between the rolled number and currently undiagnosed wear.
 				roll = Math.Min(roll, undiagnosed);
+				//Increase diagnosed wear by the modified roll.
 				diagnosedWear += roll;
 				if (diagnosedWear > wear)
 				{
+					//If diagnosed wear exceeds total wear, adjust for the difference and set the two values as equal.
 					roll -= diagnosedWear - wear;
 					diagnosedWear = wear;
 				}
+				//If the currently diagnosed components for repair includes the selected component, increase the value, otherwise create a new entry for it.
 				if (repairComponents.ContainsKey(selectedComp))
 				{
 					repairComponents[selectedComp] += roll;
@@ -1122,9 +1264,11 @@ public class Machine
 				{
 					repairComponents[selectedComp] = roll;
 				}
+				//Adjust the currently working components.
 				workingComponents[selectedComp] -= roll;
 			}
 			
+			//Redefine the amount of undiagnosed wear and loop.
 			undiagnosed = wear - diagnosedWear;
 		}
 	}
