@@ -108,7 +108,9 @@ public partial class DevControl : Control
 			
 			GameData.currentRegion.resources[resName] += amount;
 			
-			devLabel.Text = $"Gave {amount} of {GameData.RESOURCES[resName].name}.";
+			String amountText = GameData.FormatUnit(amount, resName);
+			
+			devLabel.Text = $"Gave {amountText} of {GameData.RESOURCES[resName].name}.";
 		}
 		else
 		{

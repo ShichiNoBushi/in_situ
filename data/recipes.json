@@ -319,8 +319,26 @@
 		"inputs": {},
 		"outputs": {"energy": 1},
 		"available": true,
-		"machines": ["srg", "wind turbine", "solar array"],
+		"machines": ["srg"],
 		"local": "",
 		"description": "Passively generates energy"
+	},
+	"generate energy wind": {
+		"name": "Generate Energy (Wind)",
+		"inputs": {},
+		"outputs": {"energy": 1},
+		"available": true,
+		"machines": ["wind turbine"],
+		"local": "wind",
+		"description": "Generates energy from wind currents."
+	},
+	"generate energy solar": {
+		"name": "Generate Energy (Solar)",
+		"inputs": {},
+		"outputs": {"energy": 1},
+		"available": true,
+		"machines": ["solar array"],
+		"local": "solar",
+		"description": "Generates energy from solar radiation."
 	}
 }
