@@ -182,6 +182,8 @@ public partial class MachinePanel : Control
 			Dictionary<string, float> inputs = recipe.inputs;
 			Dictionary<string, float> outputs = recipe.outputs;
 			
+			float weather = 1.0f;
+			
 			String inputDisplay = "Input:";
 			//String availableDisplay = "";
 			
@@ -213,10 +215,20 @@ public partial class MachinePanel : Control
 			if (recipe.available && outputs.Count > 0)
 			{
 				outputDisplay += "\n[table=3]";
+				
+				if (recipe.local == "wind")
+				{
+					weather = machine.location.wind;
+				}
+				else if (recipe.local == "solar")
+				{
+					weather = machine.location.solar;
+				}
+				
 				foreach(var res in outputs)
 				{
 					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
-					String outputResForm = GameData.FormatUnit(res.Value, res.Key);
+					String outputResForm = GameData.FormatUnit(res.Value * weather, res.Key);
 					//outputDisplay += $"\n{resAbbrev}: {outputResForm}";
 					outputDisplay += $"\n[cell]{resAbbrev, -15}[/cell][cell]:[/cell][cell][right]{outputResForm}[/right][/cell]";
 					//producedDisplay += $"\n[code]{outputResForm, 8}[/code]";

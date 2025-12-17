@@ -326,7 +326,7 @@
 	"generate energy wind": {
 		"name": "Generate Energy (Wind)",
 		"inputs": {},
-		"outputs": {"energy": 1},
+		"outputs": {"energy": 0.5},
 		"available": true,
 		"machines": ["wind turbine"],
 		"local": "wind",
@@ -335,7 +335,7 @@
 	"generate energy solar": {
 		"name": "Generate Energy (Solar)",
 		"inputs": {},
-		"outputs": {"energy": 1},
+		"outputs": {"energy": 0.5},
 		"available": true,
 		"machines": ["solar array"],
 		"local": "solar",

@@ -64,6 +64,8 @@ public partial class TravelControl : Control
 		
 		features += $"Elevation: {selectedData.elevation}\nTemperature: {selectedData.temperature}\nPressure: {selectedData.pressure}\nRoughness: {selectedData.roughness}\n\n";
 		
+		features += $"Wind: {selected.wind}\nSolar: {selected.solar}\n\n";
+		
 		features += "Resourse Deposits:";
 		if (selected.nodes.Count > 0)
 		{

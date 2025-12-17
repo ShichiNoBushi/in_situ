@@ -395,6 +395,15 @@ public partial class GameData : Node
 						RecipeData recipe = GameData.RECIPES[mach.currentRecipe];
 						Dictionary<String, float> inputs = recipe.inputs;
 						
+						if (recipe.local == "wind")
+						{
+							ratio *= mach.location.wind;
+						}
+						else if (recipe.local == "solar")
+						{
+							ratio *= mach.location.solar;
+						}
+						
 						foreach (var res in inputs)
 						{
 							//Remove resource from region's storage used in the recipe according to the ratio.
@@ -969,6 +978,10 @@ public class Region
 	public RegionData regData;
 	public int coordX;
 	public int coordY;
+	public float wind;
+	public float maxWind;
+	public float solar;
+	public float maxSolar;
 	
 	public Dictionary<string, float> resources;
 	public List<Machine> machines;
@@ -981,6 +994,12 @@ public class Region
 		regData = data;
 		coordX = coord.x;
 		coordY = coord.y;
+		
+		maxWind = (regData.elevation * 0.2f) + regData.pressure + regData.roughness;
+		wind = maxWind / 2;
+		
+		maxSolar = (regData.elevation * 0.2f) + (1.0f - regData.pressure) + (1.0f - regData.roughness);
+		solar = maxSolar / 2;
 		
 		resources = new();
 		machines = new();
