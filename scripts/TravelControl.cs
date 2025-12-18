@@ -45,6 +45,7 @@ public partial class TravelControl : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		DisplayFeatures();
 	}
 	
 	public void DisplayFeatures()
@@ -64,7 +65,7 @@ public partial class TravelControl : Control
 		
 		features += $"Elevation: {selectedData.elevation}\nTemperature: {selectedData.temperature}\nPressure: {selectedData.pressure}\nRoughness: {selectedData.roughness}\n\n";
 		
-		features += $"Wind: {selected.wind}\nSolar: {selected.solar}\n\n";
+		features += $"Wind: {selected.wind:0.00}\nSolar: {selected.solar:0.00}\n\n";
 		
 		features += "Resourse Deposits:";
 		if (selected.nodes.Count > 0)

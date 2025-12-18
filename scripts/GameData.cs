@@ -118,6 +118,11 @@ public partial class GameData : Node
 		ProcessMachines(delta);
 		UpdateQuestTracking();
 		CheckQuests();
+		
+		foreach (var reg in regionMap.Values)
+		{
+			reg.ShiftWeather((float)delta);
+		}
 	}
 	
 	public static void LoadAll()
@@ -808,6 +813,14 @@ public partial class GameData : Node
 		mapControl.UpdateAllColors();
 		travelControl.UpdateRegions();
 	}
+	
+	public static float RandNormal(float mean, float stddev)
+	{
+		float u1 = Mathf.Max(rng.Randf(), 1e-7f);
+		float u2 = rng.Randf();
+		
+		return mean + stddev * Mathf.Sqrt(-2f * Mathf.Log(u1)) * Mathf.Cos(2f * Mathf.Pi * u2);
+	}
 }
 
 public class ResourceData
@@ -978,10 +991,18 @@ public class Region
 	public RegionData regData;
 	public int coordX;
 	public int coordY;
+	
 	public float wind;
-	public float maxWind;
+	public float windMax;
+	public float windK;
+	public float windSigma;
+	public float windState;
+	
 	public float solar;
-	public float maxSolar;
+	public float solarMax;
+	public float solarK;
+	public float solarSigma;
+	public float solarState;
 	
 	public Dictionary<string, float> resources;
 	public List<Machine> machines;
@@ -989,17 +1010,44 @@ public class Region
 	
 	public Region(RegionData data, (int x, int y) coord)
 	{
+		/*"plains": {
+		"name": "Plains",
+		"elevation": 20,
+		"temperature": 30,
+		"pressure": 0.5,
+		"roughness": 0.2
+	},
+	"hills": {
+		"name": "Hills",
+		"elevation": 30,
+		"temperature": 20,
+		"pressure": 0.4,
+		"roughness": 0.4
+	},
+	"mountains": {
+		"name": "Mountains",
+		"elevation": 40,
+		"temperature": 10,
+		"pressure": 0.2,
+		"roughness": 0.6
+	}*/
 		//Generate a new region using region data and the coordinate of the region.
 		GD.Print($"GameData: Generating region at ({coord.x}, {coord.y})");
 		regData = data;
 		coordX = coord.x;
 		coordY = coord.y;
 		
-		maxWind = (regData.elevation * 0.2f) + regData.pressure + regData.roughness;
-		wind = maxWind / 2;
+		windMax = (regData.elevation * 0.2f) + regData.pressure + regData.roughness;
+		windK = regData.roughness * 0.1f;
+		windSigma = regData.roughness * 0.5f;
+		wind = windMax / 2;
+		windState = 0f;
 		
-		maxSolar = (regData.elevation * 0.2f) + (1.0f - regData.pressure) + (1.0f - regData.roughness);
-		solar = maxSolar / 2;
+		solarMax = (regData.elevation * 0.2f) + (1.0f - regData.pressure) + (1.0f - regData.roughness);
+		solarK = regData.roughness * 0.1f;
+		solarSigma = regData.roughness * 0.5f;
+		solar = solarMax / 2;
+		solarState = 0f;
 		
 		resources = new();
 		machines = new();
@@ -1020,6 +1068,17 @@ public class Region
 		{
 			resources[res.Key] = 0f;
 		}
+	}
+	
+	public void ShiftWeather(float delta)
+	{
+		windState += -windK * windState * delta + windSigma * Mathf.Sqrt(delta) * GameData.RandNormal(0f, 1f);
+		windState = Math.Clamp(windState, -1f, 1f);
+		wind = windMax * (1f + 0.4f * windState);
+		
+		solarState += -solarK * solarState * delta + solarSigma * Mathf.Sqrt(delta) * GameData.RandNormal(0f, 1f);
+		solarState = Math.Clamp(solarState, -1f, 1f);
+		solar = solarMax * (1f + 0.4f * solarState);
 	}
 	
 	public bool IsAdjacent(Region reg)
