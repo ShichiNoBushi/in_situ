@@ -11,6 +11,18 @@
 		"value": 0.2,
 		"description": "An elemental gas used in many chemical reactions and nuclear fusion."
 	},
+	"carbon": {
+		"name": "Carbon",
+		"abbreviation": "El-C",
+		"type": "element",
+		"subtypes": ["fuel", "life support"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"carbon": 1.0},
+		"value": 0.2,
+		"description": "An element that makes up organic compounds and hydrocarbons."
+	},
 	"oxygen": {
 		"name": "Oxygen",
 		"abbreviation": "El-O2",

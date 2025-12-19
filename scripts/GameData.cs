@@ -1133,14 +1133,15 @@ public class Machine
 		}
 		
 		//Assign recipes based on which ones are assigned to this machine.
-		recipes = new();
+		/*recipes = new();
 		foreach (var rec in GameData.RECIPES)
 		{
 			if (rec.Value.machines.Contains(machineID))
 			{
 				recipes.Add(rec.Key);
 			}
-		}
+		}*/
+		recipes = GameData.RECIPES.Where(r => r.Value.machines.Contains(id)).OrderBy(r => r.Key).Select(r => r.Key).ToList();
 		
 		if (recipes.Count > 0)
 		{

@@ -215,6 +215,15 @@
 		"local": "",
 		"description": "React carbon dioxide with hydrogen to create methane with water as a byproduct."
 	},
+	"methane pyrolysis": {
+		"name": "Methane Pyrolysis",
+		"inputs": {"methane": 0.802, "energy": 2},
+		"outputs": {"carbon": 0.6, "hydrogen": 0.202},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Heat methane at high temperatures in an oxygen free environment to break it down to carbon char and hydrogen instead of combusting."
+	},
 	"crush stone": {
 		"name": "Crush Stone",
 		"inputs": {"stone": 5, "energy": 1},

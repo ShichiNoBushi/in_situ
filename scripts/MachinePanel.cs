@@ -60,7 +60,8 @@ public partial class MachinePanel : Control
 	{
 		if (machine == null) return;
 		
-		string recipeID = machine.recipes[(int)index];
+		//string recipeID = machine.recipes[(int)index];
+		string recipeID = (string)recipeMenu.GetItemMetadata((int)index);
 		machine.SetRecipe(recipeID);
 		
 		DisplayRecipeResources();
@@ -129,6 +130,8 @@ public partial class MachinePanel : Control
 			{
 				GD.Print($"Adding recipe {recipe.name} for {GameData.MACHINES[machine.id].name}");
 				recipeMenu.AddItem(recipe.name);
+				int idx = recipeMenu.ItemCount - 1;
+				recipeMenu.SetItemMetadata(idx, rid);
 				found = true;
 			}
 		}
@@ -168,7 +171,9 @@ public partial class MachinePanel : Control
 			
 			GD.Print($"MachinePanel: Selecting recipe at index {selectIdx}");
 			//recipeMenu.Select(0);
-			machine.SetRecipe(GameData.recNameToKey[recipeMenu.GetItemText(selectIdx)]);
+			//machine.SetRecipe(GameData.recNameToKey[recipeMenu.GetItemText(selectIdx)]);
+			string recipeID = (string)recipeMenu.GetItemMetadata(selectIdx);
+			machine.SetRecipe(recipeID);
 			GD.Print("MachinePanel: Recipe selected");
 		}
 	}
@@ -245,7 +250,7 @@ public partial class MachinePanel : Control
 		}
 		else
 		{
-			inputLabel.Text = "Recipe Invalid";
+			inputLabel.Text = $"Recipe Invalid {GameData.RECIPES[machine.currentRecipe].name} - Available: {GameData.RECIPES[machine.currentRecipe].available}";
 			//availableLabel.Text = "";
 			outputLabel.Text = "";
 			//producedLabel.Text = "";
