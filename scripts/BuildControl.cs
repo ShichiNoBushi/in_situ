@@ -93,6 +93,8 @@ public partial class BuildControl : Control
 			{
 				GD.Print($"BuildControl: Adding machine {mach.Value.name}");
 				machineMenu.AddItem(mach.Value.name);
+				int idx = machineMenu.ItemCount - 1;
+				machineMenu.SetItemMetadata(idx, mach.Key);
 				found = true;
 			}
 		}
@@ -222,16 +224,17 @@ public partial class BuildControl : Control
 			return;
 		}
 		
-		String machName = machineMenu.GetItemText((int)index);
+		String machName = machineMenu.GetItemText(menuIdx);
 		
-		if (!GameData.machNameToKey.ContainsKey(machName))
+		/*if (!GameData.machNameToKey.ContainsKey(machName))
 		{
 			GD.Print($"BuildControl: Machine name {machName} not in machNameToKey");
 			selectedMachine = null;
 			return;
-		}
+		}*/
 		
-		machKey = GameData.machNameToKey[machName];
+		//machKey = GameData.machNameToKey[machName];
+		machKey = (string)machineMenu.GetItemMetadata(menuIdx);
 		selectedMachine = GameData.MACHINES[machKey];
 		
 		GD.Print($"BuildControl: Selected machine {machName}");

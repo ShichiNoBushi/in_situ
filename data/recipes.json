@@ -134,6 +134,15 @@
 		"local": "",
 		"description": "Rolls copper into flat plates."
 	},
+	"copper foil press": {
+		"name": "Copper Foil (Press)",
+		"inputs": {"copper": 1, "energy": 0.5},
+		"outputs": {"copper foil": 1},
+		"available": false,
+		"machines": ["roller press"],
+		"local": "",
+		"description": "Rolls copper into thin foil sheets."
+	},
 	"extrude iron wire": {
 		"name": "Iron Wire (Extrude)",
 		"inputs": {"iron": 4, "energy": 0.5},

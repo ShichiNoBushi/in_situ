@@ -250,7 +250,7 @@ public partial class MachinePanel : Control
 		}
 		else
 		{
-			inputLabel.Text = $"Recipe Invalid {GameData.RECIPES[machine.currentRecipe].name} - Available: {GameData.RECIPES[machine.currentRecipe].available}";
+			inputLabel.Text = "Recipe Invalid";
 			//availableLabel.Text = "";
 			outputLabel.Text = "";
 			//producedLabel.Text = "";

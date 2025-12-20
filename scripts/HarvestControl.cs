@@ -25,6 +25,8 @@ public partial class HarvestControl : Control
 		foreach(var harv in GameData.HARVEST)
 		{
 			harvestMenu.AddItem(harv.Value.action);
+			int id = harvestMenu.ItemCount - 1;
+			harvestMenu.SetItemMetadata(id, harv.Key);
 		}
 		
 		int idx = harvestMenu.GetSelectedId();
@@ -58,11 +60,13 @@ public partial class HarvestControl : Control
 		
 		foreach (var node in GameData.currentRegion.nodes)
 		{
-			foreach (var harv in GameData.HARVEST.Values)
+			foreach (var harv in GameData.HARVEST)
 			{
-				if (harv.resource == node)
+				if (harv.Value.resource == node)
 				{
-					harvestMenu.AddItem(harv.action);
+					harvestMenu.AddItem(harv.Value.action);
+					int idx = harvestMenu.ItemCount - 1;
+					harvestMenu.SetItemMetadata(idx, harv.Key);
 					break;
 				}
 			}
@@ -106,7 +110,8 @@ public partial class HarvestControl : Control
 	
 	public void SelectHarvest(long index)
 	{
-		String harvestKey = GameData.harvActionToKey[harvestMenu.GetItemText((int)index)];
+		//String harvestKey = GameData.harvActionToKey[harvestMenu.GetItemText((int)index)];
+		string harvestKey = (string)harvestMenu.GetItemMetadata((int)index);
 		harvestAction = GameData.HARVEST[harvestKey];
 	}
 }

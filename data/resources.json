@@ -311,6 +311,18 @@
 		"value": 0.5,
 		"description": "A flat plate made of copper used in construction."
 	},
+	"copper foil": {
+		"name": "Copper Foil",
+		"abbreviation": "Foil-Cu",
+		"type": "component",
+		"subtypes": ["sheet", "metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 1.0},
+		"value": 0.5,
+		"description": "A thin foil sheet made of copper used in electronics."
+	},
 	"glass pane": {
 		"name": "Glass Pane",
 		"abbreviation": "GlsPane",
