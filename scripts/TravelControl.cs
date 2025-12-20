@@ -51,7 +51,9 @@ public partial class TravelControl : Control
 	public void DisplayFeatures()
 	{
 		int idx = regionMenu.GetSelected();
-		(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText(idx)];
+		//(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText(idx)];
+		Vector2I coordV2 = (Vector2I)regionMenu.GetItemMetadata(idx);
+		(int x, int y) coord = (coordV2.X, coordV2.Y);
 		Region current = GameData.currentRegion;
 		Region selected = GameData.regionMap[coord];
 		RegionData currentData = current.regData;
@@ -85,7 +87,9 @@ public partial class TravelControl : Control
 	
 	private void OnRegionSelect(long index)
 	{
-		(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText((int)index)];
+		//(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText((int)index)];
+		Vector2I coordV2 = (Vector2I)regionMenu.GetItemMetadata((int)index);
+		(int x, int y) coord = (coordV2.X, coordV2.Y);
 		Region destination = GameData.regionMap[coord];
 		
 		DisplayFeatures();
@@ -97,7 +101,9 @@ public partial class TravelControl : Control
 	private void TravelRegion()
 	{
 		int idx = regionMenu.GetSelected();
-		(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText(idx)];
+		//(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText(idx)];
+		Vector2I coordV2 = (Vector2I)regionMenu.GetItemMetadata(idx);
+		(int x, int y) coord = (coordV2.X, coordV2.Y);
 		
 		GameData.TravelTo(coord);
 	}
@@ -169,6 +175,9 @@ public partial class TravelControl : Control
 		{
 			GD.Print($"TravelControl: Adding coordinate {GameData.CoordToString(coord)}");
 			regionMenu.AddItem(GameData.CoordToString(coord));
+			int idx = regionMenu.ItemCount - 1;
+			Vector2I coordV2 = new Vector2I(coord.x, coord.y);
+			regionMenu.SetItemMetadata(idx, coordV2);
 		}
 		
 		int selectIdx = -1;

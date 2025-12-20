@@ -67,11 +67,15 @@ public partial class QuestControl : Control
 		foreach (var quest in activeQuests)
 		{
 			activeList.AddItem(quest.Value.name);
+			int idx = activeList.ItemCount - 1;
+			activeList.SetItemMetadata(idx, quest.Key);
 		}
 		
 		foreach (var quest in completeQuests)
 		{
 			completeList.AddItem(quest.Value.name);
+			int idx = completeList.ItemCount - 1;
+			completeList.SetItemMetadata(idx, quest.Key);
 		}
 	}
 	
@@ -101,7 +105,8 @@ public partial class QuestControl : Control
 		completeList.DeselectAll();
 		
 		String questName = activeList.GetItemText((int)index);
-		String quest = GameData.qstNameToKey[questName];
+		//String quest = GameData.qstNameToKey[questName];
+		String quest = (String)activeList.GetItemMetadata((int)index);
 		
 		displayLabel.Text = DisplayQuestText(quest, true);
 	}
@@ -111,7 +116,8 @@ public partial class QuestControl : Control
 		activeList.DeselectAll();
 		
 		String questName = completeList.GetItemText((int)index);
-		String quest = GameData.qstNameToKey[questName];
+		//String quest = GameData.qstNameToKey[questName];
+		String quest = (String)completeList.GetItemMetadata((int)index);
 		
 		displayLabel.Text = DisplayQuestText(quest, false);
 	}
@@ -167,7 +173,8 @@ public partial class QuestControl : Control
 		{
 			int idx = activeList.GetSelectedItems()[0];
 			String questName = activeList.GetItemText(idx);
-			String questKey = GameData.qstNameToKey[questName];
+			//String questKey = GameData.qstNameToKey[questName];
+			String questKey = (String)activeList.GetItemMetadata(idx);
 			
 			GD.Print($"QuestControl: Tracking quest {questName}...");
 			
