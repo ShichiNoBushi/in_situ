@@ -1,8 +1,8 @@
 {
 	"iron wire sm-ex": {
 		"name": "Iron Wire (Smelter Extruder)",
-		"inputs": {"iron ore": 5, "energy": 1},
-		"outputs": {"iron wire": 2},
+		"inputs": {"iron ore": 2.5, "energy": 1},
+		"outputs": {"iron wire": 1},
 		"available": false,
 		"machines": ["smelter extruder"],
 		"local": "",
@@ -10,8 +10,8 @@
 	},
 	"copper wire sm-ex": {
 		"name": "Copper Wire (Smelter Extruder)",
-		"inputs": {"copper ore": 5, "energy": 1},
-		"outputs": {"copper wire": 2},
+		"inputs": {"copper ore": 2.5, "energy": 1},
+		"outputs": {"copper wire": 1},
 		"available": false,
 		"machines": ["smelter extruder"],
 		"local": "",
@@ -19,8 +19,8 @@
 	},
 	"glass filament sm-ex": {
 		"name": "Glass Filament (Smelter Extruder)",
-		"inputs": {"sand": 5, "energy": 1},
-		"outputs": {"glass filament": 2},
+		"inputs": {"sand": 2.5, "energy": 1},
+		"outputs": {"glass filament": 1},
 		"available": false,
 		"machines": ["smelter extruder"],
 		"local": "",
@@ -46,8 +46,8 @@
 	},
 	"iron gear small print": {
 		"name": "Iron Gear (Small; Printer)",
-		"inputs": {"iron wire": 2, "energy": 0.5},
-		"outputs": {"iron gear small": 2},
+		"inputs": {"iron wire": 1, "energy": 0.5},
+		"outputs": {"iron gear small": 1},
 		"available": false,
 		"machines": ["component printer"],
 		"local": "",
@@ -55,8 +55,8 @@
 	},
 	"iron plate print": {
 		"name": "Iron Plate (Printer)",
-		"inputs": {"iron wire": 5, "energy": 1},
-		"outputs": {"iron plate": 5},
+		"inputs": {"iron wire": 1, "energy": 1},
+		"outputs": {"iron plate": 1},
 		"available": false,
 		"machines": ["component printer"],
 		"local": "",
@@ -64,8 +64,8 @@
 	},
 	"iron rod print": {
 		"name": "Iron Rod (Printer)",
-		"inputs": {"iron wire": 5, "energy": 1},
-		"outputs": {"iron rod": 5},
+		"inputs": {"iron wire": 1, "energy": 1},
+		"outputs": {"iron rod": 1},
 		"available": false,
 		"machines": ["component printer"],
 		"local": "",
@@ -73,8 +73,8 @@
 	},
 	"iron blade print": {
 		"name": "Iron Blade (Printer)",
-		"inputs": {"iron wire": 5, "energy": 1},
-		"outputs": {"iron blade": 5},
+		"inputs": {"iron wire": 1, "energy": 1},
+		"outputs": {"iron blade": 1},
 		"available": false,
 		"machines": ["component printer"],
 		"local": "",
@@ -82,8 +82,8 @@
 	},
 	"copper plate print": {
 		"name": "Copper Plate (Printer)",
-		"inputs": {"copper wire": 5, "energy": 1},
-		"outputs": {"copper plate": 5},
+		"inputs": {"copper wire": 1, "energy": 1},
+		"outputs": {"copper plate": 1},
 		"available": false,
 		"machines": ["component printer"],
 		"local": "",
@@ -91,8 +91,8 @@
 	},
 	"glass pane print": {
 		"name": "Glass Pane (Printer)",
-		"inputs": {"glass filament": 5, "energy": 1},
-		"outputs": {"glass pane": 2},
+		"inputs": {"glass filament": 1, "energy": 1},
+		"outputs": {"glass pane": 1},
 		"available": false,
 		"machines": ["component printer"],
 		"local": "",
@@ -196,6 +196,15 @@
 		"machines": ["magnetizer"],
 		"local": "",
 		"description": "Convert inert iron rod into a magnet."
+	},
+	"laminate substrate": {
+		"name": "Laminate Substrate",
+		"inputs": {"glass pane": 1, "clay slurry": 1, "energy": 2},
+		"outputs": {"insulating substrate": 1},
+		"available": false,
+		"machines": ["roller press"],
+		"local": "",
+		"description": "Create an board of insulating substrate for circuit boards."
 	},
 	"melt ice": {
 		"name": "Melt Ice",
