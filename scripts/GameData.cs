@@ -49,6 +49,9 @@ public partial class GameData : Node
 	//Label to display the current tracked objective.
 	public static Label objectiveLabel;
 	
+	//Button to quit the game.
+	public static Button quitButton;
+	
 	//A variable to test if a feature is functioning (possibly no longer necessary).
 	private static bool questUpdateFunctioning;
 	
@@ -102,6 +105,9 @@ public partial class GameData : Node
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/BaseTab/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
+		quitButton = GetNode<Button>("../TabContainer/OptionsTab/QuitButton");
+		quitButton.Pressed += QuitGame;
+		
 		//Possibly unnecessary test variable.
 		questUpdateFunctioning = true;
 		
@@ -142,6 +148,12 @@ public partial class GameData : Node
 		RECIPES = LoadJson<Dictionary<string, RecipeData>>(recipePath);
 		REGIONS = LoadJson<Dictionary<string, RegionData>>(regionsPath);
 		QUESTS = LoadJson<Dictionary<string, QuestData>>(questPath);
+	}
+	
+	//Quits game.
+	public void QuitGame()
+	{
+		GetTree().Quit();
 	}
 	
 	public static T LoadJson<T>(string filepath)
