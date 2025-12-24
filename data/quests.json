@@ -248,7 +248,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["machine maintenance"],
 			"recipes": ["smelt iron", "smelt copper", "iron gear small mold", "iron blade mold", "iron plate press", "copper plate press", "copper foil press", "extrude iron wire", "extrude iron rod", "extrude copper wire", "laminate substrate"],
 			"machines": ["roller press", "component mold", "extruder"]
 		},
@@ -265,7 +265,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["recycle iron", "recycle copper"],
+			"recipes": ["recycle iron", "recycle copper", "scrap small iron gear", "scrap iron plate", "scrap iron rod", "scrap iron blade", "scrap iron wire", "scrap magnet", "scrap copper plate", "scrap copper wire"],
 			"machines": []
 		},
 		"text": "By this point, one of your machines may have stopped working. Whether or not any have, you will need to regularly perform maintenance on your machines.\n\nYou can do this by putting a machine in maintenance mode then press the \"Diagnostic\" button. It will then produce a list of components that will need to be repaired and replaced. Once you have produced the necessary components (at least partially), then press the \"Repair\" button. The components will be used up, and the broken parts will be set aside as scrap.\n\nYou are advised to not throw away any scrap as it can be recycled usually by putting it in a smelter. It is important to conserve and reuse whatever resources you have especially this early in developing your industrial base. And as a precaution, you should reserve some components that are commonly used.",

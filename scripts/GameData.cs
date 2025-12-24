@@ -51,6 +51,7 @@ public partial class GameData : Node
 	
 	//Button to quit the game.
 	public static Button quitButton;
+	public static ConfirmationDialog quitConfirm;
 	
 	//A variable to test if a feature is functioning (possibly no longer necessary).
 	private static bool questUpdateFunctioning;
@@ -106,7 +107,9 @@ public partial class GameData : Node
 		objectiveLabel = GetNode<Label>("../TabContainer/BaseTab/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
 		quitButton = GetNode<Button>("../TabContainer/OptionsTab/QuitButton");
+		quitConfirm = GetNode<ConfirmationDialog>("../TabContainer/OptionsTab/QuitConfirm");
 		quitButton.Pressed += QuitGame;
+		quitConfirm.Confirmed += QuitConfirmed;
 		
 		//Possibly unnecessary test variable.
 		questUpdateFunctioning = true;
@@ -152,6 +155,11 @@ public partial class GameData : Node
 	
 	//Quits game.
 	public void QuitGame()
+	{
+		quitConfirm.PopupCentered();
+	}
+	
+	public void QuitConfirmed()
 	{
 		GetTree().Quit();
 	}

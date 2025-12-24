@@ -194,3 +194,9 @@ offset_top = 774.0
 offset_right = 18.0
 offset_bottom = 774.0
 script = ExtResource("12_p20hg")
+
+[node name="QuitConfirm" type="ConfirmationDialog" parent="TabContainer/OptionsTab"]
+title = "Quit Game"
+initial_position = 1
+ok_button_text = "Quit"
+dialog_text = "Are you sure you want to quit?"

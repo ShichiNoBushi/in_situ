@@ -278,6 +278,78 @@
 		"local": "",
 		"description": "Carves stone into uniform bricks."
 	},
+	"scrap small iron gear": {
+		"name": "Scrap Small Iron Gear",
+		"inputs": {"iron gear small": 1, "energy": 0.5},
+		"outputs": {"iron scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down small iron gears into recyclable scrap."
+	},
+	"scrap iron plate": {
+		"name": "Scrap Iron Plate",
+		"inputs": {"iron plate": 1, "energy": 0.5},
+		"outputs": {"iron scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down iron plates into recyclable scrap."
+	},
+	"scrap iron rod": {
+		"name": "Scrap Iron Rod",
+		"inputs": {"iron rod": 1, "energy": 0.5},
+		"outputs": {"iron scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down iron rods into recyclable scrap."
+	},
+	"scrap iron blade": {
+		"name": "Scrap Iron Blade",
+		"inputs": {"iron blade": 1, "energy": 0.5},
+		"outputs": {"iron scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down iron blades into recyclable scrap."
+	},
+	"scrap iron wire": {
+		"name": "Scrap Iron Wire",
+		"inputs": {"iron wire": 1, "energy": 0.5},
+		"outputs": {"iron scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down iron wire into recyclable scrap."
+	},
+	"scrap magnet": {
+		"name": "Scrap Magnet",
+		"inputs": {"magnet": 1, "energy": 0.5},
+		"outputs": {"iron scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down magnets into recyclable scrap."
+	},
+	"scrap copper plate": {
+		"name": "Scrap Copper Plate",
+		"inputs": {"copper plate": 1, "energy": 0.5},
+		"outputs": {"copper scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down copper plates into recyclable scrap."
+	},
+	"scrap copper wire": {
+		"name": "Scrap Copper Wire",
+		"inputs": {"copper wire": 1, "energy": 0.5},
+		"outputs": {"copper scrap": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Breaks down copper wire into recyclable scrap."
+	},
 	"recycle iron": {
 		"name": "Recycle Iron",
 		"inputs": {"iron scrap": 5, "energy": 0.5},

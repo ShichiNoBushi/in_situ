@@ -57,7 +57,7 @@ The game currently has a simple GUI displaying available resources and machines.
 	* "Track Quest" button: sets currently selected active quest to be tracked on Base Tab.
 
 * "Options Tab": miscelaneous options
-	* "Quit" button: exits game (nonfunctional; use X on window bar).
+	* "Quit" button: exits game after confirmation.
 	* Cheat/Dev command entry box: type a code for a cheat or dev command.
 	* "Enter" button: executes command (Enter/Return key also functions).
 	* Feedback label: displays feedback for results of entering command.
@@ -129,6 +129,7 @@ The game currently has a simple GUI displaying available resources and machines.
 * Wear: Machines accumulate wear as they operate
 	* Diagnostics identifies resources needed to repair machine based on cost to build machine
 	* Repair reduces wear and consumes required resources
+	* Repaired components are converted into scrap based on component materials which can be recycled
 	* Machines no longer function when they reach 100% wear
 * Regions: locations with individual geography, resource stockpiles, and constructed machines
 * Cheat/Dev Commands: enter codes to grant resources or unlock features
