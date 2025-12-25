@@ -35,6 +35,18 @@
 		"value": 0.2,
 		"description": "An elemental gas used in many chemical reactions and as an oxidizer."
 	},
+	"silicon": {
+		"name": "Silicon",
+		"abbreviation": "El-Si",
+		"type": "element",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"silicon": 1.0},
+		"value": 0.5,
+		"description": "A metaloid used for electronic components."
+	},
 	"iron": {
 		"name": "Iron",
 		"abbreviation": "El-Fe",
@@ -178,6 +190,18 @@
 		"scrap": {"ice": 1.0},
 		"value": 0.1,
 		"description": "Frozen water."
+	},
+	"carbon monoxide": {
+		"name": "Carbon Monoxide",
+		"abbreviation": "CO",
+		"type": "compound",
+		"subtypes": ["gas"],
+		"phase": "gas",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"carbon monoxide": 1.0},
+		"value": 0.1,
+		"description": "A toxic gas as a biproduct of chemical reactions and combustion."
 	},
 	"carbon dioxide": {
 		"name": "Carbon Dioxide",

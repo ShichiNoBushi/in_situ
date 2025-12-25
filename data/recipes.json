@@ -242,6 +242,15 @@
 		"local": "",
 		"description": "Heat methane at high temperatures in an oxygen free environment to break it down to carbon char and hydrogen instead of combusting."
 	},
+	"reduce silicon": {
+		"name": "Reduce Silicon",
+		"inputs": {"sand": 1, "carbon": 0.4, "energy": 2},
+		"outputs": {"silicon": 0.47, "carbon monoxide": 0.93},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "React sand (silicon dioxide) with carbon to produce metalurgical silicon and carbon monoxide."
+	},
 	"crush stone": {
 		"name": "Crush Stone",
 		"inputs": {"stone": 5, "energy": 1},
