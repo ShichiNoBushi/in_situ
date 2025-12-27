@@ -275,6 +275,18 @@
 		"value": 0.2,
 		"description": "Stone carved and sculpted into uniform bricks."
 	},
+	"ceramic": {
+		"name": "Ceramic",
+		"abbreviation": "Ceram",
+		"type": "component",
+		"subtypes": ["mineral"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"stone dust": 1.0},
+		"value": 0.2,
+		"description": "Clay baked into ceramic."
+	},
 	"iron gear small": {
 		"name": "Iron Gear (Small)",
 		"abbreviation": "Gear-Fe-Sm",
@@ -394,6 +406,18 @@
 		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
 		"description": "A coil that uses magnetic induction to efficiently generate heat."
+	},
+	"electromagnetic relay": {
+		"name": "Electromagnetic Relay",
+		"abbreviation": "EMRelay",
+		"type": "component",
+		"subtypes": ["control", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"iron scrap": 0.5, "copper scrap": 0.5},
+		"value": 0.7,
+		"description": "A switch that activates automatically to close a circuit."
 	},
 	"insulating substrate": {
 		"name": "Insulating Substrate",
