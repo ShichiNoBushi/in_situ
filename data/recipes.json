@@ -191,11 +191,29 @@
 	"electromagnetic relay": {
 		"name": "Electromagnetic Relay",
 		"inputs": {"copper wire": 2, "iron plate": 1, "magnet": 1, "energy": 2},
-		"outputs": {"electromagnetic Relay": 5},
+		"outputs": {"Electromagnetic Relay": 5},
 		"available": false,
 		"machines": ["parts assembler"],
 		"local": "",
 		"description": "Craft a relay to function as an automated switch."
+	},
+	"resistor": {
+		"name": "Resistor",
+		"inputs": {"copper wire": 1, "carbon": 2, "ceramic": 1, "energy": 2},
+		"outputs": {"resistor": 4},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a resistor to use in electronics."
+	},
+	"capacitor": {
+		"name": "Capacitor",
+		"inputs": {"copper wire": 1, "copper foil": 2, "ceramic": 1, "energy": 2},
+		"outputs": {"capacitor": 4},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a capacitor to use in electronics."
 	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",

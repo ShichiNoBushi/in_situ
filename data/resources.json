@@ -419,6 +419,30 @@
 		"value": 0.7,
 		"description": "A switch that activates automatically to close a circuit."
 	},
+	"resistor": {
+		"name": "Resistor",
+		"abbreviation": "Rstr",
+		"type": "component",
+		"subtypes": ["electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"carbon": 0.5, "copper scrap": 0.25, "stone dust": 0.25},
+		"value": 0.7,
+		"description": "An electronic component for controlling currents."
+	},
+	"capacitor": {
+		"name": "Capacitor",
+		"abbreviation": "Capctr",
+		"type": "component",
+		"subtypes": ["electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"stone dust": 0.25, "copper scrap": 0.75},
+		"value": 0.7,
+		"description": "An electronic component to store energy."
+	},
 	"insulating substrate": {
 		"name": "Insulating Substrate",
 		"abbreviation": "InsSbstr",
