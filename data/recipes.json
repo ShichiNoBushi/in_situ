@@ -215,6 +215,15 @@
 		"local": "",
 		"description": "Craft a capacitor to use in electronics."
 	},
+	"control board": {
+		"name": "Control Board",
+		"inputs": {"copper wire": 0.75, "insulating substrate": 0.75, "resistor": 0.5, "capacitor": 0.5, "energy": 2},
+		"outputs": {"control board": 2.5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a simple electronic control board."
+	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",
 		"inputs": {"iron rod": 1, "energy": 2},

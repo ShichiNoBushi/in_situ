@@ -455,6 +455,18 @@
 		"value": 0.5,
 		"description": "A starter board for constructing electric circuits."
 	},
+	"control board": {
+		"name": "Control Board",
+		"abbreviation": "CtrlBrd",
+		"type": "component",
+		"subtypes": ["circuit", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "carbon": 0.1},
+		"value": 0.7,
+		"description": "A conrol board for simple electronic automation."
+	},
 	"iron scrap": {
 		"name": "Iron Scrap",
 		"abbreviation": "FeScrap",
