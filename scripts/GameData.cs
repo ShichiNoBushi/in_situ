@@ -1030,27 +1030,6 @@ public class Region
 	
 	public Region(RegionData data, (int x, int y) coord)
 	{
-		/*"plains": {
-		"name": "Plains",
-		"elevation": 20,
-		"temperature": 30,
-		"pressure": 0.5,
-		"roughness": 0.2
-	},
-	"hills": {
-		"name": "Hills",
-		"elevation": 30,
-		"temperature": 20,
-		"pressure": 0.4,
-		"roughness": 0.4
-	},
-	"mountains": {
-		"name": "Mountains",
-		"elevation": 40,
-		"temperature": 10,
-		"pressure": 0.2,
-		"roughness": 0.6
-	}*/
 		//Generate a new region using region data and the coordinate of the region.
 		GD.Print($"GameData: Generating region at ({coord.x}, {coord.y})");
 		regData = data;
@@ -1120,31 +1099,38 @@ public class Region
 	}
 }
 
-public class Machine
+public class Buildable
 {
-	//A machine that processes recipes to consume and produce resources.
-	public string id {get; private set;}
-	public bool active {get; private set;}
-	public float wear {get; private set;}
-	public float diagnosedWear {get; private set;}
-	public float maxWear {get; private set;}
-	public Dictionary<String, float> repairComponents {get; private set;} = new();
-	public List<string> recipes {get; private set;} = new();
-	public string currentRecipe {get; private set;}
-	public Region location {get; private set;}
+	//A parent class for buildable elements such as machines.
+	public string id {get; protected set;}
+	public bool active {get; protected set;}
+	public float wear {get; protected set;}
+	public float diagnosedWear {get; protected set;}
+	public float maxWear {get; protected set;}
+	public Dictionary<string, float> repairComponents {get; protected set;} = new();
+	public Region location {get; protected set;}
 	
-	public Machine(string machineID, Region loc)
+	protected Buildable(string buildableID, Region loc)
 	{
-		//Create a machine using the data ID at designated location.
-		id = machineID;
+		id = buildableID;
 		location = loc;
 		active = false;
 		
-		//How much wear a machine has accumulated, has been diagnosed, and how much at which it stops working.
 		wear = 0f;
 		diagnosedWear = 0f;
 		maxWear = 0f;
-		
+	}
+}
+
+public class Machine : Buildable
+{
+	//A machine that processes recipes to consume and produce resources.
+	public List<string> recipes {get; private set;} = new();
+	public string currentRecipe {get; private set;}
+	
+	public Machine(string machineID, Region loc) : base(machineID, loc)
+	{
+		//Create a machine using the data ID at designated location.
 		//Maximum wear is calculated as the total mass of components used to construct it.
 		MachineData data = GameData.MACHINES[id];
 		foreach (var mach in data.cost.Values)
@@ -1153,14 +1139,6 @@ public class Machine
 		}
 		
 		//Assign recipes based on which ones are assigned to this machine.
-		/*recipes = new();
-		foreach (var rec in GameData.RECIPES)
-		{
-			if (rec.Value.machines.Contains(machineID))
-			{
-				recipes.Add(rec.Key);
-			}
-		}*/
 		recipes = GameData.RECIPES.Where(r => r.Value.machines.Contains(id)).OrderBy(r => r.Key).Select(r => r.Key).ToList();
 		
 		if (recipes.Count > 0)
@@ -1196,31 +1174,32 @@ public class Machine
 		//Repair the machine, consume repair components, and create recyclable scrap.
 		float total = 0f;
 		
-		foreach (var comp in repairComponents)
+		foreach (var compKey in repairComponents.Keys.ToList())
 		{
+			float needed = repairComponents[compKey];
 			//Determine how much of the required resource is available at the machine's location.
-			float available = location.resources[comp.Key];
+			float available = location.resources[compKey];
 			//Track an amount of scrap that would be produced from this resource.
 			float scrap = 0f;
 			
-			if (available >= comp.Value)
+			if (available >= needed)
 			{
 				//If amount of resource is sufficient, consume the required amount and note that as scrap.
-				location.resources[comp.Key] -= comp.Value;
-				total += comp.Value;
-				repairComponents.Remove(comp.Key);
-				scrap = comp.Value;
+				location.resources[compKey] -= needed;
+				total += needed;
+				repairComponents.Remove(compKey);
+				scrap = needed;
 			}
 			else
 			{
 				//If amount is insufficient, consume all that is available and reduce that amount from amount required taking not of scrap.
-				repairComponents[comp.Key] -= available;
-				location.resources[comp.Key] = 0;
+				repairComponents[compKey] = needed - available;
+				location.resources[compKey] = 0;
 				total += available;
 				scrap = available;
 			}
 			
-			foreach (var sc in GameData.RESOURCES[comp.Key].scrap)
+			foreach (var sc in GameData.RESOURCES[compKey].scrap)
 			{
 				//For each resource used to craft the replaced component, produce the associated scrap component.
 				location.resources[sc.Key] += scrap * sc.Value;
