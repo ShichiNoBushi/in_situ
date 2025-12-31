@@ -1120,47 +1120,11 @@ public class Buildable
 		diagnosedWear = 0f;
 		maxWear = 0f;
 	}
-}
-
-public class Machine : Buildable
-{
-	//A machine that processes recipes to consume and produce resources.
-	public List<string> recipes {get; private set;} = new();
-	public string currentRecipe {get; private set;}
-	
-	public Machine(string machineID, Region loc) : base(machineID, loc)
-	{
-		//Create a machine using the data ID at designated location.
-		//Maximum wear is calculated as the total mass of components used to construct it.
-		MachineData data = GameData.MACHINES[id];
-		foreach (var mach in data.cost.Values)
-		{
-			maxWear += mach;
-		}
-		
-		//Assign recipes based on which ones are assigned to this machine.
-		recipes = GameData.RECIPES.Where(r => r.Value.machines.Contains(id)).OrderBy(r => r.Key).Select(r => r.Key).ToList();
-		
-		if (recipes.Count > 0)
-		{
-			currentRecipe = recipes[0];
-		}
-		else
-		{
-			currentRecipe = "";
-		}
-	}
 	
 	public void ToggleActive(bool on)
 	{
 		//Turn machine on/off.
 		active = on;
-	}
-	
-	public void SetRecipe(string rid)
-	{
-		//Select the current recipe to process.
-		currentRecipe = rid;
 	}
 	
 	public void Damage(float dmg)
@@ -1349,5 +1313,62 @@ public class Machine : Buildable
 			//Redefine the amount of undiagnosed wear and loop.
 			undiagnosed = wear - diagnosedWear;
 		}
+	}
+}
+
+public class Machine : Buildable
+{
+	//A machine that processes recipes to consume and produce resources.
+	public List<string> recipes {get; private set;} = new();
+	public string currentRecipe {get; private set;}
+	
+	public Machine(string machineID, Region loc) : base(machineID, loc)
+	{
+		//Create a machine using the data ID at designated location.
+		//Maximum wear is calculated as the total mass of components used to construct it.
+		MachineData data = GameData.MACHINES[id];
+		foreach (var mach in data.cost.Values)
+		{
+			maxWear += mach;
+		}
+		
+		//Assign recipes based on which ones are assigned to this machine.
+		recipes = GameData.RECIPES.Where(r => r.Value.machines.Contains(id)).OrderBy(r => r.Key).Select(r => r.Key).ToList();
+		
+		if (recipes.Count > 0)
+		{
+			currentRecipe = recipes[0];
+		}
+		else
+		{
+			currentRecipe = "";
+		}
+	}
+	
+	public void SetRecipe(string rid)
+	{
+		//Select the current recipe to process.
+		currentRecipe = rid;
+	}
+}
+
+public class Infrastructure : Buildable
+{
+	public string infraType {get; private set;}
+	public float through {get; private set;}
+	public float energyCost {get; private set;}
+	public Infrastructure link {get; private set;}
+	
+	public Infrastructure(string infraID, Region loc) : base(infraID, loc)
+	{
+		infraType = "";
+		through = 0f;
+		energyCost = 0f;
+		link = null;
+	}
+	
+	public void setLink(Infrastructure lnk)
+	{
+		link = lnk;
 	}
 }
