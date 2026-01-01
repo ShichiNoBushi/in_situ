@@ -1372,3 +1372,54 @@ public class Infrastructure : Buildable
 		link = lnk;
 	}
 }
+
+public class LogisticOrder
+{
+	public string resource {get; private set;}
+	public float amount {get; private set;}
+	public bool hasDestination {get; private set;}
+	public (int x, int y) destinationCoord {get; private set;}
+	
+	public LogisticOrder(string res, float amt, bool has, (int x, int y) coord)
+	{
+		resource = res;
+		amount = amt;
+		hasDestination = has;
+		destinationCoord = coord;
+	}
+	
+	public LogisticOrder Split()
+	{
+		float half = amount / 2f;
+		amount -= half;
+		
+		return new(resource, half, hasDestination, destinationCoord);
+	}
+	
+	public LogisticOrder Split(float amt)
+	{
+		if (amt <= 0 || amt >= amount)
+		{
+			return null;
+		}
+		
+		amount -= amt;
+		return new(resource, amt, hasDestination, destinationCoord);
+	}
+	
+	public bool Merge(LogisticOrder other)
+	{
+		if (resource != other.resource || hasDestination != other.hasDestination)
+		{
+			return false;
+		}
+		
+		if (hasDestination && destinationCoord != other.destinationCoord)
+		{
+			return false;
+		}
+		
+		amount += other.amount;
+		return true;
+	}
+}
