@@ -1,0 +1,22 @@
+{
+	"logistics hub": {
+		"name": "Logistics Hub",
+		"type": "hub",
+		"cost": {"iron plate": 20, "iron gear small": 10, "electric motor": 10, "control board": 10},
+		"through": 50.0,
+		"energy cost": 0.5,
+		"starting amount": 0,
+		"available": false,
+		"description": "Distributes solid and fluid resources between regions."
+	},
+	"conveyer bus": {
+		"name": "conveyer bus",
+		"type": "conveyer",
+		"cost": {"iron plate": 20, "iron gear small": 10, "electric motor": 10},
+		"through": 20.0,
+		"energy cost": 0.1,
+		"starting amount": 0,
+		"available": false,
+		"description": "Transports solid resources between regions."
+	}
+}

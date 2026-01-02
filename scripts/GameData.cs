@@ -15,6 +15,7 @@ public partial class GameData : Node
 	public static Dictionary<string, ResourceData> RESOURCES = new();
 	public static Dictionary<string, HarvestData> HARVEST = new();
 	public static Dictionary<string, MachineData> MACHINES = new();
+	public static Dictionary<string, InfrastructureData> INFRASTRUCTURE = new();
 	public static Dictionary<string, RecipeData> RECIPES = new();
 	public static Dictionary<string, RegionData> REGIONS = new();
 	public static Dictionary<string, QuestData> QUESTS = new();
@@ -140,6 +141,7 @@ public partial class GameData : Node
 		string resourcePath = "res://data/resources.json";
 		string harvestPath = "res://data/harvest.json";
 		string machinePath = "res://data/machines.json";
+		string infrastructurePath = "res://data/infrastructure.json";
 		string recipePath = "res://data/recipes.json";
 		string regionsPath = "res://data/regions.json";
 		string questPath = "res://data/quests.json";
@@ -148,6 +150,7 @@ public partial class GameData : Node
 		RESOURCES = LoadJson<Dictionary<string, ResourceData>>(resourcePath);
 		HARVEST = LoadJson<Dictionary<string, HarvestData>>(harvestPath);
 		MACHINES = LoadJson<Dictionary<string, MachineData>>(machinePath);
+		INFRASTRUCTURE = LoadJson<Dictionary<string, InfrastructureData>>(infrastructurePath);
 		RECIPES = LoadJson<Dictionary<string, RecipeData>>(recipePath);
 		REGIONS = LoadJson<Dictionary<string, RegionData>>(regionsPath);
 		QUESTS = LoadJson<Dictionary<string, QuestData>>(questPath);
@@ -905,6 +908,34 @@ public class MachineData
 		startingAmount = 0;
 		available = false;
 		description = "No description.";
+	}
+}
+
+public class InfrastructureData
+{
+	public string name {get; set;}
+	public Dictionary<string, float> cost {get; set;}
+	
+	[System.Text.Json.Serialization.JsonPropertyName("starting amount")]
+	public int startingAmount {get; set;}
+	
+	public float through {get; set;}
+	
+	[System.Text.Json.Serialization.JsonPropertyName("energy cost")]
+	public float energyCost {get; set;}
+	
+	public bool available {get; set;}
+	public string description {get; set;}
+	
+	public InfrastructureData()
+	{
+		name = "No Name";
+		cost = new Dictionary<string, float>();
+		startingAmount = 0;
+		through = 0f;
+		energyCost = 0f;
+		available = false;
+		description = "No description";
 	}
 }
 
