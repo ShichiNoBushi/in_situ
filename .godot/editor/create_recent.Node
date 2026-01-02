@@ -1,3 +1,5 @@
+ItemList
+Control
 ConfirmationDialog
 ScrollContainer
 Button
@@ -5,11 +7,9 @@ HBoxContainer
 Label
 ProgressBar
 VBoxContainer
-Control
 TabContainer
 Panel
 ColorRect
 Node
 CenterContainer
 MarginContainer
-GridContainer

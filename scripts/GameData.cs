@@ -97,18 +97,18 @@ public partial class GameData : Node
 		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
 		
 		//Assign control variables.
-		mapControl = GetNode<MapControl>("../TabContainer/BaseTab/MapControl");
-		travelControl = GetNode<TravelControl>("../TabContainer/BaseTab/TravelPanel");
-		resourceControl = GetNode<ResourceControl>("../TabContainer/BaseTab/ResourceScroll/VBoxContainer");
-		machinesControl = GetNode<MachinesControl>("../TabContainer/BaseTab/MachineScroll/VBoxContainer");
-		harvestControl = GetNode<HarvestControl>("../TabContainer/BaseTab/HarvestPanel");
-		buildControl = GetNode<BuildControl>("../TabContainer/BaseTab/BuildPanel");
-		questControl = GetNode<QuestControl>("../TabContainer/QuestsTab");
+		mapControl = GetNode<MapControl>("../TabContainer/Base/MapControl");
+		travelControl = GetNode<TravelControl>("../TabContainer/Base/TravelPanel");
+		resourceControl = GetNode<ResourceControl>("../TabContainer/Base/ResourceScroll/VBoxContainer");
+		machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
+		harvestControl = GetNode<HarvestControl>("../TabContainer/Base/HarvestPanel");
+		buildControl = GetNode<BuildControl>("../TabContainer/Base/BuildPanel");
+		questControl = GetNode<QuestControl>("../TabContainer/Quests");
 		
-		objectiveLabel = GetNode<Label>("../TabContainer/BaseTab/QuestPanel/ObjectiveScroll/ObjectiveLabel");
+		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
-		quitButton = GetNode<Button>("../TabContainer/OptionsTab/QuitButton");
-		quitConfirm = GetNode<ConfirmationDialog>("../TabContainer/OptionsTab/QuitConfirm");
+		quitButton = GetNode<Button>("../TabContainer/Options/QuitButton");
+		quitConfirm = GetNode<ConfirmationDialog>("../TabContainer/Options/QuitConfirm");
 		quitButton.Pressed += QuitGame;
 		quitConfirm.Confirmed += QuitConfirmed;
 		
@@ -116,8 +116,8 @@ public partial class GameData : Node
 		questUpdateFunctioning = true;
 		
 		//Set these to true to unlock all machines or recipes.
-		unlockAllMachines = false;
-		unlockAllRecipes = false;
+		unlockAllMachines = true;
+		unlockAllRecipes = true;
 		
 		UpdateQuestTracking();
 	}
@@ -890,7 +890,7 @@ public class HarvestData
 	}
 }
 
-public class MachineData
+public class BuildData
 {
 	public string name {get; set;}
 	public Dictionary<string, float> cost {get; set;}
@@ -901,41 +901,35 @@ public class MachineData
 	public bool available {get; set;}
 	public string description {get; set;}
 	
-	public MachineData()
+	protected BuildData()
 	{
 		name = "No Name";
 		cost = new Dictionary<string, float>();
 		startingAmount = 0;
 		available = false;
-		description = "No description.";
+		description = "No description";
 	}
 }
 
-public class InfrastructureData
+public class MachineData : BuildData
 {
-	public string name {get; set;}
-	public Dictionary<string, float> cost {get; set;}
-	
-	[System.Text.Json.Serialization.JsonPropertyName("starting amount")]
-	public int startingAmount {get; set;}
-	
+	public MachineData() : base()
+	{
+		
+	}
+}
+
+public class InfrastructureData : BuildData
+{
 	public float through {get; set;}
 	
 	[System.Text.Json.Serialization.JsonPropertyName("energy cost")]
 	public float energyCost {get; set;}
 	
-	public bool available {get; set;}
-	public string description {get; set;}
-	
-	public InfrastructureData()
+	public InfrastructureData() : base()
 	{
-		name = "No Name";
-		cost = new Dictionary<string, float>();
-		startingAmount = 0;
 		through = 0f;
 		energyCost = 0f;
-		available = false;
-		description = "No description";
 	}
 }
 
@@ -1057,7 +1051,8 @@ public class Region
 	
 	public Dictionary<string, float> resources;
 	public List<Machine> machines;
-	public List<String> nodes;
+	public List<Infrastructure> infrastructure;
+	public List<string> nodes;
 	
 	public Region(RegionData data, (int x, int y) coord)
 	{
@@ -1081,6 +1076,7 @@ public class Region
 		
 		resources = new();
 		machines = new();
+		infrastructure = new();
 		nodes = new();
 		
 		//Create local resource deposits randomly determined by what's typically available in the region.

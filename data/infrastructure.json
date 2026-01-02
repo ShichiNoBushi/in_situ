@@ -10,7 +10,7 @@
 		"description": "Distributes solid and fluid resources between regions."
 	},
 	"conveyer bus": {
-		"name": "conveyer bus",
+		"name": "Conveyer Bus",
 		"type": "conveyer",
 		"cost": {"iron plate": 20, "iron gear small": 10, "electric motor": 10},
 		"through": 20.0,

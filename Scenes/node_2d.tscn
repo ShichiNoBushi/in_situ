@@ -25,27 +25,27 @@ offset_bottom = 972.0
 tab_alignment = 1
 current_tab = 0
 
-[node name="BaseTab" type="Control" parent="TabContainer"]
+[node name="Base" type="Control" parent="TabContainer"]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="MapControl" parent="TabContainer/BaseTab" instance=ExtResource("11_85gyg")]
+[node name="MapControl" parent="TabContainer/Base" instance=ExtResource("11_85gyg")]
 layout_mode = 1
 
-[node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
+[node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/Base"]
 layout_mode = 0
 offset_left = 789.0
 offset_top = 2.0
 offset_right = 1159.0
 offset_bottom = 733.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/ResourceScroll"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/ResourceScroll"]
 layout_mode = 2
 script = ExtResource("3_tx0tn")
 ResourcePanelScene = ExtResource("4_wjtap")
 ResourceLabelScene = ExtResource("5_v7gqg")
 
-[node name="MachineScroll" type="ScrollContainer" parent="TabContainer/BaseTab"]
+[node name="MachineScroll" type="ScrollContainer" parent="TabContainer/Base"]
 layout_mode = 0
 offset_left = 1165.0
 offset_top = 2.0
@@ -53,43 +53,43 @@ offset_right = 1729.0
 offset_bottom = 733.0
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/BaseTab/MachineScroll"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/MachineScroll"]
 layout_mode = 2
 script = ExtResource("3_u7krg")
 MachinePanelScene = ExtResource("4_6whob")
 
-[node name="TravelPanel" parent="TabContainer/BaseTab" instance=ExtResource("13_he4j0")]
+[node name="TravelPanel" parent="TabContainer/Base" instance=ExtResource("13_he4j0")]
 layout_mode = 1
 offset_left = 16.0
 offset_top = 739.0
 offset_right = 16.0
 offset_bottom = 739.0
 
-[node name="QuestPanel" type="Panel" parent="TabContainer/BaseTab"]
+[node name="QuestPanel" type="Panel" parent="TabContainer/Base"]
 layout_mode = 0
 offset_left = 645.0
 offset_top = 739.0
 offset_right = 1011.0
 offset_bottom = 934.0
 
-[node name="QuestLabel" type="Label" parent="TabContainer/BaseTab/QuestPanel"]
+[node name="QuestLabel" type="Label" parent="TabContainer/Base/QuestPanel"]
 layout_mode = 0
 offset_left = 136.0
 offset_right = 234.0
 offset_bottom = 23.0
 text = "Active Quest"
 
-[node name="ObjectiveScroll" type="ScrollContainer" parent="TabContainer/BaseTab/QuestPanel"]
+[node name="ObjectiveScroll" type="ScrollContainer" parent="TabContainer/Base/QuestPanel"]
 layout_mode = 0
 offset_top = 23.0
 offset_right = 366.0
 offset_bottom = 195.0
 
-[node name="ObjectiveLabel" type="Label" parent="TabContainer/BaseTab/QuestPanel/ObjectiveScroll"]
+[node name="ObjectiveLabel" type="Label" parent="TabContainer/Base/QuestPanel/ObjectiveScroll"]
 layout_mode = 2
 text = "ERROR"
 
-[node name="HarvestPanel" parent="TabContainer/BaseTab" instance=ExtResource("8_v7gqg")]
+[node name="HarvestPanel" parent="TabContainer/Base" instance=ExtResource("8_v7gqg")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -101,64 +101,74 @@ offset_bottom = 739.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="BuildPanel" parent="TabContainer/BaseTab" instance=ExtResource("2_chwn1")]
+[node name="BuildPanel" parent="TabContainer/Base" instance=ExtResource("2_chwn1")]
 layout_mode = 1
 offset_left = 1353.0
 offset_top = 739.0
 offset_right = -25.0
 offset_bottom = -2.0
 
-[node name="QuestsTab" type="Control" parent="TabContainer"]
+[node name="Logistics" type="Control" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="LogisticsList" type="ItemList" parent="TabContainer/Logistics"]
+layout_mode = 0
+offset_right = 698.0
+offset_bottom = 698.0
+
+[node name="Quests" type="Control" parent="TabContainer"]
 visible = false
 layout_mode = 2
 script = ExtResource("10_hvaui")
-metadata/_tab_index = 1
+metadata/_tab_index = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/QuestsTab"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Quests"]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 1710.0
 offset_bottom = 920.0
 
-[node name="QuestVBox" type="VBoxContainer" parent="TabContainer/QuestsTab/HBoxContainer"]
+[node name="QuestVBox" type="VBoxContainer" parent="TabContainer/Quests/HBoxContainer"]
 custom_minimum_size = Vector2(850, 910)
 layout_mode = 2
 
-[node name="ActiveScroll" type="ScrollContainer" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox"]
+[node name="ActiveScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/QuestVBox"]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="ActiveList" type="ItemList" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox/ActiveScroll"]
+[node name="ActiveList" type="ItemList" parent="TabContainer/Quests/HBoxContainer/QuestVBox/ActiveScroll"]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="CompleteScroll" type="ScrollContainer" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox"]
+[node name="CompleteScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/QuestVBox"]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="CompleteList" type="ItemList" parent="TabContainer/QuestsTab/HBoxContainer/QuestVBox/CompleteScroll"]
+[node name="CompleteList" type="ItemList" parent="TabContainer/Quests/HBoxContainer/QuestVBox/CompleteScroll"]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="DisplayVBox" type="VBoxContainer" parent="TabContainer/QuestsTab/HBoxContainer"]
+[node name="DisplayVBox" type="VBoxContainer" parent="TabContainer/Quests/HBoxContainer"]
 layout_mode = 2
 
-[node name="DisplayScroll" type="ScrollContainer" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox"]
+[node name="DisplayScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/DisplayVBox"]
 custom_minimum_size = Vector2(850, 850)
 layout_mode = 2
 
-[node name="DisplayLabel" type="Label" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox/DisplayScroll"]
+[node name="DisplayLabel" type="Label" parent="TabContainer/Quests/HBoxContainer/DisplayVBox/DisplayScroll"]
 custom_minimum_size = Vector2(850, 0)
 layout_mode = 2
 text = "No quest selected"
 autowrap_mode = 2
 
-[node name="Panel" type="Panel" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox"]
+[node name="Panel" type="Panel" parent="TabContainer/Quests/HBoxContainer/DisplayVBox"]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 
-[node name="TrackButton" type="Button" parent="TabContainer/QuestsTab/HBoxContainer/DisplayVBox/Panel"]
+[node name="TrackButton" type="Button" parent="TabContainer/Quests/HBoxContainer/DisplayVBox/Panel"]
 layout_mode = 0
 offset_left = 338.0
 offset_top = 21.0
@@ -166,7 +176,7 @@ offset_right = 439.0
 offset_bottom = 52.0
 text = "Track Quest"
 
-[node name="QuestTestLabel" type="Label" parent="TabContainer/QuestsTab"]
+[node name="QuestTestLabel" type="Label" parent="TabContainer/Quests"]
 visible = false
 layout_mode = 0
 offset_left = 553.0
@@ -174,12 +184,12 @@ offset_top = 33.0
 offset_right = 904.0
 offset_bottom = 679.0
 
-[node name="OptionsTab" type="Control" parent="TabContainer"]
+[node name="Options" type="Control" parent="TabContainer"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 2
+metadata/_tab_index = 3
 
-[node name="QuitButton" type="Button" parent="TabContainer/OptionsTab"]
+[node name="QuitButton" type="Button" parent="TabContainer/Options"]
 layout_mode = 0
 offset_left = 789.0
 offset_top = 23.0
@@ -187,7 +197,7 @@ offset_right = 904.0
 offset_bottom = 54.0
 text = "Quit"
 
-[node name="DevControl" parent="TabContainer/OptionsTab" instance=ExtResource("11_2ooml")]
+[node name="DevControl" parent="TabContainer/Options" instance=ExtResource("11_2ooml")]
 layout_mode = 1
 offset_left = 18.0
 offset_top = 774.0
@@ -195,7 +205,7 @@ offset_right = 18.0
 offset_bottom = 774.0
 script = ExtResource("12_p20hg")
 
-[node name="QuitConfirm" type="ConfirmationDialog" parent="TabContainer/OptionsTab"]
+[node name="QuitConfirm" type="ConfirmationDialog" parent="TabContainer/Options"]
 title = "Quit Game"
 initial_position = 1
 ok_button_text = "Quit"

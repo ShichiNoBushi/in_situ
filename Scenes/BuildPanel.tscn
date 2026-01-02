@@ -16,7 +16,7 @@ layout_mode = 0
 offset_right = 350.0
 offset_bottom = 200.0
 
-[node name="MachineMenu" type="OptionButton" parent="Panel"]
+[node name="BuildMenu" type="OptionButton" parent="Panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0

@@ -1,15 +1,17 @@
 using Godot;
 using System;
+using Godot.Collections;
 
 public partial class BuildControl : Control
 {
 	private bool building;
 	private float buildTimer;
 	
-	private String machKey;
-	private MachineData selectedMachine;
+	private string buildKey;
+	private string buildType;
+	private BuildData selectedBuildable;
 	
-	OptionButton machineMenu;
+	OptionButton buildMenu;
 	Button buildButton;
 	RichTextLabel resourceLabel;
 	ProgressBar buildProgress;
@@ -23,7 +25,7 @@ public partial class BuildControl : Control
 		buildTimer = 0f;
 		
 		GD.Print("BuildControl: Assigning node references...");
-		machineMenu = GetNode<OptionButton>("Panel/MachineMenu");
+		buildMenu = GetNode<OptionButton>("Panel/BuildMenu");
 		buildButton = GetNode<Button>("Panel/BuildButton");
 		resourceLabel = GetNode<RichTextLabel>("Panel/CostScroll/ResourceLabel");
 		buildProgress = GetNode<ProgressBar>("Panel/BuildProgress");
@@ -33,26 +35,27 @@ public partial class BuildControl : Control
 		UpdateBuildMenu();
 		GD.Print("BuildControl: UpdateBuildMenu() successfully completed");
 		
-		int idx = machineMenu.GetSelected();
+		int idx = buildMenu.GetSelected();
 		GD.Print($"BuildControl: index set to {idx}");
 		
-		String selected = machineMenu.GetItemText(idx);
-		if (GameData.machNameToKey.ContainsKey(selected))
+		if (buildMenu.ItemCount > 0 && idx >= 0)
 		{
-			machKey = GameData.machNameToKey[selected];
-			selectedMachine = GameData.MACHINES[machKey];
+			var meta = GetBuildableMeta(idx);
+			buildKey = meta.key;
+			buildType = meta.type;
+			SelectBuildable(idx);
 		}
 		else
 		{
-			machKey = "";
-			selectedMachine = null;
+			buildKey = "";
+			buildType = "";
+			selectedBuildable = null;
 		}
-		
 		GD.Print("BuildControl: Displaying initial resources...");
 		DisplayResources();
 		
 		buildButton.Pressed += StartBuild;
-		machineMenu.ItemSelected += SelectMachine;
+		buildMenu.ItemSelected += SelectBuildable;
 		
 		buildProgress.Value = 0f;
 	}
@@ -76,14 +79,46 @@ public partial class BuildControl : Control
 		DisplayResources();
 	}
 	
+	// Assigns meta data to buildMenu item.
+	private void SetBuildableMeta(int idx, string key, string type)
+	{
+		var meta = new Dictionary
+		{
+			{"key", key},
+			{"type", type}
+		};
+		buildMenu.SetItemMetadata(idx, meta);
+	}
+	
+	// Gets meta data from selected buildMenu item.
+	private (string key, string type) GetBuildableMeta(int idx)
+	{
+		if (idx < 0 || idx >= buildMenu.ItemCount)
+		{
+			return ("", "");
+		}
+		
+		var metaVar = buildMenu.GetItemMetadata(idx);
+		
+		if (metaVar.VariantType == Variant.Type.Nil)
+		{
+			return ("", "");
+		}
+		
+		var meta = metaVar.AsGodotDictionary();
+		string key = meta.ContainsKey("key") ? (string)meta["key"] : "";
+		string type = meta.ContainsKey("type") ? (string)meta["type"] : "";
+		return (key, type);
+	}
+	
 	public void UpdateBuildMenu()
 	{
 		GD.Print("BuildControl: Updating build menu...");
 		
-		int oldSelectedIdx = machineMenu.GetSelected();
-		String oldSelectedItem = machineMenu.GetItemText(oldSelectedIdx);
+		int oldSelectedIdx = buildMenu.GetSelected();
+		string oldSelectedItem = (oldSelectedIdx >= 0 && oldSelectedIdx < buildMenu.ItemCount) ? buildMenu.GetItemText(oldSelectedIdx) : "";
 		
-		machineMenu.Clear();
+		buildMenu.Clear();
 		
 		bool found = false;
 		
@@ -92,29 +127,42 @@ public partial class BuildControl : Control
 			if (GameData.unlockAllMachines || mach.Value.available)
 			{
 				GD.Print($"BuildControl: Adding machine {mach.Value.name}");
-				machineMenu.AddItem(mach.Value.name);
-				int idx = machineMenu.ItemCount - 1;
-				machineMenu.SetItemMetadata(idx, mach.Key);
+				buildMenu.AddItem(mach.Value.name);
+				int idx = buildMenu.ItemCount - 1;
+				SetBuildableMeta(idx, mach.Key, "mach");
 				found = true;
 			}
 		}
 		
-		machineMenu.Disabled = !found;
+		foreach (var infra in GameData.INFRASTRUCTURE)
+		{
+			if (GameData.unlockAllMachines || infra.Value.available)
+			{
+				GD.Print($"BuildControl: Adding infrastructure {infra.Value.name}");
+				buildMenu.AddItem(infra.Value.name);
+				int idx = buildMenu.ItemCount - 1;
+				SetBuildableMeta(idx, infra.Key, "infra");
+				found = true;
+			}
+		}
+		
+		buildMenu.Disabled = !found;
 		
 		if (!found)
 		{
-			GD.Print("BuildControl: No machines available");
-			machineMenu.AddItem("No available machines");
+			GD.Print("BuildControl: No buildables available");
+			buildMenu.AddItem("No available buildables");
+			SetBuildableMeta(0, "", "");
 		}
 		else
 		{
 			int selectIdx = -1;
 			
-			if (!string.IsNullOrEmpty(oldSelectedItem) && oldSelectedItem != "No available machines")
+			if (!string.IsNullOrEmpty(oldSelectedItem) && oldSelectedItem != "No available buildables")
 			{
-				for (int i = 0; i < machineMenu.ItemCount; i++)
+				for (int i = 0; i < buildMenu.ItemCount; i++)
 				{
-					if (machineMenu.GetItemText(i) == oldSelectedItem)
+					if (buildMenu.GetItemText(i) == oldSelectedItem)
 					{
 						selectIdx = i;
 						break;
@@ -122,36 +170,36 @@ public partial class BuildControl : Control
 				}
 			}
 			
-			if (selectIdx < 0 && machineMenu.ItemCount > 0)
+			if (selectIdx < 0 && buildMenu.ItemCount > 0)
 			{
 				selectIdx = 0;
 			}
 			
 			if (selectIdx >= 0)
 			{
-				machineMenu.Select(selectIdx);
+				buildMenu.Select(selectIdx);
 			}
 			
-			GD.Print($"BuildControl: Selecting machine id {selectIdx}");
-			if (machineMenu.ItemCount > 0)
+			GD.Print($"BuildControl: Selecting buildable id {selectIdx}");
+			if (buildMenu.ItemCount > 0)
 			{
 				try
 				{
-					SelectMachine(machineMenu.GetSelected());
+					SelectBuildable(buildMenu.GetSelected());
 				}
 				catch (Exception e)
 				{
-					GD.PrintErr($"BuildControl: Error selecting item {machineMenu.GetSelected()}: {e.Message}");
+					GD.PrintErr($"BuildControl: Error selecting item {buildMenu.GetSelected()}: {e.Message}");
 				}
 			}
-			GD.Print("BuildControl: Machine selected");
+			GD.Print("BuildControl: Buildable selected");
 		}
 	}
 	
 	private bool EnoughResources()
 	{
 		GD.Print("BuildControl: Checking resources...");
-		foreach(var res in selectedMachine.cost)
+		foreach(var res in selectedBuildable.cost)
 		{
 			if (!GameData.currentRegion.resources.ContainsKey(res.Key))
 			{
@@ -178,19 +226,19 @@ public partial class BuildControl : Control
 	{
 		GD.Print("BuildControl: Checking build...");
 		
-		if (selectedMachine == null)
+		if (selectedBuildable == null)
 		{
-			GD.Print("BuildControl: selected machine null value");
+			GD.Print("BuildControl: selected buildable null value");
 			return;
 		}
 		
 		if (!building && EnoughResources())
 		{
-			GD.Print($"BuildControl: Building maching {selectedMachine.name}");
+			GD.Print($"BuildControl: Building maching {selectedBuildable.name}");
 			buildButton.Disabled = true;
-			machineMenu.Disabled = true;
+			buildMenu.Disabled = true;
 			
-			foreach(var res in selectedMachine.cost)
+			foreach(var res in selectedBuildable.cost)
 			{
 				GameData.currentRegion.resources[res.Key] -= res.Value;
 			}
@@ -204,49 +252,66 @@ public partial class BuildControl : Control
 		building = false;
 		buildTimer = 0f;
 		
-		Machine newMachine = new Machine(machKey, GameData.currentRegion);
-		GameData.currentRegion.machines.Add(newMachine);
-		GameData.machinesControl.AddMachinePanel(newMachine);
+		if (buildType == "mach")
+		{
+			Machine newMachine = new Machine(buildKey, GameData.currentRegion);
+			GameData.currentRegion.machines.Add(newMachine);
+			GameData.machinesControl.AddMachinePanel(newMachine);
+		}
+		else if (buildType == "infra")
+		{
+			Infrastructure newInfrastructure = new Infrastructure(buildKey, GameData.currentRegion);
+			GameData.currentRegion.infrastructure.Add(newInfrastructure);
+			//Add infrastructure to Logistics Item List
+		}
 		
 		buildProgress.Value = 0;
 		buildButton.Disabled = false;
-		machineMenu.Disabled = false;
+		buildMenu.Disabled = false;
 	}
 	
-	private void SelectMachine(long index)
+	private void SelectBuildable(long index)
 	{
 		int menuIdx = (int)index;
 		
-		if (menuIdx < 0 || menuIdx >= machineMenu.ItemCount)
+		if (menuIdx < 0 || menuIdx >= buildMenu.ItemCount)
 		{
-			GD.PrintErr("BuildControl: Invalid item ID in SelectMachine()");
-			selectedMachine = null;
+			GD.PrintErr("BuildControl: Invalid item ID in SelectBuildable()");
+			selectedBuildable = null;
+			buildKey = "";
+			buildType = "";
 			return;
 		}
 		
-		String machName = machineMenu.GetItemText(menuIdx);
+		string buildName = buildMenu.GetItemText(menuIdx);
 		
-		/*if (!GameData.machNameToKey.ContainsKey(machName))
+		var meta = GetBuildableMeta(menuIdx);
+		buildKey = meta.key;
+		buildType = meta.type;
+		
+		if (buildType == "mach")
 		{
-			GD.Print($"BuildControl: Machine name {machName} not in machNameToKey");
-			selectedMachine = null;
-			return;
-		}*/
+			selectedBuildable = GameData.MACHINES.ContainsKey(buildKey) ? GameData.MACHINES[buildKey] : null;
+		}
+		else if (buildType == "infra")
+		{
+			selectedBuildable = GameData.INFRASTRUCTURE.ContainsKey(buildKey) ? GameData.INFRASTRUCTURE[buildKey] : null;
+		}
+		else
+		{
+			selectedBuildable = null;
+		}
 		
-		//machKey = GameData.machNameToKey[machName];
-		machKey = (string)machineMenu.GetItemMetadata(menuIdx);
-		selectedMachine = GameData.MACHINES[machKey];
-		
-		GD.Print($"BuildControl: Selected machine {machName}");
+		GD.Print($"BuildControl: Selected buildable {buildName}");
 	}
 	
 	private void DisplayResources()
 	{
-		if(GameData.MACHINES.ContainsKey(machKey))
+		if(selectedBuildable != null && ((buildType == "mach" && GameData.MACHINES.ContainsKey(buildKey)) || (buildType == "infra" && GameData.INFRASTRUCTURE.ContainsKey(buildKey))))
 		{
-			String resourceCost = "Cost:\n[table=5]";
+			string resourceCost = "Cost:\n[table=5]";
 			
-			foreach (var res in selectedMachine.cost)
+			foreach (var res in selectedBuildable.cost)
 			{
 				var resData = GameData.RESOURCES[res.Key];
 				//resourceCost += $"\n{resData.abbreviation} {GameData.currentRegion.resources[res.Key]} / {res.Value}";
@@ -260,7 +325,7 @@ public partial class BuildControl : Control
 		}
 		else
 		{
-			resourceLabel.Text = "No machine selected.";
+			resourceLabel.Text = "No buildable selected.";
 		}
 	}
 }
