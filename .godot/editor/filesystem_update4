@@ -18,3 +18,4 @@ res://data/quests.json
 res://README.md
 res://data/infrastructure.json
 res://Scenes/BuildPanel.tscn
+res://Scenes/MachinePanel.tscn

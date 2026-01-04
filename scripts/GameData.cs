@@ -116,8 +116,8 @@ public partial class GameData : Node
 		questUpdateFunctioning = true;
 		
 		//Set these to true to unlock all machines or recipes.
-		unlockAllMachines = true;
-		unlockAllRecipes = true;
+		unlockAllMachines = false;
+		unlockAllRecipes = false;
 		
 		UpdateQuestTracking();
 	}
@@ -1207,7 +1207,7 @@ public class Buildable
 		//Diagnose the necessary resources to repair the machine.
 		//Caluculate the amount of wear undiagnosed from how much has wear has already been diagnosed.
 		float undiagnosed = wear - diagnosedWear;
-		Dictionary<String, float> workingComponents = new();
+		Dictionary<string, float> workingComponents = new();
 		
 		//Determine the amount of working components from what has been already diagnosed to need replacement.
 		foreach (var res in GameData.MACHINES[id].cost)
@@ -1228,8 +1228,8 @@ public class Buildable
 			//Loop as long as diagnosed wear is less than the current amount of wear.
 			//Calculate the total amounts among working components.
 			float total = 0f;
-			String selectedComp = "";
-			String largestComp = "";
+			string selectedComp = "";
+			string largestComp = "";
 			float largestAmount = 0f;
 			foreach (var comp in workingComponents)
 			{
@@ -1339,6 +1339,44 @@ public class Buildable
 			
 			//Redefine the amount of undiagnosed wear and loop.
 			undiagnosed = wear - diagnosedWear;
+		}
+	}
+	
+	public void Dismantle()
+	{
+		if (!GameData.MACHINES[id].available)
+		{
+			return;
+		}
+		
+		if (diagnosedWear < wear)
+		{
+			Diagnose();
+		}
+		
+		//Dictionary<string, float> workingComponents = new();
+		
+		Dictionary<string, float> resources = location.resources;
+		
+		foreach (var res in GameData.MACHINES[id].cost)
+		{
+			GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
+			if (repairComponents.TryGetValue(res.Key, out float comp))
+			{
+				resources[res.Key] += res.Value - comp;
+			}
+			else
+			{
+				resources[res.Key] += res.Value;
+			}
+		}
+		
+		foreach (var comp in repairComponents)
+		{
+			foreach (var scrap in GameData.RESOURCES[comp.Key].scrap)
+			{
+				resources[scrap.Key] += scrap.Value * comp.Value;
+			}
 		}
 	}
 }

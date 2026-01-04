@@ -1,8 +1,8 @@
+Button
 ItemList
 Control
 ConfirmationDialog
 ScrollContainer
-Button
 HBoxContainer
 Label
 ProgressBar
@@ -12,4 +12,3 @@ Panel
 ColorRect
 Node
 CenterContainer
-MarginContainer

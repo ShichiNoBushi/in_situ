@@ -16,6 +16,7 @@ public partial class MachinePanel : Control
 	private Label wearLabel;
 	private Button diagnosticsButton;
 	private Button repairButton;
+	private Button dismantleButton;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -31,16 +32,19 @@ public partial class MachinePanel : Control
 		wearLabel = GetNode<Label>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearScroll/WearLabel");
 		diagnosticsButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/DiagnosticsButton");
 		repairButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/RepairButton");
+		dismantleButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/DismantleButton");
 		
 		activeButton.Toggled += OnActiveToggled;
 		recipeMenu.ItemSelected += OnRecipeSelected;
 		diagnosticsButton.Pressed += DiagnoseMachine;
 		repairButton.Pressed += RepairMachine;
+		dismantleButton.Pressed += DismantleMachine;
 	}
 	
 	public void Initialize()
 	{
-		nameLabel.Text = GameData.MACHINES[machine.id].name;
+		MachineData data = GameData.MACHINES[machine.id];
+		nameLabel.Text = data.name;
 		
 		UpdateRecipeMenu();
 		
@@ -48,6 +52,8 @@ public partial class MachinePanel : Control
 		DisplayMaintenance();
 		
 		recipeProgress.Value = 0;
+		
+		dismantleButton.Disabled = !data.available;
 	}
 	
 	private void OnActiveToggled(bool pressed)
@@ -86,6 +92,47 @@ public partial class MachinePanel : Control
 	{
 		GD.Print($"MachinePanel: Repairing machine {GameData.MACHINES[machine.id].name}");
 		machine.Repair();
+	}
+	
+	private void DismantleMachine()
+	{
+		Region loc = machine.location;
+		
+		GD.Print($"MachinePanel: Dismantling machine {GameData.MACHINES[machine.id].name}");
+		
+		try
+		{
+			machine.Dismantle();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"MachinePanel: Error dismantling machine - {e.Message}");
+			return;
+		}
+		
+		int removeCount = 0;
+		
+		if (loc != null && loc.machines != null)
+		{
+			int before = loc.machines.Count;
+			loc.machines.RemoveAll(m => ReferenceEquals(m, machine));
+			//loc.machines.Remove(machine);
+			removeCount += before - loc.machines.Count;
+		}
+		
+		GD.Print($"MachinePanel: Removed {removeCount} instances of {GameData.MACHINES[machine.id].name}");
+		
+		if (removeCount == 0)
+		{
+			GD.Print($"MachinePanel: Dismantle completed but no machines removed from location's list");
+		}
+		
+		QueueFree();
+		
+		if (GameData.machinesControl != null)
+		{
+			GameData.machinesControl.UpdateMachinePanels();
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -176,6 +223,12 @@ public partial class MachinePanel : Control
 			machine.SetRecipe(recipeID);
 			GD.Print("MachinePanel: Recipe selected");
 		}
+	}
+	
+	public void UpdateDismantle()
+	{
+		MachineData data = GameData.MACHINES[machine.id];
+		dismantleButton.Disabled = !data.available;
 	}
 	
 	private void DisplayRecipeResources()

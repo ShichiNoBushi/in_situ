@@ -118,11 +118,16 @@ text = "Required Materials:"
 layout_mode = 2
 
 [node name="DiagnosticsButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Diagnostics"
 
 [node name="RepairButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Repair"
+
+[node name="DismantleButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Dismantle"

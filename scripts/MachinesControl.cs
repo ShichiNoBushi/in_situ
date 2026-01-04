@@ -51,6 +51,7 @@ public partial class MachinesControl : VBoxContainer
 			if (child is MachinePanel mp)
 			{
 				mp.UpdateRecipeMenu();
+				mp.UpdateDismantle();
 			}
 		}
 	}
