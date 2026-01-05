@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public partial class QuestControl : Control
 {
-	public Dictionary<String, QuestData> activeQuests {get; set;} = new();
-	public Dictionary<String, QuestData> completeQuests {get; set;} = new();
+	public Dictionary<string, QuestData> activeQuests {get; set;} = new();
+	public Dictionary<string, QuestData> completeQuests {get; set;} = new();
 	
 	private ItemList activeList;
 	private ItemList completeList;
@@ -47,6 +47,8 @@ public partial class QuestControl : Control
 			{
 				activeQuests[qst.Key] = qst.Value;
 				activeList.AddItem(qst.Value.name);
+				int idx = activeList.ItemCount - 1;
+				activeList.SetItemMetadata(idx, qst.Key);
 			}
 		}
 		
@@ -83,7 +85,7 @@ public partial class QuestControl : Control
 	{
 		GD.Print("QuestControl: Testing loaded quests...");
 		
-		String text = "Quests:\n";
+		string text = "Quests:\n";
 		
 		foreach (var qst in GameData.QUESTS)
 		{
@@ -104,9 +106,9 @@ public partial class QuestControl : Control
 	{
 		completeList.DeselectAll();
 		
-		String questName = activeList.GetItemText((int)index);
+		string questName = activeList.GetItemText((int)index);
 		//String quest = GameData.qstNameToKey[questName];
-		String quest = (String)activeList.GetItemMetadata((int)index);
+		string quest = (string)activeList.GetItemMetadata((int)index);
 		
 		displayLabel.Text = DisplayQuestText(quest, true);
 	}
@@ -115,17 +117,17 @@ public partial class QuestControl : Control
 	{
 		activeList.DeselectAll();
 		
-		String questName = completeList.GetItemText((int)index);
+		string questName = completeList.GetItemText((int)index);
 		//String quest = GameData.qstNameToKey[questName];
-		String quest = (String)completeList.GetItemMetadata((int)index);
+		string quest = (string)completeList.GetItemMetadata((int)index);
 		
 		displayLabel.Text = DisplayQuestText(quest, false);
 	}
 	
-	private String DisplayQuestText(String quest, bool active)
+	private string DisplayQuestText(string quest, bool active)
 	{
 		QuestData selectedQuest = GameData.QUESTS[quest];
-		String text = selectedQuest.text;
+		string text = selectedQuest.text;
 		
 		if (active)
 		{
@@ -172,9 +174,9 @@ public partial class QuestControl : Control
 		if (activeList.IsAnythingSelected())
 		{
 			int idx = activeList.GetSelectedItems()[0];
-			String questName = activeList.GetItemText(idx);
+			string questName = activeList.GetItemText(idx);
 			//String questKey = GameData.qstNameToKey[questName];
-			String questKey = (String)activeList.GetItemMetadata(idx);
+			string questKey = (string)activeList.GetItemMetadata(idx);
 			
 			GD.Print($"QuestControl: Tracking quest {questName}...");
 			

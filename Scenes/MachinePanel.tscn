@@ -130,4 +130,5 @@ text = "Repair"
 [node name="DismantleButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+disabled = true
 text = "Dismantle"

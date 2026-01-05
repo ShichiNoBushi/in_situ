@@ -516,7 +516,7 @@ public partial class GameData : Node
 	public static void CheckQuests()
 	{
 		//Check active quests for completion.
-		List<String> toComplete = new();
+		List<string> toComplete = new();
 		
 		foreach (var quest in questControl.activeQuests)
 		{
@@ -538,9 +538,12 @@ public partial class GameData : Node
 	{
 		//Check if quest's requirements are fullfilled.
 		QuestRequirement requirements = quest.requirement;
-		Dictionary<String, float> resRequirements = requirements.resources;
-		Dictionary<String, int> machRequirements = requirements.machines;
-		List<String> qstRequirements = requirements.quests;
+		Dictionary<string, float> resRequirements = requirements.resources;
+		Dictionary<string, int> machRequirements = requirements.machines;
+		List<string> qstRequirements = requirements.quests;
+		
+		//Tolerance for imprecise float values.
+		const float EPS = 0.0005f;
 		
 		//Determine if all the resource requirements among all regions has been met.
 		bool resFulfilled = resRequirements.All(req => 
@@ -551,13 +554,13 @@ public partial class GameData : Node
 				if (reg.resources.ContainsKey(req.Key))
 				{
 					total += reg.resources[req.Key];
-					if (total >= req.Value)
+					if (total + EPS >= req.Value)
 					{
 						return true;
 					}
 				}
 			}
-			return total >= req.Value;
+			return total + EPS >= req.Value;
 		});
 		//Determine if all the machine requirements among all regions has been met.
 		bool machFulfilled = machRequirements.All(req =>
@@ -581,7 +584,7 @@ public partial class GameData : Node
 		return resFulfilled && machFulfilled && qstFulfilled;
 	}
 	
-	public static void CompleteQuest(String questKey)
+	public static void CompleteQuest(string questKey)
 	{
 		//Designate a quest as completed
 		if (questControl.completeQuests.ContainsKey(questKey))
