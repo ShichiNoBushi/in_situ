@@ -115,8 +115,9 @@ metadata/_tab_index = 1
 
 [node name="LogisticsList" type="ItemList" parent="TabContainer/Logistics"]
 layout_mode = 0
+offset_top = 2.0
 offset_right = 698.0
-offset_bottom = 698.0
+offset_bottom = 700.0
 
 [node name="Quests" type="Control" parent="TabContainer"]
 visible = false

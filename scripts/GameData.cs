@@ -45,6 +45,7 @@ public partial class GameData : Node
 	public static MachinesControl machinesControl;
 	public static HarvestControl harvestControl;
 	public static BuildControl buildControl;
+	public static ItemList logisticsList;
 	public static QuestControl questControl;
 	
 	//Label to display the current tracked objective.
@@ -103,6 +104,7 @@ public partial class GameData : Node
 		machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
 		harvestControl = GetNode<HarvestControl>("../TabContainer/Base/HarvestPanel");
 		buildControl = GetNode<BuildControl>("../TabContainer/Base/BuildPanel");
+		logisticsList = GetNode<ItemList>("../TabContainer/Logistics/LogisticsList");
 		questControl = GetNode<QuestControl>("../TabContainer/Quests");
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
@@ -116,8 +118,8 @@ public partial class GameData : Node
 		questUpdateFunctioning = true;
 		
 		//Set these to true to unlock all machines or recipes.
-		unlockAllMachines = false;
-		unlockAllRecipes = false;
+		unlockAllMachines = true;
+		unlockAllRecipes = true;
 		
 		UpdateQuestTracking();
 	}

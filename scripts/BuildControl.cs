@@ -262,12 +262,21 @@ public partial class BuildControl : Control
 		{
 			Infrastructure newInfrastructure = new Infrastructure(buildKey, GameData.currentRegion);
 			GameData.currentRegion.infrastructure.Add(newInfrastructure);
-			//Add infrastructure to Logistics Item List
+			GameData.logisticsList.AddItem(GameData.INFRASTRUCTURE[newInfrastructure.id].name);
+			int idx = GameData.logisticsList.ItemCount - 1;
+			var meta = new Dictionary
+			{
+				{"key", buildKey},
+				{"type", buildType}
+			};
+			GameData.logisticsList.SetItemMetadata(idx, meta);
 		}
 		
 		buildProgress.Value = 0;
 		buildButton.Disabled = false;
 		buildMenu.Disabled = false;
+		
+		GameData.machinesControl.UpdateMachinePanels();
 	}
 	
 	private void SelectBuildable(long index)
