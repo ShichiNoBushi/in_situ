@@ -45,7 +45,7 @@ public partial class GameData : Node
 	public static MachinesControl machinesControl;
 	public static HarvestControl harvestControl;
 	public static BuildControl buildControl;
-	public static ItemList logisticsList;
+	public static LogisticsControl logisticsControl;
 	public static QuestControl questControl;
 	
 	//Label to display the current tracked objective.
@@ -104,7 +104,7 @@ public partial class GameData : Node
 		machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
 		harvestControl = GetNode<HarvestControl>("../TabContainer/Base/HarvestPanel");
 		buildControl = GetNode<BuildControl>("../TabContainer/Base/BuildPanel");
-		logisticsList = GetNode<ItemList>("../TabContainer/Logistics/LogisticsList");
+		logisticsControl = GetNode<LogisticsControl>("../TabContainer/Logistics");
 		questControl = GetNode<QuestControl>("../TabContainer/Quests");
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
@@ -926,6 +926,7 @@ public class MachineData : BuildData
 
 public class InfrastructureData : BuildData
 {
+	public string type {get; set;}
 	public float through {get; set;}
 	
 	[System.Text.Json.Serialization.JsonPropertyName("energy cost")]
@@ -933,6 +934,7 @@ public class InfrastructureData : BuildData
 	
 	public InfrastructureData() : base()
 	{
+		type = "untyped";
 		through = 0f;
 		energyCost = 0f;
 	}

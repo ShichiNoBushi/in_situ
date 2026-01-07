@@ -262,14 +262,10 @@ public partial class BuildControl : Control
 		{
 			Infrastructure newInfrastructure = new Infrastructure(buildKey, GameData.currentRegion);
 			GameData.currentRegion.infrastructure.Add(newInfrastructure);
-			GameData.logisticsList.AddItem(GameData.INFRASTRUCTURE[newInfrastructure.id].name);
-			int idx = GameData.logisticsList.ItemCount - 1;
-			var meta = new Dictionary
-			{
-				{"key", buildKey},
-				{"type", buildType}
-			};
-			GameData.logisticsList.SetItemMetadata(idx, meta);
+			GameData.logisticsControl.logisticsList.AddItem(GameData.INFRASTRUCTURE[newInfrastructure.id].name);
+			int idxList = GameData.logisticsControl.logisticsList.ItemCount - 1;
+			int idxInfra = GameData.currentRegion.infrastructure.Count - 1;
+			GameData.logisticsControl.SetInfraMeta(idxList, GameData.currentRegion, idxInfra);
 		}
 		
 		buildProgress.Value = 0;
