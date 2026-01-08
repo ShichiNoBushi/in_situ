@@ -58,7 +58,7 @@ public partial class MachinesControl : VBoxContainer
 	
 	public void UpdateRegionMachines()
 	{
-		String machList = "";
+		string machList = "";
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
 		
 		foreach (var child in GetChildren())
@@ -66,7 +66,7 @@ public partial class MachinesControl : VBoxContainer
 			child.QueueFree();
 		}
 		
-		foreach (var mach in GameData.regionMap[coord].machines)
+		foreach (var mach in GameData.currentRegion.machines)
 		{
 			AddMachinePanel(mach);
 		}

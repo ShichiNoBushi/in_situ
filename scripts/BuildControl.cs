@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using Godot.Collections;
 
 public partial class BuildControl : Control
@@ -12,6 +13,7 @@ public partial class BuildControl : Control
 	private BuildData selectedBuildable;
 	
 	OptionButton buildMenu;
+	OptionButton neighborMenu;
 	Button buildButton;
 	RichTextLabel resourceLabel;
 	ProgressBar buildProgress;
@@ -26,6 +28,7 @@ public partial class BuildControl : Control
 		
 		GD.Print("BuildControl: Assigning node references...");
 		buildMenu = GetNode<OptionButton>("Panel/BuildMenu");
+		neighborMenu = GetNode<OptionButton>("Panel/NeighborMenu");
 		buildButton = GetNode<Button>("Panel/BuildButton");
 		resourceLabel = GetNode<RichTextLabel>("Panel/CostScroll/ResourceLabel");
 		buildProgress = GetNode<ProgressBar>("Panel/BuildProgress");
@@ -196,6 +199,58 @@ public partial class BuildControl : Control
 		}
 	}
 	
+	public void UpdateNeighborMenu()
+	{
+		neighborMenu.Clear();
+		
+		Region reg = GameData.currentRegion;
+		List<Region> neighbors = new();
+		
+		if (GameData.regionMap.ContainsKey((reg.coordX, reg.coordY + 1)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX, reg.coordY + 1)]);
+		}
+		if (GameData.regionMap.ContainsKey((reg.coordX + 1, reg.coordY + 1)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX + 1, reg.coordY + 1)]);
+		}
+		if (GameData.regionMap.ContainsKey((reg.coordX + 1, reg.coordY)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX + 1, reg.coordY)]);
+		}
+		if (GameData.regionMap.ContainsKey((reg.coordX + 1, reg.coordY - 1)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX + 1, reg.coordY - 1)]);
+		}
+		if (GameData.regionMap.ContainsKey((reg.coordX, reg.coordY - 1)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX, reg.coordY - 1)]);
+		}
+		if (GameData.regionMap.ContainsKey((reg.coordX - 1, reg.coordY - 1)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX - 1, reg.coordY - 1)]);
+		}
+		if (GameData.regionMap.ContainsKey((reg.coordX - 1, reg.coordY)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX - 1, reg.coordY)]);
+		}
+		if (GameData.regionMap.ContainsKey((reg.coordX - 1, reg.coordY + 1)))
+		{
+			neighbors.Add(GameData.regionMap[(reg.coordX - 1, reg.coordY + 1)]);
+		}
+		
+		foreach (var nei in neighbors)
+		{
+			(int x, int y) coord = (nei.coordX, nei.coordY);
+			neighborMenu.AddItem(GameData.CoordToString(coord));
+			int idx = neighborMenu.ItemCount - 1;
+			Vector2I coordV2 = new Vector2I(coord.x, coord.y);
+			neighborMenu.SetItemMetadata(idx, coordV2);
+		}
+		
+		neighborMenu.Disabled = !(neighborMenu.ItemCount > 0);
+	}
+	
 	private bool EnoughResources()
 	{
 		GD.Print("BuildControl: Checking resources...");
@@ -229,6 +284,14 @@ public partial class BuildControl : Control
 		if (selectedBuildable == null)
 		{
 			GD.Print("BuildControl: selected buildable null value");
+			return;
+		}
+		
+		InfrastructureData infra = selectedBuildable as InfrastructureData;
+		
+		if (infra != null && infra.type == "conveyer" && neighborMenu.ItemCount == 0)
+		{
+			GD.Print("BuildControl: no explored neighboring regions to build conveyer");
 			return;
 		}
 		
@@ -266,6 +329,21 @@ public partial class BuildControl : Control
 			int idxList = GameData.logisticsControl.logisticsList.ItemCount - 1;
 			int idxInfra = GameData.currentRegion.infrastructure.Count - 1;
 			GameData.logisticsControl.SetInfraMeta(idxList, GameData.currentRegion, idxInfra);
+			
+			InfrastructureData data = GameData.INFRASTRUCTURE[buildKey];
+			
+			if (data.type == "conveyer")
+			{
+				GD.Print("BuildControl: Building linked logistics");
+				int idx = neighborMenu.GetSelected();
+				Vector2I coordV2 = (Vector2I)neighborMenu.GetItemMetadata(idx);
+				(int x, int y) coord = (coordV2.X, coordV2.Y);
+				Region neighbor = GameData.regionMap[coord];
+				Infrastructure neighborInfra = new Infrastructure(buildKey, neighbor);
+				neighbor.infrastructure.Add(neighborInfra);
+				newInfrastructure.setLink(neighborInfra);
+				neighborInfra.setLink(newInfrastructure);
+			}
 		}
 		
 		buildProgress.Value = 0;

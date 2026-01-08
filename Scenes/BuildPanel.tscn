@@ -7,21 +7,31 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1320.0
+offset_bottom = -772.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h15d7")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 350.0
+offset_right = 408.0
 offset_bottom = 200.0
 
 [node name="BuildMenu" type="OptionButton" parent="Panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 342.0
+offset_right = 321.0
 offset_bottom = 42.0
+
+[node name="NeighborMenu" type="OptionButton" parent="Panel"]
+layout_mode = 0
+offset_left = 326.0
+offset_top = 8.0
+offset_right = 404.0
+offset_bottom = 42.0
+disabled = true
 
 [node name="BuildButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -36,7 +46,7 @@ text = "Build
 layout_mode = 0
 offset_left = 4.0
 offset_top = 81.0
-offset_right = 344.0
+offset_right = 404.0
 offset_bottom = 171.0
 
 [node name="ResourceLabel" type="RichTextLabel" parent="Panel/CostScroll"]
@@ -48,6 +58,6 @@ text = "No machine selected."
 [node name="BuildProgress" type="ProgressBar" parent="Panel"]
 layout_mode = 0
 offset_top = 169.0
-offset_right = 350.0
+offset_right = 408.0
 offset_bottom = 196.0
 show_percentage = false

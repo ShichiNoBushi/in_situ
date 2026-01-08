@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using Godot.Collections;
 
 public partial class LogisticsControl : Control
@@ -36,6 +37,14 @@ public partial class LogisticsControl : Control
 		InfrastructureData data = GameData.INFRASTRUCTURE[logistics.id];
 		
 		string text = $"{data.name}\n\nType: {data.type}\nThrough: {data.through}\nEnergy Cost: {data.energyCost}";
+		
+		if (data.type == "conveyer")
+		{
+			Infrastructure link = logistics.link;
+			Region neighbor = link.location;
+			text += $"\nLink: ({neighbor.coordX}, {neighbor.coordY})";
+		}
+		
 		logisticsLabel.Text = text;
 	}
 	
@@ -77,5 +86,24 @@ public partial class LogisticsControl : Control
 		Region reg = GameData.regionMap[coord];
 		int idxInfra = meta.ContainsKey("index") ? (int)meta["index"] : -1;
 		return (reg, idxInfra);
+	}
+	
+	public void UpdateRegionLogistics()
+	{
+		logisticsList.Clear();
+		
+		Region reg = GameData.currentRegion;
+		
+		GD.Print($"LogisticsControl: updating Logistics List at ({reg.coordX}, {reg.coordY})");
+		
+		foreach (var infra in reg.infrastructure)
+		{
+			string name = GameData.INFRASTRUCTURE[infra.id].name;
+			logisticsList.AddItem(name);
+			int idxList = logisticsList.ItemCount - 1;
+			int idxInfra = reg.infrastructure.Count - 1;
+			SetInfraMeta(idxList, reg, idxInfra);
+			GD.Print($"LogisticsControl: adding item {name}");
+		}
 	}
 }

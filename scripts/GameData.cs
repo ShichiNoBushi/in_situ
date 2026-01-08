@@ -671,10 +671,13 @@ public partial class GameData : Node
 			GD.PrintErr($"GameData: Error updating machines {e.Message}");
 		}
 		
+		logisticsControl.UpdateRegionLogistics();
+		
 		//Update colored regions on the map.
 		mapControl.UpdateAllColors();
 		//Update the harvest controls for local deposits.
 		harvestControl.UpdateHarvest();
+		buildControl.UpdateNeighborMenu();
 	}
 	
 	public static void ExploreRegion((int x, int y) coord)
@@ -840,6 +843,7 @@ public partial class GameData : Node
 		mapControl.GenerateMap();
 		mapControl.UpdateAllColors();
 		travelControl.UpdateRegions();
+		buildControl.UpdateNeighborMenu();
 	}
 	
 	public static float RandNormal(float mean, float stddev)
