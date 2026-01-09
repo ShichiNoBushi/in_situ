@@ -1165,6 +1165,11 @@ public class Buildable
 		active = on;
 	}
 	
+	public virtual void Tick(double delta)
+	{
+		
+	}
+	
 	public void Damage(float dmg)
 	{
 		//Damage the machine and increase wear.
@@ -1430,22 +1435,241 @@ public class Machine : Buildable
 
 public class Infrastructure : Buildable
 {
-	public string infraType {get; private set;}
+	public string type {get; private set;}
 	public float through {get; private set;}
 	public float energyCost {get; private set;}
 	public Infrastructure link {get; private set;}
+	public List<LogisticOrder> input {get; private set;}
+	public List<LogisticOrder> output {get; private set;}
+	public long lastServed {get; private set;}
 	
 	public Infrastructure(string infraID, Region loc) : base(infraID, loc)
 	{
-		infraType = "";
+		type = "";
 		through = 0f;
 		energyCost = 0f;
 		link = null;
+		input = new();
+		output = new();
+		lastServed = -1;
+	}
+	
+	public override void Tick(double delta)
+	{
+		float thruMod = through * (float)delta;
+		
+		if (thruMod <= 0f)
+		{
+			return;
+		}
+		
+		switch (type)
+		{
+			case "hub":
+				TickHub(thruMod);
+				return;
+			case "conveyer":
+				TickConveyer(thruMod);
+				return;
+			default:
+				return;
+		} 
+	}
+	
+	private void TickHub(float thruMod)
+	{
+		if (inputs.Count > 0)
+		{
+			foreach (var ord in inputs)
+			{
+				if (ord == null) continue;
+				
+				if (location.resources.ContainsKey(ord.resource))
+				{
+					location.resources[ord.resource] += ord.amount;
+				}
+			}
+			inputs.Clear();
+		}
+		
+		List<Infrastructure> solidCon = new();
+		foreach (var infra in location.infrastructure)
+		{
+			if (infra != null && infra.type == "conveyer")
+			{
+				solicCon.Add(infra);
+			}
+		}
+		
+		if (solidCon.Count == 0 || output.Count == 0)
+		{
+			return;
+		}
+		
+		solidCon.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+		
+		int conveyerIndex = 0;
+		int safety = 0;
+		
+		while (thruMod > 0f && output.Count > 0 && solidCon.Count > 0 && safety < 10000)
+		{
+			safety++;
+			
+			Infrastructure con = solidCon[conveyerIndex];
+			conveyerIndex = (conveyerIndex + 1) % conveyers.Count;
+			
+			LogisticsOrder ord = output[0];
+			if (ord == null)
+			{
+				output.RemoveAt(0);
+				continue;
+			}
+			
+			float sendAmt = Math.Min(thruMod, ord.Amount);
+			if (sendAmt <= 0f)
+			{
+				output.RemoveAt(0);
+				continue;
+			}
+			
+			LogisticsOrder packet = ord.Split(sendAmt);
+			if (packet == null)
+			{
+				break;
+			}
+			
+			con.GiveInput(packet);
+			thruMod -= sendAmt;
+			
+			long seq = ++LogisticsOrder.logisticsSquence;
+			con.lastServed = seq;
+			lastServed = seq;
+			
+			if (ord.amount <= 0f)
+			{
+				output.RemoveAt(0);
+			}
+			
+			solidCon.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+		}
+	}
+	
+	private void TickConveyer(float thruMod)
+	{
+		float inpMod = thruMod;
+		int safety = 0;
+		
+		while (inpMod > 0f && input.Count > 0 && safety < 10000)
+		{
+			safety++;
+			
+			LogisticsOrder ord = input[0];
+			
+			if (ord == null)
+			{
+				input.RemoveAt(0);
+				continue;
+			}
+			
+			float transAmt = Math.Min(inpMod, ord.amount);
+			
+			if (transAmt <= 0f)
+			{
+				input.RemoveAt(0);
+				continue;
+			}
+			
+			LogisticsOrder transPacket = ord.Split(transAmt);
+			
+			if (transPacket == null)
+			{
+				break;
+			}
+			
+			link.GiveOutput(transPacket);
+			
+			inpMod -= transAmt;
+		}
+		
+		List<Infrastructure> solidInfra = new();
+		
+		foreach (var infra in location.infrastructure)
+		{
+			if (infra != null && infra != this)
+			{
+				solidInfra.Add(infr);
+			}
+		}
+		
+		if (solidInfra.Count == 0)
+		{
+			return;
+		}
+		
+		solidInfra.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+		
+		float outpMod = thruMod;
+		
+		int infraIndex = 0;
+		int safety = 0;
+		
+		while (outpMod > 0f && ouput.Count > 0 && solidInfra.Count > 0 && safety < 10000)
+		{
+			safety++;
+			
+			Infrastructure infra = solidInfra[infraIndex];
+			infraIndex = (infraIndex + 1) % solidInfra.Count;
+			
+			LogisticsOrder ord = output[0];
+			if (ord == null)
+			{
+				output.RemoveAt(0);
+				continue;
+			}
+			
+			float sendAmt = Math.Min(outpMod, ord.amount);
+			if (sendAmt <= 0f)
+			{
+				output.RemoveAt(0);
+				continue;
+			}
+			
+			LogisticsOrder sendPacket = ord.Split(sendAmt);
+			
+			if (sendPacket == null)
+			{
+				break;
+			}
+			
+			infra.GiveInput(sendPacket);
+			outpMod -= sendAmt;
+			
+			long seq = ++LogisticsOrder.logisticsSequence;
+			infra.lastServed = seq;
+			lastServed = seq;
+			
+			if (ord.amount <= 0f)
+			{
+				output.RemoveAt(0);
+			}
+			
+			solidInfra.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+		}
 	}
 	
 	public void setLink(Infrastructure lnk)
 	{
 		link = lnk;
+	}
+	
+	public void GiveInput(LogisticOrder ord)
+	{
+		input.Add(ord);
+	}
+	
+	public void GiveOutput(LogisticOrder ord)
+	{
+		output.Add(ord);
 	}
 }
 
@@ -1455,6 +1679,7 @@ public class LogisticOrder
 	public float amount {get; private set;}
 	public bool hasDestination {get; private set;}
 	public (int x, int y) destinationCoord {get; private set;}
+	public static long logisticsSequence = 0;
 	
 	public LogisticOrder(string res, float amt, bool has, (int x, int y) coord)
 	{
@@ -1474,7 +1699,7 @@ public class LogisticOrder
 	
 	public LogisticOrder Split(float amt)
 	{
-		if (amt <= 0 || amt >= amount)
+		if (amt <= 0f || amt > amount)
 		{
 			return null;
 		}
