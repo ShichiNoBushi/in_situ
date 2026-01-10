@@ -341,8 +341,8 @@ public partial class BuildControl : Control
 				Region neighbor = GameData.regionMap[coord];
 				Infrastructure neighborInfra = new Infrastructure(buildKey, neighbor);
 				neighbor.infrastructure.Add(neighborInfra);
-				newInfrastructure.setLink(neighborInfra);
-				neighborInfra.setLink(newInfrastructure);
+				newInfrastructure.SetLink(neighborInfra);
+				neighborInfra.SetLink(newInfrastructure);
 			}
 		}
 		
