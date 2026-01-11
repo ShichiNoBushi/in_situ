@@ -9,7 +9,9 @@ public partial class LogisticsControl : Control
 	public Label logisticsLabel;
 	public OptionButton logResourceMenu;
 	public Label logResourceLabel;
-	public TextEdit logResourceText;
+	public SpinBox logResourceSpin;
+	public Button logOrderButton;
+	public RichTextLabel logOrderLabel;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -20,9 +22,14 @@ public partial class LogisticsControl : Control
 		logisticsLabel = GetNode<Label>("LogisticsLabel");
 		logResourceMenu = GetNode<OptionButton>("LogResourceMenu");
 		logResourceLabel = GetNode<Label>("LogResourceLabel");
-		logResourceText = GetNode<TextEdit>("LogResourceText");
+		logResourceSpin = GetNode<SpinBox>("LogResourceSpin");
+		logOrderButton = GetNode<Button>("LogOrderButton");
+		logOrderLabel = GetNode<RichTextLabel>("LogisticsScroll/LogOrderLabel");
 		
 		logisticsList.ItemSelected += SelectLogistics;
+		logOrderButton.Pressed += SendOrder;
+		
+		logOrderLabel.BbcodeEnabled = true;
 		
 		PopulateResourceMenu();
 	}
@@ -35,9 +42,19 @@ public partial class LogisticsControl : Control
 		int idx = logResourceMenu.GetSelected();
 		if (idx < 0) return;
 		
+		if (logResourceMenu.IsItemSeparator(idx))
+		{
+			logResourceLabel.Text = "";
+			return;
+		}
+		
 		string resID = (string)logResourceMenu.GetItemMetadata(idx);
 		string formatted = GameData.FormatUnit(GameData.currentRegion.resources[resID], resID);
 		logResourceLabel.Text = formatted;
+		
+		logResourceSpin.MaxValue = GameData.currentRegion.resources[resID];
+		
+		DisplayOrders();
 	}
 	
 	public void SelectLogistics(long index)
@@ -47,12 +64,18 @@ public partial class LogisticsControl : Control
 		
 		if (reg == null || meta.index < 0)
 		{
+			GD.Print("LogisticsControl: No logistics selected");
 			logisticsLabel.Text = "No selection";
+			logResourceMenu.Disabled = true;
+			logResourceSpin.Editable = false;
+			logOrderButton.Disabled = true;
 			return;
 		}
 		
 		Infrastructure logistics = reg.infrastructure[meta.index];
 		InfrastructureData data = GameData.INFRASTRUCTURE[logistics.id];
+		
+		GD.Print($"LogisticsControl: Selected index {index} name {data.name} type {data.type}");
 		
 		string text = $"{data.name}\n\nType: {data.type}\nThrough: {data.through}\nEnergy Cost: {data.energyCost}";
 		
@@ -64,6 +87,45 @@ public partial class LogisticsControl : Control
 		}
 		
 		logisticsLabel.Text = text;
+		
+		logResourceMenu.Disabled = logistics.type != "hub";
+		logResourceSpin.Editable = logistics.type == "hub";
+		logOrderButton.Disabled = logistics.type != "hub";
+	}
+	
+	public void SendOrder()
+	{
+		int idx = logisticsList.GetSelectedItems()[0];
+		var meta = GetInfraMeta(idx);
+		Region reg = meta.region;
+		Infrastructure infra = reg.infrastructure[meta.index];
+		
+		if (infra.type != "hub")
+		{
+			GD.Print("LogisticsControl: Selected infrastructure is not hub type");
+			return;
+		}
+		
+		int resIdx = logResourceMenu.GetSelected();
+		string resource = (string)logResourceMenu.GetItemMetadata(resIdx);
+		
+		float available = reg.resources[resource];
+		float amount = (float)logResourceSpin.Value;
+		
+		if (amount <= 0f || amount > available)
+		{
+			GD.Print("LogisticsControl: Invalid amount");
+			return;
+		}
+		
+		GD.Print($"LogisticsOrder: Creating order of {GameData.FormatUnit(amount, resource)} of {GameData.RESOURCES[resource].name}");
+		reg.resources[resource] -= amount;
+		
+		LogisticOrder order = new(resource, amount);
+		infra.GiveOutput(order);
+		
+		logResourceSpin.Value = 0f;
+		GD.Print($"LogisticsOrder: infrastructure has {infra.input.Count} input orders and {infra.output.Count} output orders");
 	}
 	
 	public void PopulateResourceMenu()
@@ -71,32 +133,22 @@ public partial class LogisticsControl : Control
 		GD.Print("LogisticsControl: Populating resource menu");
 		GD.Print($"LogisticsControl: {GameData.RESOURCES.Count} different resources");
 		
-		GD.Print("LogisticsControl: Clearing menu...");
-		try
-		{
-			logResourceMenu.Clear();
-		}
-		catch (Exception e)
-		{
-			GD.PrintErr($"LogisticsControl: error clearing menu - {e}");
-		}
-		
+		System.Collections.Generic.Dictionary<string, List<string>> resTypes = new();
 		try
 		{
 			GD.Print("LogisticsControl: Beginning loop...");
-			int i = 0;
 			foreach (var res in GameData.RESOURCES)
 			{
-				GD.Print($"LogisticsControl: {i}: adding resources at key {res.Key} to menu");
-				logResourceMenu.AddItem(res.Value.name);
-				int idx = logResourceMenu.ItemCount - 1;
-				logResourceMenu.SetItemMetadata(idx, res.Key);
-				i++;
-				if (i > GameData.RESOURCES.Count)
+				string type = res.Value.type;
+				if (!resTypes.ContainsKey(type))
 				{
-					GD.Print("LogisticsControl: loop exceeding expected number of resources; breaking loop");
-					break;
+					resTypes[type] = new();
 				}
+				
+				resTypes[type].Add(res.Key);
+				//logResourceMenu.AddItem(res.Value.name);
+				//int idx = logResourceMenu.ItemCount - 1;
+				//logResourceMenu.SetItemMetadata(idx, res.Key);
 			}
 		}
 		catch(Exception e)
@@ -104,12 +156,71 @@ public partial class LogisticsControl : Control
 			GD.PrintErr($"LogisticsControl: error populating resources menu - {e}");
 		}
 		
-		GD.Print($"LogisticsControl: added {logResourceMenu.ItemCount} items to menu");
-		
-		if (logResourceMenu.ItemCount > 0)
+		foreach (var typeList in resTypes)
 		{
-			logResourceMenu.Select(0);
+			logResourceMenu.AddSeparator(typeList.Key);
+			foreach (var res in typeList.Value)
+			{
+				logResourceMenu.AddItem(GameData.RESOURCES[res].name);
+				int idx = logResourceMenu.ItemCount - 1;
+				logResourceMenu.SetItemMetadata(idx, res);
+			}
 		}
+		
+		GD.Print($"LogisticsControl: added {logResourceMenu.ItemCount} items to menu");
+	}
+	
+	public void DisplayOrders()
+	{
+		int idx = logisticsList.GetSelectedItems()[0];
+		var meta = GetInfraMeta(idx);
+		Region reg = meta.region;
+		Infrastructure infra = reg.infrastructure[meta.index];
+		
+		if (infra == null || (infra.type != "hub" && infra.type != "conveyer"))
+		{
+			logOrderLabel.Text = "No orders";
+			return;
+		}
+		
+		if (infra.input.Count == 0 && infra.output.Count == 0)
+		{
+			logOrderLabel.Text = "No orders";
+			return;
+		}
+		
+		string text = "";
+		
+		if (infra.input.Count > 0)
+		{
+			text += "Input:\n[table=2]";
+			
+			foreach (var inp in infra.input)
+			{
+				text += $"[cell]{GameData.RESOURCES[inp.resource].name}[/cell][cell][right]{GameData.FormatUnit(inp.amount, inp.resource)}[/right][/cell]";
+			}
+			
+			text += "[/table]";
+			
+			if (infra.output.Count > 0)
+			{
+				text += "\n\n";
+			}
+		}
+		
+		if (infra.output.Count > 0)
+		{
+			text += "Output:\n[table=2]";
+			
+			foreach (var outp in infra.output)
+			{
+				text += $"[cell]{GameData.RESOURCES[outp.resource].name}[/cell][cell][right]{GameData.FormatUnit(outp.amount, outp.resource)}[/right][/cell]";
+			}
+			
+			text += "[/table]";
+		}
+		
+		logOrderLabel.Text = text;
 	}
 	
 	public void SetInfraMeta(int idxList, Region reg, int idxInfra)
@@ -155,19 +266,23 @@ public partial class LogisticsControl : Control
 	public void UpdateRegionLogistics()
 	{
 		logisticsList.Clear();
+		logisticsLabel.Text = "No selection";
+		logResourceMenu.Disabled = true;
+		logResourceSpin.Editable = false;
+		logOrderButton.Disabled = true;
 		
 		Region reg = GameData.currentRegion;
 		
 		GD.Print($"LogisticsControl: updating Logistics List at ({reg.coordX}, {reg.coordY})");
 		
-		foreach (var infra in reg.infrastructure)
+		for (int i = 0; i < reg.infrastructure.Count; i++)
 		{
+			Infrastructure infra = reg.infrastructure[i];
 			string name = GameData.INFRASTRUCTURE[infra.id].name;
 			logisticsList.AddItem(name);
 			int idxList = logisticsList.ItemCount - 1;
-			int idxInfra = reg.infrastructure.Count - 1;
-			SetInfraMeta(idxList, reg, idxInfra);
-			GD.Print($"LogisticsControl: adding item {name}");
+			SetInfraMeta(idxList, reg, i);
+			GD.Print($"LogisticsControl: adding item {name} at index {i}");
 		}
 	}
 }

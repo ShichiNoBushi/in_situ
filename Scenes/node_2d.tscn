@@ -24,9 +24,10 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 
 [node name="Base" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -110,7 +111,6 @@ offset_right = -63.0
 offset_bottom = -1.0
 
 [node name="Logistics" type="Control" parent="TabContainer"]
-visible = false
 layout_mode = 2
 script = ExtResource("11_c32x4")
 metadata/_tab_index = 1
@@ -134,6 +134,7 @@ offset_left = 722.0
 offset_top = 180.0
 offset_right = 1165.0
 offset_bottom = 213.0
+disabled = true
 
 [node name="LogResourceLabel" type="Label" parent="TabContainer/Logistics"]
 layout_mode = 0
@@ -143,12 +144,36 @@ offset_right = 1275.0
 offset_bottom = 213.0
 horizontal_alignment = 2
 
-[node name="LogResourceText" type="TextEdit" parent="TabContainer/Logistics"]
+[node name="LogResourceSpin" type="SpinBox" parent="TabContainer/Logistics"]
 layout_mode = 0
 offset_left = 1300.0
 offset_top = 180.0
+offset_right = 1426.0
+offset_bottom = 211.0
+max_value = 1000000.0
+allow_greater = true
+allow_lesser = true
+alignment = 2
+
+[node name="LogOrderButton" type="Button" parent="TabContainer/Logistics"]
+layout_mode = 0
+offset_left = 722.0
+offset_top = 228.0
+offset_right = 858.0
+offset_bottom = 259.0
+disabled = true
+text = "Send Order"
+
+[node name="LogisticsScroll" type="ScrollContainer" parent="TabContainer/Logistics"]
+layout_mode = 0
+offset_left = 722.0
+offset_top = 267.0
 offset_right = 1387.0
-offset_bottom = 213.0
+offset_bottom = 696.0
+
+[node name="LogOrderLabel" type="RichTextLabel" parent="TabContainer/Logistics/LogisticsScroll"]
+custom_minimum_size = Vector2(665, 429)
+layout_mode = 2
 
 [node name="Quests" type="Control" parent="TabContainer"]
 visible = false

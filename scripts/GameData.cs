@@ -456,6 +456,11 @@ public partial class GameData : Node
 					mach.Damage(0.001f * ratio);
 				}
 			}
+			
+			foreach (var infra in reg.Value.infrastructure)
+			{
+				infra.Tick(delta);
+			}
 		}
 	}
 	
@@ -1461,10 +1466,10 @@ public class Infrastructure : Buildable
 	
 	public override void Tick(double delta)
 	{
-		if (!active)
+		/*if (!active)
 		{
 			return;
-		}
+		}*/
 		
 		float thruMod = through * (float)delta;
 		
@@ -1505,7 +1510,7 @@ public class Infrastructure : Buildable
 		List<Infrastructure> solidCon = new();
 		foreach (var infra in location.infrastructure)
 		{
-			if (infra != null && infra.type == "conveyer" && infra.active)
+			if (infra != null && infra.type == "conveyer")
 			{
 				solidCon.Add(infra);
 			}
@@ -1750,12 +1755,12 @@ public class LogisticOrder
 	public int hopLimit {get; private set;}
 	public static long logisticsSequence = 0;
 	
-	public LogisticOrder(string res, float amt, bool has, (int x, int y) coord, int ttl = 32)
+	public LogisticOrder(string res, float amt, bool has = false, int coordX = 0, int coordY = 0, int ttl = 32)
 	{
 		resource = res;
 		amount = amt;
 		hasDestination = has;
-		destinationCoord = coord;
+		destinationCoord = (coordX, coordY);
 		hopLimit = ttl;
 	}
 	
@@ -1764,7 +1769,7 @@ public class LogisticOrder
 		float half = amount / 2f;
 		amount -= half;
 		
-		return new(resource, half, hasDestination, destinationCoord, hopLimit);
+		return new(resource, half, hasDestination, destinationCoord.x, destinationCoord.y, hopLimit);
 	}
 	
 	public LogisticOrder Split(float amt)
@@ -1775,7 +1780,7 @@ public class LogisticOrder
 		}
 		
 		amount -= amt;
-		return new(resource, amt, hasDestination, destinationCoord, hopLimit);
+		return new(resource, amt, hasDestination, destinationCoord.x, destinationCoord.y, hopLimit);
 	}
 	
 	public bool Merge(LogisticOrder other)

@@ -147,7 +147,7 @@ public partial class MachinePanel : Control
 		GD.Print($"MachinePanel: Updating menu for {GameData.MACHINES[machine.id].name}");
 		
 		int oldSelectedIdx = recipeMenu.GetSelected();
-		String oldSelectedItem = recipeMenu.GetItemText(oldSelectedIdx);
+		string oldSelectedItem = recipeMenu.GetItemText(oldSelectedIdx);
 		
 		recipeMenu.Clear();
 			
@@ -161,7 +161,7 @@ public partial class MachinePanel : Control
 			if (recipe.local == "mining")
 			{
 				local = false;
-				List<String> nodes = machine.location.nodes;
+				List<string> nodes = machine.location.nodes;
 				
 				foreach(var res in GameData.RECIPES[rid].outputs.Keys)
 				{
@@ -242,17 +242,17 @@ public partial class MachinePanel : Control
 			
 			float weather = 1.0f;
 			
-			String inputDisplay = "Input:";
-			//String availableDisplay = "";
+			string inputDisplay = "Input:";
+			//string availableDisplay = "";
 			
 			if (recipe.available && inputs.Count > 0)
 			{
 				inputDisplay += "\n[table=5]";
 				foreach(var res in inputs)
 				{
-					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
-					String availResForm = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
-					String inputResForm = GameData.FormatUnit(res.Value, res.Key);
+					string resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
+					string availResForm = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
+					string inputResForm = GameData.FormatUnit(res.Value, res.Key);
 					//inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
 					inputDisplay += $"\n[cell]{resAbbrev}[/cell][cell]:[/cell][cell][right]{availResForm}[/right][/cell][cell]/[/cell][cell][right]{inputResForm}[/right][/cell]";
 					//availableDisplay += $"\n[code]{availResForm, 8} / {inputResForm, 8}[/code]";
@@ -267,8 +267,8 @@ public partial class MachinePanel : Control
 			inputLabel.Text = inputDisplay;
 			//availableLabel.Text = availableDisplay;
 			
-			String outputDisplay = "Output:";
-			//String producedDisplay = "";
+			string outputDisplay = "Output:";
+			//string producedDisplay = "";
 			
 			if (recipe.available && outputs.Count > 0)
 			{
@@ -285,8 +285,8 @@ public partial class MachinePanel : Control
 				
 				foreach(var res in outputs)
 				{
-					String resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
-					String outputResForm = GameData.FormatUnit(res.Value * weather, res.Key);
+					string resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
+					string outputResForm = GameData.FormatUnit(res.Value * weather, res.Key);
 					//outputDisplay += $"\n{resAbbrev}: {outputResForm}";
 					outputDisplay += $"\n[cell]{resAbbrev, -15}[/cell][cell]:[/cell][cell][right]{outputResForm}[/right][/cell]";
 					//producedDisplay += $"\n[code]{outputResForm, 8}[/code]";
@@ -314,7 +314,7 @@ public partial class MachinePanel : Control
 	{
 		wearProgress.Value = Math.Clamp(machine.wear / machine.maxWear * 100f, 0f, 100f);
 		
-		String text = "Required Materials:";
+		string text = "Required Materials:";
 		
 		if (machine.wear == 0f)
 		{
@@ -328,8 +328,8 @@ public partial class MachinePanel : Control
 		{
 			foreach (var res in machine.repairComponents)
 			{
-				String available = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
-				String needed = GameData.FormatUnit(res.Value, res.Key);
+				string available = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
+				string needed = GameData.FormatUnit(res.Value, res.Key);
 				text += $"\n{GameData.RESOURCES[res.Key].name} {available} / {needed}";
 			}
 		}
