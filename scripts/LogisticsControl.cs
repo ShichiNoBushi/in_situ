@@ -7,19 +7,37 @@ public partial class LogisticsControl : Control
 {
 	public ItemList logisticsList;
 	public Label logisticsLabel;
+	public OptionButton logResourceMenu;
+	public Label logResourceLabel;
+	public TextEdit logResourceText;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GD.Print("LogisticsControl.Ready() called...");
+		
 		logisticsList = GetNode<ItemList>("LogisticsList");
 		logisticsLabel = GetNode<Label>("LogisticsLabel");
+		logResourceMenu = GetNode<OptionButton>("LogResourceMenu");
+		logResourceLabel = GetNode<Label>("LogResourceLabel");
+		logResourceText = GetNode<TextEdit>("LogResourceText");
 		
 		logisticsList.ItemSelected += SelectLogistics;
+		
+		PopulateResourceMenu();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (logResourceMenu.ItemCount == 0) return;
+		
+		int idx = logResourceMenu.GetSelected();
+		if (idx < 0) return;
+		
+		string resID = (string)logResourceMenu.GetItemMetadata(idx);
+		string formatted = GameData.FormatUnit(GameData.currentRegion.resources[resID], resID);
+		logResourceLabel.Text = formatted;
 	}
 	
 	public void SelectLogistics(long index)
@@ -46,6 +64,52 @@ public partial class LogisticsControl : Control
 		}
 		
 		logisticsLabel.Text = text;
+	}
+	
+	public void PopulateResourceMenu()
+	{
+		GD.Print("LogisticsControl: Populating resource menu");
+		GD.Print($"LogisticsControl: {GameData.RESOURCES.Count} different resources");
+		
+		GD.Print("LogisticsControl: Clearing menu...");
+		try
+		{
+			logResourceMenu.Clear();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"LogisticsControl: error clearing menu - {e}");
+		}
+		
+		try
+		{
+			GD.Print("LogisticsControl: Beginning loop...");
+			int i = 0;
+			foreach (var res in GameData.RESOURCES)
+			{
+				GD.Print($"LogisticsControl: {i}: adding resources at key {res.Key} to menu");
+				logResourceMenu.AddItem(res.Value.name);
+				int idx = logResourceMenu.ItemCount - 1;
+				logResourceMenu.SetItemMetadata(idx, res.Key);
+				i++;
+				if (i > GameData.RESOURCES.Count)
+				{
+					GD.Print("LogisticsControl: loop exceeding expected number of resources; breaking loop");
+					break;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			GD.PrintErr($"LogisticsControl: error populating resources menu - {e}");
+		}
+		
+		GD.Print($"LogisticsControl: added {logResourceMenu.ItemCount} items to menu");
+		
+		if (logResourceMenu.ItemCount > 0)
+		{
+			logResourceMenu.Select(0);
+		}
 	}
 	
 	public void SetInfraMeta(int idxList, Region reg, int idxInfra)

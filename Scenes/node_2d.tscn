@@ -24,10 +24,9 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 1
+current_tab = 0
 
 [node name="Base" type="Control" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -111,6 +110,7 @@ offset_right = -63.0
 offset_bottom = -1.0
 
 [node name="Logistics" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 script = ExtResource("11_c32x4")
 metadata/_tab_index = 1
@@ -125,8 +125,30 @@ offset_bottom = 700.0
 layout_mode = 0
 offset_left = 722.0
 offset_right = 1330.0
-offset_bottom = 254.0
+offset_bottom = 158.0
 text = "Logistics Label"
+
+[node name="LogResourceMenu" type="OptionButton" parent="TabContainer/Logistics"]
+layout_mode = 0
+offset_left = 722.0
+offset_top = 180.0
+offset_right = 1165.0
+offset_bottom = 213.0
+
+[node name="LogResourceLabel" type="Label" parent="TabContainer/Logistics"]
+layout_mode = 0
+offset_left = 1188.0
+offset_top = 180.0
+offset_right = 1275.0
+offset_bottom = 213.0
+horizontal_alignment = 2
+
+[node name="LogResourceText" type="TextEdit" parent="TabContainer/Logistics"]
+layout_mode = 0
+offset_left = 1300.0
+offset_top = 180.0
+offset_right = 1387.0
+offset_bottom = 213.0
 
 [node name="Quests" type="Control" parent="TabContainer"]
 visible = false

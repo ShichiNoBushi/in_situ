@@ -122,6 +122,8 @@ public partial class GameData : Node
 		unlockAllRecipes = true;
 		
 		UpdateQuestTracking();
+		
+		//logisticsControl.CallDeferred(nameof(LogisticsControl.PopulateResourceMenu));
 	}
 	
 	public override void _Process(double delta)
@@ -359,10 +361,10 @@ public partial class GameData : Node
 		}
 	}
 	
-	public static String FormatUnit(float amount, String resource)
+	public static string FormatUnit(float amount, string resource)
 	{
 		//Format unit quantity based on unit it is measured in and largest significant size of unit.
-		String unit = GameData.RESOURCES.ContainsKey(resource)
+		string unit = GameData.RESOURCES.ContainsKey(resource)
 			? GameData.RESOURCES[resource].unit
 			: "u";
 		
@@ -400,7 +402,7 @@ public partial class GameData : Node
 		return $"{display:0.00} {prefix}{unit}";
 	}
 	
-	public static String CoordToString((int x, int y) coord)
+	public static string CoordToString((int x, int y) coord)
 	{
 		//Convert an XY coordinate to a String.
 		return $"({coord.x}, {coord.y})";
@@ -423,7 +425,7 @@ public partial class GameData : Node
 					{
 						//Create references to recipe and input resources.
 						RecipeData recipe = GameData.RECIPES[mach.currentRecipe];
-						Dictionary<String, float> inputs = recipe.inputs;
+						Dictionary<string, float> inputs = recipe.inputs;
 						
 						if (recipe.local == "wind")
 						{
@@ -441,7 +443,7 @@ public partial class GameData : Node
 						}
 						
 						//Create reference to recipe's output.
-						Dictionary<String, float> outputs = recipe.outputs;
+						Dictionary<string, float> outputs = recipe.outputs;
 						
 						foreach (var res in outputs)
 						{
@@ -457,7 +459,7 @@ public partial class GameData : Node
 		}
 	}
 	
-	private float CanCraft(String name, Region reg, double delta)
+	private float CanCraft(string name, Region reg, double delta)
 	{
 		//Check if the recipe can be crafted using resources in the region.
 		//Return 1 if completely craftable, 0 if uncraftable, and a value between if partially craftable.
@@ -467,7 +469,7 @@ public partial class GameData : Node
 		}
 		
 		RecipeData recipe = GameData.RECIPES[name];
-		Dictionary<String, float> inputs = recipe.inputs;
+		Dictionary<string, float> inputs = recipe.inputs;
 		
 		//If recipe has no required resources.
 		if (inputs.Count == 0)
@@ -739,9 +741,9 @@ public partial class GameData : Node
 		}
 		
 		//Create list of possible biomes with weighted probabilities.
-		Dictionary<String, float> weightedBiomes = new();
-		String selectedBiome = "nowhere";
-		String largestBiome = "nowhere";
+		Dictionary<string, float> weightedBiomes = new();
+		string selectedBiome = "nowhere";
+		string largestBiome = "nowhere";
 		float largestValue = 0f;
 		
 		//Add adjacent regions' biomes at full value.
