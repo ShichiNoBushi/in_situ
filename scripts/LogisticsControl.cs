@@ -77,7 +77,20 @@ public partial class LogisticsControl : Control
 		
 		GD.Print($"LogisticsControl: Selected index {index} name {data.name} type {data.type}");
 		
-		string text = $"{data.name}\n\nType: {data.type}\nThrough: {data.through}\nEnergy Cost: {data.energyCost}";
+		string text = $"{data.name}\n\nType: {data.type}\nServes: ";
+		
+		for (int i = 0; i < data.serves.Count; i++)
+		{
+			string ser = data.serves[i];
+			text += ser;
+			
+			if (i < data.serves.Count - 1)
+			{
+				text += ", ";
+			}
+		}
+		
+		text += $"\nThrough: {data.through}\nEnergy Cost: {data.energyCost}";
 		
 		if (data.type == "conveyer")
 		{

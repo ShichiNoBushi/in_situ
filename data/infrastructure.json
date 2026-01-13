@@ -2,6 +2,7 @@
 	"logistics hub": {
 		"name": "Logistics Hub",
 		"type": "hub",
+		"serves": ["solid", "liquid", "gas"],
 		"cost": {"iron plate": 20, "iron gear small": 10, "electric motor": 10, "control board": 10},
 		"through": 50.0,
 		"energy cost": 0.5,
@@ -9,14 +10,48 @@
 		"available": false,
 		"description": "Distributes solid and fluid resources between regions."
 	},
+	"substation": {
+		"name": "Substation",
+		"type": "hub",
+		"serves": ["energy"],
+		"cost": {"iron plate": 20, "magnet": 10, "copper wire": 10, "control board": 10},
+		"through": 50.0,
+		"energy cost": 0.0,
+		"starting amount":  0,
+		"available": false,
+		"description": "Distributes electricity to local region"
+	},
 	"conveyer bus": {
 		"name": "Conveyer Bus",
 		"type": "conveyer",
+		"serves": ["solid"],
 		"cost": {"iron plate": 20, "iron gear small": 10, "electric motor": 10},
 		"through": 20.0,
 		"energy cost": 0.1,
 		"starting amount": 0,
 		"available": false,
 		"description": "Transports solid resources between regions."
+	},
+	"pipeline": {
+		"name": "Pipeline",
+		"type": "conveyer",
+		"serves": ["liquid", "gas"],
+		"cost": {"iron rod": 10, "copper plate": 10, "electric motor": 10},
+		"through": 20.0,
+		"energy cost": 0.1,
+		"starting amount": 0,
+		"available": false,
+		"description": "Transports liquid and gas resources between regions."
+	},
+	"power conduit": {
+		"name": "Power Conduit",
+		"type": "conveyer",
+		"serves": ["energy"],
+		"cost": {"copper wire": 20, "iron rod": 10},
+		"through": 20.0,
+		"energy cost": 0.0,
+		"starting amount": 0,
+		"available": false,
+		"description": "Transfers high-voltage electricity between regions."
 	}
 }

@@ -938,6 +938,7 @@ public class MachineData : BuildData
 public class InfrastructureData : BuildData
 {
 	public string type {get; set;}
+	public List<string> serves {get; set;}
 	public float through {get; set;}
 	
 	[System.Text.Json.Serialization.JsonPropertyName("energy cost")]
@@ -946,6 +947,7 @@ public class InfrastructureData : BuildData
 	public InfrastructureData() : base()
 	{
 		type = "untyped";
+		serves = new();
 		through = 0f;
 		energyCost = 0f;
 	}
@@ -1443,6 +1445,7 @@ public class Machine : Buildable
 public class Infrastructure : Buildable
 {
 	public string type {get; private set;}
+	public List<string> serves {get; private set;}
 	public float through {get; private set;}
 	public float energyCost {get; private set;}
 	public Infrastructure link {get; private set;}
@@ -1455,6 +1458,7 @@ public class Infrastructure : Buildable
 	{
 		InfrastructureData data = GameData.INFRASTRUCTURE[infraID];
 		type = data.type;
+		serves = data.serves;
 		through = data.through;
 		energyCost = data.energyCost;
 		link = null;
@@ -1632,7 +1636,7 @@ public class Infrastructure : Buildable
 		
 		foreach (var infra in location.infrastructure)
 		{
-			if (infra != null && infra != this && infra.active)
+			if (infra != null && infra != this)
 			{
 				solidInfra.Add(infra);
 			}
@@ -1644,7 +1648,7 @@ public class Infrastructure : Buildable
 			{
 				if (ord.ConsumeHop())
 				{
-					GiveInput(ord);
+					GiveOutput(ord);
 				}
 				else
 				{
