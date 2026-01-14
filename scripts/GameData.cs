@@ -1753,6 +1753,7 @@ public class Infrastructure : Buildable
 public class LogisticOrder
 {
 	public string resource {get; private set;}
+	public string phase {get; private set;}
 	public float amount {get; private set;}
 	public bool hasDestination {get; private set;}
 	public (int x, int y) destinationCoord {get; private set;}
@@ -1762,6 +1763,7 @@ public class LogisticOrder
 	public LogisticOrder(string res, float amt, bool has = false, int coordX = 0, int coordY = 0, int ttl = 32)
 	{
 		resource = res;
+		phase = GameData.RESOURCES[res].phase;
 		amount = amt;
 		hasDestination = has;
 		destinationCoord = (coordX, coordY);

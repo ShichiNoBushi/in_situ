@@ -104,6 +104,29 @@ public partial class LogisticsControl : Control
 		logResourceMenu.Disabled = logistics.type != "hub";
 		logResourceSpin.Editable = logistics.type == "hub";
 		logOrderButton.Disabled = logistics.type != "hub";
+		
+		if (logistics.type == "hub")
+		{
+			int firstIndex = logResourceMenu.ItemCount;
+			
+			for (int i = 0; i < logResourceMenu.ItemCount; i++)
+			{
+				if (!logResourceMenu.IsItemSeparator(i))
+				{
+					string res = (string)logResourceMenu.GetItemMetadata(i);
+					ResourceData resData = GameData.RESOURCES[res];
+					
+					logResourceMenu.SetItemDisabled(i, !data.serves.Contains(resData.phase));
+					
+					if (data.serves.Contains(resData.phase) && i < firstIndex)
+					{
+						firstIndex = i;
+					}
+				}
+			}
+			
+			logResourceMenu.Select(firstIndex);
+		}
 	}
 	
 	public void SendOrder()
