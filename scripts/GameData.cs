@@ -1497,6 +1497,8 @@ public class Infrastructure : Buildable
 	
 	private void TickHub(float thruMod)
 	{
+		CompactOrders();
+		
 		if (input.Count > 0)
 		{
 			foreach (var ord in input)
@@ -1511,16 +1513,23 @@ public class Infrastructure : Buildable
 			input.Clear();
 		}
 		
-		List<Infrastructure> solidCon = new();
+		List<Infrastructure> conveyers = new();
 		foreach (var infra in location.infrastructure)
 		{
 			if (infra != null && infra.type == "conveyer")
 			{
-				solidCon.Add(infra);
+				foreach (var ord in output)
+				{
+					if (infra.CanServe(ord))
+					{
+						conveyers.Add(infra);
+						break;
+					}
+				}
 			}
 		}
 		
-		if (solidCon.Count == 0 || output.Count == 0)
+		if (conveyers.Count == 0 || output.Count == 0)
 		{
 			foreach (var ord in output)
 			{
@@ -1530,22 +1539,46 @@ public class Infrastructure : Buildable
 			return;
 		}
 		
-		solidCon.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+		conveyers.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
 		
 		int conveyerIndex = 0;
 		int safety = 0;
 		
-		while (thruMod > 0f && output.Count > 0 && solidCon.Count > 0 && safety < 10000)
+		while (thruMod > 0f && output.Count > 0 && conveyers.Count > 0 && safety < 10000)
 		{
 			safety++;
 			
-			Infrastructure con = solidCon[conveyerIndex];
-			conveyerIndex = (conveyerIndex + 1) % solidCon.Count;
+			Infrastructure con = conveyers[conveyerIndex];
+			int lastIndex = conveyerIndex;
+			conveyerIndex = (conveyerIndex + 1) % conveyers.Count;
 			
-			LogisticOrder ord = output[0];
-			if (ord == null)
+			LogisticOrder ord = null;
+			
+			int serveIndex = 0;
+			while (serveIndex < output.Count)
 			{
-				output.RemoveAt(0);
+				ord = output[serveIndex];
+				if (ord == null)
+				{
+					output.RemoveAt(0);
+					continue;
+				}
+				
+				if (con.CanServe(ord))
+				{
+					break;
+				}
+				
+				serveIndex++;
+			}
+			
+			if (serveIndex >= output.Count)
+			{
+				conveyers.RemoveAt(lastIndex);
+				if (conveyerIndex >= conveyers.Count)
+				{
+					conveyerIndex = 0;
+				}
 				continue;
 			}
 			
@@ -1574,12 +1607,14 @@ public class Infrastructure : Buildable
 				output.RemoveAt(0);
 			}
 			
-			solidCon.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+			conveyers.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
 		}
 	}
 	
 	private void TickConveyer(float thruMod)
 	{
+		CompactOrders();
+		
 		float inpMod = thruMod;
 		int safety = 0;
 		
@@ -1632,23 +1667,30 @@ public class Infrastructure : Buildable
 			}
 		}
 		
-		List<Infrastructure> solidInfra = new();
+		List<Infrastructure> convAndHubs = new();
 		
 		foreach (var infra in location.infrastructure)
 		{
 			if (infra != null && infra != this)
 			{
-				solidInfra.Add(infra);
+				foreach (var ord in output)
+				{
+					if (infra.CanServe(ord))
+					{
+						convAndHubs.Add(infra);
+						break;
+					}
+				}
 			}
 		}
 		
-		if (solidInfra.Count == 0)
+		if (convAndHubs.Count == 0)
 		{
 			foreach (var ord in output)
 			{
-				if (ord.ConsumeHop())
+				if (ord.ConsumeHop() && link != null)
 				{
-					GiveOutput(ord);
+					GiveInput(ord);
 				}
 				else
 				{
@@ -1659,24 +1701,48 @@ public class Infrastructure : Buildable
 			return;
 		}
 		
-		solidInfra.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+		convAndHubs.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
 		
 		float outpMod = thruMod;
 		
 		int infraIndex = 0;
 		safety = 0;
 		
-		while (outpMod > 0f && output.Count > 0 && solidInfra.Count > 0 && safety < 10000)
+		while (outpMod > 0f && output.Count > 0 && convAndHubs.Count > 0 && safety < 10000)
 		{
 			safety++;
 			
-			Infrastructure infra = solidInfra[infraIndex];
-			infraIndex = (infraIndex + 1) % solidInfra.Count;
+			Infrastructure infra = convAndHubs[infraIndex];
+			int lastIndex = infraIndex;
+			infraIndex = (infraIndex + 1) % convAndHubs.Count;
 			
-			LogisticOrder ord = output[0];
-			if (ord == null)
+			LogisticOrder ord = null;
+			
+			int serveIndex = 0;
+			while (serveIndex < output.Count)
 			{
-				output.RemoveAt(0);
+				ord = output[serveIndex];
+				if (ord == null)
+				{
+					output.RemoveAt(0);
+					continue;
+				}
+				
+				if (infra.CanServe(ord))
+				{
+					break;
+				}
+				
+				serveIndex++;
+			}
+			
+			if (serveIndex >= output.Count)
+			{
+				convAndHubs.RemoveAt(lastIndex);
+				if (infraIndex >= convAndHubs.Count)
+				{
+					infraIndex = 0;
+				}
 				continue;
 			}
 			
@@ -1706,7 +1772,7 @@ public class Infrastructure : Buildable
 				output.RemoveAt(0);
 			}
 			
-			solidInfra.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+			convAndHubs.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
 		}
 	}
 	
@@ -1747,6 +1813,46 @@ public class Infrastructure : Buildable
 	public void GiveOutput(LogisticOrder ord)
 	{
 		output.Add(ord);
+	}
+	
+	private void CompactOrders()
+	{
+		for (int i = 0; i < input.Count - 1; i++)
+		{
+			if (input[i] == null)
+			{
+				input.RemoveAt(i);
+				i--;
+				continue;
+			}
+			
+			while (i + 1 < input.Count && input[i + 1] != null && input[i].Matches(input[i + 1]))
+			{
+				input[i].Merge(input[i + 1]);
+				input.RemoveAt(i + 1);
+			}
+		}
+		
+		for (int i = 0; i < output.Count - 1; i++)
+		{
+			if (output[i] == null)
+			{
+				output.RemoveAt(i);
+				i--;
+				continue;
+			}
+			
+			while (i + 1 < output.Count && output[i + 1] != null && output[i].Matches(output[i + 1]))
+			{
+				output[i].Merge(output[i + 1]);
+				output.RemoveAt(i + 1);
+			}
+		}
+	}
+	
+	public bool CanServe(LogisticOrder ord)
+	{
+		return serves.Contains(ord.phase);
 	}
 }
 
@@ -1808,5 +1914,13 @@ public class LogisticOrder
 	public bool ConsumeHop()
 	{
 		return --hopLimit > 0;
+	}
+	
+	public bool Matches(LogisticOrder other)
+	{
+		if (resource != other.resource) return false;
+		if (hasDestination != other.hasDestination) return false;
+		if (!hasDestination) return true;
+		return destinationCoord == other.destinationCoord;
 	}
 }
