@@ -1924,3 +1924,87 @@ public class LogisticOrder
 		return destinationCoord == other.destinationCoord;
 	}
 }
+
+//Android character to represent the player
+public class Android
+{
+	public float maxInventory; //maximum amount of resources android can carry
+	public Dictionary<string, float> inventory; //resources carried keyed by resource ID
+	
+	public Android()
+	{
+		maxInventory = 5000f;
+		inventory = new();
+	}
+	
+	//Return total amount of resources carried by android
+	public float AmountCarried()
+	{
+		float amt = 0f;
+		foreach (var res in inventory.Values)
+		{
+			amt += res;
+		}
+		
+		return amt;
+	}
+	
+	//Return amount of resource in android's inventory if any
+	public float GetResource(string res)
+	{
+		if (inventory.ContainsKey(res))
+		{
+			return inventory[res];
+		}
+		else
+		{
+			return 0f;
+		}
+	}
+	
+	//Add resource to android's inventory up to maximum carried and return difference if above maximum
+	public float GiveResource(string res, float amt)
+	{
+		if (amt <= 0f)
+		{
+			return amt;
+		}
+		
+		float amount = Math.Min(amt, maxInventory - AmountCarried());
+		
+		if (inventory.ContainsKey(res))
+		{
+			inventory[res] += amount;
+		}
+		else
+		{
+			inventory[res] = amount;
+		}
+		
+		return amt - amount;
+	}
+	
+	//Attempt to take amount of resource from android's inventory and return amount taken from available
+	public float TakeResource(string res, float amt)
+	{
+		if (amt <= 0f)
+		{
+			return 0f;
+		}
+		
+		if (!inventory.ContainsKey(res))
+		{
+			return 0f;
+		}
+		
+		float amount = Math.Min(amt, inventory[res]);
+		
+		inventory[res] -= amount;
+		if (inventory[res] <= 0f)
+		{
+			inventory.Remove(res);
+		}
+		
+		return amount;
+	}
+}
