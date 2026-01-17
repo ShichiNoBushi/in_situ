@@ -20,3 +20,4 @@ res://data/infrastructure.json
 res://Scenes/BuildPanel.tscn
 res://Scenes/MachinePanel.tscn
 res://scripts/LogisticsControl.cs
+res://scripts/AndroidControl.cs

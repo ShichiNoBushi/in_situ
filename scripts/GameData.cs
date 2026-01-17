@@ -29,6 +29,9 @@ public partial class GameData : Node
 	public static Dictionary<string, string> qstNameToKey = new();
 	public static Dictionary<string, (int x, int y)> coordStringToTuple = new();
 	
+	//Android representing player character
+	public static Android android;
+	
 	//Region map referenced by keys of 2D tuples as coordinates.
 	public static Dictionary<(int x, int y), Region> regionMap = new();
 	
@@ -46,6 +49,7 @@ public partial class GameData : Node
 	public static HarvestControl harvestControl;
 	public static BuildControl buildControl;
 	public static LogisticsControl logisticsControl;
+	public static AndroidControl androidControl;
 	public static QuestControl questControl;
 	
 	//Label to display the current tracked objective.
@@ -77,6 +81,9 @@ public partial class GameData : Node
 		//Create quick references between names and IDs.
 		BuildNameMaps();
 		
+		//Create the PC android.
+		android = new();
+		
 		//Generate the map.
 		regionMap = new();
 		
@@ -105,6 +112,7 @@ public partial class GameData : Node
 		harvestControl = GetNode<HarvestControl>("../TabContainer/Base/HarvestPanel");
 		buildControl = GetNode<BuildControl>("../TabContainer/Base/BuildPanel");
 		logisticsControl = GetNode<LogisticsControl>("../TabContainer/Logistics");
+		androidControl = GetNode<AndroidControl>("../TabContainer/Android");
 		questControl = GetNode<QuestControl>("../TabContainer/Quests");
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
@@ -367,6 +375,45 @@ public partial class GameData : Node
 		string unit = GameData.RESOURCES.ContainsKey(resource)
 			? GameData.RESOURCES[resource].unit
 			: "u";
+		
+		string prefix;
+		float display;
+		
+		if (amount >= 900000)
+		{
+			prefix = "M"; //mega
+			display = amount / 1000000f;
+		}
+		else if (amount >= 900)
+		{
+			prefix = "k"; //kilo
+			display = amount / 1000f;
+		}
+		else if (amount == 0 || amount >= 0.9)
+		{
+			//Displays "0.00 u" if amount is exactly 0.
+			prefix = "";
+			display = amount;
+		}
+		else if (amount >= 0.0009)
+		{
+			prefix = "m"; //milli
+			display = amount * 1000f;
+		}
+		else
+		{
+			//Displays "Negligible" if amount is greater than 0 but trace amounts.
+			return "Negligible";
+		}
+		
+		//Return formatted string with adjusted amount and units.
+		return $"{display:0.00} {prefix}{unit}";
+	}
+	
+	public static string FormatUnit2(float amount, string u)
+	{
+		//Format unit quantity based on unit it is measured in and largest significant size of unit.
+		string unit = u;
 		
 		string prefix;
 		float display;
