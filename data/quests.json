@@ -424,11 +424,75 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
-			"recipes": [],
+			"quests": ["pottery"],
+			"recipes": ["bake ceramic"],
 			"machines": []
 		},
 		"text": "The ultimate goal of this sequence of objectives is to achieve rudimentary electronics, and a critical substance for creating electronics is the element silicon. Fortunately, silicon is one of the most abundant elements especially in rocky crust. Up to now, you might have been using sand or silicon dioxide and to produce glass, but now you will need extract silicon from it to utilize pure silicon. The following is not the ideal method, and you will be introduced to a more efficient process once it becomes available to you, but for now you are going to reduce silicon. In an smelter, combine sand with carbon to get silicon and carbon monoxide as a biproduct. Carbon monoxide is poisonous to organics, but store it for now as you will also be able to process and recycle it later.",
 		"hint": "In an induction smelter, select the \"Recude Silicon\" recipe and combine sand and carbon."
+	},
+	"pottery": {
+		"name": "Pottery",
+		"start": false,
+		"requirement": {
+			"resources": {"ceramic": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["basic electronic components", "clean your plate"],
+			"recipes": ["resistor", "capacitor", "laminate substrate"],
+			"machines": []
+		},
+		"text": "Creating and utilizing electronics relies on understanding conductors and insulators. You already use plenty of metals that can act as conductors, but you need a reliable matterial that can function as an insulator. You also have carbon, but ceramic will also fulfill the purpose as a structural base that won't conduct electronic signals.\n\nYou already made clay slurry and used it as mortar constructing an induction smelter. If you bake it, you can make ceramic.",
+		"hint": "Use the induction smelter to bake clay slurry into ceramic."
+	},
+	"basic electronic components": {
+		"name": "Basic Electronic Components",
+		"start": false,
+		"requirement": {
+			"resources": {"resistor": 10, "capacitor": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["crude electronics"],
+			"recipes": ["control board"],
+			"machines": []
+		},
+		"text": "Resistors and capacitors are the basic components for constructing electonic circuits. Resistors control electric currents, and capacitors store charge. Used in combination, they can be used to create some rudimentary control circuits.",
+		"hint": "Both resistors and capacitors are made in the parts assembler and need copper wire and ceramic. Resistors need carbon, and capacitors need copper foil which is made in the roller press."
+	},
+	"clean your plate": {
+		"name": "Clean Your Plate",
+		"start": false,
+		"requirement": {
+			"resources": {"insulating substrate": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["crude electronics"],
+			"recipes": ["control board"],
+			"machines": []
+		},
+		"text": "Electonics are typically assembled onto a board that is rigid and won't conduct circuits where they shouldn't and would short circuit. You can make a base insulating substrate with glass panes and ceramic in the roller press.",
+		"hint": "In the roller press, select the recipe \"Laminate Substrate\" to combine glass panes and ceramic into an insulating substrate."
+	},
+	"crude electronics": {
+		"name": "Crude Electronics",
+		"start": false,
+		"requirement": {
+			"resources": {"control board": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "With basic electronic components and an insulating substrate, you can now create a simple electronic circuit board. It will function well enough for the purposes you need until you find more valuable resources and can process them into improved and more complicated components.",
+		"hint": "Use the parts assembler to combine resistors, capacitors, and insulating substrates into control boards."
 	}
 }

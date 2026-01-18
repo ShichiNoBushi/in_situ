@@ -235,7 +235,7 @@
 	},
 	"laminate substrate": {
 		"name": "Laminate Substrate",
-		"inputs": {"glass pane": 1, "clay slurry": 1, "energy": 2},
+		"inputs": {"glass pane": 1, "ceramic": 1, "energy": 2},
 		"outputs": {"insulating substrate": 1},
 		"available": false,
 		"machines": ["roller press"],
