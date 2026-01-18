@@ -248,7 +248,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["intermediate processing", "machine maintenance"],
+			"quests": ["intermediate processing a", "intermediate processing b", "intermediate processing c", "machine maintenance"],
 			"recipes": ["smelt iron", "smelt copper"],
 			"machines": ["roller press", "component mold", "extruder"]
 		},
@@ -392,11 +392,43 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
-			"recipes": [],
+			"quests": ["chemistry 102"],
+			"recipes": ["methane pyrolysis"],
 			"machines": []
 		},
 		"text": "The first chemical reaction you will learn is the Sabatier Reaction. It takes ingredients as carbon dioxide (CO2) and hydrogen (H2) and produces methane (CH4) and water (H2O). The water can then be recycled and electrolized again into its base elements to continue reacting with more atmosphereic CO2. The methane can then be used to create other organic compounds or even in a combustion generator to generate electricity.",
 		"hint": "Build a chemical reactor with 10g iron plates, 10g copper wire, 5g copper plates, 2g induction coils, and 5g electric motors. Then set it to perform the sabatier reaction recipe."
+	},
+	"chemistry 102": {
+		"name": "Chemistry 102",
+		"start": false,
+		"requirement": {
+			"resources": {"carbon": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["chemistry 103"],
+			"recipes": ["reduce silicon"],
+			"machines": []
+		},
+		"text": "Now that you have created methane from carbon dioxide, it is now possible to further isolate the carbon from hydrogen. A reaction called \"pyrolysis\" occurs by heating a substance in an environment without oxygen so it doesn't combust. The endothermic reaction absorbs the energy of the heat to seperate molecules into smaller molecules or base elements turning methane into pure carbon char and hydrogen.",
+		"hint": "Set a chemical reactor to perform \"Methane Pyrolysis\". It only consumes methane but is endothermic and costs a lot of energy."
+	},
+	"chemistry 103": {
+		"name": "Chemistry 103",
+		"start": false,
+		"requirement": {
+			"resources": {"silicon": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "The ultimate goal of this sequence of objectives is to achieve rudimentary electronics, and a critical substance for creating electronics is the element silicon. Fortunately, silicon is one of the most abundant elements especially in rocky crust. Up to now, you might have been using sand or silicon dioxide and to produce glass, but now you will need extract silicon from it to utilize pure silicon. The following is not the ideal method, and you will be introduced to a more efficient process once it becomes available to you, but for now you are going to reduce silicon. In an smelter, combine sand with carbon to get silicon and carbon monoxide as a biproduct. Carbon monoxide is poisonous to organics, but store it for now as you will also be able to process and recycle it later.",
+		"hint": "In an induction smelter, select the \"Recude Silicon\" recipe and combine sand and carbon."
 	}
 }

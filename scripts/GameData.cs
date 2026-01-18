@@ -126,8 +126,8 @@ public partial class GameData : Node
 		questUpdateFunctioning = true;
 		
 		//Set these to true to unlock all machines or recipes.
-		unlockAllMachines = true;
-		unlockAllRecipes = true;
+		unlockAllMachines = false;
+		unlockAllRecipes = false;
 		
 		UpdateQuestTracking();
 		
