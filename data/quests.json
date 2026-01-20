@@ -488,11 +488,43 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
-			"recipes": [],
+			"quests": ["relay race"],
+			"recipes": ["electromagnetic relay"],
 			"machines": []
 		},
 		"text": "With basic electronic components and an insulating substrate, you can now create a simple electronic circuit board. It will function well enough for the purposes you need until you find more valuable resources and can process them into improved and more complicated components.",
 		"hint": "Use the parts assembler to combine resistors, capacitors, and insulating substrates into control boards."
+	},
+	"relay race": {
+		"name": "Relay Race",
+		"start": false,
+		"requirement": {
+			"resources": {"electromagnetic relay": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["logistics pt1"],
+			"recipes": [],
+			"machines": ["logistics hub", "substation", "conveyer bus", "pipeline", "power conduit"]
+		},
+		"text": "You have a control board, but in order to properly do anything, you need something that can turn things on or off. Something that does that is an electromagnetic relay which when it receives a signal generates an electromagnetic field that closes another circuit and turn a device on acting as an automatic switch.",
+		"hint": "In the parts assembler, use copper wire, magnets, and iron plates to create relays."
+	},
+	"logistics pt1": {
+		"name": "Logistics Part I",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"logistics hub": 1, "conveyer bus": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "As stated earlier, your ship landed in a location with resource deposits critical to get started, but to gain access to more advanced technology, you will need to find rarer, more valuable resources. When you do explore and find other resources, you will need to find some way to transport large volumes of resources. Rather than carrying it all yourself, you can set up logistics networks to automatically transport it for you.\n\nThe first structure you will need to construct is a logistics hub which will be able to process resources imports and exports between regions. The other is a bus of conveyers that will carry resources on them between adjacent regions. Conveyer busses can transport solid materials, but to effectively transport liquids and gasses, you will need pipes. When you find another resource deposit, construct hubs at that region and your base and connect the two with conveyer busses. You will of course need to personally carry the necessary construction materials first.",
+		"hint": "If you haven't already, use the navigations buttons on the Base tab to explore neighboring regions and travel between adjacent ones. To have a logistics network function, you will need a hub in the orign and destination regions. Use the Android tab to transfer resources between the region's stockpile and your inventory. Connect regions with conveyer busses and make sure to select the target region."
 	}
 }

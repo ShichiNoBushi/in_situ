@@ -624,7 +624,14 @@ public partial class GameData : Node
 			int total = 0;
 			foreach (var reg in regionMap.Values)
 			{
-				total += reg.machines.Count(m => m.id == req.Key);
+				if (GameData.MACHINES.ContainsKey(req.Key))
+				{
+					total += reg.machines.Count(m => m.id == req.Key);
+				}
+				else if (GameData.INFRASTRUCTURE.ContainsKey(req.Key))
+				{
+					total += reg.infrastructure.Count(m => m.id == req.Key);
+				}
 				if (total >= req.Value)
 				{
 					return true;
@@ -679,7 +686,14 @@ public partial class GameData : Node
 		{
 			//Unlock machine.
 			GD.Print($"Unlock machine {MACHINES[mach].name}");
-			MACHINES[mach].available = true;
+			if (GameData.MACHINES.ContainsKey(mach))
+			{
+				MACHINES[mach].available = true;
+			}
+			else if (GameData.INFRASTRUCTURE.ContainsKey(mach))
+			{
+				INFRASTRUCTURE[mach].available = true;
+			}
 		}
 		
 		GD.Print("GameData: Updating menus...");
