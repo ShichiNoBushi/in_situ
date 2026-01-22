@@ -14,3 +14,5 @@ res://scripts/MachinePanel.cs
 res://scripts/MachinesControl.cs
 res://scripts/MapControl.cs
 res://scripts/DevControl.cs
+res://data/infrastructure.json
+res://data/resources.json

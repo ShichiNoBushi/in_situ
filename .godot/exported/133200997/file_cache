@@ -1,10 +1,10 @@
-res://Scenes/BuildPanel.tscn::5fa8bc9a53873d6b9f9b30fdd9fe57ca::1763778803::res://.godot/exported/133200997/export-19324b6b4969fb7ae74da3706971db2b-BuildPanel.scn
+res://Scenes/BuildPanel.tscn::cb9ff658ad534c399ff8512a1747eccb::1768003248::res://.godot/exported/133200997/export-19324b6b4969fb7ae74da3706971db2b-BuildPanel.scn
 res://Scenes/DevControl.tscn::eab6d094d24a005bd12618736f804b39::1763526195::res://.godot/exported/133200997/export-fca45753c917e5b5f376219247726c99-DevControl.scn
 res://Scenes/HarvestPanel.tscn::7b94cb487acc634be459f28967bf557a::1764043759::res://.godot/exported/133200997/export-2ad34bf00739bc9d379428252f3c4147-HarvestPanel.scn
-res://Scenes/MachinePanel.tscn::1a7ac4fdc4fa030ebff2a4b4d211df57::1765678353::res://.godot/exported/133200997/export-b3488efbb8419f6168af5ee426bdb076-MachinePanel.scn
+res://Scenes/MachinePanel.tscn::02e7d76771e4210fcb062e94ea6a4942::1767632500::res://.godot/exported/133200997/export-b3488efbb8419f6168af5ee426bdb076-MachinePanel.scn
 res://Scenes/MapCell.tscn::a67ec26f79010cdfce09fbce9b7a3ef8::1764904700::res://.godot/exported/133200997/export-0832f2c61f0d38ea192ba9bdae7b442a-MapCell.scn
 res://Scenes/MapControl.tscn::547f835cffac0dd5807cc7c72f55c275::1764825233::res://.godot/exported/133200997/export-ec4b3d763d2ab2e9fa875eef60fcb6f1-MapControl.scn
-res://Scenes/node_2d.tscn::b5e28e1982c3b9afb086d1d202c31557::1766592485::res://.godot/exported/133200997/export-56b62997d4fc30d58bc9b160fa0e9b0c-node_2d.scn
+res://Scenes/node_2d.tscn::075f2d4d2d63534d5f6e8f085c0d6ef8::1768964235::res://.godot/exported/133200997/export-56b62997d4fc30d58bc9b160fa0e9b0c-node_2d.scn
 res://Scenes/ResourceLabel.tscn::5dc0aa667ef738fd694de3f498bf2fff::1762924024::res://.godot/exported/133200997/export-8546976002b5e29b5585f862d650c7e5-ResourceLabel.scn
 res://Scenes/ResourcePanel.tscn::99a66eba2ae98fe82792ecd85ca6cff6::1762923854::res://.godot/exported/133200997/export-9e90c744c5222b8b1447bfcf95b926c8-ResourcePanel.scn
 res://Scenes/TravelPanel.tscn::95b5e761cf8f86fb64436467f1f242c5::1766369023::res://.godot/exported/133200997/export-bcb6466f2c3afcc6dd0b1d41a4118dae-TravelPanel.scn

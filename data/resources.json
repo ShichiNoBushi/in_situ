@@ -11,6 +11,18 @@
 		"value": 0.2,
 		"description": "An elemental gas used in many chemical reactions and nuclear fusion."
 	},
+	"lithium": {
+		"name": "Lithium",
+		"abbreviation": "El-Li",
+		"type": "element",
+		"subtypes": ["alcaline", "electricity"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"carbon": 1.0},
+		"value": 0.2,
+		"description": "An alcaline metal used to store charge."
+	},
 	"carbon": {
 		"name": "Carbon",
 		"abbreviation": "El-C",
