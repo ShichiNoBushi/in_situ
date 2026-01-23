@@ -150,14 +150,14 @@ public partial class GameData : Node
 	public override void _Process(double delta)
 	{
 		//Process active machines' recipes and check quest completion status.
-		ProcessMachines(delta);
-		UpdateQuestTracking();
-		CheckQuests();
-		
+		//ProcessMachines(delta);
 		foreach (var reg in regionMap.Values)
 		{
-			reg.ShiftWeather((float)delta);
+			reg.Tick(delta);
 		}
+		
+		UpdateQuestTracking();
+		CheckQuests();
 	}
 	
 	public static void LoadAll()
@@ -1210,6 +1210,20 @@ public class Region
 		}
 	}
 	
+	public void Tick(double delta)
+	{
+		foreach (var mach in machines)
+		{
+			mach.Tick(delta);
+		}
+		foreach (var infra in infrastructure)
+		{
+			infra.Tick(delta);
+		}
+		
+		ShiftWeather((float)delta);
+	}
+	
 	public void ShiftWeather(float delta)
 	{
 		windState += -windK * windState * delta + windSigma * Mathf.Sqrt(delta) * GameData.RandNormal(0f, 1f);
@@ -1533,6 +1547,108 @@ public class Machine : Buildable
 	{
 		//Select the current recipe to process.
 		currentRecipe = rid;
+	}
+	
+	public override void Tick(double delta)
+	{
+		if (active && (GameData.disableWear || wear < maxWear) && GameData.RECIPES.ContainsKey(currentRecipe))
+		{
+			//Create a ratio value based on if recipe can be crafted.
+			float ratio = CanCraft(delta);
+			
+			if (ratio > 0f)
+			{
+				//Create references to recipe and input resources.
+				RecipeData recipe = GameData.RECIPES[currentRecipe];
+				Dictionary<string, float> inputs = recipe.inputs;
+				
+				if (recipe.local == "wind")
+				{
+					ratio *= location.wind;
+				}
+				else if (recipe.local == "solar")
+				{
+					ratio *= location.solar;
+				}
+				
+				foreach (var res in inputs)
+				{
+					//Remove resource from region's storage used in the recipe according to the ratio.
+					location.resources[res.Key] = Math.Max(0f, location.resources[res.Key] - res.Value * (float)delta * ratio);
+				}
+				
+				//Create reference to recipe's output.
+				Dictionary<string, float> outputs = recipe.outputs;
+				
+				foreach (var res in outputs)
+				{
+					//Produce crafted resource into region's storage according to the ratio.
+					location.resources[res.Key] += res.Value * (float)delta * ratio;
+				}
+			}
+			
+			//Damage the machine according to the ratio.
+			if (!GameData.disableWear)
+			{
+				Damage(0.001f * ratio);
+			}
+		}
+	}
+	
+	public float CanCraft(double delta)
+	{
+		if (!GameData.RECIPES.ContainsKey(currentRecipe))
+		{
+			return 0f;
+		}
+		
+		RecipeData recipe = GameData.RECIPES[currentRecipe];
+		Dictionary<string, float> inputs = recipe.inputs;
+		
+		//If recipe has no required resources.
+		if (inputs.Count == 0)
+		{
+			return 1f;
+		}
+		
+		List<float> ratios = new();
+		
+		foreach (var res in inputs)
+		{
+			if (res.Value <= 0)
+			{
+				//Skip if value is somehow 0 or less.
+				continue;
+			}
+			
+			//Determine available resources if a value exists and amount required for recipe adjusted for time passed.
+			float available = location.resources.ContainsKey(res.Key)
+				? location.resources[res.Key]
+				: 0f;
+			float required = res.Value * (float)delta;
+			
+			//Add ratio if amount available is insufficient.
+			if (required != 0 && available < required)
+			{
+				ratios.Add(available / required);
+			}
+		}
+		
+		//Return full ratio if all required resources satisfied.
+		if (ratios.Count == 0)
+		{
+			return 1f;
+		}
+		
+		//Determin the smallest ratio among the list and return 0 if 0 or less.
+		float minRatio = ratios.Min();
+		if (minRatio <= 0f)
+		{
+			return 0f;
+		}
+		
+		//Return the ratio between 0 and 1.
+		return Math.Clamp(minRatio, 0f, 1f);
 	}
 }
 
