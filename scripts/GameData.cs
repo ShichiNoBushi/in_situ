@@ -59,12 +59,17 @@ public partial class GameData : Node
 	public static Button quitButton;
 	public static ConfirmationDialog quitConfirm;
 	
+	public static CheckBox unlockMachinesCheck;
+	public static CheckBox unlockRecipesCheck;
+	public static CheckBox disableWearCheck;
+	
 	//A variable to test if a feature is functioning (possibly no longer necessary).
 	private static bool questUpdateFunctioning;
 	
 	//Variables set in development for test purposes.
 	public static bool unlockAllMachines;
 	public static bool unlockAllRecipes;
+	public static bool disableWear;
 	
 	public override void _Ready()
 	{
@@ -122,12 +127,20 @@ public partial class GameData : Node
 		quitButton.Pressed += QuitGame;
 		quitConfirm.Confirmed += QuitConfirmed;
 		
+		unlockMachinesCheck = GetNode<CheckBox>("../TabContainer/Options/UnlockMachinesCheck");
+		unlockRecipesCheck = GetNode<CheckBox>("../TabContainer/Options/UnlockRecipesCheck");
+		disableWearCheck = GetNode<CheckBox>("../TabContainer/Options/DisableWearCheck");
+		unlockMachinesCheck.Toggled += ToggleUnlockMachines;
+		unlockRecipesCheck.Toggled += ToggleUnlockRecipes;
+		disableWearCheck.Toggled += ToggleWear;
+		
 		//Possibly unnecessary test variable.
 		questUpdateFunctioning = true;
 		
 		//Set these to true to unlock all machines or recipes.
 		unlockAllMachines = false;
 		unlockAllRecipes = false;
+		disableWear = false;
 		
 		UpdateQuestTracking();
 		
@@ -177,6 +190,23 @@ public partial class GameData : Node
 	public void QuitConfirmed()
 	{
 		GetTree().Quit();
+	}
+	
+	public void ToggleUnlockMachines(bool isChecked)
+	{
+		unlockAllMachines = isChecked;
+		buildControl.UpdateBuildMenu();
+	}
+	
+	public void ToggleUnlockRecipes(bool isChecked)
+	{
+		unlockAllRecipes = isChecked;
+		machinesControl.UpdateMachinePanels();
+	}
+	
+	public void ToggleWear(bool isChecked)
+	{
+		disableWear = isChecked;
 	}
 	
 	public static T LoadJson<T>(string filepath)
@@ -463,7 +493,7 @@ public partial class GameData : Node
 			foreach (Machine mach in reg.Value.machines)
 			{
 				//If machine is turned on, is not excessively damaged, and selected recipe is valid.
-				if (mach.active && mach.wear < mach.maxWear && GameData.RECIPES.ContainsKey(mach.currentRecipe))
+				if (mach.active && (disableWear || mach.wear < mach.maxWear) && GameData.RECIPES.ContainsKey(mach.currentRecipe))
 				{
 					//Create a ratio value based on if recipe can be crafted.
 					float ratio = CanCraft(mach.currentRecipe, mach.location, delta);
@@ -500,7 +530,10 @@ public partial class GameData : Node
 					}
 					
 					//Damage the machine according to the ratio.
-					mach.Damage(0.001f * ratio);
+					if (!disableWear)
+					{
+						mach.Damage(0.001f * ratio);
+					}
 				}
 			}
 			

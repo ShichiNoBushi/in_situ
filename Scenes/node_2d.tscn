@@ -386,3 +386,27 @@ title = "Quit Game"
 initial_position = 1
 ok_button_text = "Quit"
 dialog_text = "Are you sure you want to quit?"
+
+[node name="UnlockMachinesCheck" type="CheckBox" parent="TabContainer/Options"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 607.0
+offset_right = 243.0
+offset_bottom = 638.0
+text = "Unlock All Machines"
+
+[node name="UnlockRecipesCheck" type="CheckBox" parent="TabContainer/Options"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 638.0
+offset_right = 229.0
+offset_bottom = 669.0
+text = "Unlock All Recipes"
+
+[node name="DisableWearCheck" type="CheckBox" parent="TabContainer/Options"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 669.0
+offset_right = 190.0
+offset_bottom = 700.0
+text = "Disable Wear"

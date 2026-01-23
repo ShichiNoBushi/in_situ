@@ -66,7 +66,7 @@
 		"description": "A building to store and organize a larger amount of solid resources."
 	},
 	"small tank": {
-		"name": "small tank",
+		"name": "Small Tank",
 		"type": "storage",
 		"serves": ["liquid", "gas"],
 		"cost": {"copper plate": 20, "iron plate": 10, "iron rod": 10},
