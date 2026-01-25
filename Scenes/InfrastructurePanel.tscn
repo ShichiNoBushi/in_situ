@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxf07sjgmw17m"]
+
+[ext_resource type="Script" uid="uid://csjqtpvkf0brs" path="res://scripts/InfrastructurePanel.cs" id="1_76fam"]
+
+[node name="InfrastructurePanel" type="Control"]
+custom_minimum_size = Vector2(0, 307)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 562.0
+offset_bottom = 307.0
+script = ExtResource("1_76fam")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 562.0
+offset_bottom = 307.0
+
+[node name="VBoxMain" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="InfrastructureName" type="Label" parent="Panel/VBoxMain"]
+layout_mode = 2
+text = "Name"
+
+[node name="ActiveButton" type="CheckButton" parent="Panel/VBoxMain"]
+layout_mode = 2
+text = "Active"
+
+[node name="InfrastructureTab" type="TabContainer" parent="Panel/VBoxMain"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Maintenance" type="Control" parent="Panel/VBoxMain/InfrastructureTab"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxMaintenance" type="VBoxContainer" parent="Panel/VBoxMain/InfrastructureTab/Maintenance"]
+layout_mode = 0
+offset_left = 3.0
+offset_right = 560.0
+offset_bottom = 214.0
+
+[node name="WearProgress" type="ProgressBar" parent="Panel/VBoxMain/InfrastructureTab/Maintenance/VBoxMaintenance"]
+layout_mode = 2
+
+[node name="WearScroll" type="ScrollContainer" parent="Panel/VBoxMain/InfrastructureTab/Maintenance/VBoxMaintenance"]
+custom_minimum_size = Vector2(0, 146)
+layout_mode = 2
+
+[node name="WearLabel" type="Label" parent="Panel/VBoxMain/InfrastructureTab/Maintenance/VBoxMaintenance/WearScroll"]
+layout_mode = 2
+text = "Required Materials:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain/InfrastructureTab/Maintenance/VBoxMaintenance"]
+layout_mode = 2
+
+[node name="DiagnosticsButton" type="Button" parent="Panel/VBoxMain/InfrastructureTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Diagnostics"
+
+[node name="RepairButton" type="Button" parent="Panel/VBoxMain/InfrastructureTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Repair"
+
+[node name="DismantleButton" type="Button" parent="Panel/VBoxMain/InfrastructureTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+disabled = true
+text = "Dismantle"

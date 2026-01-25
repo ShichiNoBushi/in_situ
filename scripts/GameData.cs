@@ -113,7 +113,7 @@ public partial class GameData : Node
 		mapControl = GetNode<MapControl>("../TabContainer/Base/MapControl");
 		travelControl = GetNode<TravelControl>("../TabContainer/Base/TravelPanel");
 		resourceControl = GetNode<ResourceControl>("../TabContainer/Base/ResourceScroll/VBoxContainer");
-		machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachineScroll/VBoxContainer");
+		machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachinesTab");
 		harvestControl = GetNode<HarvestControl>("../TabContainer/Base/HarvestPanel");
 		buildControl = GetNode<BuildControl>("../TabContainer/Base/BuildPanel");
 		logisticsControl = GetNode<LogisticsControl>("../TabContainer/Logistics");
@@ -2063,6 +2063,21 @@ public class Infrastructure : Buildable
 	public bool CanServe(LogisticOrder ord)
 	{
 		return serves.Contains(ord.phase);
+	}
+	
+	public void DumpBuffers()
+	{
+		foreach (var log in input)
+		{
+			location.resources[log.resource] += log.amount;
+		}
+		input.Clear();
+		
+		foreach (var log in output)
+		{
+			location.resources[log.resource] += log.amount;
+		}
+		output.Clear();
 	}
 }
 

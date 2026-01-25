@@ -297,7 +297,7 @@ public partial class BuildControl : Control
 		
 		if (!building && EnoughResources())
 		{
-			GD.Print($"BuildControl: Building maching {selectedBuildable.name}");
+			GD.Print($"BuildControl: Building machine {selectedBuildable.name}");
 			buildButton.Disabled = true;
 			buildMenu.Disabled = true;
 			
@@ -317,14 +317,35 @@ public partial class BuildControl : Control
 		
 		if (buildType == "mach")
 		{
+			GD.Print($"BuildControl: Finishing build of machine {GameData.MACHINES[buildKey].name}");
 			Machine newMachine = new Machine(buildKey, GameData.currentRegion);
 			GameData.currentRegion.machines.Add(newMachine);
 			GameData.machinesControl.AddMachinePanel(newMachine);
 		}
 		else if (buildType == "infra")
 		{
+			GD.Print($"BuildControl: Finishing build of infrastructure {GameData.INFRASTRUCTURE[buildKey].name}");
 			Infrastructure newInfrastructure = new Infrastructure(buildKey, GameData.currentRegion);
 			GameData.currentRegion.infrastructure.Add(newInfrastructure);
+			GD.Print($"BuildControl: Creating interface panel");
+			if (newInfrastructure == null)
+			{
+				GD.PrintErr("BuildControl: newInfrastructure is null");
+			}
+			if (GameData.machinesControl == null)
+			{
+				GD.PrintErr("BuildControl: machinesControl == null");
+			}
+			try
+			{
+				GameData.machinesControl.AddInfrastructurePanel(newInfrastructure);
+			}
+			catch (Exception e)
+			{
+				GD.PrintErr($"BuildControl: Error creating Infrastructure Panel - {e}");
+			}
+			
+			GD.Print($"BuildControl: Adding infrastructure to logistics interface");
 			GameData.logisticsControl.logisticsList.AddItem(GameData.INFRASTRUCTURE[newInfrastructure.id].name);
 			int idxList = GameData.logisticsControl.logisticsList.ItemCount - 1;
 			int idxInfra = GameData.currentRegion.infrastructure.Count - 1;

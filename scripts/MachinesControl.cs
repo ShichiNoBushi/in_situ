@@ -2,19 +2,38 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MachinesControl : VBoxContainer
+public partial class MachinesControl : TabContainer
 {
 	[Export] public PackedScene MachinePanelScene;
+	[Export] public PackedScene InfrastructurePanelScene;
+	
+	public VBoxContainer machinesVBox;
+	public VBoxContainer infrastructureVBox;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		GD.Print("MachinesControl._Ready() called...");
 		GD.Print($"Machine count: {GameData.currentRegion.machines.Count}");
-		foreach (var mach in GameData.currentRegion.machines)
+		
+		machinesVBox = GetNode<VBoxContainer>("Machines/MachinesVBox");
+		infrastructureVBox = GetNode<VBoxContainer>("Infrastructure/InfrastructureVBox");
+		
+		if (machinesVBox == null)
+		{
+			GD.Print("MachinesControl: machinesVBox improperly instantiated");
+		}
+		if (infrastructureVBox == null)
+		{
+			GD.Print("MachinesControl: infrastructureVBox improperly instantiated");
+		}
+		
+		AddStartingMachines();
+		AddStartingInfrastructure();
+		/*foreach (var mach in GameData.currentRegion.machines)
 		{
 			AddMachinePanel(mach);
-		}
+		}*/
 	}
 	
 	public void AddStartingMachines()
@@ -25,21 +44,45 @@ public partial class MachinesControl : VBoxContainer
 		}
 	}
 	
+	public void AddStartingInfrastructure()
+	{
+		foreach (var infra in GameData.regionMap[(0, 0)].infrastructure)
+		{
+			AddInfrastructurePanel(infra);
+		}
+	}
+	
 	public void AddMachinePanel(Machine mach)
 	{
-		GD.Print($"Machines Control: Adding panel for {GameData.MACHINES[mach.id].name}");
+		GD.Print($"MachinesControl: Adding panel for {GameData.MACHINES[mach.id].name}");
 		try
 		{
 			var panel = MachinePanelScene.Instantiate<MachinePanel>();
-			AddChild(panel);
+			machinesVBox.AddChild(panel);
 			panel.machine = mach;
 			panel.CallDeferred(nameof(MachinePanel.Initialize));
-			//panel.Initialize(mach);
-			GD.Print("Machines Control: Adding child to container...");
+			GD.Print("MachinesControl: Adding child to container...");
 		}
 		catch (Exception e)
 		{
 			GD.PrintErr($"Error initializing MachinePanel for {mach.id}: {e}");
+		}
+	}
+	
+	public void AddInfrastructurePanel(Infrastructure infra)
+	{
+		GD.Print($"MachinesControl: Adding panel for {GameData.INFRASTRUCTURE[infra.id].name}");
+		try
+		{
+			var panel = InfrastructurePanelScene.Instantiate<InfrastructurePanel>();
+			infrastructureVBox.AddChild(panel);
+			panel.infrastructure = infra;
+			panel.CallDeferred(nameof(InfrastructurePanel.Initialize));
+			GD.Print("MachinesControl: Adding child to container...");
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"Error initializing InfrastructurePanel for {infra.id}: {e}");
 		}
 	}
 	
@@ -58,10 +101,9 @@ public partial class MachinesControl : VBoxContainer
 	
 	public void UpdateRegionMachines()
 	{
-		string machList = "";
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
 		
-		foreach (var child in GetChildren())
+		foreach (var child in machinesVBox.GetChildren())
 		{
 			child.QueueFree();
 		}
@@ -71,7 +113,24 @@ public partial class MachinesControl : VBoxContainer
 			AddMachinePanel(mach);
 		}
 		
-		GD.Print($"MachinesControl: Populating machine panels at {coord} ({machList})");
+		GD.Print($"MachinesControl: Populating machine panels at {coord}");
+	}
+	
+	public void UpdateRegionInfrastructure()
+	{
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		foreach (var child in infrastructureVBox.GetChildren())
+		{
+			child.QueueFree();
+		}
+		
+		foreach (var infra in GameData.currentRegion.infrastructure)
+		{
+			AddInfrastructurePanel(infra);
+		}
+		
+		GD.Print($"MachinesControl: Populating infrastructure panels at {coord}");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene load_steps=18 format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
 [ext_resource type="PackedScene" uid="uid://krtatr5ambw4" path="res://Scenes/BuildPanel.tscn" id="2_chwn1"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cdi03e7hbg46" path="res://Scenes/MachinePanel.tscn" id="4_6whob"]
 [ext_resource type="PackedScene" uid="uid://bi1x747f6h56g" path="res://Scenes/ResourcePanel.tscn" id="4_wjtap"]
 [ext_resource type="PackedScene" uid="uid://b618dfccesdqg" path="res://Scenes/ResourceLabel.tscn" id="5_v7gqg"]
+[ext_resource type="PackedScene" uid="uid://cxf07sjgmw17m" path="res://Scenes/InfrastructurePanel.tscn" id="8_fg7i4"]
 [ext_resource type="PackedScene" uid="uid://onrhwsj7frpm" path="res://Scenes/HarvestPanel.tscn" id="8_v7gqg"]
 [ext_resource type="Script" uid="uid://d3tvug5vn80j4" path="res://scripts/QuestControl.cs" id="10_hvaui"]
 [ext_resource type="PackedScene" uid="uid://1qwolok3tcso" path="res://Scenes/DevControl.tscn" id="11_2ooml"]
@@ -50,25 +51,39 @@ script = ExtResource("3_tx0tn")
 ResourcePanelScene = ExtResource("4_wjtap")
 ResourceLabelScene = ExtResource("5_v7gqg")
 
-[node name="MachineScroll" type="ScrollContainer" parent="TabContainer/Base"]
+[node name="MachinesTab" type="TabContainer" parent="TabContainer/Base"]
 layout_mode = 0
 offset_left = 1165.0
 offset_top = 2.0
-offset_right = 1729.0
+offset_right = 1723.0
 offset_bottom = 733.0
-horizontal_scroll_mode = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/MachineScroll"]
-layout_mode = 2
+current_tab = 0
 script = ExtResource("3_u7krg")
 MachinePanelScene = ExtResource("4_6whob")
+InfrastructurePanelScene = ExtResource("8_fg7i4")
+
+[node name="Machines" type="ScrollContainer" parent="TabContainer/Base/MachinesTab"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/_tab_index = 0
+
+[node name="MachinesVBox" type="VBoxContainer" parent="TabContainer/Base/MachinesTab/Machines"]
+layout_mode = 2
+
+[node name="Infrastructure" type="ScrollContainer" parent="TabContainer/Base/MachinesTab"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="InfrastructureVBox" type="VBoxContainer" parent="TabContainer/Base/MachinesTab/Infrastructure"]
+layout_mode = 2
 
 [node name="TravelPanel" parent="TabContainer/Base" instance=ExtResource("13_he4j0")]
 layout_mode = 1
 offset_left = 16.0
 offset_top = 739.0
-offset_right = 16.0
-offset_bottom = 739.0
+offset_right = -1107.0
+offset_bottom = -2.0
 
 [node name="QuestPanel" type="Panel" parent="TabContainer/Base"]
 layout_mode = 0
