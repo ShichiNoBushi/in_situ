@@ -16,3 +16,4 @@ res://scripts/MapControl.cs
 res://scripts/DevControl.cs
 res://data/infrastructure.json
 res://data/resources.json
+res://Scenes/TravelPanel.tscn

@@ -14,6 +14,10 @@ public partial class TravelControl : Control
 	(int x, int y) southRegion;
 	(int x, int y) westRegion;
 	(int x, int y) eastRegion;
+	(int x, int y) neRegion;
+	(int x, int y) seRegion;
+	(int x, int y) swRegion;
+	(int x, int y) nwRegion;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -30,6 +34,10 @@ public partial class TravelControl : Control
 		southRegion = (current.coordX, current.coordY - 1);
 		westRegion = (current.coordX - 1, current.coordY);
 		eastRegion = (current.coordX + 1, current.coordY);
+		neRegion = (current.coordX + 1, current.coordY + 1);
+		seRegion = (current.coordX + 1, current.coordY - 1);
+		swRegion = (current.coordX - 1, current.coordY - 1);
+		nwRegion = (current.coordX - 1, current.coordY + 1);
 		
 		regionMenu.ItemSelected += OnRegionSelect;
 		travelButton.Pressed += TravelRegion;
@@ -94,14 +102,13 @@ public partial class TravelControl : Control
 		
 		DisplayFeatures();
 		
-		travelButton.Disabled = !GameData.currentRegion.IsAdjacent(destination);
+		travelButton.Disabled = !(GameData.currentRegion.IsAdjacent(destination) || GameData.currentRegion.IsDiagonal(destination));
 		GameData.mapControl.UpdateAllColors();
 	}
 	
 	private void TravelRegion()
 	{
 		int idx = regionMenu.GetSelected();
-		//(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText(idx)];
 		Vector2I coordV2 = (Vector2I)regionMenu.GetItemMetadata(idx);
 		(int x, int y) coord = (coordV2.X, coordV2.Y);
 		
@@ -123,6 +130,18 @@ public partial class TravelControl : Control
 				break;
 			case 3:
 				exploreButton.Disabled = GameData.regionMap.ContainsKey(eastRegion);
+				break;
+			case 5:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(neRegion);
+				break;
+			case 6:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(seRegion);
+				break;
+			case 7:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(swRegion);
+				break;
+			case 8:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(nwRegion);
 				break;
 			default:
 				GD.Print($"TravelControl: Error explore menu index {index}");
@@ -148,6 +167,18 @@ public partial class TravelControl : Control
 			case "East":
 				exploreCoord = eastRegion;
 				break;
+			case "NE":
+				exploreCoord = neRegion;
+				break;
+			case "SE":
+				exploreCoord = seRegion;
+				break;
+			case "SW":
+				exploreCoord = swRegion;
+				break;
+			case "NW":
+				exploreCoord = nwRegion;
+				break;
 			default:
 				GD.Print($"TravelControl: Exploring invalid coordinate, Index: {idx}");
 				return;
@@ -167,7 +198,7 @@ public partial class TravelControl : Control
 		GD.Print("TravelControl: Updating regions menu...");
 		
 		int oldSelectedIdx = regionMenu.GetSelected();
-		String oldSelectedItem = regionMenu.GetItemText(oldSelectedIdx);
+		string oldSelectedItem = regionMenu.GetItemText(oldSelectedIdx);
 		
 		regionMenu.Clear();
 		
@@ -209,6 +240,10 @@ public partial class TravelControl : Control
 		southRegion = (current.coordX, current.coordY - 1);
 		westRegion = (current.coordX - 1, current.coordY);
 		eastRegion = (current.coordX + 1, current.coordY);
+		neRegion = (current.coordX + 1, current.coordY + 1);
+		seRegion = (current.coordX + 1, current.coordY - 1);
+		swRegion = (current.coordX - 1, current.coordY - 1);
+		nwRegion = (current.coordX - 1, current.coordY + 1);
 		
 		switch (directionMenu.GetSelected())
 		{
@@ -223,6 +258,18 @@ public partial class TravelControl : Control
 				break;
 			case 3:
 				exploreButton.Disabled = GameData.regionMap.ContainsKey(eastRegion);
+				break;
+			case 5:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(neRegion);
+				break;
+			case 6:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(seRegion);
+				break;
+			case 7:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(swRegion);
+				break;
+			case 8:
+				exploreButton.Disabled = GameData.regionMap.ContainsKey(nwRegion);
 				break;
 			default:
 				GD.Print($"TravelControl: Error explore menu index {directionMenu.GetSelected()}");

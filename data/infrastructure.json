@@ -77,7 +77,7 @@
 		"description": "Stores fluids safely."
 	},
 	"lithium battery": {
-		"name": "lithium battery",
+		"name": "Lithium Battery",
 		"type": "storage",
 		"serves": ["energy"],
 		"cost": {"lithium": 20, "iron plate": 10},
