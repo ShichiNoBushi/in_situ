@@ -15,7 +15,7 @@
 		"name": "Lithium",
 		"abbreviation": "El-Li",
 		"type": "element",
-		"subtypes": ["alcaline", "electricity"],
+		"subtypes": ["metal", "alcaline", "electricity"],
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
@@ -47,6 +47,18 @@
 		"value": 0.2,
 		"description": "An elemental gas used in many chemical reactions and as an oxidizer."
 	},
+	"sodium": {
+		"name": "Sodium",
+		"abbreviation": "El-Na",
+		"type": "element",
+		"subtypes": ["metal", "alkaline"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"sodium": 1.0},
+		"value": 0.2,
+		"description": "An alkali metal formed from common salt."
+	},
 	"silicon": {
 		"name": "Silicon",
 		"abbreviation": "El-Si",
@@ -58,6 +70,18 @@
 		"scrap": {"silicon": 1.0},
 		"value": 0.5,
 		"description": "A metaloid used for electronic components."
+	},
+	"chlorine": {
+		"name": "Chlorine",
+		"abbreviation": "El-Cl",
+		"type": "element",
+		"subtypes": ["nonmetal", "halogen", "poison"],
+		"phase": "gas",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"ice": 1.0},
+		"value": 0.2,
+		"description": "Poisonous green gas."
 	},
 	"iron": {
 		"name": "Iron",
@@ -203,6 +227,18 @@
 		"value": 0.1,
 		"description": "Frozen water."
 	},
+	"salt": {
+		"name": "Salt",
+		"abbreviation": "NaCl",
+		"type": "compound",
+		"subtypes": ["mineral", "salt"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"salt": 1.0},
+		"value": 0.2,
+		"description": "Sodium chloride table salt."
+	},
 	"carbon monoxide": {
 		"name": "Carbon Monoxide",
 		"abbreviation": "CO",
@@ -238,6 +274,18 @@
 		"scrap": {"methane": 1.0},
 		"value": 0.3,
 		"description": "Natural gas hydrocarbon used in combustion and chemical reactions."
+	},
+	"ethylene": {
+		"name": "Ethylene",
+		"abbreviation": "C2H4",
+		"type": "compound",
+		"subtypes": ["monomer"],
+		"phase": "gas",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"methane": 1.0},
+		"value": 0.3,
+		"description": "Hydrocarbon used as a monomer for simple plastics."
 	},
 	"iron wire": {
 		"name": "Iron Wire",

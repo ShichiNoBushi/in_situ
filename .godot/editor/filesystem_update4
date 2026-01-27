@@ -19,3 +19,5 @@ res://data/resources.json
 res://Scenes/TravelPanel.tscn
 res://scripts/InfrastructurePanel.cs
 res://Scenes/InfrastructurePanel.tscn
+res://data/harvest.json
+res://data/recipes.json

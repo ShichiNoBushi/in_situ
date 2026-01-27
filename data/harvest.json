@@ -22,5 +22,11 @@
 		"amount": 5.0,
 		"time": 1.0,
 		"action": "Mine Ice"
+	},
+	"mine salt": {
+		"resource": "salt",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Salt"
 	}
 }

@@ -278,6 +278,15 @@
 		"local": "",
 		"description": "Heat methane at high temperatures in an oxygen free environment to break it down to carbon char and hydrogen instead of combusting."
 	},
+	"synthesize ethylene": {
+		"name": "Synthesize Ethylene",
+		"inputs": {"methane": 1, "energy": 2},
+		"outputs": {"ethylene": 0.875, "hydrogen": 0.125},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Convert methane into ethylene and hydrogen."
+	},
 	"reduce silicon": {
 		"name": "Reduce Silicon",
 		"inputs": {"sand": 1, "carbon": 0.4, "energy": 2},
