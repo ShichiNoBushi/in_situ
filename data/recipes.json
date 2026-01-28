@@ -253,12 +253,21 @@
 	},
 	"electrolyze water": {
 		"name": "Electrolyze Water",
-		"inputs": {"water": 1.8},
-		"outputs": {"hydrogen": 0.2, "oxygen": 1.6, "energy": 2},
+		"inputs": {"water": 1.8, "energy": 2},
+		"outputs": {"hydrogen": 0.2, "oxygen": 1.6},
 		"available": false,
 		"machines": ["electrolyzer"],
 		"local": "",
 		"description": "Electrolyze and seperate water into hygrogen and oxygen."
+	},
+	"electrolyze salt water": {
+		"name": "Electrolyze Salt Water",
+		"inputs": {"salt water": 2, "energy": 2},
+		"outputs": {"lye soda": 0.34, "chlorine": 0.305, "hydrogen": 0.01, "water": 1.345},
+		"available": false,
+		"machines": ["electrolyzer"],
+		"local": "",
+		"description": "Electrolyze brine into lye and chlorine with byproducts."
 	},
 	"sabatier reaction": {
 		"name": "Sabatier Reaction",
@@ -321,7 +330,16 @@
 		"available": false,
 		"machines": ["mixer"],
 		"local": "",
-		"description": "Further grinds gravel into fine stone dust."
+		"description": "Mixes stone dust to make a clay to make mortar or ceramic."
+	},
+	"mix salt water": {
+		"name": "Mix Salt Water",
+		"inputs": {"salt": 0.50, "water": 1.5, "energy": 1},
+		"outputs": {"salt water": 2},
+		"available": false,
+		"machines": ["mixer"],
+		"local": "",
+		"description": "Mixes salt and water into a brine solution."
 	},
 	"bake ceramic": {
 		"name": "Bake Ceramic",
@@ -466,6 +484,15 @@
 		"machines": ["miner"],
 		"local": "mining",
 		"description": "Extract ice from a local deposit."
+	},
+	"mine salt": {
+		"name": "Mine (Salt)",
+		"inputs": {"energy": 1},
+		"outputs": {"salt": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract salt from a local deposit."
 	},
 	"collect atmosphere": {
 		"name": "Collect Atmosphere",

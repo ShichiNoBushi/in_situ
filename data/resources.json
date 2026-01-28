@@ -287,6 +287,30 @@
 		"value": 0.3,
 		"description": "Hydrocarbon used as a monomer for simple plastics."
 	},
+	"lye soda": {
+		"name": "Lye Soda",
+		"abbreviation": "NaOH",
+		"type": "compound",
+		"subtypes": ["base"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"water": 1.0},
+		"value": 0.3,
+		"description": "Sodium hydroxide caustic soda."
+	},
+	"salt water": {
+		"name": "Salt Water",
+		"abbreviation": "S-Water",
+		"type": "compound",
+		"subtypes": ["solution"],
+		"phase": "liquid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"water": 1.0},
+		"value": 0.3,
+		"description": "Salt disolved in water."
+	},
 	"iron wire": {
 		"name": "Iron Wire",
 		"abbreviation": "Wire-Fe",
