@@ -371,6 +371,30 @@
 		"value": 0.2,
 		"description": "Clay baked into ceramic."
 	},
+	"low-density polyethylene": {
+		"name": "Low-Density Polyethylene",
+		"abbreviation": "LDPE",
+		"type": "plastic",
+		"subtypes": ["polymer"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"low-density polyethylene": 1.0},
+		"value": 0.2,
+		"description": "A cheap plastic."
+	},
+	"high-density polyethylene": {
+		"name": "High-Density Polyethylene",
+		"abbreviation": "HDPE",
+		"type": "plastic",
+		"subtypes": ["polymer"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"high-density polyethylene": 1.0},
+		"value": 0.2,
+		"description": "A durable common plastic."
+	},
 	"iron gear small": {
 		"name": "Iron Gear (Small)",
 		"abbreviation": "Gear-Fe-Sm",

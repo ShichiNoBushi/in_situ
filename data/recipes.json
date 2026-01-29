@@ -296,6 +296,24 @@
 		"local": "",
 		"description": "Convert methane into ethylene and hydrogen."
 	},
+	"polymerize ldpe": {
+		"name": "Polymerize LDPE",
+		"inputs": {"ethylene": 1, "energy": 2},
+		"outputs": {"low-density polyethylene": 1},
+		"available": false,
+		"machines": ["polymerizer"],
+		"local": "",
+		"description": "Synthesizes low-density polymer plastic polyethylene."
+	},
+	"polymerize hdpe": {
+		"name": "Polymerize HDPE",
+		"inputs": {"ethylene": 1, "energy": 2},
+		"outputs": {"high-density polyethylene": 1},
+		"available": false,
+		"machines": ["polymerizer"],
+		"local": "",
+		"description": "Synthesizes high-density polymer plastic polyethylene."
+	},
 	"reduce silicon": {
 		"name": "Reduce Silicon",
 		"inputs": {"sand": 1, "carbon": 0.4, "energy": 2},
