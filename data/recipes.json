@@ -296,6 +296,33 @@
 		"local": "",
 		"description": "Convert methane into ethylene and hydrogen."
 	},
+	"oxydize carbon monoxide": {
+		"name": "Oxydize Carbon Monoxide",
+		"inputs": {"carbon monoxide": 1, "oxygen": 0.571, "energy": 2},
+		"outputs": {"carbon dioxide": 1.571},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Converts carbon monoxide into a more useful and less toxic carbon dioxide."
+	},
+	"synthesize hydrochloric acid": {
+		"name": "Synthesize Hydrochloric Acid",
+		"inputs": {"hydrogen": 0.028, "chlorine": 1, "energy": 1},
+		"outputs": {"hydrochloric acid": 1.028},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Combines hydrogen and chlorine into potent hydrochloric acid."
+	},
+	"synthesize bleach": {
+		"name": "Synthesize Bleach",
+		"inputs": {"chlorine": 1, "lye soda": 1.13, "energy": 1},
+		"outputs": {"bleach": 1.05, "salt water": 0.34, "salt": 0.74},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Create bleach from lye and chlirine."
+	},
 	"polymerize ldpe": {
 		"name": "Polymerize LDPE",
 		"inputs": {"ethylene": 1, "energy": 2},

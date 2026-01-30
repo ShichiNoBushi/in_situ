@@ -295,9 +295,33 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
-		"scrap": {"water": 1.0},
+		"scrap": {"lye soda": 1.0},
 		"value": 0.3,
 		"description": "Sodium hydroxide caustic soda."
+	},
+	"hydrochloric acid": {
+		"name": "Hydrochloric Acid",
+		"abbreviation": "HCl",
+		"type": "compound",
+		"subtypes": ["acid"],
+		"phase": "liquid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"hydrochloric acid": 1.0},
+		"value": 0.3,
+		"description": "Potent hydrocholic acid."
+	},
+	"bleach": {
+		"name": "Bleach",
+		"abbreviation": "NaOCl",
+		"type": "compound",
+		"subtypes": ["bleach"],
+		"phase": "liquid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"bleach": 1.0},
+		"value": 0.3,
+		"description": "Sodium hypochlorite bleach."
 	},
 	"salt water": {
 		"name": "Salt Water",
