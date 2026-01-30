@@ -45,6 +45,7 @@ public partial class GameData : Node
 	public static MapControl mapControl;
 	public static TravelControl travelControl;
 	public static ResourceControl resourceControl;
+	public static RichTextLabel maxPhaseLabel;
 	public static MachinesControl machinesControl;
 	public static HarvestControl harvestControl;
 	public static BuildControl buildControl;
@@ -62,6 +63,7 @@ public partial class GameData : Node
 	public static CheckBox unlockMachinesCheck;
 	public static CheckBox unlockRecipesCheck;
 	public static CheckBox disableWearCheck;
+	public static CheckBox disableStorageCheck;
 	
 	//A variable to test if a feature is functioning (possibly no longer necessary).
 	private static bool questUpdateFunctioning;
@@ -70,6 +72,7 @@ public partial class GameData : Node
 	public static bool unlockAllMachines;
 	public static bool unlockAllRecipes;
 	public static bool disableWear;
+	public static bool disableStorage;
 	
 	public override void _Ready()
 	{
@@ -113,6 +116,7 @@ public partial class GameData : Node
 		mapControl = GetNode<MapControl>("../TabContainer/Base/MapControl");
 		travelControl = GetNode<TravelControl>("../TabContainer/Base/TravelPanel");
 		resourceControl = GetNode<ResourceControl>("../TabContainer/Base/ResourceScroll/VBoxContainer");
+		maxPhaseLabel = GetNode<RichTextLabel>("../TabContainer/Base/StoragePanel/MaxPhaseLabel");
 		machinesControl = GetNode<MachinesControl>("../TabContainer/Base/MachinesTab");
 		harvestControl = GetNode<HarvestControl>("../TabContainer/Base/HarvestPanel");
 		buildControl = GetNode<BuildControl>("../TabContainer/Base/BuildPanel");
@@ -130,9 +134,11 @@ public partial class GameData : Node
 		unlockMachinesCheck = GetNode<CheckBox>("../TabContainer/Options/UnlockMachinesCheck");
 		unlockRecipesCheck = GetNode<CheckBox>("../TabContainer/Options/UnlockRecipesCheck");
 		disableWearCheck = GetNode<CheckBox>("../TabContainer/Options/DisableWearCheck");
+		disableStorageCheck = GetNode<CheckBox>("../TabContainer/Options/DisableStorageCheck");
 		unlockMachinesCheck.Toggled += ToggleUnlockMachines;
 		unlockRecipesCheck.Toggled += ToggleUnlockRecipes;
 		disableWearCheck.Toggled += ToggleWear;
+		disableStorageCheck.Toggled += ToggleStorage;
 		
 		//Possibly unnecessary test variable.
 		questUpdateFunctioning = true;
@@ -141,6 +147,7 @@ public partial class GameData : Node
 		unlockAllMachines = false;
 		unlockAllRecipes = false;
 		disableWear = false;
+		disableStorage = false;
 		
 		UpdateQuestTracking();
 		
@@ -156,6 +163,7 @@ public partial class GameData : Node
 			reg.Tick(delta);
 		}
 		
+		DisplayMaxStorage();
 		UpdateQuestTracking();
 		CheckQuests();
 	}
@@ -207,6 +215,11 @@ public partial class GameData : Node
 	public void ToggleWear(bool isChecked)
 	{
 		disableWear = isChecked;
+	}
+	
+	public void ToggleStorage(bool isChecked)
+	{
+		disableStorage = isChecked;
 	}
 	
 	public static T LoadJson<T>(string filepath)
@@ -293,6 +306,32 @@ public partial class GameData : Node
 				GD.Print($"GameData: Adding machine {mach.Value.name}");
 			}
 		}
+		
+		foreach (var infra in INFRASTRUCTURE)
+		{
+			for (int i = 0; i < infra.Value.startingAmount; i++)
+			{
+				regionMap[(0, 0)].infrastructure.Add(new Infrastructure(infra.Key, regionMap[(0, 0)]));
+				GD.Print($"GameData: Adding infrastructure {infra.Value.name}");
+			}
+		}
+		
+		regionMap[(0, 0)].UpdateStorage();
+	}
+	
+	public static void DisplayMaxStorage()
+	{
+		string text = $"[table={currentRegion.maxStorage.Keys.Count * 2}]";
+		foreach (var phase in currentRegion.maxStorage)
+		{
+			string phaseKey = phase.Key;
+			string unit = phase.Value.unit;
+			float capacity = currentRegion.maxStorage[phaseKey].amount;
+			text += $"[cell]{phaseKey[0]}:[/cell][cell][right]{GameData.FormatUnit2(capacity, unit)}[/right][/cell]";
+		}
+		text += "[/table]";
+		
+		maxPhaseLabel.Text = text;
 	}
 	
 	public static void UpdateQuestTracking()
@@ -1164,6 +1203,7 @@ public class Region
 	public float solarState;
 	
 	public Dictionary<string, float> resources;
+	public Dictionary<string, (float amount, string unit)> maxStorage;
 	public List<Machine> machines;
 	public List<Infrastructure> infrastructure;
 	public List<string> nodes;
@@ -1189,6 +1229,7 @@ public class Region
 		solarState = 0f;
 		
 		resources = new();
+		maxStorage = new();
 		machines = new();
 		infrastructure = new();
 		nodes = new();
@@ -1207,7 +1248,52 @@ public class Region
 		foreach (var res in GameData.RESOURCES)
 		{
 			resources[res.Key] = 0f;
+			
+			if (!maxStorage.ContainsKey(res.Value.phase))
+			{
+				maxStorage[res.Value.phase] = (0f, res.Value.unit);
+			}
 		}
+		
+		UpdateStorage();
+	}
+	
+	public void UpdateStorage()
+	{
+		foreach (var phase in maxStorage.Keys)
+		{
+			maxStorage[phase] = (0f, maxStorage[phase].unit);
+		}
+		
+		foreach (var infra in infrastructure)
+		{
+			if (infra.type == "storage")
+			{
+				foreach (var phase in infra.serves)
+				{
+					maxStorage[phase] = (maxStorage[phase].amount + infra.through, maxStorage[phase].unit);
+				}
+			}
+		}
+	}
+	
+	public float TotalStored(string phase)
+	{
+		float total = 0f;
+		foreach (var res in resources)
+		{
+			if (GameData.RESOURCES[res.Key].phase == phase)
+			{
+				total += res.Value;
+			}
+		}
+		
+		return total;
+	}
+	
+	public float TotalAvailable(string phase)
+	{
+		return maxStorage[phase].amount - TotalStored(phase);
 	}
 	
 	public void Tick(double delta)
@@ -1511,6 +1597,8 @@ public class Buildable
 				resources[scrap.Key] += scrap.Value * comp.Value;
 			}
 		}
+		
+		location.UpdateStorage();
 	}
 }
 
@@ -1519,6 +1607,7 @@ public class Machine : Buildable
 	//A machine that processes recipes to consume and produce resources.
 	public List<string> recipes {get; private set;} = new();
 	public string currentRecipe {get; private set;}
+	public Dictionary<string, float> outputBuffer {get; private set;} = new();
 	
 	public Machine(string machineID, Region loc) : base(machineID, loc)
 	{
@@ -1551,7 +1640,7 @@ public class Machine : Buildable
 	
 	public override void Tick(double delta)
 	{
-		if (active && (GameData.disableWear || wear < maxWear) && GameData.RECIPES.ContainsKey(currentRecipe))
+		if (active && (GameData.disableStorage || outputBuffer.Keys.Count == 0) && (GameData.disableWear || wear < maxWear) && GameData.RECIPES.ContainsKey(currentRecipe))
 		{
 			//Create a ratio value based on if recipe can be crafted.
 			float ratio = CanCraft(delta);
@@ -1583,7 +1672,30 @@ public class Machine : Buildable
 				foreach (var res in outputs)
 				{
 					//Produce crafted resource into region's storage according to the ratio.
-					location.resources[res.Key] += res.Value * (float)delta * ratio;
+					float outputVolume = res.Value * (float)delta * ratio;
+					string resPhase = GameData.RESOURCES[res.Key].phase;
+					if (!GameData.disableStorage)
+					{
+						float stored = Math.Min(outputVolume, location.TotalAvailable(resPhase));
+						location.resources[res.Key] += stored;
+						float remainder = outputVolume - stored;
+						
+						if (remainder > 0f)
+						{
+							if (outputBuffer.ContainsKey(res.Key))
+							{
+								outputBuffer[res.Key] += remainder;
+							}
+							else
+							{
+								outputBuffer[res.Key] = remainder;
+							}
+						}
+					}
+					else
+					{
+						location.resources[res.Key] += outputVolume;
+					}
 				}
 			}
 			
@@ -1592,6 +1704,28 @@ public class Machine : Buildable
 			{
 				Damage(0.001f * ratio);
 			}
+		}
+		
+		List<string> removeBuffer = new();
+		foreach (var res in outputBuffer)
+		{
+			string resPhase = GameData.RESOURCES[res.Key].phase;
+			if (location.TotalAvailable(resPhase) > 0)
+			{
+				float stored = Math.Min(res.Value, location.TotalAvailable(resPhase));
+				location.resources[res.Key] += stored;
+				outputBuffer[res.Key] -= stored;
+				
+				if (outputBuffer[res.Key] <= 0f)
+				{
+					removeBuffer.Add(res.Key);
+				}
+			}
+		}
+		
+		foreach (var res in removeBuffer)
+		{
+			outputBuffer.Remove(res);
 		}
 	}
 	

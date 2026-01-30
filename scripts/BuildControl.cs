@@ -365,6 +365,11 @@ public partial class BuildControl : Control
 				newInfrastructure.SetLink(neighborInfra);
 				neighborInfra.SetLink(newInfrastructure);
 			}
+			
+			if (data.type == "storage")
+			{
+				GameData.currentRegion.UpdateStorage();
+			}
 		}
 		
 		buildProgress.Value = 0;

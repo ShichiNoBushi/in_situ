@@ -40,16 +40,36 @@ layout_mode = 1
 
 [node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/Base"]
 layout_mode = 0
-offset_left = 789.0
+offset_left = 762.0
 offset_top = 2.0
-offset_right = 1159.0
-offset_bottom = 733.0
+offset_right = 1132.0
+offset_bottom = 673.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/ResourceScroll"]
 layout_mode = 2
 script = ExtResource("3_tx0tn")
 ResourcePanelScene = ExtResource("4_wjtap")
 ResourceLabelScene = ExtResource("5_v7gqg")
+
+[node name="StoragePanel" type="Panel" parent="TabContainer/Base"]
+layout_mode = 0
+offset_left = 762.0
+offset_top = 681.0
+offset_right = 1132.0
+offset_bottom = 733.0
+
+[node name="StorageLabel" type="Label" parent="TabContainer/Base/StoragePanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Max Storage:"
+
+[node name="MaxPhaseLabel" type="RichTextLabel" parent="TabContainer/Base/StoragePanel"]
+layout_mode = 0
+offset_top = 23.0
+offset_right = 370.0
+offset_bottom = 52.0
+bbcode_enabled = true
 
 [node name="MachinesTab" type="TabContainer" parent="TabContainer/Base"]
 layout_mode = 0
@@ -425,3 +445,11 @@ offset_top = 669.0
 offset_right = 190.0
 offset_bottom = 700.0
 text = "Disable Wear"
+
+[node name="DisableStorageCheck" type="CheckBox" parent="TabContainer/Options"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 696.0
+offset_right = 243.0
+offset_bottom = 727.0
+text = "Disable Storage"

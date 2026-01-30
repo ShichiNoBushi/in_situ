@@ -50,7 +50,7 @@
 		"cost": {},
 		"through": 200.0,
 		"energy cost": 0.0,
-		"starting amount": 1,
+		"starting amount": 0,
 		"available": true,
 		"description": "Area designated for storing solid resources."
 	},
@@ -61,7 +61,7 @@
 		"cost": {"iron plate": 30, "iron rod": 10},
 		"through": 1000.0,
 		"energy cost": 0.0,
-		"starting amount": 0,
+		"starting amount": 1,
 		"available": true,
 		"description": "A building to store and organize a larger amount of solid resources."
 	},
