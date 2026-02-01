@@ -196,7 +196,7 @@
 		"abbreviation": "ClSlry",
 		"type": "compound",
 		"subtypes": ["mineral", "aggregate"],
-		"phase": "liquid",
+		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
 		"scrap": {"clay slurry": 1.0},

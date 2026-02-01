@@ -90,7 +90,7 @@
 		"unlocks": {
 			"quests": ["automated mining", "power generation", "from thin air", "mineral processing", "splitting water"],
 			"recipes": ["melt ice"],
-			"machines": ["miner", "atmospheric compressor", "crusher", "electrolyzer", "wind turbine"]
+			"machines": ["miner", "atmospheric compressor", "crusher", "electrolyzer", "wind turbine", "small liquid tank", "small gas tank", "mechanical accumulator"]
 		},
 		"text": "Magnets produced... Well done, Pioneer.\n\nMagnets will be useful in many industrial and technological functions. By creating a coil of wire and placing a magnet in the middle of it, you can make an electric motor. By either passing a current through the coil, the magnet will then rotate to align with the generated magnetic field. And by rotating the magnet within the coil, it will induce an electric current in the wire. Electric motors are your first major technological advancement towards creating your industrial base.\n\nThe fourth and last machine you have been provided with for your ISRU mission is the parts assembler. It can be programmed with schematics and will produce machine parts with fine precision. I have unlocked its electric motor for you. Provide it with iron plates, copper wire, and magnets to begin crafting motors.",
 		"hint": "You will need iron plates, copper wire, and the magnets you just produced and make them in the parts assembler."
@@ -125,6 +125,22 @@
 			"machines": []
 		},
 		"text": "Now that you are constructing and using more machines, the SRG will not be able to support all of them at the same time. So you will need to build more generators.\n\nMotors convert electrical energy to rotational motion, but the reverse is also possible. Moving the magnet within a coil of wire will induce electrical current. A common natural resource to produce renewable energy is wind, and given what parts are able to create right now, this is now possible. Create some iron plates and rods, copper wire, and electric motors then build a wind turbine.",
+		"hint": "You will need 5g of iron plates, 10g of iron rods, 5g of copper wire, and 5g of electric motors. You may need to deactivate some of your machines so some of these resources aren't automatically being crafted."
+	},
+	"mechanical batteries": {
+		"name": "Mechanical Batteries",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"mechanical accumulator": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "You started with a hich capacity lithium rechargeable to store your generated energy, however if you want to expand your energy storage, you will not be able to construct any more without the ability to extract and process lithium. For now, you will need to find another method to store and release energy. With access to electric motors which can function for both converting to and from electricity and mechanical energy, you can use a heavy weight to store gravitational potential energy by storing energy by raising the weight then releasing it as it drops when it is needed.",
 		"hint": "You will need 5g of iron plates, 10g of iron rods, 5g of copper wire, and 5g of electric motors. You may need to deactivate some of your machines so some of these resources aren't automatically being crafted."
 	},
 	"from thin air": {

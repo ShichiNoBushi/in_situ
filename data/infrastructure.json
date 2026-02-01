@@ -43,6 +43,17 @@
 		"available": false,
 		"description": "Transports liquid and gas resources between regions."
 	},
+	"power conduit": {
+		"name": "Power Conduit",
+		"type": "conveyer",
+		"serves": ["energy"],
+		"cost": {"copper wire": 20, "iron plate": 10, "iron rod": 10, "electromagnetic relay": 5},
+		"through": 20.0,
+		"energy cost": 0,
+		"starting amount": 0,
+		"available": false,
+		"description": "Transmits high-voltage power between regions."
+	},
 	"stockpile": {
 		"name": "Stockpile",
 		"type": "storage",
@@ -50,7 +61,7 @@
 		"cost": {},
 		"through": 200.0,
 		"energy cost": 0.0,
-		"starting amount": 0,
+		"starting amount": 1,
 		"available": true,
 		"description": "Area designated for storing solid resources."
 	},
@@ -61,8 +72,8 @@
 		"cost": {"iron plate": 30, "iron rod": 10},
 		"through": 1000.0,
 		"energy cost": 0.0,
-		"starting amount": 1,
-		"available": true,
+		"starting amount": 0,
+		"available": false,
 		"description": "A building to store and organize a larger amount of solid resources."
 	},
 	"small liquid tank": {
@@ -73,7 +84,7 @@
 		"through": 200.0,
 		"energy cost": 0.0,
 		"starting amount": 0,
-		"available": true,
+		"available": false,
 		"description": "Stores fluids safely."
 	},
 	"small gas tank": {
@@ -84,7 +95,7 @@
 		"through": 200.0,
 		"energy cost": 0.0,
 		"starting amount": 0,
-		"available": true,
+		"available": false,
 		"description": "Stores fluids safely."
 	},
 	"lithium battery": {
@@ -102,11 +113,11 @@
 		"name": "Mechanical Accumulator",
 		"type": "storage",
 		"serves": ["energy"],
-		"cost": {"iron": 20, "copper wire": 20, "electric motor": 10, "iron rod": 10},
+		"cost": {"stone": 20, "iron plate": 10, "copper wire": 20, "electric motor": 10, "iron rod": 10},
 		"through": 20.0,
 		"energy cost": 0.0,
 		"starting amount": 0,
-		"available": true,
+		"available": false,
 		"description": "Uses motors and heavy weights to store energy as mechanical potential energy and releases it to generate and release it."
 	}
 }
