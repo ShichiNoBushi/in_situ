@@ -42,7 +42,7 @@
 		"unlocks": {
 			"quests": ["electromagnetism pt1"],
 			"recipes": ["iron rod print"],
-			"machines": ["magnetizer"]
+			"machines": ["magnetizer", "warehouse"]
 		},
 		"text": "Confirmed iron wire produced...\n\nAnother machine provided to you for ISRU is the component printer. It accepts wires, filaments, and other thin flexible materials and uses it to craft solid components via additive construction. I have unlocked for you the recipes for iron plates and small iron gears which will be necessary for many machines. I recommend setting it to create metal plates as they will be needed soon. If you start getting low on iron wire, remember to collect more iron ore and insert it into the smelter-extruder.\n\nAnother common metal that will be useful is copper. Copper is highly conductive and important for electronics. It isn't as good a conductor as gold, but given it is far more common, it serves the function well enough. A copper ore deposit has also been detected near the landing site. Mine some copper ore and put it in the smelter-extruder to produce copper wire.",
 		"hint": "Set the Harvest option to copper ore and harvest. Once you have copper ore, set the smelter-extruder to produce copper wire.\n\nYou can also set the component printer to produce iron plates while collecting and processing copper."
@@ -412,7 +412,7 @@
 			"recipes": ["methane pyrolysis"],
 			"machines": []
 		},
-		"text": "The first chemical reaction you will learn is the Sabatier Reaction. It takes ingredients as carbon dioxide (CO2) and hydrogen (H2) and produces methane (CH4) and water (H2O). The water can then be recycled and electrolized again into its base elements to continue reacting with more atmosphereic CO2. The methane can then be used to create other organic compounds or even in a combustion generator to generate electricity.",
+		"text": "The first chemical reaction you will learn is the Sabatier Reaction. It takes ingredients as carbon dioxide (CO2) and hydrogen (H2) and produces methane (CH4) and water (H2O). The water can then be recycled and electrolized again into its base elements to continue reacting with more atmospheric CO2. The methane can then be used to create other organic compounds or even in a combustion generator to generate electricity.",
 		"hint": "Build a chemical reactor with 10g iron plates, 10g copper wire, 5g copper plates, 2g induction coils, and 5g electric motors. Then set it to perform the sabatier reaction recipe."
 	},
 	"chemistry 102": {
@@ -445,7 +445,39 @@
 			"machines": []
 		},
 		"text": "The ultimate goal of this sequence of objectives is to achieve rudimentary electronics, and a critical substance for creating electronics is the element silicon. Fortunately, silicon is one of the most abundant elements especially in rocky crust. Up to now, you might have been using sand or silicon dioxide and to produce glass, but now you will need extract silicon from it to utilize pure silicon. The following is not the ideal method, and you will be introduced to a more efficient process once it becomes available to you, but for now you are going to reduce silicon. In an smelter, combine sand with carbon to get silicon and carbon monoxide as a biproduct. Carbon monoxide is poisonous to organics, but store it for now as you will also be able to process and recycle it later.",
-		"hint": "In an induction smelter, select the \"Recude Silicon\" recipe and combine sand and carbon."
+		"hint": "In an induction smelter, select the \"Reduce Silicon\" recipe and combine sand and carbon."
+	},
+	"chemistry 201": {
+		"name": "Chemistry 201",
+		"start": false,
+		"requirement": {
+			"resources": {"ethylene": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["chemistry 202"],
+			"recipes": ["polymerize ldpe", "polymerize hdpe"],
+			"machines": ["polymerizer"]
+		},
+		"text": "Creating plastics is an advanced practice of chemistry and will give you access to high tech materials including electronics. Plastics are made of polymers, and polymers and chains of monomers. Now that you have methane, you can process it into a simple hydrocarbon monomer called ethylene which can be used to create various polymers of polyethylene each with different purposes.",
+		"hint": "The chemcial reactor can synthesize methane into ethylene."
+	},
+	"chemistry 202": {
+		"name": "Chemistry 202",
+		"start": false,
+		"requirement": {
+			"resources": {"low-density polyethylene": 10, "high-density polyethylene": 10},
+			"machines": {"polymerizer": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "With ethylene as a base monomer, you can now make polyethylene, a basic plastic with versatile applications. The process of polymerization is more complicated, so you will need a more advanced machine with relays and control boards to automatically manage the process.",
+		"hint": "Construct a polymerizer and in it select the recipes for \"Polymerize LDPE\" and \"Polymerize HDPE\"."
 	},
 	"pottery": {
 		"name": "Pottery",
@@ -520,8 +552,8 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["logistics pt1"],
-			"recipes": [],
+			"quests": ["logistics pt1", "chemistry 201"],
+			"recipes": ["synthesize ethylene"],
 			"machines": ["logistics hub", "substation", "conveyer bus", "pipeline", "power conduit"]
 		},
 		"text": "You have a control board, but in order to properly do anything, you need something that can turn things on or off. Something that does that is an electromagnetic relay which when it receives a signal generates an electromagnetic field that closes another circuit and turn a device on acting as an automatic switch.",

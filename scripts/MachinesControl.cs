@@ -89,7 +89,7 @@ public partial class MachinesControl : TabContainer
 	public void UpdateMachinePanels()
 	{
 		GD.Print("MachinesControl: Updating panel recipe menus...");
-		foreach (var child in GetChildren())
+		foreach (var child in machinesVBox.GetChildren())
 		{
 			if (child is MachinePanel mp)
 			{

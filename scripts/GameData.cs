@@ -524,7 +524,7 @@ public partial class GameData : Node
 		return $"({coord.x}, {coord.y})";
 	}
 	
-	private void ProcessMachines(double delta)
+	/*private void ProcessMachines(double delta)
 	{
 		foreach (var reg in regionMap)
 		{
@@ -639,7 +639,7 @@ public partial class GameData : Node
 		
 		//Return the ratio between 0 and 1.
 		return Math.Clamp(minRatio, 0f, 1f);
-	}
+	}*/
 	
 	public static void CheckQuests()
 	{
@@ -757,13 +757,14 @@ public partial class GameData : Node
 		foreach (var mach in unlocks.machines)
 		{
 			//Unlock machine.
-			GD.Print($"Unlock machine {MACHINES[mach].name}");
 			if (GameData.MACHINES.ContainsKey(mach))
 			{
+				GD.Print($"Unlock machine {MACHINES[mach].name}");
 				MACHINES[mach].available = true;
 			}
 			else if (GameData.INFRASTRUCTURE.ContainsKey(mach))
 			{
+				GD.Print($"Unlock infrastructure {INFRASTRUCTURE[mach].name}");
 				INFRASTRUCTURE[mach].available = true;
 			}
 		}
@@ -1563,7 +1564,12 @@ public class Buildable
 	
 	public void Dismantle()
 	{
-		if (!GameData.MACHINES[id].available)
+		if (!(GameData.MACHINES.ContainsKey(id) || GameData.INFRASTRUCTURE.ContainsKey(id)))
+		{
+			return;
+		}
+		
+		if (GameData.MACHINES.ContainsKey(id) && !GameData.MACHINES[id].available || GameData.INFRASTRUCTURE.ContainsKey(id) && !GameData.INFRASTRUCTURE[id].available)
 		{
 			return;
 		}
@@ -1573,20 +1579,36 @@ public class Buildable
 			Diagnose();
 		}
 		
-		//Dictionary<string, float> workingComponents = new();
-		
 		Dictionary<string, float> resources = location.resources;
 		
-		foreach (var res in GameData.MACHINES[id].cost)
+		if (GameData.MACHINES.ContainsKey(id))
 		{
-			GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
-			if (repairComponents.TryGetValue(res.Key, out float comp))
+			foreach (var res in GameData.MACHINES[id].cost)
 			{
-				resources[res.Key] += res.Value - comp;
+				GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
+				if (repairComponents.TryGetValue(res.Key, out float comp))
+				{
+					resources[res.Key] += res.Value - comp;
+				}
+				else
+				{
+					resources[res.Key] += res.Value;
+				}
 			}
-			else
+		}
+		else if (GameData.INFRASTRUCTURE.ContainsKey(id))
+		{
+			foreach (var res in GameData.INFRASTRUCTURE[id].cost)
 			{
-				resources[res.Key] += res.Value;
+				GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
+				if (repairComponents.TryGetValue(res.Key, out float comp))
+				{
+					resources[res.Key] += res.Value - comp;
+				}
+				else
+				{
+					resources[res.Key] += res.Value;
+				}
 			}
 		}
 		
