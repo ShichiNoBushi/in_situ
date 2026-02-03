@@ -1294,7 +1294,7 @@ public class Region
 	
 	public float TotalAvailable(string phase)
 	{
-		return maxStorage[phase].amount - TotalStored(phase);
+		return Math.Max(0f, maxStorage[phase].amount - TotalStored(phase));
 	}
 	
 	public void Tick(double delta)
@@ -1662,7 +1662,7 @@ public class Machine : Buildable
 	
 	public override void Tick(double delta)
 	{
-		if (active && (GameData.disableStorage || outputBuffer.Keys.Count == 0) && (GameData.disableWear || wear < maxWear) && GameData.RECIPES.ContainsKey(currentRecipe))
+		if (active && (GameData.disableStorage || outputBuffer.Count == 0) && (GameData.disableWear || wear < maxWear) && GameData.RECIPES.ContainsKey(currentRecipe))
 		{
 			//Create a ratio value based on if recipe can be crafted.
 			float ratio = CanCraft(delta);
@@ -1732,7 +1732,7 @@ public class Machine : Buildable
 		foreach (var res in outputBuffer)
 		{
 			string resPhase = GameData.RESOURCES[res.Key].phase;
-			if (location.TotalAvailable(resPhase) > 0)
+			if (!GameData.disableStorage && location.TotalAvailable(resPhase) > 0f)
 			{
 				float stored = Math.Min(res.Value, location.TotalAvailable(resPhase));
 				location.resources[res.Key] += stored;
@@ -1742,6 +1742,11 @@ public class Machine : Buildable
 				{
 					removeBuffer.Add(res.Key);
 				}
+			}
+			else if (GameData.disableStorage)
+			{
+				location.resources[res.Key] += res.Value;
+				removeBuffer.Add(res.Key);
 			}
 		}
 		

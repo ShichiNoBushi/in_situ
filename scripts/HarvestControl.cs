@@ -22,11 +22,18 @@ public partial class HarvestControl : Control
 		harvestButton = GetNode<Button>("Panel/HarvestButton");
 		harvestProgress = GetNode<ProgressBar>("Panel/HarvestProgress");
 		
-		foreach(var harv in GameData.HARVEST)
+		foreach (var node in GameData.currentRegion.nodes)
 		{
-			harvestMenu.AddItem(harv.Value.action);
-			int id = harvestMenu.ItemCount - 1;
-			harvestMenu.SetItemMetadata(id, harv.Key);
+			foreach (var harv in GameData.HARVEST)
+			{
+				if (harv.Value.resource == node)
+				{
+					harvestMenu.AddItem(harv.Value.action);
+					int id = harvestMenu.ItemCount - 1;
+					harvestMenu.SetItemMetadata(id, harv.Key);
+					break;
+				}
+			}
 		}
 		
 		int idx = harvestMenu.GetSelectedId();
