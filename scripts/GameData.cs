@@ -1044,6 +1044,7 @@ public class BuildData
 {
 	public string name {get; set;}
 	public Dictionary<string, float> cost {get; set;}
+	public float durability {get; set;}
 	
 	[System.Text.Json.Serialization.JsonPropertyName("starting amount")]
 	public int startingAmount {get; set;}
@@ -1055,6 +1056,7 @@ public class BuildData
 	{
 		name = "No Name";
 		cost = new Dictionary<string, float>();
+		durability = 1f;
 		startingAmount = 0;
 		available = false;
 		description = "No description";
@@ -1347,6 +1349,7 @@ public class Buildable
 	public string id {get; protected set;}
 	public bool active {get; protected set;}
 	public float wear {get; protected set;}
+	public float durability {get; protected set;}
 	public float diagnosedWear {get; protected set;}
 	public float maxWear {get; protected set;}
 	public Dictionary<string, float> repairComponents {get; protected set;} = new();
@@ -1359,6 +1362,17 @@ public class Buildable
 		active = false;
 		
 		wear = 0f;
+		durability = 1f;
+		
+		if (GameData.MACHINES.ContainsKey(id))
+		{
+			durability = GameData.MACHINES[id].durability;
+		}
+		else if (GameData.INFRASTRUCTURE.ContainsKey(id))
+		{
+			durability = GameData.INFRASTRUCTURE[id].durability;
+		}
+		
 		diagnosedWear = 0f;
 		maxWear = 0f;
 	}
@@ -1377,7 +1391,8 @@ public class Buildable
 	public void Damage(float dmg)
 	{
 		//Damage the machine and increase wear.
-		wear = Math.Min(wear + dmg, maxWear);
+		float modDmg = dmg / durability;
+		wear = Math.Min(wear + modDmg, maxWear);
 	}
 	
 	public void Repair()
@@ -1724,7 +1739,7 @@ public class Machine : Buildable
 			//Damage the machine according to the ratio.
 			if (!GameData.disableWear)
 			{
-				Damage(0.001f * ratio);
+				Damage(1f * ratio);
 			}
 		}
 		
