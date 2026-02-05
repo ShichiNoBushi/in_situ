@@ -453,3 +453,11 @@ offset_top = 696.0
 offset_right = 243.0
 offset_bottom = 727.0
 text = "Disable Storage"
+
+[node name="DisableSizeCheck" type="CheckBox" parent="TabContainer/Options"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 727.0
+offset_right = 180.0
+offset_bottom = 758.0
+text = "Disable Size"

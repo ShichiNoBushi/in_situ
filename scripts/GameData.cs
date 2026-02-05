@@ -64,6 +64,7 @@ public partial class GameData : Node
 	public static CheckBox unlockRecipesCheck;
 	public static CheckBox disableWearCheck;
 	public static CheckBox disableStorageCheck;
+	public static CheckBox disableSizeCheck;
 	
 	//A variable to test if a feature is functioning (possibly no longer necessary).
 	private static bool questUpdateFunctioning;
@@ -73,6 +74,7 @@ public partial class GameData : Node
 	public static bool unlockAllRecipes;
 	public static bool disableWear;
 	public static bool disableStorage;
+	public static bool disableSize;
 	
 	public override void _Ready()
 	{
@@ -135,10 +137,12 @@ public partial class GameData : Node
 		unlockRecipesCheck = GetNode<CheckBox>("../TabContainer/Options/UnlockRecipesCheck");
 		disableWearCheck = GetNode<CheckBox>("../TabContainer/Options/DisableWearCheck");
 		disableStorageCheck = GetNode<CheckBox>("../TabContainer/Options/DisableStorageCheck");
+		disableSizeCheck = GetNode<CheckBox>("../TabContainer/Options/DisableSizeCheck");
 		unlockMachinesCheck.Toggled += ToggleUnlockMachines;
 		unlockRecipesCheck.Toggled += ToggleUnlockRecipes;
 		disableWearCheck.Toggled += ToggleWear;
 		disableStorageCheck.Toggled += ToggleStorage;
+		disableSizeCheck.Toggled += ToggleSize;
 		
 		//Possibly unnecessary test variable.
 		questUpdateFunctioning = true;
@@ -148,6 +152,7 @@ public partial class GameData : Node
 		unlockAllRecipes = false;
 		disableWear = false;
 		disableStorage = false;
+		disableSize = false;
 		
 		UpdateQuestTracking();
 		
@@ -220,6 +225,11 @@ public partial class GameData : Node
 	public void ToggleStorage(bool isChecked)
 	{
 		disableStorage = isChecked;
+	}
+	
+	public void ToggleSize(bool isChecked)
+	{
+		disableSize = isChecked;
 	}
 	
 	public static T LoadJson<T>(string filepath)
@@ -1045,6 +1055,7 @@ public class BuildData
 	public string name {get; set;}
 	public Dictionary<string, float> cost {get; set;}
 	public float durability {get; set;}
+	public float size {get; set;}
 	
 	[System.Text.Json.Serialization.JsonPropertyName("starting amount")]
 	public int startingAmount {get; set;}
@@ -1057,6 +1068,7 @@ public class BuildData
 		name = "No Name";
 		cost = new Dictionary<string, float>();
 		durability = 1f;
+		size = 1f;
 		startingAmount = 0;
 		available = false;
 		description = "No description";
@@ -1193,6 +1205,8 @@ public class Region
 	public int coordX;
 	public int coordY;
 	
+	public float space;
+	
 	public float wind;
 	public float windMax;
 	public float windK;
@@ -1218,6 +1232,8 @@ public class Region
 		regData = data;
 		coordX = coord.x;
 		coordY = coord.y;
+		
+		space = 100 / regData.roughness;
 		
 		windMax = (regData.elevation * 0.2f) + regData.pressure + regData.roughness;
 		windK = regData.roughness * 0.1f;
@@ -1299,6 +1315,26 @@ public class Region
 		return Math.Max(0f, maxStorage[phase].amount - TotalStored(phase));
 	}
 	
+	public float SpaceOccupied()
+	{
+		float total = 0f;
+		foreach (var mach in machines)
+		{
+			total += mach.size;
+		}
+		foreach (var infra in infrastructure)
+		{
+			total += infra.size;
+		}
+		
+		return total;
+	}
+	
+	public float SpaceAvailable()
+	{
+		return Math.Max(0f, space - SpaceOccupied());
+	}
+	
 	public void Tick(double delta)
 	{
 		foreach (var mach in machines)
@@ -1350,6 +1386,7 @@ public class Buildable
 	public bool active {get; protected set;}
 	public float wear {get; protected set;}
 	public float durability {get; protected set;}
+	public float size {get; protected set;}
 	public float diagnosedWear {get; protected set;}
 	public float maxWear {get; protected set;}
 	public Dictionary<string, float> repairComponents {get; protected set;} = new();
@@ -1363,14 +1400,17 @@ public class Buildable
 		
 		wear = 0f;
 		durability = 1f;
+		size = 1f;
 		
 		if (GameData.MACHINES.ContainsKey(id))
 		{
 			durability = GameData.MACHINES[id].durability;
+			size = GameData.MACHINES[id].size;
 		}
 		else if (GameData.INFRASTRUCTURE.ContainsKey(id))
 		{
 			durability = GameData.INFRASTRUCTURE[id].durability;
+			size = GameData.INFRASTRUCTURE[id].size;
 		}
 		
 		diagnosedWear = 0f;

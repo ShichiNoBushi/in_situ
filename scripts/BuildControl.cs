@@ -287,11 +287,28 @@ public partial class BuildControl : Control
 			return;
 		}
 		
+		if (!GameData.disableSize && GameData.currentRegion.SpaceAvailable() <= 0f)
+		{
+			GD.Print("BuildControl: no space available");
+			return;
+		}
+		
 		InfrastructureData infra = selectedBuildable as InfrastructureData;
 		
 		if (infra != null && infra.type == "conveyer" && neighborMenu.ItemCount == 0)
 		{
 			GD.Print("BuildControl: no explored neighboring regions to build conveyer");
+			return;
+		}
+		
+		int idx = neighborMenu.GetSelected();
+		Vector2I coordV2 = (Vector2I)neighborMenu.GetItemMetadata(idx);
+		(int x, int y) coord = (coordV2.X, coordV2.Y);
+		Region neighbor = GameData.regionMap[coord];
+		
+		if (infra != null && !GameData.disableSize && idx >= 0 && neighbor.SpaceAvailable() <= 0f)
+		{
+			GD.Print("BuildControl: no space available for conveyer");
 			return;
 		}
 		
@@ -427,6 +444,8 @@ public partial class BuildControl : Control
 				resourceCost += $"\n[cell]{resData.abbreviation}[/cell][cell]:[/cell][cell][right]{GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key)}[/right][/cell][cell]/[/cell][cell][right]{GameData.FormatUnit(res.Value, res.Key)}[/right][/cell]";
 				//resourceCost += $"\n{resData.abbreviation}\t{GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key)} /\t{GameData.FormatUnit(res.Value, res.Key)}";
 			}
+			
+			resourceCost += $"\n\n[cell]Space[/cell][cell]:[/cell][cell][right]{selectedBuildable.size}[/right][/cell][cell]/[/cell][cell][right]{GameData.currentRegion.SpaceAvailable()}[/right][/cell]";
 			
 			resourceCost += "\n[/table]";
 			

@@ -77,6 +77,8 @@ public partial class TravelControl : Control
 		
 		features += $"Wind: {selected.wind:0.00}\nSolar: {selected.solar:0.00}\n\n";
 		
+		features += $"Space: {selected.SpaceOccupied()} / {selected.space}\n\n";
+		
 		features += "Resourse Deposits:";
 		if (selected.nodes.Count > 0)
 		{
