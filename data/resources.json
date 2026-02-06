@@ -23,6 +23,18 @@
 		"value": 0.2,
 		"description": "An alcaline metal used to store charge."
 	},
+	"boron": {
+		"name": "Boron",
+		"abbreviation": "El-B",
+		"type": "element",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"boron": 1.0},
+		"value": 0.2,
+		"description": "An element useful for p-doping."
+	},
 	"carbon": {
 		"name": "Carbon",
 		"abbreviation": "El-C",
@@ -70,6 +82,18 @@
 		"scrap": {"silicon": 1.0},
 		"value": 0.5,
 		"description": "A metaloid used for electronic components."
+	},
+	"phosphorus": {
+		"name": "Phosphorus",
+		"abbreviation": "El-P",
+		"type": "element",
+		"subtypes": ["nonmetal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"phosphorus": 1.0},
+		"value": 0.5,
+		"description": "A nonmetal useful in fertilizer."
 	},
 	"chlorine": {
 		"name": "Chlorine",
@@ -119,6 +143,30 @@
 		"value": 100.0,
 		"description": "A radioactive rare earth metal used in nuclear fission reactions."
 	},
+	"p-doped silicon": {
+		"name": "P-Doped Silicon",
+		"abbreviation": "P-Si",
+		"type": "alloy",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"p-doped silicon": 1.0},
+		"value": 2.0,
+		"description": "Silicon with boron impurities."
+	},
+	"n-doped silicon": {
+		"name": "N-Doped Silicon",
+		"abbreviation": "N-Si",
+		"type": "alloy",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"n-doped silicon": 1.0},
+		"value": 2.0,
+		"description": "Silicon with phosphorus impurities."
+	},
 	"stone": {
 		"name": "Stone",
 		"abbreviation": "Stone",
@@ -130,6 +178,30 @@
 		"scrap": {"gravel": 1.0},
 		"value": 0.1,
 		"description": "A common mineral on rocky planets."
+	},
+	"boron ore": {
+		"name": "Boron Ore",
+		"abbreviation": "BOre",
+		"type": "compound",
+		"subtypes": ["mineral"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"boron ore": 1.0},
+		"value": 0.2,
+		"description": "An ore mineral containing boron."
+	},
+	"phosphate ore": {
+		"name": "Phosphate Ore",
+		"abbreviation": "POre",
+		"type": "compound",
+		"subtypes": ["mineral"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"phosphate ore": 1.0},
+		"value": 0.2,
+		"description": "An ore mineral containing phosphorus."
 	},
 	"iron ore": {
 		"name": "Iron Ore",
@@ -574,6 +646,18 @@
 		"scrap": {"stone dust": 0.25, "copper scrap": 0.75},
 		"value": 0.7,
 		"description": "An electronic component to store energy."
+	},
+	"transistor": {
+		"name": "Transistor",
+		"abbreviation": "Trans",
+		"type": "component",
+		"subtypes": ["electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"p-doped silicon": 0.4, "n-doped silicon": 0.4, "copper scrap": 0.2},
+		"value": 5.0,
+		"description": "An electronic component for computing."
 	},
 	"insulating substrate": {
 		"name": "Insulating Substrate",

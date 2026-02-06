@@ -44,6 +44,42 @@
 		"local": "",
 		"description": "Smelts copper ore into raw copper."
 	},
+	"refine boron": {
+		"name": "Refine Boron",
+		"inputs": {"boron ore": 5, "energy": 1},
+		"outputs": {"boron": 3},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Smelts boron ore into raw boron."
+	},
+	"refine phosphorus": {
+		"name": "Refine Phosphorus",
+		"inputs": {"phosphate ore": 5, "energy": 1},
+		"outputs": {"phosphorus": 3},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Smelts phosphate ore into raw phosphorus."
+	},
+	"p-dope silicon": {
+		"name": "P-Dope Silicon",
+		"inputs": {"boron": 1, "silicon": 1, "energy": 1},
+		"outputs": {"p-doped silicon": 2},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Dopes silicon with boron impurities for transistors."
+	},
+	"n-dope silicon": {
+		"name": "N-Dope Silicon",
+		"inputs": {"phosphorus": 1, "silicon": 1, "energy": 1},
+		"outputs": {"n-doped silicon": 2},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Dopes silicon with phosphorus impurities for transistors."
+	},
 	"iron gear small print": {
 		"name": "Iron Gear (Small; Printer)",
 		"inputs": {"iron wire": 1, "energy": 0.5},
@@ -214,6 +250,15 @@
 		"machines": ["parts assembler"],
 		"local": "",
 		"description": "Craft a capacitor to use in electronics."
+	},
+	"transistor": {
+		"name": "Transistor",
+		"inputs": {"copper wire": 1, "p-doped silicon": 2, "n-doped silicon": 2, "energy": 2},
+		"outputs": {"transistor": 5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a transistor to use in electronics."
 	},
 	"control board": {
 		"name": "Control Board",

@@ -233,7 +233,7 @@ public partial class MachinePanel : Control
 	
 	private void DisplayRecipeResources()
 	{
-		if (GameData.RECIPES.ContainsKey(machine.currentRecipe) && GameData.RECIPES[machine.currentRecipe].available)
+		if (GameData.unlockAllRecipes || GameData.RECIPES.ContainsKey(machine.currentRecipe) && GameData.RECIPES[machine.currentRecipe].available)
 		{
 			RecipeData recipe = GameData.RECIPES[machine.currentRecipe];
 			
@@ -245,7 +245,7 @@ public partial class MachinePanel : Control
 			string inputDisplay = "Input:";
 			//string availableDisplay = "";
 			
-			if (recipe.available && inputs.Count > 0)
+			if ((GameData.unlockAllRecipes || recipe.available) && inputs.Count > 0)
 			{
 				inputDisplay += "\n[table=5]";
 				foreach(var res in inputs)
@@ -270,7 +270,7 @@ public partial class MachinePanel : Control
 			string outputDisplay = "Output:";
 			//string producedDisplay = "";
 			
-			if (recipe.available && outputs.Count > 0)
+			if ((GameData.unlockAllRecipes || recipe.available) && outputs.Count > 0)
 			{
 				outputDisplay += "\n[table=3]";
 				
