@@ -49,10 +49,11 @@ public partial class LogisticsControl : Control
 		}
 		
 		string resID = (string)logResourceMenu.GetItemMetadata(idx);
-		string formatted = GameData.FormatUnit(GameData.currentRegion.resources[resID], resID);
+		float available = GameData.currentRegion.resources.ContainsKey(resID) ? GameData.currentRegion.resources[resID] : 0f;
+		string formatted = GameData.FormatUnit(available, resID);
 		logResourceLabel.Text = formatted;
 		
-		logResourceSpin.MaxValue = GameData.currentRegion.resources[resID];
+		logResourceSpin.MaxValue = available;
 		
 		DisplayOrders();
 	}
@@ -131,6 +132,7 @@ public partial class LogisticsControl : Control
 	
 	public void SendOrder()
 	{
+		bool updateResources = false;
 		int idx = logisticsList.GetSelectedItems()[0];
 		var meta = GetInfraMeta(idx);
 		Region reg = meta.region;
@@ -145,7 +147,7 @@ public partial class LogisticsControl : Control
 		int resIdx = logResourceMenu.GetSelected();
 		string resource = (string)logResourceMenu.GetItemMetadata(resIdx);
 		
-		float available = reg.resources[resource];
+		float available = reg.resources.ContainsKey(resource) ? reg.resources[resource] : 0f;
 		float amount = (float)logResourceSpin.Value;
 		
 		if (amount <= 0f || amount > available)
@@ -156,6 +158,15 @@ public partial class LogisticsControl : Control
 		
 		GD.Print($"LogisticsOrder: Creating order of {GameData.FormatUnit(amount, resource)} of {GameData.RESOURCES[resource].name}");
 		reg.resources[resource] -= amount;
+		
+		if (reg.resources[resource] <= 0f)
+		{
+			reg.resources.Remove(resource);
+			if (reg == GameData.currentRegion)
+			{
+				GameData.resourceControl.UpdateResourcePanels();
+			}
+		}
 		
 		LogisticOrder order = new(resource, amount);
 		infra.GiveOutput(order);

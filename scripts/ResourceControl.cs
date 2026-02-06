@@ -12,12 +12,45 @@ public partial class ResourceControl : VBoxContainer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		UpdateResourcePanels();
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		/*foreach(var res in GameData.currentRegion.resources)
+		{
+			rlabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
+		}*/
+		
+		foreach (var lab in rlabels)
+		{
+			if (GameData.currentRegion.resources.ContainsKey(lab.Key))
+			{
+				lab.Value.Text = GameData.FormatUnit(GameData.currentRegion.resources[lab.Key], lab.Key);
+			}
+			else
+			{
+				lab.Value.Text = GameData.FormatUnit(0f, lab.Key);
+			}
+		}
+	}
+	
+	public void UpdateResourcePanels()
+	{
+		rlabels.Clear();
+		
+		foreach (var child in GetChildren())
+		{
+			child.QueueFree();
+		}
+		
 		Dictionary<string, int> typesCount = new();
 		Dictionary<string, Control> typePanels = new();
 		
-		foreach (var res in GameData.RESOURCES)
+		foreach (var res in GameData.currentRegion.resources)
 		{
-			string type = res.Value.type;
+			string type = GameData.RESOURCES[res.Key].type;
 			Control tPanel;
 			
 			if (typesCount.ContainsKey(type))
@@ -36,14 +69,12 @@ public partial class ResourceControl : VBoxContainer
 				AddChild(tPanel);
 			}
 			
-			//GD.Print($"ResourceControl: Loaded resource {res.Value.name} with type {res.Value.type}");
-			
 			Control rLabel = ResourceLabelScene.Instantiate<Control>();
 			Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
 			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
 			
-			nLabel.Text = res.Value.name;
-			aLabel.Text = GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key);
+			nLabel.Text = GameData.RESOURCES[res.Key].name;
+			aLabel.Text = GameData.FormatUnit(res.Value, res.Key);
 			
 			rlabels[res.Key] = aLabel;
 			
@@ -61,15 +92,6 @@ public partial class ResourceControl : VBoxContainer
 			int height = labelHeight * (count + 1);
 			panel.CustomMinimumSize = new Vector2(panel.CustomMinimumSize.X, height);
 			tPanel.Value.CustomMinimumSize = new Vector2(tPanel.Value.CustomMinimumSize.X, height + 8);
-		}
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		foreach(var res in GameData.currentRegion.resources)
-		{
-			rlabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
 		}
 	}
 }

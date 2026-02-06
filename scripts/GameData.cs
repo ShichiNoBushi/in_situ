@@ -299,7 +299,10 @@ public partial class GameData : Node
 		//Initialize resource quantities based on starting value in JSON data in the starting location.
 		foreach(var res in RESOURCES)
 		{
-			regionMap[(0, 0)].resources[res.Key] = res.Value.startingAmount;
+			if (res.Value.startingAmount > 0)
+			{
+				regionMap[(0, 0)].resources[res.Key] = res.Value.startingAmount;
+			}
 		}
 	}
 	
@@ -809,6 +812,7 @@ public partial class GameData : Node
 		}
 		
 		//Update displays.
+		resourceControl.UpdateResourcePanels();
 		travelControl.UpdateRegions();
 		travelControl.DisplayFeatures();
 		
@@ -1266,7 +1270,7 @@ public class Region
 		//Create an empty storage of resources in the region.
 		foreach (var res in GameData.RESOURCES)
 		{
-			resources[res.Key] = 0f;
+			//resources[res.Key] = 0f;
 			
 			if (!maxStorage.ContainsKey(res.Value.phase))
 			{
@@ -1717,6 +1721,8 @@ public class Machine : Buildable
 	
 	public override void Tick(double delta)
 	{
+		bool updateResources = false;
+		
 		if (active && (GameData.disableStorage || outputBuffer.Count == 0) && (GameData.disableWear || wear < maxWear) && GameData.RECIPES.ContainsKey(currentRecipe))
 		{
 			//Create a ratio value based on if recipe can be crafted.
@@ -1727,6 +1733,7 @@ public class Machine : Buildable
 				//Create references to recipe and input resources.
 				RecipeData recipe = GameData.RECIPES[currentRecipe];
 				Dictionary<string, float> inputs = recipe.inputs;
+				List<string> removed = new();
 				
 				if (recipe.local == "wind")
 				{
@@ -1741,6 +1748,11 @@ public class Machine : Buildable
 				{
 					//Remove resource from region's storage used in the recipe according to the ratio.
 					location.resources[res.Key] = Math.Max(0f, location.resources[res.Key] - res.Value * (float)delta * ratio);
+					if (location.resources[res.Key] <= 0f)
+					{
+						removed.Add(res.Key);
+						updateResources = true;
+					}
 				}
 				
 				//Create reference to recipe's output.
@@ -1754,7 +1766,17 @@ public class Machine : Buildable
 					if (!GameData.disableStorage)
 					{
 						float stored = Math.Min(outputVolume, location.TotalAvailable(resPhase));
-						location.resources[res.Key] += stored;
+						
+						if (location.resources.ContainsKey(res.Key))
+						{
+							location.resources[res.Key] += stored;
+						}
+						else if (stored > 0f)
+						{
+							location.resources[res.Key] = stored;
+							updateResources = true;
+						}
+						
 						float remainder = outputVolume - stored;
 						
 						if (remainder > 0f)
@@ -1763,7 +1785,7 @@ public class Machine : Buildable
 							{
 								outputBuffer[res.Key] += remainder;
 							}
-							else
+							else if (remainder > 0f)
 							{
 								outputBuffer[res.Key] = remainder;
 							}
@@ -1771,7 +1793,24 @@ public class Machine : Buildable
 					}
 					else
 					{
-						location.resources[res.Key] += outputVolume;
+						if (location.resources.ContainsKey(res.Key))
+						{
+							location.resources[res.Key] += outputVolume;
+						}
+						else
+						{
+							location.resources[res.Key] = outputVolume;
+							updateResources = true;
+						}
+					}
+				}
+				
+				foreach (var res in removed)
+				{
+					if (location.resources[res] <= 0f)
+					{
+						location.resources.Remove(res);
+						updateResources = true;
 					}
 				}
 			}
@@ -1790,7 +1829,17 @@ public class Machine : Buildable
 			if (!GameData.disableStorage && location.TotalAvailable(resPhase) > 0f)
 			{
 				float stored = Math.Min(res.Value, location.TotalAvailable(resPhase));
-				location.resources[res.Key] += stored;
+				
+				if (location.resources.ContainsKey(res.Key))
+				{
+					location.resources[res.Key] += stored;
+				}
+				else if (stored > 0f)
+				{
+					location.resources[res.Key] = stored;
+					updateResources = true;
+				}
+				
 				outputBuffer[res.Key] -= stored;
 				
 				if (outputBuffer[res.Key] <= 0f)
@@ -1800,7 +1849,15 @@ public class Machine : Buildable
 			}
 			else if (GameData.disableStorage)
 			{
-				location.resources[res.Key] += res.Value;
+				if (location.resources.ContainsKey(res.Key))
+				{
+					location.resources[res.Key] += res.Value;
+				}
+				else if (res.Value > 0f)
+				{
+					location.resources[res.Key] = res.Value;
+					updateResources = true;
+				}
 				removeBuffer.Add(res.Key);
 			}
 		}
@@ -1808,6 +1865,11 @@ public class Machine : Buildable
 		foreach (var res in removeBuffer)
 		{
 			outputBuffer.Remove(res);
+		}
+		
+		if (updateResources && location == GameData.currentRegion)
+		{
+			GameData.resourceControl.UpdateResourcePanels();
 		}
 	}
 	
@@ -1923,6 +1985,8 @@ public class Infrastructure : Buildable
 	
 	private void TickHub(float thruMod)
 	{
+		bool updateResources = false;
+		
 		CompactOrders();
 		
 		if (input.Count > 0)
@@ -1934,6 +1998,11 @@ public class Infrastructure : Buildable
 				if (location.resources.ContainsKey(ord.resource))
 				{
 					location.resources[ord.resource] += ord.amount;
+				}
+				else if (ord.amount > 0f)
+				{
+					location.resources[ord.resource] = ord.amount;
+					updateResources = true;
 				}
 			}
 			input.Clear();
@@ -2035,10 +2104,17 @@ public class Infrastructure : Buildable
 			
 			conveyers.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
 		}
+		
+		if (updateResources && location == GameData.currentRegion)
+		{
+			GameData.resourceControl.UpdateResourcePanels();
+		}
 	}
 	
 	private void TickConveyer(float thruMod)
 	{
+		bool updateResources = false;
+		
 		CompactOrders();
 		
 		float inpMod = thruMod;
@@ -2050,7 +2126,15 @@ public class Infrastructure : Buildable
 			{
 				foreach (var ord in input)
 				{
-					location.resources[ord.resource] += ord.amount;
+					if (location.resources.ContainsKey(ord.resource))
+					{
+						location.resources[ord.resource] += ord.amount;
+					}
+					else if (ord.amount > 0f)
+					{
+						location.resources[ord.resource] = ord.amount;
+						updateResources = true;
+					}
 				}
 				
 				input.Clear();
@@ -2120,7 +2204,15 @@ public class Infrastructure : Buildable
 				}
 				else
 				{
-					location.resources[ord.resource] += ord.amount;
+					if (location.resources.ContainsKey(ord.resource))
+					{
+						location.resources[ord.resource] += ord.amount;
+					}
+					else if (ord.amount > 0f)
+					{
+						location.resources[ord.resource] = ord.amount;
+						updateResources = true;
+					}
 				}
 			}
 			output.Clear();
@@ -2199,6 +2291,11 @@ public class Infrastructure : Buildable
 			}
 			
 			convAndHubs.Sort((a, b) => a.lastServed.CompareTo(b.lastServed));
+		}
+		
+		if (updateResources && location == GameData.currentRegion)
+		{
+			GameData.resourceControl.UpdateResourcePanels();
 		}
 	}
 	

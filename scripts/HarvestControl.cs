@@ -108,7 +108,15 @@ public partial class HarvestControl : Control
 		
 		String res = harvestAction.resource;
 		
-		GameData.currentRegion.resources[res] += harvestAction.amount;
+		if (GameData.currentRegion.resources.ContainsKey(res))
+		{
+			GameData.currentRegion.resources[res] += harvestAction.amount;
+		}
+		else
+		{
+			GameData.currentRegion.resources[res] = harvestAction.amount;
+			GameData.resourceControl.UpdateResourcePanels();
+		}
 		
 		harvestProgress.Value = 0;
 		harvestButton.Disabled = false;
