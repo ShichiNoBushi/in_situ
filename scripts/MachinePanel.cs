@@ -251,7 +251,7 @@ public partial class MachinePanel : Control
 				foreach(var res in inputs)
 				{
 					string resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
-					string availResForm = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
+					string availResForm = machine.location.resources.ContainsKey(res.Key) ? GameData.FormatUnit(machine.location.resources[res.Key], res.Key) : GameData.FormatUnit(0f, res.Key);
 					string inputResForm = GameData.FormatUnit(res.Value, res.Key);
 					//inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
 					inputDisplay += $"\n[cell]{resAbbrev}[/cell][cell]:[/cell][cell][right]{availResForm}[/right][/cell][cell]/[/cell][cell][right]{inputResForm}[/right][/cell]";
@@ -328,7 +328,7 @@ public partial class MachinePanel : Control
 		{
 			foreach (var res in machine.repairComponents)
 			{
-				string available = GameData.FormatUnit(machine.location.resources[res.Key], res.Key);
+				string available = machine.location.resources.ContainsKey(res.Key) ? GameData.FormatUnit(machine.location.resources[res.Key], res.Key) : GameData.FormatUnit(0f, res.Key);
 				string needed = GameData.FormatUnit(res.Value, res.Key);
 				text += $"\n{GameData.RESOURCES[res.Key].name} {available} / {needed}";
 			}

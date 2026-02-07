@@ -10,6 +10,7 @@
 		"energy cost": 0.5,
 		"starting amount": 0,
 		"available": false,
+		"sort": [0, 0],
 		"description": "Distributes solid and fluid resources between regions."
 	},
 	"substation": {
@@ -23,6 +24,7 @@
 		"energy cost": 0.0,
 		"starting amount":  0,
 		"available": false,
+		"sort": [0, 1],
 		"description": "Distributes electricity to local region"
 	},
 	"conveyer bus": {
@@ -36,6 +38,7 @@
 		"energy cost": 0.1,
 		"starting amount": 0,
 		"available": false,
+		"sort": [1, 0],
 		"description": "Transports solid resources between regions."
 	},
 	"pipeline": {
@@ -49,6 +52,7 @@
 		"energy cost": 0.1,
 		"starting amount": 0,
 		"available": false,
+		"sort": [1, 1],
 		"description": "Transports liquid and gas resources between regions."
 	},
 	"power conduit": {
@@ -62,6 +66,7 @@
 		"energy cost": 0,
 		"starting amount": 0,
 		"available": false,
+		"sort": [1, 2],
 		"description": "Transmits high-voltage power between regions."
 	},
 	"stockpile": {
@@ -75,6 +80,7 @@
 		"energy cost": 0.0,
 		"starting amount": 1,
 		"available": true,
+		"sort": [2, 0, 0],
 		"description": "Area designated for storing solid resources."
 	},
 	"warehouse": {
@@ -88,6 +94,7 @@
 		"energy cost": 0.0,
 		"starting amount": 0,
 		"available": false,
+		"sort": [2, 0, 1],
 		"description": "A building to store and organize a larger amount of solid resources."
 	},
 	"small liquid tank": {
@@ -101,6 +108,7 @@
 		"energy cost": 0.0,
 		"starting amount": 0,
 		"available": false,
+		"sort": [2, 1, 0],
 		"description": "Stores fluids safely."
 	},
 	"small gas tank": {
@@ -114,6 +122,7 @@
 		"energy cost": 0.0,
 		"starting amount": 0,
 		"available": false,
+		"sort": [2, 2, 0],
 		"description": "Stores fluids safely."
 	},
 	"lithium battery": {
@@ -127,6 +136,7 @@
 		"energy cost": 0.0,
 		"starting amount": 1,
 		"available": false,
+		"sort": [2, 3, 0],
 		"description": "Stores electrical energy for later use."
 	},
 	"mechanical accumulator": {
@@ -140,6 +150,7 @@
 		"energy cost": 0.0,
 		"starting amount": 0,
 		"available": false,
+		"sort": [2, 3, 1],
 		"description": "Uses motors and heavy weights to store energy as mechanical potential energy and releases it to generate and release it."
 	}
 }

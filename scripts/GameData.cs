@@ -812,6 +812,7 @@ public partial class GameData : Node
 		}
 		
 		//Update displays.
+		SortResources(currentRegion.resources);
 		resourceControl.UpdateResourcePanels();
 		travelControl.UpdateRegions();
 		travelControl.DisplayFeatures();
@@ -1001,6 +1002,99 @@ public partial class GameData : Node
 		buildControl.UpdateNeighborMenu();
 	}
 	
+	public static void SortResources(Dictionary<string, float> resources)
+	{
+		Dictionary<string, float> clone = new Dictionary<string, float>(resources);
+		List<string> resKeys = resources.Keys.ToList();
+		
+		resKeys.Sort(CompareResources);
+		
+		resources.Clear();
+		
+		foreach (var res in resKeys)
+		{
+			resources[res] = clone[res];
+		}
+	}
+	
+	public static int CompareResources(string x, string y)
+	{
+		ResourceData resX = GameData.RESOURCES[x];
+		ResourceData resY = GameData.RESOURCES[y];
+		
+		for (int i = 0; i < resX.sort.Count; i++)
+		{
+			if (resY.sort.Count <= i)
+			{
+				return resX.sort[i];
+			}
+			
+			if (resX.sort[i] != resY.sort[i])
+			{
+				return resX.sort[i] - resY.sort[i];
+			}
+		}
+		
+		if (resX.sort.Count < resY.sort.Count)
+		{
+			return -(resY.sort[resX.sort.Count]);
+		}
+		
+		return 0;
+	}
+	
+	public static int CompareMachines(Machine x, Machine y)
+	{
+		MachineData machX = GameData.MACHINES[x.id];
+		MachineData machY = GameData.MACHINES[y.id];
+		
+		for (int i = 0; i < machX.sort.Count; i++)
+		{
+			if (machY.sort.Count < machX.sort.Count)
+			{
+				return machX.sort[i];
+			}
+			
+			if (machX.sort[i] != machY.sort[i])
+			{
+				return machX.sort[i] - machY.sort[i];
+			}
+		}
+		
+		if (machX.sort.Count < machY.sort.Count)
+		{
+			return -(machY.sort[machX.sort.Count]);
+		}
+		
+		return 0;
+	}
+	
+	public static int CompareInfrastructure(Infrastructure x, Infrastructure y)
+	{
+		InfrastructureData infraX = GameData.INFRASTRUCTURE[x.id];
+		InfrastructureData infraY = GameData.INFRASTRUCTURE[y.id];
+		
+		for (int i = 0; i < infraX.sort.Count; i++)
+		{
+			if (infraY.sort.Count < infraX.sort.Count)
+			{
+				return infraX.sort[i];
+			}
+			
+			if (infraX.sort[i] != infraY.sort[i])
+			{
+				return infraX.sort[i] - infraY.sort[i];
+			}
+		}
+		
+		if (infraX.sort.Count < infraY.sort.Count)
+		{
+			return -(infraY.sort[infraX.sort.Count]);
+		}
+		
+		return 0;
+	}
+	
 	public static float RandNormal(float mean, float stddev)
 	{
 		float u1 = Mathf.Max(rng.Randf(), 1e-7f);
@@ -1022,8 +1116,9 @@ public class ResourceData
 	[System.Text.Json.Serialization.JsonPropertyName("starting amount")]
 	public float startingAmount {get; set;}
 	
-	public float value {get; set;}
 	public Dictionary<string, float> scrap {get; set;}
+	public float value {get; set;}
+	public List<int> sort {get; set;}
 	public string description {get; set;}
 	
 	public ResourceData()
@@ -1035,6 +1130,9 @@ public class ResourceData
 		phase = "intangible";
 		unit = "u";
 		scrap = new Dictionary<string, float>();
+		value = 0f;
+		sort = new();
+		description = "No description";
 	}
 }
 
@@ -1057,6 +1155,7 @@ public class HarvestData
 public class BuildData
 {
 	public string name {get; set;}
+	public string type {get; set;}
 	public Dictionary<string, float> cost {get; set;}
 	public float durability {get; set;}
 	public float size {get; set;}
@@ -1065,11 +1164,13 @@ public class BuildData
 	public int startingAmount {get; set;}
 	
 	public bool available {get; set;}
+	public List<int> sort {get; set;}
 	public string description {get; set;}
 	
 	protected BuildData()
 	{
 		name = "No Name";
+		type = "untyped";
 		cost = new Dictionary<string, float>();
 		durability = 1f;
 		size = 1f;
@@ -1089,7 +1190,6 @@ public class MachineData : BuildData
 
 public class InfrastructureData : BuildData
 {
-	public string type {get; set;}
 	public List<string> serves {get; set;}
 	public float through {get; set;}
 	
@@ -1098,7 +1198,6 @@ public class InfrastructureData : BuildData
 	
 	public InfrastructureData() : base()
 	{
-		type = "untyped";
 		serves = new();
 		through = 0f;
 		energyCost = 0f;
@@ -1387,10 +1486,12 @@ public class Buildable
 {
 	//A parent class for buildable elements such as machines.
 	public string id {get; protected set;}
+	public string name {get; protected set;}
 	public bool active {get; protected set;}
 	public float wear {get; protected set;}
 	public float durability {get; protected set;}
 	public float size {get; protected set;}
+	public List<int> sort {get; protected set;}
 	public float diagnosedWear {get; protected set;}
 	public float maxWear {get; protected set;}
 	public Dictionary<string, float> repairComponents {get; protected set;} = new();
@@ -1399,22 +1500,28 @@ public class Buildable
 	protected Buildable(string buildableID, Region loc)
 	{
 		id = buildableID;
+		name = "No name";
 		location = loc;
 		active = false;
 		
 		wear = 0f;
 		durability = 1f;
 		size = 1f;
+		sort = new();
 		
 		if (GameData.MACHINES.ContainsKey(id))
 		{
+			name = GameData.MACHINES[id].name;
 			durability = GameData.MACHINES[id].durability;
 			size = GameData.MACHINES[id].size;
+			sort = GameData.MACHINES[id].sort;
 		}
 		else if (GameData.INFRASTRUCTURE.ContainsKey(id))
 		{
+			name = GameData.INFRASTRUCTURE[id].name;
 			durability = GameData.INFRASTRUCTURE[id].durability;
 			size = GameData.INFRASTRUCTURE[id].size;
+			sort = GameData.INFRASTRUCTURE[id].sort;
 		}
 		
 		diagnosedWear = 0f;
@@ -1638,6 +1745,7 @@ public class Buildable
 			Diagnose();
 		}
 		
+		bool updateResources = false;
 		Dictionary<string, float> resources = location.resources;
 		
 		if (GameData.MACHINES.ContainsKey(id))
@@ -1647,11 +1755,27 @@ public class Buildable
 				GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
 				if (repairComponents.TryGetValue(res.Key, out float comp))
 				{
-					resources[res.Key] += res.Value - comp;
+					if (resources.ContainsKey(res.Key))
+					{
+						resources[res.Key] += res.Value - comp;
+					}
+					else if (res.Value - comp > 0f)
+					{
+						resources[res.Key] = res.Value - comp;
+						updateResources = true;
+					}
 				}
 				else
 				{
-					resources[res.Key] += res.Value;
+					if (resources.ContainsKey(res.Key))
+					{
+						resources[res.Key] += res.Value;
+					}
+					else if (res.Value > 0f)
+					{
+						resources[res.Key] = res.Value;
+						updateResources = true;
+					}
 				}
 			}
 		}
@@ -1662,11 +1786,27 @@ public class Buildable
 				GD.Print($"GameData: Checking if working components {GameData.RESOURCES[res.Key].name}");
 				if (repairComponents.TryGetValue(res.Key, out float comp))
 				{
-					resources[res.Key] += res.Value - comp;
+					if (resources.ContainsKey(res.Key))
+					{
+						resources[res.Key] += res.Value - comp;
+					}
+					else if (res.Value - comp > 0f)
+					{
+						resources[res.Key] = res.Value - comp;
+						updateResources = true;
+					}
 				}
 				else
 				{
-					resources[res.Key] += res.Value;
+					if (resources.ContainsKey(res.Key))
+					{
+						resources[res.Key] += res.Value;
+					}
+					else if (res.Value > 0f)
+					{
+						resources[res.Key] = res.Value;
+						updateResources = true;
+					}
 				}
 			}
 		}
@@ -1675,10 +1815,23 @@ public class Buildable
 		{
 			foreach (var scrap in GameData.RESOURCES[comp.Key].scrap)
 			{
-				resources[scrap.Key] += scrap.Value * comp.Value;
+				if (resources.ContainsKey(scrap.Key))
+				{
+					resources[scrap.Key] += scrap.Value * comp.Value;
+				}
+				else if (scrap.Value * comp.Value > 0f)
+				{
+					resources[scrap.Key] = scrap.Value * comp.Value;
+					updateResources = true;
+				}
 			}
 		}
 		
+		if (updateResources && location == GameData.currentRegion)
+		{
+			GameData.SortResources(location.resources);
+			GameData.resourceControl.UpdateResourcePanels();
+		}
 		location.UpdateStorage();
 	}
 }
@@ -1869,6 +2022,7 @@ public class Machine : Buildable
 		
 		if (updateResources && location == GameData.currentRegion)
 		{
+			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
 		}
 	}
@@ -2107,6 +2261,7 @@ public class Infrastructure : Buildable
 		
 		if (updateResources && location == GameData.currentRegion)
 		{
+			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
 		}
 	}
@@ -2295,6 +2450,7 @@ public class Infrastructure : Buildable
 		
 		if (updateResources && location == GameData.currentRegion)
 		{
+			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
 		}
 	}

@@ -256,13 +256,13 @@ public partial class BuildControl : Control
 		GD.Print("BuildControl: Checking resources...");
 		foreach(var res in selectedBuildable.cost)
 		{
-			if (!GameData.currentRegion.resources.ContainsKey(res.Key))
+			/*if (!GameData.currentRegion.resources.ContainsKey(res.Key))
 			{
 				GD.PrintErr($"BuildControl: Resource {res.Key} does not exist in GameData.currentRegion.resources");
 				return false;
-			}
+			}*/
 			
-			float available = GameData.currentRegion.resources[res.Key];
+			float available = GameData.currentRegion.resources.ContainsKey(res.Key) ? GameData.currentRegion.resources[res.Key] : 0f;
 			float required = res.Value;
 			
 			GD.Print($"BuildControl: Checking cost {GameData.RESOURCES[res.Key].name} have {available} need {required}");
@@ -301,6 +301,7 @@ public partial class BuildControl : Control
 			return;
 		}
 		
+		bool updateResources = false;
 		int idx = neighborMenu.GetSelected();
 		Vector2I coordV2 = (Vector2I)neighborMenu.GetItemMetadata(idx);
 		(int x, int y) coord = (coordV2.X, coordV2.Y);
@@ -321,9 +322,21 @@ public partial class BuildControl : Control
 			foreach(var res in selectedBuildable.cost)
 			{
 				GameData.currentRegion.resources[res.Key] -= res.Value;
+				
+				if (GameData.currentRegion.resources[res.Key] <= 0f)
+				{
+					GameData.currentRegion.resources.Remove(res.Key);
+					updateResources = true;
+				}
 			}
 			
 			building = true;
+		}
+		
+		if (updateResources)
+		{
+			GameData.SortResources(GameData.currentRegion.resources);
+			GameData.resourceControl.UpdateResourcePanels();
 		}
 	}
 	
@@ -337,6 +350,7 @@ public partial class BuildControl : Control
 			GD.Print($"BuildControl: Finishing build of machine {GameData.MACHINES[buildKey].name}");
 			Machine newMachine = new Machine(buildKey, GameData.currentRegion);
 			GameData.currentRegion.machines.Add(newMachine);
+			GameData.currentRegion.machines.Sort(GameData.CompareMachines);
 			GameData.machinesControl.AddMachinePanel(newMachine);
 		}
 		else if (buildType == "infra")
@@ -344,6 +358,7 @@ public partial class BuildControl : Control
 			GD.Print($"BuildControl: Finishing build of infrastructure {GameData.INFRASTRUCTURE[buildKey].name}");
 			Infrastructure newInfrastructure = new Infrastructure(buildKey, GameData.currentRegion);
 			GameData.currentRegion.infrastructure.Add(newInfrastructure);
+			GameData.currentRegion.infrastructure.Sort(GameData.CompareInfrastructure);
 			GD.Print($"BuildControl: Creating interface panel");
 			if (newInfrastructure == null)
 			{
@@ -379,6 +394,7 @@ public partial class BuildControl : Control
 				Region neighbor = GameData.regionMap[coord];
 				Infrastructure neighborInfra = new Infrastructure(buildKey, neighbor);
 				neighbor.infrastructure.Add(neighborInfra);
+				neighbor.infrastructure.Sort(GameData.CompareInfrastructure);
 				newInfrastructure.SetLink(neighborInfra);
 				neighborInfra.SetLink(newInfrastructure);
 			}
@@ -440,9 +456,8 @@ public partial class BuildControl : Control
 			foreach (var res in selectedBuildable.cost)
 			{
 				var resData = GameData.RESOURCES[res.Key];
-				//resourceCost += $"\n{resData.abbreviation} {GameData.currentRegion.resources[res.Key]} / {res.Value}";
-				resourceCost += $"\n[cell]{resData.abbreviation}[/cell][cell]:[/cell][cell][right]{GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key)}[/right][/cell][cell]/[/cell][cell][right]{GameData.FormatUnit(res.Value, res.Key)}[/right][/cell]";
-				//resourceCost += $"\n{resData.abbreviation}\t{GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key)} /\t{GameData.FormatUnit(res.Value, res.Key)}";
+				string available = GameData.currentRegion.resources.ContainsKey(res.Key) ? GameData.FormatUnit(GameData.currentRegion.resources[res.Key], res.Key) : GameData.FormatUnit(0f, res.Key);
+				resourceCost += $"\n[cell]{resData.abbreviation}[/cell][cell]:[/cell][cell][right]{available}[/right][/cell][cell]/[/cell][cell][right]{GameData.FormatUnit(res.Value, res.Key)}[/right][/cell]";
 			}
 			
 			resourceCost += $"\n\n[cell]Space[/cell][cell]:[/cell][cell][right]{selectedBuildable.size}[/right][/cell][cell]/[/cell][cell][right]{GameData.currentRegion.SpaceAvailable()}[/right][/cell]";

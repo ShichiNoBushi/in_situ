@@ -106,7 +106,16 @@ public partial class DevControl : Control
 				}
 			}
 			
-			GameData.currentRegion.resources[resName] += amount;
+			if (GameData.currentRegion.resources.ContainsKey(resName))
+			{
+				GameData.currentRegion.resources[resName] += amount;
+			}
+			else if (amount > 0f)
+			{
+				GameData.currentRegion.resources[resName] = amount;
+				GameData.SortResources(GameData.currentRegion.resources);
+				GameData.resourceControl.UpdateResourcePanels();
+			}
 			
 			String amountText = GameData.FormatUnit(amount, resName);
 			

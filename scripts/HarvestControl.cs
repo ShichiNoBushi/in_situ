@@ -115,6 +115,7 @@ public partial class HarvestControl : Control
 		else
 		{
 			GameData.currentRegion.resources[res] = harvestAction.amount;
+			GameData.SortResources(GameData.currentRegion.resources);
 			GameData.resourceControl.UpdateResourcePanels();
 		}
 		

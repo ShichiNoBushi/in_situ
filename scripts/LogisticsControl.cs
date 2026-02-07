@@ -132,7 +132,7 @@ public partial class LogisticsControl : Control
 	
 	public void SendOrder()
 	{
-		bool updateResources = false;
+		//bool updateResources = false;
 		int idx = logisticsList.GetSelectedItems()[0];
 		var meta = GetInfraMeta(idx);
 		Region reg = meta.region;
@@ -164,6 +164,7 @@ public partial class LogisticsControl : Control
 			reg.resources.Remove(resource);
 			if (reg == GameData.currentRegion)
 			{
+				GameData.SortResources(reg.resources);
 				GameData.resourceControl.UpdateResourcePanels();
 			}
 		}
