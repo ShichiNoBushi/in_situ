@@ -36,6 +36,7 @@ public partial class InfrastructurePanel : Control
 	{
 		InfrastructureData data = GameData.INFRASTRUCTURE[infrastructure.id];
 		nameLabel.Text = data.name;
+		activeButton.SetPressedNoSignal(infrastructure.active);
 		
 		DisplayMaintenance();
 		

@@ -45,6 +45,7 @@ public partial class MachinePanel : Control
 	{
 		MachineData data = GameData.MACHINES[machine.id];
 		nameLabel.Text = data.name;
+		activeButton.SetPressedNoSignal(machine.active);
 		
 		UpdateRecipeMenu();
 		
