@@ -1,3 +1,5 @@
+Button
+HBoxContainer
 CheckBox
 RichTextLabel
 Label
@@ -5,10 +7,8 @@ Panel
 ScrollContainer
 VBoxContainer
 TabContainer
-Button
 SpinBox
 OptionButton
 Control
 ItemList
 ConfirmationDialog
-HBoxContainer

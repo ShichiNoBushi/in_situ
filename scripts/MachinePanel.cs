@@ -7,6 +7,7 @@ public partial class MachinePanel : Control
 	public Machine machine {get; set;}
 	
 	private Label nameLabel;
+	private Button holdButton;
 	private CheckButton activeButton;
 	private OptionButton recipeMenu;
 	private RichTextLabel inputLabel;
@@ -23,7 +24,8 @@ public partial class MachinePanel : Control
 	{
 		GD.Print("MachinePanel: _Ready() called...");
 		nameLabel = GetNode<Label>("Panel/VBoxMain/MachineName");
-		activeButton = GetNode<CheckButton>("Panel/VBoxMain/ActiveButton");
+		holdButton = GetNode<Button>("Panel/VBoxMain/HBoxContainer/HoldButton");
+		activeButton = GetNode<CheckButton>("Panel/VBoxMain/HBoxContainer/ActiveButton");
 		recipeMenu = GetNode<OptionButton>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeOption");
 		inputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Inputs");
 		outputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Outputs");
@@ -34,6 +36,8 @@ public partial class MachinePanel : Control
 		repairButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/RepairButton");
 		dismantleButton = GetNode<Button>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer/DismantleButton");
 		
+		holdButton.ButtonDown += OnHoldDown;
+		holdButton.ButtonUp += OnHoldUp;
 		activeButton.Toggled += OnActiveToggled;
 		recipeMenu.ItemSelected += OnRecipeSelected;
 		diagnosticsButton.Pressed += DiagnoseMachine;
@@ -55,6 +59,18 @@ public partial class MachinePanel : Control
 		recipeProgress.Value = 0;
 		
 		dismantleButton.Disabled = !data.available;
+	}
+	
+	private void OnHoldDown()
+	{
+		if (machine == null) return;
+		machine.ToggleActive(true);
+	}
+	
+	private void OnHoldUp()
+	{
+		if (machine == null) return;
+		machine.ToggleActive(activeButton.ButtonPressed);
 	}
 	
 	private void OnActiveToggled(bool pressed)
