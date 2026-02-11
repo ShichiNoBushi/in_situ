@@ -436,10 +436,36 @@
 		"phase": "liquid",
 		"unit": "g",
 		"starting amount": 0.0,
-		"scrap": {"water": 1.0},
+		"scrap": {"salt water": 1.0},
 		"value": 0.3,
 		"sort": [2, 11],
 		"description": "Salt disolved in water."
+	},
+	"copper chloride etchent": {
+		"name": "Copper Chloride Etchent",
+		"abbreviation": "CuCl Ech",
+		"type": "compound",
+		"subtypes": ["solution"],
+		"phase": "liquid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper chloride etchent": 1.0},
+		"value": 0.3,
+		"sort": [2, 12, 0],
+		"description": "Etching acid solution for PCBs."
+	},
+	"spent copper etchent": {
+		"name": "Spent Copper Etchent",
+		"abbreviation": "Sp CuCl",
+		"type": "compound",
+		"subtypes": ["solution"],
+		"phase": "liquid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"spent copper etchent": 1.0},
+		"value": 0.3,
+		"sort": [2, 12, 1],
+		"description": "Spent etchent to be recycled."
 	},
 	"low-density polyethylene": {
 		"name": "Low-Density Polyethylene",
@@ -726,6 +752,32 @@
 		"value": 0.5,
 		"sort": [4, 13, 0],
 		"description": "A starter board for constructing electric circuits."
+	},
+	"copper-clad substrate": {
+		"name": "Copper-clad Substrate",
+		"abbreviation": "CoppSbstr",
+		"type": "component",
+		"subtypes": ["circuit", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper shard": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
+		"value": 0.5,
+		"sort": [4, 13, 1],
+		"description": "A board laminated with copper foil."
+	},
+	"printed circuit board": {
+		"name": "Printed Circuit Board",
+		"abbreviation": "PCB",
+		"type": "component",
+		"subtypes": ["circuit", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper shard": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
+		"value": 0.5,
+		"sort": [4, 13, 2],
+		"description": "A board with circuits etched and prepared for electronics."
 	},
 	"control board": {
 		"name": "Control Board",

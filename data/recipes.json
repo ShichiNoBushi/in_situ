@@ -287,6 +287,24 @@
 		"local": "",
 		"description": "Create an board of insulating substrate for circuit boards."
 	},
+	"press copper substrate": {
+		"name": "Laminate Substrate",
+		"inputs": {"insulating substrate": 1, "copper foil": 0.1, "low-density polyethylene": 0.1, "energy": 2},
+		"outputs": {"copper-clad substrate": 1.2},
+		"available": false,
+		"machines": ["roller press"],
+		"local": "",
+		"description": "Apply copper foil and plastic to substrate board."
+	},
+	"etch circuit board": {
+		"name": "Etch Circuit Board",
+		"inputs": {"copper-clad substrate": 1, "copper chloride etchent": 0.2, "energy": 2},
+		"outputs": {"printed circuit board": 1, "spent copper etchent": 0.2},
+		"available": false,
+		"machines": ["etching bath"],
+		"local": "",
+		"description": "Prints a circuit board with etching bath."
+	},
 	"melt ice": {
 		"name": "Melt Ice",
 		"inputs": {"ice": 1, "energy": 0.5},
@@ -430,6 +448,24 @@
 		"machines": ["mixer"],
 		"local": "",
 		"description": "Mixes salt and water into a brine solution."
+	},
+	"mix copper etchent": {
+		"name": "Mix Copper Etchent",
+		"inputs": {"copper foil": 0.2, "hydrochloric acid": 1, "oxygen": 0.5, "energy": 1},
+		"outputs": {"copper chloride etchent": 1.7},
+		"available": false,
+		"machines": ["mixer"],
+		"local": "",
+		"description": "Mixes etching solution with copper foil and acid."
+	},
+	"regenerate etchent": {
+		"name": "Regenerate Etchent",
+		"inputs": {"spent copper etchent": 0.5, "hydrochloric acid": 0.1, "oxygen": 0.5, "energy": 2},
+		"outputs": {"copper chloride etchent": 1.1},
+		"available": false,
+		"machines": ["mixer"],
+		"local": "",
+		"description": "Replenishes spent etching solution."
 	},
 	"bake ceramic": {
 		"name": "Bake Ceramic",

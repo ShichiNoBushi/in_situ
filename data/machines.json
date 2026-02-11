@@ -175,6 +175,17 @@
 		"sort": [7, 2],
 		"description": "Synthesizes plastic polymers out of monomer compounds."
 	},
+	"etching bath": {
+		"name": "Etching Bath",
+		"type": "chemistry",
+		"cost": {"iron plate": 10, "glass pane": 10, "electric motor": 5},
+		"durability": 5000,
+		"size": 10,
+		"starting amount": 0,
+		"available": false,
+		"sort": [7, 3],
+		"description": "Vat for submerging boards in etching solution."
+	},
 	"srg": {
 		"name": "Stirling Radioisotope Generator (SRG)",
 		"type": "generator",
