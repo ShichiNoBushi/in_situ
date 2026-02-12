@@ -988,7 +988,10 @@ public partial class GameData : Node
 		regionMap[coord] = explored;
 		coordStringToTuple[CoordToString(coord)] = coord;
 		GD.Print("GameData: Successfully added new region");
-		String regionsList = "";
+		
+		SortRegions(regionMap);
+		
+		string regionsList = "";
 		foreach (var c in regionMap.Keys)
 		{
 			regionsList += $"{CoordToString(c)} ";
@@ -1014,6 +1017,21 @@ public partial class GameData : Node
 		foreach (var res in resKeys)
 		{
 			resources[res] = clone[res];
+		}
+	}
+	
+	public static void SortRegions(Dictionary<(int x, int y), Region> map)
+	{
+		Dictionary<(int x, int y), Region> clone = new Dictionary<(int x, int y), Region>(map);
+		List<(int x, int y)> coordKeys = map.Keys.ToList();
+		
+		coordKeys.Sort(CompareCoords);
+		
+		map.Clear();
+		
+		foreach (var coord in coordKeys)
+		{
+			map[coord] = clone[coord];
 		}
 	}
 	
@@ -1093,6 +1111,18 @@ public partial class GameData : Node
 		}
 		
 		return 0;
+	}
+	
+	public static int CompareCoords((int x, int y) x, (int x, int y) y)
+	{
+		if (x.y == y.y)
+		{
+			return x.x - y.x;
+		}
+		else
+		{
+			return -(x.y - y.y);
+		}
 	}
 	
 	public static float RandNormal(float mean, float stddev)
