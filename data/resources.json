@@ -790,7 +790,20 @@
 		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "carbon": 0.1},
 		"value": 0.7,
 		"sort": [4, 14, 0],
-		"description": "A conrol board for simple electronic automation."
+		"description": "A control board for simple electronic automation."
+	},
+	"computer board": {
+		"name": "Computer Board",
+		"abbreviation": "CmptrBrd",
+		"type": "component",
+		"subtypes": ["circuit", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "p-doped silicon": 0.1, "n-doped silicon": 0.1, "polyethylene": 0.1, "carbon": 0.1},
+		"value": 0.7,
+		"sort": [4, 14, 1],
+		"description": "An advanced circuit board for computer automation."
 	},
 	"iron scrap": {
 		"name": "Iron Scrap",
