@@ -194,6 +194,110 @@ public partial class GameData : Node
 		QUESTS = LoadJson<Dictionary<string, QuestData>>(questPath);
 	}
 	
+	public void SaveGame(string filename = "save.json")
+	{
+		try
+		{
+			GameSave save = new GameSave();
+			
+			string json = JsonSerializer.Serialize(save, new JsonSerializerOptions{
+				WriteIndented = true
+			});
+			
+			using var file = Godot.FileAccess.Open("user://" + filename, Godot.FileAccess.ModeFlags.Write);
+			file.StoreString(json);
+			
+			GD.Print("GameData: Game saved successfully");
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Save failed - {e.Message}");
+		}
+	}
+	
+	public void LoadGame(string filename = "save.json")
+	{
+		string path = "user://" + filename;
+		
+		if (!Godot.FileAccess.FileExists(path))
+		{
+			GD.PrintErr("GameData: Save file does not exist");
+			return;
+		}
+		
+		try
+		{
+			using var file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
+			string json = file.GetAsText();
+			
+			GameSave save = JsonSerializer.Deserialize<GameSave>(json);
+			
+			ApplySave(save);
+			
+			GD.Print("GameData: Game loaded successfully");
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Load failed - {e.Message}");
+		}
+	}
+	
+	public void ApplySave(GameSave save)
+	{
+		android = new Android(save.android);
+		
+		regionMap.Clear();
+		coordStringToTuple.Clear();
+		foreach (var reg in save.regionMap)
+		{
+			regionMap[(reg.coordX, reg.coordY)] = new Region(reg);
+			coordStringToTuple[$"({reg.coordX}, {reg.coordY})"] = (reg.coordX, reg.coordY);
+		}
+		
+		currentRegion = regionMap[(save.currentX, save.currentY)];
+		
+		foreach (var reg in regionMap.Values)
+		{
+			reg.BuildFromSave();
+		}
+		
+		foreach (var reg in regionMap.Values)
+		{
+			reg.LinkFromSave();
+		}
+		
+		foreach (var rec in GameData.RECIPES)
+		{
+			rec.Value.available = save.unlocks.recipes.Contains(rec.Key);
+		}
+		
+		foreach (var mach in GameData.MACHINES)
+		{
+			mach.Value.available = save.unlocks.machines.Contains(mach.Key);
+		}
+		
+		foreach (var infra in GameData.INFRASTRUCTURE)
+		{
+			infra.Value.available = save.unlocks.infrastructure.Contains(infra.Key);
+		}
+		
+		trackedQuest = GameData.QUESTS[save.trackedQuest];
+		
+		questControl.LoadFromSave(save.activeQuests, save.completeQuests);
+		
+		LogisticOrder.logisticsSequence = save.logisticsSequence;
+		
+		SortResources(currentRegion.resources);
+		resourceControl.UpdateResourcePanels();
+		machinesControl.UpdateRegionMachines();
+		machinesControl.UpdateMachinePanels();
+		buildControl.UpdateBuildMenu();
+		logisticsControl.UpdateRegionLogistics();
+		travelControl.UpdateRegions();
+		mapControl.UpdateAllColors();
+		UpdateQuestTracking();
+	}
+	
 	//Quits game.
 	public void QuitGame()
 	{
@@ -358,7 +462,7 @@ public partial class GameData : Node
 		if (questControl != null && trackedQuest != null && trackedQuest.name != "No name")
 		{
 			//Reference quest's name and requirements.
-			String text = trackedQuest.name;
+			string text = trackedQuest.name;
 			
 			QuestRequirement requirements = trackedQuest.requirement;
 			
@@ -417,7 +521,7 @@ public partial class GameData : Node
 				{
 					//Display quests' current status whether active, completed, or somehow both.
 					QuestData quest = QUESTS[qst];
-					String questState;
+					string questState;
 					
 					bool active = questControl.activeQuests.ContainsKey(qst);
 					bool complete = questControl.completeQuests.ContainsKey(qst);
@@ -536,123 +640,6 @@ public partial class GameData : Node
 		//Convert an XY coordinate to a String.
 		return $"({coord.x}, {coord.y})";
 	}
-	
-	/*private void ProcessMachines(double delta)
-	{
-		foreach (var reg in regionMap)
-		{
-			//Process each active machine in the region.
-			foreach (Machine mach in reg.Value.machines)
-			{
-				//If machine is turned on, is not excessively damaged, and selected recipe is valid.
-				if (mach.active && (disableWear || mach.wear < mach.maxWear) && GameData.RECIPES.ContainsKey(mach.currentRecipe))
-				{
-					//Create a ratio value based on if recipe can be crafted.
-					float ratio = CanCraft(mach.currentRecipe, mach.location, delta);
-					
-					if (ratio > 0)
-					{
-						//Create references to recipe and input resources.
-						RecipeData recipe = GameData.RECIPES[mach.currentRecipe];
-						Dictionary<string, float> inputs = recipe.inputs;
-						
-						if (recipe.local == "wind")
-						{
-							ratio *= mach.location.wind;
-						}
-						else if (recipe.local == "solar")
-						{
-							ratio *= mach.location.solar;
-						}
-						
-						foreach (var res in inputs)
-						{
-							//Remove resource from region's storage used in the recipe according to the ratio.
-							reg.Value.resources[res.Key] = Math.Max(0f, reg.Value.resources[res.Key] - res.Value * (float)delta * ratio);
-						}
-						
-						//Create reference to recipe's output.
-						Dictionary<string, float> outputs = recipe.outputs;
-						
-						foreach (var res in outputs)
-						{
-							//Produce crafted resource into region's storage according to the ratio.
-							reg.Value.resources[res.Key] += res.Value * (float)delta * ratio;
-						}
-					}
-					
-					//Damage the machine according to the ratio.
-					if (!disableWear)
-					{
-						mach.Damage(0.001f * ratio);
-					}
-				}
-			}
-			
-			foreach (var infra in reg.Value.infrastructure)
-			{
-				infra.Tick(delta);
-			}
-		}
-	}
-	
-	private float CanCraft(string name, Region reg, double delta)
-	{
-		//Check if the recipe can be crafted using resources in the region.
-		//Return 1 if completely craftable, 0 if uncraftable, and a value between if partially craftable.
-		if (!GameData.RECIPES.ContainsKey(name))
-		{
-			return 0f;
-		}
-		
-		RecipeData recipe = GameData.RECIPES[name];
-		Dictionary<string, float> inputs = recipe.inputs;
-		
-		//If recipe has no required resources.
-		if (inputs.Count == 0)
-		{
-			return 1f;
-		}
-		
-		List<float> ratios = new();
-		
-		foreach (var res in inputs)
-		{
-			if (res.Value <= 0)
-			{
-				//Skip if value is somehow 0 or less.
-				continue;
-			}
-			
-			//Determine available resources if a value exists and amount required for recipe adjusted for time passed.
-			float available = reg.resources.ContainsKey(res.Key)
-				? reg.resources[res.Key]
-				: 0f;
-			float required = res.Value * (float)delta;
-			
-			//Add ratio if amount available is insufficient.
-			if (required != 0 && available < required)
-			{
-				ratios.Add(available / required);
-			}
-		}
-		
-		//Return full ratio if all required resources satisfied.
-		if (ratios.Count == 0)
-		{
-			return 1f;
-		}
-		
-		//Determin the smallest ratio among the list and return 0 if 0 or less.
-		float minRatio = ratios.Min();
-		if (minRatio <= 0f)
-		{
-			return 0f;
-		}
-		
-		//Return the ratio between 0 and 1.
-		return Math.Clamp(minRatio, 0f, 1f);
-	}*/
 	
 	public static void CheckQuests()
 	{
@@ -1134,6 +1121,84 @@ public partial class GameData : Node
 	}
 }
 
+public class GameSave
+{
+	public AndroidSave android {get; set;}
+	
+	public List<RegionSave> regionMap {get; set;}
+	public int currentX {get; set;}
+	public int currentY {get; set;}
+	
+	public UnlockSave unlocks {get; set;}
+	
+	public string trackedQuest {get; set;}
+	public List<string> activeQuests {get; set;}
+	public List<string> completeQuests {get; set;}
+	
+	public long logisticsSequence {get; set;}
+	
+	public GameSave()
+	{
+		android = new(GameData.android);
+		
+		regionMap = new();
+		foreach (var reg in GameData.regionMap.Values)
+		{
+			regionMap.Add(new RegionSave(reg));
+		}
+		
+		currentX = GameData.currentRegion.coordX;
+		currentY = GameData.currentRegion.coordY;
+		
+		unlocks = new();
+		
+		foreach (var rec in GameData.RECIPES)
+		{
+			if (rec.Value.available)
+			{
+				unlocks.recipes.Add(rec.Key);
+			}
+		}
+		
+		foreach (var mach in GameData.MACHINES)
+		{
+			if (mach.Value.available)
+			{
+				unlocks.machines.Add(mach.Key);
+			}
+		}
+		
+		foreach (var infra in GameData.INFRASTRUCTURE)
+		{
+			if (infra.Value.available)
+			{
+				unlocks.infrastructure.Add(infra.Key);
+			}
+		}
+		
+		trackedQuest = GameData.qstNameToKey[GameData.trackedQuest.name];
+		
+		activeQuests = GameData.questControl.activeQuests.Keys.ToList();
+		completeQuests = GameData.questControl.completeQuests.Keys.ToList();
+		
+		logisticsSequence = LogisticOrder.logisticsSequence;
+	}
+}
+
+public class UnlockSave
+{
+	public List<string> recipes;
+	public List<string> machines;
+	public List<string> infrastructure;
+	
+	public UnlockSave()
+	{
+		recipes = new();
+		machines = new();
+		infrastructure = new();
+	}
+}
+
 public class ResourceData
 {
 	public string name {get; set;}
@@ -1305,7 +1370,7 @@ public class QuestUnlock
 
 public class RegionData
 {
-	public String name {get; set;}
+	public string name {get; set;}
 	public float elevation {get; set;}
 	public float temperature {get; set;}
 	public float pressure {get; set;}
@@ -1358,6 +1423,8 @@ public class Region
 	public List<Infrastructure> infrastructure;
 	public List<string> nodes;
 	
+	public RegionSave lastSave {get; private set;}
+	
 	public Region(RegionData data, (int x, int y) coord)
 	{
 		//Generate a new region using region data and the coordinate of the region.
@@ -1408,6 +1475,74 @@ public class Region
 		}
 		
 		UpdateStorage();
+		
+		lastSave = null;
+	}
+	
+	public Region(RegionSave save)
+	{
+		regData = GameData.REGIONS[save.id];
+		coordX = save.coordX;
+		coordY = save.coordY;
+		
+		space = 100 / regData.roughness;
+		
+		windMax = (regData.elevation * 0.2f) + regData.pressure + regData.roughness;
+		windK = regData.roughness * 0.1f;
+		windSigma = regData.roughness * 0.5f;
+		wind = windMax / 2;
+		windState = save.windState;
+		
+		solarMax = (regData.elevation * 0.2f) + (1.0f - regData.pressure) + (1.0f - regData.roughness);
+		solarK = regData.roughness * 0.1f;
+		solarSigma = regData.roughness * 0.5f;
+		solar = solarMax / 2;
+		solarState = save.solarState;
+		
+		resources = new(save.resources);
+		maxStorage = new();
+		
+		machines = new();
+		/*foreach (var mach in save.machines)
+		{
+			machines.Add(new Machine(mach));
+		}*/
+		
+		infrastructure = new();
+		/*foreach (var infra in save.infrastructure)
+		{
+			infrastructure.Add(new Infrastructure(infra));
+		}*/
+		
+		nodes = new(save.nodes);
+		
+		UpdateStorage();
+		
+		lastSave = save;
+	}
+	
+	public void BuildFromSave()
+	{
+		foreach (var mach in lastSave.machines)
+		{
+			machines.Add(new Machine(mach));
+		}
+		
+		foreach (var infra in lastSave.infrastructure)
+		{
+			infrastructure.Add(new Infrastructure(infra));
+		}
+	}
+	
+	public void LinkFromSave()
+	{
+		foreach (var infra in infrastructure)
+		{
+			if (infra.type == "conveyer")
+			{
+				infra.LinkFromSave();
+			}
+		}
 	}
 	
 	public void UpdateStorage()
@@ -1509,6 +1644,48 @@ public class Region
 		int vectY = Math.Abs(coordY - reg.coordY);
 		
 		return vectX == 1 && vectY == 1;
+	}
+}
+
+public class RegionSave
+{
+	public int coordX {set; get;}
+	public int coordY {set; get;}
+	public string id {set; get;}
+	public float windState {set; get;}
+	public float solarState {set; get;}
+	
+	public Dictionary<string, float> resources {set; get;}
+	public List<MachineSave> machines {set; get;}
+	public List<InfrastructureSave> infrastructure {set; get;}
+	public List<string> nodes {set; get;}
+	
+	public RegionSave(Region reg)
+	{
+		coordX = reg.coordX;
+		coordY = reg.coordY;
+		
+		RegionData regData = reg.regData;
+		id = GameData.regNameToKey[regData.name];
+		
+		windState = reg.windState;
+		solarState = reg.solarState;
+		
+		resources = new(reg.resources);
+		
+		machines = new();
+		foreach (var mach in reg.machines)
+		{
+			machines.Add(new MachineSave(mach));
+		}
+		
+		infrastructure = new();
+		foreach (var infra in reg.infrastructure)
+		{
+			infrastructure.Add(new InfrastructureSave(infra));
+		}
+		
+		nodes = new(reg.nodes);
 	}
 }
 
@@ -1872,6 +2049,7 @@ public class Machine : Buildable
 	public List<string> recipes {get; private set;} = new();
 	public string currentRecipe {get; private set;}
 	public Dictionary<string, float> outputBuffer {get; private set;} = new();
+	public MachineSave lastSave {get; private set;}
 	
 	public Machine(string machineID, Region loc) : base(machineID, loc)
 	{
@@ -1894,6 +2072,37 @@ public class Machine : Buildable
 		{
 			currentRecipe = "";
 		}
+		
+		lastSave = null;
+	}
+	
+	public Machine(MachineSave save) : base(save.id, GameData.regionMap[(save.coordX, save.coordY)])
+	{
+		MachineData data = GameData.MACHINES[id];
+		active = save.active;
+		
+		wear = save.wear;
+		
+		diagnosedWear = save.diagnosedWear;
+		maxWear = 0f;
+		foreach (var res in data.cost.Values)
+		{
+			maxWear += res;
+		}
+		
+		//Assign recipes based on which ones are assigned to this machine.
+		recipes = GameData.RECIPES.Where(r => r.Value.machines.Contains(id)).OrderBy(r => r.Key).Select(r => r.Key).ToList();
+		
+		if (recipes.Count > 0)
+		{
+			currentRecipe = recipes[0];
+		}
+		else
+		{
+			currentRecipe = "";
+		}
+		
+		lastSave = save;
 	}
 	
 	public void SetRecipe(string rid)
@@ -2114,6 +2323,36 @@ public class Machine : Buildable
 	}
 }
 
+public class MachineSave
+{
+	public string id {get; set;}
+	public bool active {get; set;}
+	public float wear {get; set;}
+	public float diagnosedWear {get; set;}
+	
+	public Dictionary<string, float> repairComponents {get; set;}
+	public int coordX {get; set;}
+	public int coordY {get; set;}
+	
+	public string currentRecipe {get; set;}
+	public Dictionary<string, float> outputBuffer {get; set;}
+	
+	public MachineSave(Machine mach)
+	{
+		id = mach.id;
+		active = mach.active;
+		wear = mach.wear;
+		diagnosedWear = mach.diagnosedWear;
+		
+		repairComponents = new(mach.repairComponents);
+		coordX = mach.location.coordX;
+		coordY = mach.location.coordY;
+		
+		currentRecipe = mach.currentRecipe;
+		outputBuffer = new(mach.outputBuffer);
+	}
+}
+
 public class Infrastructure : Buildable
 {
 	public string type {get; private set;}
@@ -2125,6 +2364,8 @@ public class Infrastructure : Buildable
 	public List<LogisticOrder> input {get; private set;}
 	public List<LogisticOrder> output {get; private set;}
 	public long lastServed {get; private set;}
+	
+	public InfrastructureSave lastSave {get; private set;}
 	
 	public Infrastructure(string infraID, Region loc) : base(infraID, loc)
 	{
@@ -2138,6 +2379,48 @@ public class Infrastructure : Buildable
 		input = new();
 		output = new();
 		lastServed = -1;
+		
+		lastSave = null;
+	}
+	
+	public Infrastructure(InfrastructureSave save) : base(save.id, GameData.regionMap[(save.coordX, save.coordY)])
+	{
+		InfrastructureData data = GameData.INFRASTRUCTURE[id];
+		active = save.active;
+		
+		wear = save.wear;
+		
+		diagnosedWear = save.diagnosedWear;
+		maxWear = 0f;
+		
+		foreach (var res in data.cost.Values)
+		{
+			maxWear += res;
+		}
+		
+		type = data.type;
+		serves = data.serves;
+		through = data.through;
+		energyCost = data.energyCost;
+		
+		link = null;
+		target = null;
+		
+		input = new();
+		foreach (var order in save.input)
+		{
+			input.Add(new LogisticOrder(order));
+		}
+		
+		output = new();
+		foreach (var order in save.output)
+		{
+			output.Add(new LogisticOrder(order));
+		}
+		
+		lastServed = save.lastServed;
+		
+		lastSave = save;
 	}
 	
 	public override void Tick(double delta)
@@ -2514,6 +2797,31 @@ public class Infrastructure : Buildable
 		}
 	}
 	
+	public void LinkFromSave()
+	{
+		if (type == "conveyer" && GameData.regionMap.ContainsKey((lastSave.targetX, lastSave.targetY)))
+		{
+			target = GameData.regionMap[(lastSave.targetX, lastSave.targetY)];
+			
+			if (lastSave.linkIdx >= 0 && lastSave.linkIdx < target.infrastructure.Count && target.infrastructure[lastSave.linkIdx].type == "conveyer" && target.infrastructure[lastSave.linkIdx].name == name)
+			{
+				link = target.infrastructure[lastSave.linkIdx];
+			}
+			else
+			{
+				for (int i = 0; i < target.infrastructure.Count; i++)
+				{
+					Infrastructure infra = target.infrastructure[i];
+					if (infra.link == this || infra.link == null)
+					{
+						link = infra;
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	public void GiveInput(LogisticOrder ord)
 	{
 		input.Add(ord);
@@ -2580,6 +2888,81 @@ public class Infrastructure : Buildable
 	}
 }
 
+public class InfrastructureSave
+{
+	public string id {get; set;}
+	public bool active {get; set;}
+	public float wear {get; set;}
+	public float diagnosedWear {get; set;}
+	
+	public Dictionary<string, float> repairComponents {get; set;}
+	public int coordX {get; set;}
+	public int coordY {get; set;}
+	
+	public int linkIdx {get; set;}
+	public int targetX {get; set;}
+	public int targetY {get; set;}
+	
+	public List<LogisticSave> input {get; set;}
+	public List<LogisticSave> output {get; set;}
+	public long lastServed {get; set;}
+	
+	public InfrastructureSave(Infrastructure infra)
+	{
+		id = infra.id;
+		active = infra.active;
+		wear = infra.wear;
+		diagnosedWear = infra.diagnosedWear;
+		
+		repairComponents = new(infra.repairComponents);
+		coordX = infra.location.coordX;
+		coordY = infra.location.coordY;
+		
+		if (infra.type == "conveyer")
+		{
+			Region linkLocation = infra.link.location;
+			linkIdx = -1;
+			
+			for (int i = 0; i < linkLocation.infrastructure.Count; i++)
+			{
+				if (linkLocation.infrastructure[i] == infra.link)
+				{
+					linkIdx = i;
+					break;
+				}
+			}
+			
+			if (linkIdx == -1)
+			{
+				GD.PrintErr($"InfrastructureSave: conveyer link not found at ({linkLocation.coordX}, {linkLocation.coordY})");
+			}
+			
+			targetX = linkLocation.coordX;
+			targetY = linkLocation.coordY;
+		}
+		else
+		{
+			linkIdx = -1;
+			targetX = 0;
+			targetY = 0;
+		}
+		
+		input = new();
+		foreach (var order in infra.input)
+		{
+			input.Add(new LogisticSave(order));
+		}
+		
+		output = new();
+		foreach (var order in infra.output)
+		{
+			output.Add(new LogisticSave(order));
+		}
+		
+		lastServed = infra.lastServed;
+	}
+}
+
 public class LogisticOrder
 {
 	public string resource {get; private set;}
@@ -2588,6 +2971,9 @@ public class LogisticOrder
 	public bool hasDestination {get; private set;}
 	public (int x, int y) destinationCoord {get; private set;}
 	public int hopLimit {get; private set;}
+	
+	public LogisticSave lastSave;
+	
 	public static long logisticsSequence = 0;
 	
 	public LogisticOrder(string res, float amt, bool has = false, int coordX = 0, int coordY = 0, int ttl = 32)
@@ -2598,6 +2984,20 @@ public class LogisticOrder
 		hasDestination = has;
 		destinationCoord = (coordX, coordY);
 		hopLimit = ttl;
+		
+		lastSave = null;
+	}
+	
+	public LogisticOrder(LogisticSave save)
+	{
+		resource = save.resource;
+		phase = GameData.RESOURCES[resource].phase;
+		amount = save.amount;
+		hasDestination = save.hasDestination;
+		destinationCoord = (save.destinX, save.destinY);
+		hopLimit = save.hopLimit;
+		
+		lastSave = save;
 	}
 	
 	public LogisticOrder Split()
@@ -2649,16 +3049,48 @@ public class LogisticOrder
 	}
 }
 
+public class LogisticSave
+{
+	public string resource {get; set;}
+	public float amount {get; set;}
+	public bool hasDestination {get; set;}
+	public int destinX {get; set;}
+	public int destinY {get; set;}
+	public int hopLimit {get; set;}
+	
+	public LogisticSave(LogisticOrder order)
+	{
+		resource = order.resource;
+		amount = order.amount;
+		hasDestination = order.hasDestination;
+		destinX = order.destinationCoord.x;
+		destinY = order.destinationCoord.y;
+		hopLimit = order.hopLimit;
+	}
+}
+
 //Android character to represent the player
 public class Android
 {
 	public float maxInventory; //maximum amount of resources android can carry
 	public Dictionary<string, float> inventory; //resources carried keyed by resource ID
 	
+	public AndroidSave lastSave;
+	
 	public Android()
 	{
 		maxInventory = 5000f;
 		inventory = new();
+		
+		lastSave = null;
+	}
+	
+	public Android(AndroidSave save)
+	{
+		maxInventory = 5000f;
+		inventory = new(save.inventory);
+		
+		lastSave = save;
 	}
 	
 	//Return total amount of resources carried by android
@@ -2730,5 +3162,15 @@ public class Android
 		}
 		
 		return amount;
+	}
+}
+
+public class AndroidSave
+{
+	public Dictionary<string, float> inventory {get; set;}
+	
+	public AndroidSave(Android andro)
+	{
+		inventory = new(andro.inventory);
 	}
 }

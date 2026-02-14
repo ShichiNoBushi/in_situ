@@ -60,6 +60,37 @@ public partial class QuestControl : Control
 	{
 	}
 	
+	public void LoadFromSave(List<string> active, List<string> complete)
+	{
+		activeQuests.Clear();
+		foreach (var a in active)
+		{
+			if (GameData.QUESTS.ContainsKey(a))
+			{
+				activeQuests[a] = GameData.QUESTS[a];
+			}
+			else
+			{
+				GD.Print($"QuestControl: unknown quest key in active quests {a}");
+			}
+		}
+		
+		completeQuests.Clear();
+		foreach (var c in complete)
+		{
+			if (GameData.QUESTS.ContainsKey(c))
+			{
+				completeQuests[c] = GameData.QUESTS[c];
+			}
+			else
+			{
+				GD.Print($"QuestControl: unknown quest key in complete quests{c}");
+			}
+		}
+		
+		UpdateQuestLists();
+	}
+	
 	public void UpdateQuestLists()
 	{
 		activeList.Clear();
