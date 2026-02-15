@@ -400,29 +400,39 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="SaveButton" type="Button" parent="TabContainer/Options"]
+[node name="NewButton" type="Button" parent="TabContainer/Options"]
 layout_mode = 0
 offset_left = 788.0
 offset_top = 18.0
 offset_right = 903.0
 offset_bottom = 49.0
+text = "New"
+
+[node name="SaveButton" type="Button" parent="TabContainer/Options"]
+layout_mode = 0
+offset_left = 788.0
+offset_top = 69.0
+offset_right = 903.0
+offset_bottom = 100.0
 text = "Save"
 
 [node name="LoadButton" type="Button" parent="TabContainer/Options"]
 layout_mode = 0
 offset_left = 788.0
-offset_top = 63.0
+offset_top = 114.0
 offset_right = 904.0
-offset_bottom = 94.0
+offset_bottom = 145.0
 text = "Load"
 
 [node name="QuitButton" type="Button" parent="TabContainer/Options"]
 layout_mode = 0
 offset_left = 788.0
-offset_top = 110.0
+offset_top = 161.0
 offset_right = 903.0
-offset_bottom = 141.0
+offset_bottom = 192.0
 text = "Quit"
+
+[node name="NewConfirm" type="ConfirmationDialog" parent="TabContainer/Options"]
 
 [node name="SaveDialog" type="FileDialog" parent="TabContainer/Options"]
 access = 2

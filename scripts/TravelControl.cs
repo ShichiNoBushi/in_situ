@@ -95,6 +95,12 @@ public partial class TravelControl : Control
 		featuresLabel.Text = features;
 	}
 	
+	public void ResetMenuSelect()
+	{
+		regionMenu.Select(0);
+		directionMenu.Select(0);
+	}
+	
 	private void OnRegionSelect(long index)
 	{
 		//(int x, int y) coord = GameData.coordStringToTuple[regionMenu.GetItemText((int)index)];

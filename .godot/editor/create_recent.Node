@@ -1,6 +1,6 @@
-AcceptDialog
 ConfirmationDialog
 Button
+AcceptDialog
 FileDialog
 HBoxContainer
 CheckBox
@@ -12,4 +12,3 @@ VBoxContainer
 TabContainer
 SpinBox
 OptionButton
-Control

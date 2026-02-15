@@ -40,17 +40,6 @@ public partial class QuestControl : Control
 		{
 			GD.PrintErr($"Failed assigning actions: {e.Message}");
 		}
-		GD.Print("QuestControl: Populating active quests and ItemList...");
-		foreach (var qst in GameData.QUESTS)
-		{
-			if (qst.Value.start)
-			{
-				activeQuests[qst.Key] = qst.Value;
-				activeList.AddItem(qst.Value.name);
-				int idx = activeList.ItemCount - 1;
-				activeList.SetItemMetadata(idx, qst.Key);
-			}
-		}
 		
 		DisplayQuestsTest();
 	}
@@ -58,6 +47,26 @@ public partial class QuestControl : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+	
+	public void GiveStartingQuests()
+	{
+		activeQuests.Clear();
+		completeQuests.Clear();
+		
+		GD.Print("QuestControl: Populating active quests and ItemList...");
+		foreach (var qst in GameData.QUESTS)
+		{
+			if (qst.Value.start)
+			{
+				activeQuests[qst.Key] = qst.Value;
+				/*activeList.AddItem(qst.Value.name);
+				int idx = activeList.ItemCount - 1;
+				activeList.SetItemMetadata(idx, qst.Key);*/
+			}
+		}
+		
+		UpdateQuestLists();
 	}
 	
 	public void LoadFromSave(List<string> active, List<string> complete)
@@ -104,12 +113,20 @@ public partial class QuestControl : Control
 			activeList.SetItemMetadata(idx, quest.Key);
 		}
 		
+		if (activeList.ItemCount > 0)
+		{
+			activeList.Select(0);
+			DisplayActiveQuest(0);
+		}
+		
 		foreach (var quest in completeQuests)
 		{
 			completeList.AddItem(quest.Value.name);
 			int idx = completeList.ItemCount - 1;
 			completeList.SetItemMetadata(idx, quest.Key);
 		}
+		
+		trackButton.Disabled = activeList.ItemCount == 0;
 	}
 	
 	private void DisplayQuestsTest()
@@ -142,6 +159,8 @@ public partial class QuestControl : Control
 		string quest = (string)activeList.GetItemMetadata((int)index);
 		
 		displayLabel.Text = DisplayQuestText(quest, true);
+		
+		trackButton.Disabled = false;
 	}
 	
 	private void DisplayCompleteQuest(long index)
@@ -153,6 +172,8 @@ public partial class QuestControl : Control
 		string quest = (string)completeList.GetItemMetadata((int)index);
 		
 		displayLabel.Text = DisplayQuestText(quest, false);
+		
+		trackButton.Disabled = true;
 	}
 	
 	private string DisplayQuestText(string quest, bool active)

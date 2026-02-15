@@ -82,6 +82,12 @@ public partial class BuildControl : Control
 		DisplayResources();
 	}
 	
+	public void ResetMenuSelect()
+	{
+		buildMenu.Select(0);
+		neighborMenu.Select(0);
+	}
+	
 	// Assigns meta data to buildMenu item.
 	private void SetBuildableMeta(int idx, string key, string type)
 	{

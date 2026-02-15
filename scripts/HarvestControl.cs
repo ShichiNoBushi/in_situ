@@ -90,6 +90,11 @@ public partial class HarvestControl : Control
 		}
 	}
 	
+	public void ResetMenuSelect()
+	{
+		harvestMenu.Select(0);
+	}
+	
 	public void StartHarvest()
 	{
 		if (!harvesting)

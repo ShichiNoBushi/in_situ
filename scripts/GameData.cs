@@ -56,8 +56,10 @@ public partial class GameData : Node
 	//Label to display the current tracked objective.
 	public static Label objectiveLabel;
 	
+	public static Button newButton;
 	public static Button saveButton;
 	public static Button loadButton;
+	public static ConfirmationDialog newConfirm;
 	public static FileDialog saveDialog;
 	public static FileDialog loadDialog;
 	
@@ -92,36 +94,6 @@ public partial class GameData : Node
 		rng = new();
 		rng.Randomize();
 		
-		//Load all the JSON data.
-		LoadAll();
-		GD.Print("Game data loaded automatically.");
-		
-		//Create quick references between names and IDs.
-		BuildNameMaps();
-		
-		//Create the PC android.
-		android = new();
-		
-		//Generate the map.
-		regionMap = new();
-		
-		try
-		{
-			GenerateStartingRegion();
-		}
-		catch (Exception e)
-		{
-			GD.PrintErr($"GameData: Error generating starting region - {e.Message}");
-		}
-		//Create starting resources and machines according to JSON labels.
-		GiveStartingResources();
-		GiveStartingMachines();
-		
-		//Assign the player's initial location as the center of the map.
-		currentRegion = regionMap[(0, 0)];
-		
-		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
-		
 		//Assign control variables.
 		mapControl = GetNode<MapControl>("../TabContainer/Base/MapControl");
 		travelControl = GetNode<TravelControl>("../TabContainer/Base/TravelPanel");
@@ -136,12 +108,17 @@ public partial class GameData : Node
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
+		GD.Print("-- GameData: Assigning Option tab buttons... --");
+		newButton = GetNode<Button>("../TabContainer/Options/NewButton");
 		saveButton = GetNode<Button>("../TabContainer/Options/SaveButton");
 		loadButton = GetNode<Button>("../TabContainer/Options/LoadButton");
+		newConfirm = GetNode<ConfirmationDialog>("../TabContainer/Options/NewConfirm");
 		saveDialog = GetNode<FileDialog>("../TabContainer/Options/SaveDialog");
 		loadDialog = GetNode<FileDialog>("../TabContainer/Options/LoadDialog");
+		newButton.Pressed += OnNewPressed;
 		saveButton.Pressed += OnSavePressed;
 		loadButton.Pressed += OnLoadPressed;
+		newConfirm.Confirmed += NewConfirmed;
 		saveDialog.FileSelected += SaveConfirmed;
 		loadDialog.FileSelected += LoadConfirmed;
 		
@@ -174,7 +151,17 @@ public partial class GameData : Node
 		disableStorage = false;
 		disableSize = false;
 		
-		UpdateQuestTracking();
+		//Generate the map.
+		regionMap = new();
+		
+		try
+		{
+			NewGame();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Error starting new game - {e}");
+		}
 		
 		//logisticsControl.CallDeferred(nameof(LogisticsControl.PopulateResourceMenu));
 	}
@@ -212,6 +199,75 @@ public partial class GameData : Node
 		RECIPES = LoadJson<Dictionary<string, RecipeData>>(recipePath);
 		REGIONS = LoadJson<Dictionary<string, RegionData>>(regionsPath);
 		QUESTS = LoadJson<Dictionary<string, QuestData>>(questPath);
+	}
+	
+	public void OnNewPressed()
+	{
+		newConfirm.PopupCentered();
+	}
+	
+	public void NewConfirmed()
+	{
+		NewGame();
+	}
+	
+	public void NewGame()
+	{
+		//Load all the JSON data.
+		LoadAll();
+		GD.Print("Game data loaded automatically.");
+		
+		//Create quick references between names and IDs.
+		BuildNameMaps();
+		
+		//Reset the PC android.
+		android = new();
+		
+		//Reset the map.
+		regionMap.Clear();
+		
+		try
+		{
+			GenerateStartingRegion();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Error generating starting region - {e.Message}");
+		}
+		//Create starting resources and machines according to JSON labels.
+		GiveStartingResources();
+		GiveStartingMachines();
+		
+		//Assign the player's initial location as the center of the map.
+		currentRegion = regionMap[(0, 0)];
+		
+		coordStringToTuple.Clear();
+		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
+		
+		questControl.GiveStartingQuests();
+		
+		trackedQuest = null;
+		LogisticOrder.logisticsSequence = -1;
+		
+		SortResources(currentRegion.resources);
+		resourceControl.UpdateResourcePanels();
+		machinesControl.UpdateMachinePanels();
+		buildControl.UpdateBuildMenu();
+		buildControl.UpdateNeighborMenu();
+		harvestControl.UpdateHarvest();
+		logisticsControl.UpdateRegionLogistics();
+		mapControl.GenerateMap();
+		UpdateQuestTracking();
+		questControl.UpdateQuestLists();
+		DisplayMaxStorage();
+		
+		travelControl.ResetMenuSelect();
+		harvestControl.ResetMenuSelect();
+		buildControl.ResetMenuSelect();
+		logisticsControl.logResourceMenu.Select(0);
+		logisticsControl.logResourceSpin.Value = 0;
+		androidControl.resourceMenu.Select(0);
+		androidControl.transferSpin.Value = 0;
 	}
 	
 	public void SaveGame(string filename = "user://saves/save.json")
@@ -415,26 +471,32 @@ public partial class GameData : Node
 	public static void BuildNameMaps()
 	{
 		//Create references from user facing names to reference IDs.
+		resNameToKey.Clear();
 		foreach (var res in RESOURCES)
 		{
 			resNameToKey[res.Value.name] = res.Key;
 		}
+		harvActionToKey.Clear();
 		foreach (var harv in HARVEST)
 		{
 			harvActionToKey[harv.Value.action] = harv.Key;
 		}
+		machNameToKey.Clear();
 		foreach (var mach in MACHINES)
 		{
 			machNameToKey[mach.Value.name] = mach.Key;
 		}
+		recNameToKey.Clear();
 		foreach (var rec in RECIPES)
 		{
 			recNameToKey[rec.Value.name] = rec.Key;
 		}
+		regNameToKey.Clear();
 		foreach (var reg in REGIONS)
 		{
 			regNameToKey[reg.Value.name] = reg.Key;
 		}
+		qstNameToKey.Clear();
 		foreach (var qst in QUESTS)
 		{
 			qstNameToKey[qst.Value.name] = qst.Key;
