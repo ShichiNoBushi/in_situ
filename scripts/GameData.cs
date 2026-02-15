@@ -56,9 +56,17 @@ public partial class GameData : Node
 	//Label to display the current tracked objective.
 	public static Label objectiveLabel;
 	
+	public static Button saveButton;
+	public static Button loadButton;
+	public static FileDialog saveDialog;
+	public static FileDialog loadDialog;
+	
 	//Button to quit the game.
 	public static Button quitButton;
 	public static ConfirmationDialog quitConfirm;
+	
+	//delete after test
+	public static AcceptDialog testDialog;
 	
 	public static CheckBox unlockMachinesCheck;
 	public static CheckBox unlockRecipesCheck;
@@ -128,10 +136,22 @@ public partial class GameData : Node
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
+		saveButton = GetNode<Button>("../TabContainer/Options/SaveButton");
+		loadButton = GetNode<Button>("../TabContainer/Options/LoadButton");
+		saveDialog = GetNode<FileDialog>("../TabContainer/Options/SaveDialog");
+		loadDialog = GetNode<FileDialog>("../TabContainer/Options/LoadDialog");
+		saveButton.Pressed += OnSavePressed;
+		loadButton.Pressed += OnLoadPressed;
+		saveDialog.FileSelected += SaveConfirmed;
+		loadDialog.FileSelected += LoadConfirmed;
+		
 		quitButton = GetNode<Button>("../TabContainer/Options/QuitButton");
 		quitConfirm = GetNode<ConfirmationDialog>("../TabContainer/Options/QuitConfirm");
 		quitButton.Pressed += QuitGame;
 		quitConfirm.Confirmed += QuitConfirmed;
+		
+		//delete after test
+		testDialog = GetNode<AcceptDialog>("../TabContainer/Options/TestDialog");
 		
 		unlockMachinesCheck = GetNode<CheckBox>("../TabContainer/Options/UnlockMachinesCheck");
 		unlockRecipesCheck = GetNode<CheckBox>("../TabContainer/Options/UnlockRecipesCheck");
@@ -194,7 +214,7 @@ public partial class GameData : Node
 		QUESTS = LoadJson<Dictionary<string, QuestData>>(questPath);
 	}
 	
-	public void SaveGame(string filename = "save.json")
+	public void SaveGame(string filename = "user://saves/save.json")
 	{
 		try
 		{
@@ -204,22 +224,28 @@ public partial class GameData : Node
 				WriteIndented = true
 			});
 			
-			using var file = Godot.FileAccess.Open("user://" + filename, Godot.FileAccess.ModeFlags.Write);
+			using var file = Godot.FileAccess.Open(filename, Godot.FileAccess.ModeFlags.Write);
+			if (file == null)
+			{
+				GD.PrintErr($"GameData: Save error - FileAccess.Open returned null {filename}");
+				return;
+			}
+			
 			file.StoreString(json);
 			
-			GD.Print("GameData: Game saved successfully");
+			GD.Print($"GameData: Game saved successfully to {filename}");
 		}
 		catch (Exception e)
 		{
-			GD.PrintErr($"GameData: Save failed - {e.Message}");
+			GD.PrintErr($"GameData: Save failed - {e}");
 		}
 	}
 	
-	public void LoadGame(string filename = "save.json")
+	public void LoadGame(string filename = "user://saves/save.json")
 	{
-		string path = "user://" + filename;
+		//string path = filename.StartsWith("res://") || filename.StartsWith("user://") ? filename : "user:/" + filename;
 		
-		if (!Godot.FileAccess.FileExists(path))
+		if (!Godot.FileAccess.FileExists(filename))
 		{
 			GD.PrintErr("GameData: Save file does not exist");
 			return;
@@ -227,14 +253,14 @@ public partial class GameData : Node
 		
 		try
 		{
-			using var file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
+			using var file = Godot.FileAccess.Open(filename, Godot.FileAccess.ModeFlags.Read);
 			string json = file.GetAsText();
 			
 			GameSave save = JsonSerializer.Deserialize<GameSave>(json);
 			
 			ApplySave(save);
 			
-			GD.Print("GameData: Game loaded successfully");
+			GD.Print($"GameData: Game loaded successfully from {filename}");
 		}
 		catch (Exception e)
 		{
@@ -281,7 +307,9 @@ public partial class GameData : Node
 			infra.Value.available = save.unlocks.infrastructure.Contains(infra.Key);
 		}
 		
-		trackedQuest = GameData.QUESTS[save.trackedQuest];
+		trackedQuest = (!string.IsNullOrEmpty(save.trackedQuest)) && qstNameToKey.ContainsKey(save.trackedQuest)
+			? GameData.QUESTS[save.trackedQuest]
+			: null;
 		
 		questControl.LoadFromSave(save.activeQuests, save.completeQuests);
 		
@@ -296,6 +324,32 @@ public partial class GameData : Node
 		travelControl.UpdateRegions();
 		mapControl.UpdateAllColors();
 		UpdateQuestTracking();
+	}
+	
+	public void OnSavePressed()
+	{
+		saveDialog.PopupCentered();
+	}
+	
+	public void OnLoadPressed()
+	{
+		loadDialog.PopupCentered();
+	}
+	
+	public void SaveConfirmed(string path)
+	{
+		SaveGame(path);
+		
+		testDialog.DialogText = "Save: " + path;
+		testDialog.PopupCentered();
+	}
+	
+	public void LoadConfirmed(string path)
+	{
+		LoadGame(path);
+		
+		testDialog.DialogText = "Load: " + path;
+		testDialog.PopupCentered();
 	}
 	
 	//Quits game.
@@ -1176,7 +1230,14 @@ public class GameSave
 			}
 		}
 		
-		trackedQuest = GameData.qstNameToKey[GameData.trackedQuest.name];
+		if (GameData.trackedQuest != null && GameData.qstNameToKey.ContainsKey(GameData.trackedQuest.name))
+		{
+			trackedQuest = GameData.qstNameToKey[GameData.trackedQuest.name];
+		}
+		else
+		{
+			trackedQuest = "";
+		}
 		
 		activeQuests = GameData.questControl.activeQuests.Keys.ToList();
 		completeQuests = GameData.questControl.completeQuests.Keys.ToList();
@@ -1659,6 +1720,20 @@ public class RegionSave
 	public List<MachineSave> machines {set; get;}
 	public List<InfrastructureSave> infrastructure {set; get;}
 	public List<string> nodes {set; get;}
+	
+	public RegionSave()
+	{
+		coordX = 0;
+		coordY = 0;
+		id = "";
+		windState = 0f;
+		solarState = 0f;
+		
+		resources = new();
+		machines = new();
+		infrastructure = new();
+		nodes = new();
+	}
 	
 	public RegionSave(Region reg)
 	{
@@ -2337,6 +2412,21 @@ public class MachineSave
 	public string currentRecipe {get; set;}
 	public Dictionary<string, float> outputBuffer {get; set;}
 	
+	public MachineSave()
+	{
+		id = "";
+		active = false;
+		wear = 0f;
+		diagnosedWear = 0f;
+		
+		repairComponents = new();
+		coordX = 0;
+		coordY = 0;
+		
+		currentRecipe = "";
+		outputBuffer = new();
+	}
+	
 	public MachineSave(Machine mach)
 	{
 		id = mach.id;
@@ -2907,6 +2997,26 @@ public class InfrastructureSave
 	public List<LogisticSave> output {get; set;}
 	public long lastServed {get; set;}
 	
+	public InfrastructureSave()
+	{
+		id = "";
+		active = false;
+		wear = 0f;
+		diagnosedWear = 0f;
+		
+		repairComponents = new();
+		coordX = 0;
+		coordY = 0;
+		
+		linkIdx = -1;
+		targetX = 0;
+		targetY = 0;
+		
+		input = new();
+		output = new();
+		lastServed = 0;
+	}
+	
 	public InfrastructureSave(Infrastructure infra)
 	{
 		id = infra.id;
@@ -2920,25 +3030,43 @@ public class InfrastructureSave
 		
 		if (infra.type == "conveyer")
 		{
-			Region linkLocation = infra.link.location;
 			linkIdx = -1;
-			
-			for (int i = 0; i < linkLocation.infrastructure.Count; i++)
+			if (infra.link != null)
 			{
-				if (linkLocation.infrastructure[i] == infra.link)
+				Region linkLocation = infra.link.location;
+				
+				for (int i = 0; i < linkLocation.infrastructure.Count; i++)
 				{
-					linkIdx = i;
-					break;
+					if (linkLocation.infrastructure[i] == infra.link)
+					{
+						linkIdx = i;
+						break;
+					}
+				}
+				
+				targetX = linkLocation.coordX;
+				targetY = linkLocation.coordY;
+				
+				if (linkIdx == -1)
+				{
+					GD.PrintErr($"InfrastructureSave: conveyer link not found at ({linkLocation.coordX}, {linkLocation.coordY})");
 				}
 			}
-			
-			if (linkIdx == -1)
+			else
 			{
-				GD.PrintErr($"InfrastructureSave: conveyer link not found at ({linkLocation.coordX}, {linkLocation.coordY})");
+				if (infra.target != null)
+				{
+					targetX = infra.target.coordX;
+					targetY = infra.target.coordY;
+				}
+				else
+				{
+					targetX = 0;
+					targetY = 0;
+				}
+				
+				GD.PrintErr($"InfrastructureSave: conveyer {infra.name} at ({infra.location.coordX}, {infra.location.coordY}) link is null");
 			}
-			
-			targetX = linkLocation.coordX;
-			targetY = linkLocation.coordY;
 		}
 		else
 		{
@@ -3058,6 +3186,16 @@ public class LogisticSave
 	public int destinY {get; set;}
 	public int hopLimit {get; set;}
 	
+	public LogisticSave()
+	{
+		resource = "";
+		amount = 0f;
+		hasDestination = false;
+		destinX = 0;
+		destinY = 0;
+		hopLimit = 0;
+	}
+	
 	public LogisticSave(LogisticOrder order)
 	{
 		resource = order.resource;
@@ -3168,6 +3306,11 @@ public class Android
 public class AndroidSave
 {
 	public Dictionary<string, float> inventory {get; set;}
+	
+	public AndroidSave()
+	{
+		inventory = new();
+	}
 	
 	public AndroidSave(Android andro)
 	{

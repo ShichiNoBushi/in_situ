@@ -1,0 +1,111 @@
+{
+  "android": {
+    "inventory": {}
+  },
+  "regionMap": [
+    {
+      "coordX": 0,
+      "coordY": 0,
+      "id": "landing zone",
+      "windState": -0.08778794,
+      "solarState": 0.31446362,
+      "resources": {
+        "iron": 1000,
+        "energy": 10
+      },
+      "machines": [
+        {
+          "id": "smelter extruder",
+          "active": false,
+          "wear": 0,
+          "diagnosedWear": 0,
+          "repairComponents": {},
+          "coordX": 0,
+          "coordY": 0,
+          "currentRecipe": "copper wire sm-ex",
+          "outputBuffer": {}
+        },
+        {
+          "id": "component printer",
+          "active": false,
+          "wear": 0,
+          "diagnosedWear": 0,
+          "repairComponents": {},
+          "coordX": 0,
+          "coordY": 0,
+          "currentRecipe": "copper plate print",
+          "outputBuffer": {}
+        },
+        {
+          "id": "parts assembler",
+          "active": false,
+          "wear": 0,
+          "diagnosedWear": 0,
+          "repairComponents": {},
+          "coordX": 0,
+          "coordY": 0,
+          "currentRecipe": "capacitor",
+          "outputBuffer": {}
+        },
+        {
+          "id": "srg",
+          "active": false,
+          "wear": 0,
+          "diagnosedWear": 0,
+          "repairComponents": {},
+          "coordX": 0,
+          "coordY": 0,
+          "currentRecipe": "generate energy",
+          "outputBuffer": {}
+        }
+      ],
+      "infrastructure": [
+        {
+          "id": "stockpile",
+          "active": false,
+          "wear": 0,
+          "diagnosedWear": 0,
+          "repairComponents": {},
+          "coordX": 0,
+          "coordY": 0,
+          "linkIdx": -1,
+          "targetX": 0,
+          "targetY": 0,
+          "input": [],
+          "output": [],
+          "lastServed": -1
+        },
+        {
+          "id": "lithium battery",
+          "active": false,
+          "wear": 0,
+          "diagnosedWear": 0,
+          "repairComponents": {},
+          "coordX": 0,
+          "coordY": 0,
+          "linkIdx": -1,
+          "targetX": 0,
+          "targetY": 0,
+          "input": [],
+          "output": [],
+          "lastServed": -1
+        }
+      ],
+      "nodes": [
+        "stone",
+        "iron ore",
+        "copper ore",
+        "ice"
+      ]
+    }
+  ],
+  "currentX": 0,
+  "currentY": 0,
+  "unlocks": {},
+  "trackedQuest": "",
+  "activeQuests": [
+    "introduction"
+  ],
+  "completeQuests": [],
+  "logisticsSequence": 0
+}

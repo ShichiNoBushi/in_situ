@@ -1,4 +1,7 @@
+AcceptDialog
+ConfirmationDialog
 Button
+FileDialog
 HBoxContainer
 CheckBox
 RichTextLabel
@@ -10,5 +13,3 @@ TabContainer
 SpinBox
 OptionButton
 Control
-ItemList
-ConfirmationDialog
