@@ -85,6 +85,7 @@ __pycache__/
 /*.dll
 /builds/windows/
 /export/windows/
+/saves/
 
 # If you export for multiple platforms:
 build/

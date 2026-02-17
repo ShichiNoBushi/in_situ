@@ -24,7 +24,7 @@
 	"smelter extruder": {
 		"name": "Smelter Extruder",
 		"type": "smelter",
-		"cost": {"iron plate": 10, "iron gear small": 5, "electric motor": 5, "induction coil": 5},
+		"cost": {"iron plate": 10, "iron gear small": 5, "electric motor": 5, "induction coil": 5, "computer board": 2},
 		"durability": 5000,
 		"size": 5,
 		"starting amount": 1,
@@ -46,7 +46,7 @@
 	"component printer": {
 		"name": "Component Printer",
 		"type": "crafter",
-		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10},
+		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10, "computer board": 2},
 		"durability": 5000,
 		"size": 5,
 		"starting amount": 1,
@@ -101,7 +101,7 @@
 	"parts assembler": {
 		"name": "Parts Assembler",
 		"type": "assembler",
-		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10},
+		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10, "computer board": 2},
 		"durability": 5000,
 		"size": 5,
 		"starting amount": 1,
