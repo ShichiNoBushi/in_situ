@@ -568,7 +568,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["mineral rush", "salty miner"],
 			"recipes": [],
 			"machines": []
 		},
@@ -600,11 +600,75 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
-			"recipes": [],
+			"quests": ["better than tubes"],
+			"recipes": ["transistor"],
 			"machines": []
 		},
 		"text": "Silicon is a unique metaloid semiconductor, and its valence electrons give it properties that made it critical to the advancement of the information age. However, for certain advanced electronics, silicon will be more useful by ironically doping it with certain impurities, specifically ones from elemental groups adjacent to it on the periodic table. The ones you will be working with are boron and phosphorus.\n\nUse the smelter to combine boron with a small amount of each element to create p-doped and n-doped silicon. Combinations of both of these materials will be used to create transistors and other advanced electronics.",
 		"hint": "Refine boron and phospate ores into boron and phosphorus, then dope both of them with silicon in the smelter."
+	},
+	"better than tubes": {
+		"name": "Better Than Tubes",
+		"start": false,
+		"requirement": {
+			"resources": {"transistor": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "The most important component of computers is the transistor. With advanced technology, you will not have to use vacuum tubes which are by all considerations worse than transistors which are much smaller and cooler. By using certain combinations of transistors and other components, you can create logic gates and even arithmetic functions.",
+		"hint": "Use doped silicon to construct transistors in the parts assembler."
+	},
+	"salty miner": {
+		"name": "Salty Miner",
+		"start": false,
+		"requirement": {
+			"resources": {"salt": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["not gonna lye"],
+			"recipes": ["mix salt water", "electrolyze salt water"],
+			"machines": []
+		},
+		"text": "Salts are a broad category of chemicals, usually formed from combining an alkaline metal with a halogen, but the salt most commonly referred to by simply \"salt\" would be table salt or sodium chloride (NaCl). Table salt is frequently used for flavoring or preserving food, but it also has a lot of utility in chemistry especially if it is broken down into its base elements or other chemicals.\n\nExplore nearby regions for salt deposits and mine them manually or with an automated miner. Then either carry it back or transport it through a logistics network of hubs and conveyers.",
+		"hint": "Explore nearby regions for salt deposits. They are more likely in flat plains which could potentially have been sea beds."
+	},
+	"not gonna lye": {
+		"name": "Not Gonna Lye",
+		"start": false,
+		"requirement": {
+			"resources": {"lye soda": 5, "chlorine": 5},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "To use the base elements of NaCl salt, you will need to break it down chemically. Like you did with regular water before, you can again electrolyze a mix of salt water to create biproducts of sodium hydroxide (NaOH), or lye soda, and chlorine.",
+		"hint": "In a mixer, combine salt with water to make salt water. Then use the electrolyzer to electrolize it."
+	},
+	"improved electronics": {
+		"name": "Improved Electronics",
+		"start": false,
+		"requirement": {
+			"resources": {"computer board": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "With transistors and a proper printed circuit board, you can now assemble boards used in more advanced computering hardware. These can then be programmed for smarter automation.",
+		"hint": "In a parts assembler, craft transistors, resistors, and capacitors with printed circuit boards."
 	}
 }
