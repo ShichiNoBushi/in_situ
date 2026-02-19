@@ -568,7 +568,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["mineral rush", "salty miner"],
+			"quests": ["mineral rush", "salty miner", "better boards"],
 			"recipes": [],
 			"machines": []
 		},
@@ -648,12 +648,60 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
-			"recipes": [],
+			"quests": ["basics of acid"],
+			"recipes": ["synthesize hydrochloric acid"],
 			"machines": []
 		},
 		"text": "To use the base elements of NaCl salt, you will need to break it down chemically. Like you did with regular water before, you can again electrolyze a mix of salt water to create biproducts of sodium hydroxide (NaOH), or lye soda, and chlorine.",
 		"hint": "In a mixer, combine salt with water to make salt water. Then use the electrolyzer to electrolize it."
+	},
+	"basics of acid": {
+		"name": "Basics of Acid",
+		"start": false,
+		"requirement": {
+			"resources": {"hydrochloric acid": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["a bath wont kill you"],
+			"recipes": ["mix copper etchent"],
+			"machines": ["etching bath"]
+		},
+		"text": "A commonly used acid you can make with the resources available to you is hydrochloric acid (HCl). It is highly corrosive which makes it dangerous but useful if that's what you require.",
+		"hint": "Set a chemical reactor to synthesize hydrochloric acid using hydrogen and chlorine."
+	},
+	"a bath wont kill you": {
+		"name": "A Bath Won't Kill You",
+		"start": false,
+		"requirement": {
+			"resources": {"copper chloride etchent": 10},
+			"machines": {"etching bath": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "To make custom circuit boards, you can use a chemical etching solution to create a specific pattern in a prepared copper substrate board. An etching solution will be used to remove copper from exposed sections of the board to leave precise circuits. Use the mixer to combine copper foil with HCl acid and oxygen to make the necessary etching solution. Then construct an etching bath to be used to submerge the boards.",
+		"hint": "In a mixer, combine copper foil, HCl acid, and oxygen. Then construct an etching bath machine."
+	},
+	"better boards": {
+		"name": "Better Boards",
+		"start": false,
+		"requirement": {
+			"resources": {"copper-clad substrate": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "Computer circuit boards will require precise circuits printed on boards to assemble electronics on. The machines available to you now aren't precise enough to create something that intricately detailed, but until then, you can etch it into your boards. Before then, you will need to prepare boards with thin circuits of copper to carry the signals. Use the roller press to press thin sheets of copper foil and polyethylene onto laminate substrate.",
+		"hint": "Use the roller press with laminate substrate with copper foil and low-density polyethylene. Copper foil can also be made in the roller press."
 	},
 	"improved electronics": {
 		"name": "Improved Electronics",
