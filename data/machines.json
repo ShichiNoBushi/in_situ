@@ -109,6 +109,17 @@
 		"sort": [3, 0],
 		"description": "A machine that automatically crafts components with fine precision."
 	},
+	"wire coater": {
+		"name": "Wire Coater",
+		"type": "assembler",
+		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10, "computer board": 2},
+		"durability": 5000,
+		"size": 5,
+		"starting amount": 1,
+		"available": false,
+		"sort": [3, 1],
+		"description": "A machine to coat metal wire in insulator."
+	},
 	"crusher": {
 		"name": "Crusher",
 		"type": "processer",

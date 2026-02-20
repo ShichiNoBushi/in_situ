@@ -184,7 +184,7 @@
 	"stone": {
 		"name": "Stone",
 		"abbreviation": "Stone",
-		"type": "compound",
+		"type": "mineral",
 		"subtypes": ["mineral"],
 		"phase": "solid",
 		"unit": "g",
@@ -197,7 +197,7 @@
 	"boron ore": {
 		"name": "Boron Ore",
 		"abbreviation": "BOre",
-		"type": "compound",
+		"type": "mineral",
 		"subtypes": ["mineral"],
 		"phase": "solid",
 		"unit": "g",
@@ -210,7 +210,7 @@
 	"phosphate ore": {
 		"name": "Phosphate Ore",
 		"abbreviation": "POre",
-		"type": "compound",
+		"type": "mineral",
 		"subtypes": ["mineral"],
 		"phase": "solid",
 		"unit": "g",
@@ -223,7 +223,7 @@
 	"iron ore": {
 		"name": "Iron Ore",
 		"abbreviation": "FeOre",
-		"type": "compound",
+		"type": "mineral",
 		"subtypes": ["mineral"],
 		"phase": "solid",
 		"unit": "g",
@@ -236,7 +236,7 @@
 	"copper ore": {
 		"name": "Copper Ore",
 		"abbreviation": "CuOre",
-		"type": "compound",
+		"type": "mineral",
 		"subtypes": ["mineral"],
 		"phase": "solid",
 		"unit": "g",
@@ -245,6 +245,19 @@
 		"value": 0.3,
 		"sort": [2, 1, 29],
 		"description": "An ore that refines into copper."
+	},
+	"limestone": {
+		"name": "Limestone",
+		"abbreviation": "LmStn",
+		"type": "mineral",
+		"subtypes": ["mineral"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"limestone": 1.0},
+		"value": 0.3,
+		"sort": [2, 2],
+		"description": "An calcium carbinate mineral."
 	},
 	"gravel": {
 		"name": "Gravel",
@@ -269,7 +282,7 @@
 		"starting amount": 0.0,
 		"scrap": {"stone dust": 1.0},
 		"value": 0.1,
-		"sort": [2, 2, 0],
+		"sort": [3, 0, 0],
 		"description": "Stone pulverized into a fine dust."
 	},
 	"sand": {
@@ -282,7 +295,7 @@
 		"starting amount": 0.0,
 		"scrap": {"sand": 1.0},
 		"value": 0.2,
-		"sort": [2, 2, 1],
+		"sort": [3, 0, 1],
 		"description": "Fine grains of quartz or silica."
 	},
 	"clay slurry": {
@@ -295,7 +308,7 @@
 		"starting amount": 0.0,
 		"scrap": {"clay slurry": 1.0},
 		"value": 0.2,
-		"sort": [2, 3],
+		"sort": [3, 1],
 		"description": "A mixture of fine stone dust and water to be used as a bonding paste."
 	},
 	"water": {
@@ -308,7 +321,7 @@
 		"starting amount": 0.0,
 		"scrap": {"water": 1.0},
 		"value": 0.3,
-		"sort": [2, 4, 0],
+		"sort": [3, 2, 0],
 		"description": "Liquid water."
 	},
 	"ice": {
@@ -321,7 +334,7 @@
 		"starting amount": 0.0,
 		"scrap": {"ice": 1.0},
 		"value": 0.1,
-		"sort": [2, 4, 1],
+		"sort": [3, 2, 1],
 		"description": "Frozen water."
 	},
 	"salt": {
@@ -334,7 +347,7 @@
 		"starting amount": 0.0,
 		"scrap": {"salt": 1.0},
 		"value": 0.2,
-		"sort": [2, 5],
+		"sort": [3, 3],
 		"description": "Sodium chloride table salt."
 	},
 	"carbon monoxide": {
@@ -347,7 +360,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon monoxide": 1.0},
 		"value": 0.1,
-		"sort": [2, 6, 1],
+		"sort": [3, 4, 1],
 		"description": "A toxic gas as a biproduct of chemical reactions and combustion."
 	},
 	"carbon dioxide": {
@@ -360,7 +373,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon dioxide": 1.0},
 		"value": 0.1,
-		"sort": [2, 6, 2],
+		"sort": [3, 4, 2],
 		"description": "Gas produced by combustion or respiration."
 	},
 	"methane": {
@@ -373,7 +386,7 @@
 		"starting amount": 0.0,
 		"scrap": {"methane": 1.0},
 		"value": 0.3,
-		"sort": [2, 7, 1, 4],
+		"sort": [3, 5, 1, 4],
 		"description": "Natural gas hydrocarbon used in combustion and chemical reactions."
 	},
 	"ethylene": {
@@ -386,7 +399,7 @@
 		"starting amount": 0.0,
 		"scrap": {"methane": 1.0},
 		"value": 0.3,
-		"sort": [2, 7, 2, 4],
+		"sort": [3, 5, 2, 4],
 		"description": "Hydrocarbon used as a monomer for simple plastics."
 	},
 	"lye soda": {
@@ -399,7 +412,7 @@
 		"starting amount": 0.0,
 		"scrap": {"lye soda": 1.0},
 		"value": 0.3,
-		"sort": [2, 8],
+		"sort": [3, 6],
 		"description": "Sodium hydroxide caustic soda."
 	},
 	"hydrochloric acid": {
@@ -412,7 +425,7 @@
 		"starting amount": 0.0,
 		"scrap": {"hydrochloric acid": 1.0},
 		"value": 0.3,
-		"sort": [2, 9, 17],
+		"sort": [3, 7, 17],
 		"description": "Potent hydrocholic acid."
 	},
 	"bleach": {
@@ -425,7 +438,7 @@
 		"starting amount": 0.0,
 		"scrap": {"bleach": 1.0},
 		"value": 0.3,
-		"sort": [2, 10],
+		"sort": [3, 8],
 		"description": "Sodium hypochlorite bleach."
 	},
 	"salt water": {
@@ -438,7 +451,7 @@
 		"starting amount": 0.0,
 		"scrap": {"salt water": 1.0},
 		"value": 0.3,
-		"sort": [2, 11],
+		"sort": [3, 9],
 		"description": "Salt disolved in water."
 	},
 	"copper chloride etchent": {
@@ -451,7 +464,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper chloride etchent": 1.0},
 		"value": 0.3,
-		"sort": [2, 12, 0],
+		"sort": [3, 10, 0],
 		"description": "Etching acid solution for PCBs."
 	},
 	"spent copper etchent": {
@@ -464,7 +477,7 @@
 		"starting amount": 0.0,
 		"scrap": {"spent copper etchent": 1.0},
 		"value": 0.3,
-		"sort": [2, 12, 1],
+		"sort": [3, 10, 1],
 		"description": "Spent etchent to be recycled."
 	},
 	"low-density polyethylene": {
@@ -477,7 +490,7 @@
 		"starting amount": 0.0,
 		"scrap": {"low-density polyethylene": 1.0},
 		"value": 0.2,
-		"sort": [3, 0],
+		"sort": [4, 0],
 		"description": "A cheap plastic."
 	},
 	"high-density polyethylene": {
@@ -490,7 +503,7 @@
 		"starting amount": 0.0,
 		"scrap": {"high-density polyethylene": 1.0},
 		"value": 0.2,
-		"sort": [3, 1],
+		"sort": [4, 1],
 		"description": "A durable common plastic."
 	},
 	"iron wire": {
@@ -503,20 +516,20 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 1, 26],
+		"sort": [5, 1, 26],
 		"description": "Iron extruded and wound into thin wire."
 	},
 	"copper wire": {
 		"name": "Copper Wire",
 		"abbreviation": "Wire-Cu",
 		"type": "component",
-		"suptypes": ["wire", "metal"],
+		"subtypes": ["wire", "metal"],
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 1, 29],
+		"sort": [5, 1, 29],
 		"description": "Copper extruded and wound into thin wire."
 	},
 	"glass filament": {
@@ -529,8 +542,21 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 1.0},
 		"value": 0.2,
-		"sort": [4, 2, 0],
+		"sort": [5, 2, 0],
 		"description": "A thin filament of glass."
+	},
+	"insulated cable cu": {
+		"name": "Insulated Cable (Cu)",
+		"abbreviation": "Cable-Cu",
+		"type": "component",
+		"subtypes": ["wire", "metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 0.667, "low-density polyethylene": 0.333},
+		"value": 0.5,
+		"sort": [5, 3, 29],
+		"description": "Insulated cable made of copper."
 	},
 	"stone brick": {
 		"name": "Stone Brick",
@@ -542,7 +568,7 @@
 		"starting amount": 0.0,
 		"scrap": {"gravel": 1.0},
 		"value": 0.2,
-		"sort": [4, 3, 0],
+		"sort": [5, 4, 0],
 		"description": "Stone carved and sculpted into uniform bricks."
 	},
 	"ceramic": {
@@ -555,7 +581,7 @@
 		"starting amount": 0.0,
 		"scrap": {"stone dust": 1.0},
 		"value": 0.2,
-		"sort": [4, 3, 1],
+		"sort": [5, 4, 1],
 		"description": "Clay baked into ceramic."
 	},
 	"iron gear small": {
@@ -568,7 +594,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 4, 26],
+		"sort": [5, 5, 26],
 		"description": "Small iron gears used in machines."
 	},
 	"iron rod": {
@@ -581,7 +607,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 5, 26],
+		"sort": [5, 6, 26],
 		"description": "A thick, sturdy rod of iron."
 	},
 	"iron blade": {
@@ -594,7 +620,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 6, 26],
+		"sort": [5, 7, 26],
 		"description": "A sharp blade made of iron for cutting or carving."
 	},
 	"iron plate": {
@@ -607,7 +633,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 7, 26],
+		"sort": [5, 8, 26],
 		"description": "A flat plate made of iron used in construction."
 	},
 	"copper plate": {
@@ -620,7 +646,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 7, 29],
+		"sort": [5, 8, 29],
 		"description": "A flat plate made of copper used in construction."
 	},
 	"copper foil": {
@@ -633,7 +659,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 8, 29],
+		"sort": [5, 9, 29],
 		"description": "A thin foil sheet made of copper used in electronics."
 	},
 	"glass pane": {
@@ -646,7 +672,7 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 1.0},
 		"value": 0.3,
-		"sort": [4, 9, 0],
+		"sort": [5, 10, 0],
 		"description": "A sheet of transparent glass."
 	},
 	"magnet": {
@@ -659,7 +685,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
-		"sort": [4, 10, 26],
+		"sort": [5, 11, 26],
 		"description": "A magnetized piece of iron."
 	},
 	"electric motor": {
@@ -672,7 +698,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
-		"sort": [4, 11, 0],
+		"sort": [5, 12, 0],
 		"description": "A motor using electromagnetism to convert electricity into mechanical work or vice versa."
 	},
 	"induction coil": {
@@ -685,7 +711,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
-		"sort": [4, 11, 1],
+		"sort": [5, 12, 1],
 		"description": "A coil that uses magnetic induction to efficiently generate heat."
 	},
 	"electromagnetic relay": {
@@ -698,7 +724,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.5, "copper scrap": 0.5},
 		"value": 0.7,
-		"sort": [4, 11, 2],
+		"sort": [5, 12, 2],
 		"description": "A switch that activates automatically to close a circuit."
 	},
 	"resistor": {
@@ -711,7 +737,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon": 0.5, "copper scrap": 0.25, "stone dust": 0.25},
 		"value": 0.7,
-		"sort": [4, 12, 0],
+		"sort": [5, 13, 0],
 		"description": "An electronic component for controlling currents."
 	},
 	"capacitor": {
@@ -724,7 +750,7 @@
 		"starting amount": 0.0,
 		"scrap": {"stone dust": 0.25, "copper scrap": 0.75},
 		"value": 0.7,
-		"sort": [4, 12, 1],
+		"sort": [5, 13, 1],
 		"description": "An electronic component to store energy."
 	},
 	"transistor": {
@@ -737,7 +763,20 @@
 		"starting amount": 0.0,
 		"scrap": {"p-doped silicon": 0.4, "n-doped silicon": 0.4, "copper scrap": 0.2},
 		"value": 5.0,
-		"sort": [4, 12, 2],
+		"sort": [5, 13, 2],
+		"description": "An electronic component for computing."
+	},
+	"diode": {
+		"name": "Diode",
+		"abbreviation": "Diode",
+		"type": "component",
+		"subtypes": ["electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"p-doped silicon": 0.4, "n-doped silicon": 0.4, "copper scrap": 0.2},
+		"value": 5.0,
+		"sort": [4, 13, 3],
 		"description": "An electronic component for computing."
 	},
 	"insulating substrate": {
@@ -750,7 +789,7 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 0.5, "stone dust": 0.5},
 		"value": 0.5,
-		"sort": [4, 13, 0],
+		"sort": [5, 14, 0],
 		"description": "A starter board for constructing electric circuits."
 	},
 	"copper-clad substrate": {
@@ -761,9 +800,9 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
-		"scrap": {"copper shard": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
+		"scrap": {"copper scrap": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
 		"value": 0.5,
-		"sort": [4, 13, 1],
+		"sort": [5, 14, 1],
 		"description": "A board laminated with copper foil."
 	},
 	"printed circuit board": {
@@ -774,9 +813,9 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
-		"scrap": {"copper shard": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
+		"scrap": {"copper scrap": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
 		"value": 0.5,
-		"sort": [4, 13, 2],
+		"sort": [5, 14, 2],
 		"description": "A board with circuits etched and prepared for electronics."
 	},
 	"control board": {
@@ -789,7 +828,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "carbon": 0.1},
 		"value": 0.7,
-		"sort": [4, 14, 0],
+		"sort": [5, 15, 0],
 		"description": "A control board for simple electronic automation."
 	},
 	"computer board": {
@@ -802,7 +841,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "p-doped silicon": 0.1, "n-doped silicon": 0.1, "polyethylene": 0.1, "carbon": 0.1},
 		"value": 0.7,
-		"sort": [4, 14, 1],
+		"sort": [5, 15, 1],
 		"description": "An advanced circuit board for computer automation."
 	},
 	"iron scrap": {
@@ -815,7 +854,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.1,
-		"sort": [5, 0, 26],
+		"sort": [6, 0, 26],
 		"description": "Scraps of damaged iron that can be recycled."
 	},
 	"copper scrap": {
@@ -828,7 +867,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.1,
-		"sort": [5, 0, 29],
+		"sort": [6, 0, 29],
 		"description": "Scraps of damaged copper that can be recycled."
 	},
 	"plutonium scrap": {
@@ -841,7 +880,7 @@
 		"starting amount": 0.0,
 		"scrap": {"plutonium scrap": 1.0},
 		"value": 0.5,
-		"sort": [5, 0, 94],
+		"sort": [6, 0, 94],
 		"description": "Scraps of damaged plutonium that can be recycled."
 	},
 	"glass shard": {
@@ -854,7 +893,7 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 1.0},
 		"value": 0.1,
-		"sort": [5, 1, 0],
+		"sort": [6, 1, 0],
 		"description": "Shards of broken glass that can be recycled."
 	},
 	"energy": {
@@ -867,7 +906,7 @@
 		"starting amount": 10.0,
 		"scrap": {"energy": 1.0},
 		"value": 0.2,
-		"sort": [6, 0],
+		"sort": [7, 0],
 		"description": "Energy used to power machines."
 	}
 }
