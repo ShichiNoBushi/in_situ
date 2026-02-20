@@ -680,8 +680,8 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
-			"recipes": [],
+			"quests": ["a quick soak"],
+			"recipes": ["etch circuit board", "regenerate etchent"],
 			"machines": []
 		},
 		"text": "To make custom circuit boards, you can use a chemical etching solution to create a specific pattern in a prepared copper substrate board. An etching solution will be used to remove copper from exposed sections of the board to leave precise circuits. Use the mixer to combine copper foil with HCl acid and oxygen to make the necessary etching solution. Then construct an etching bath to be used to submerge the boards.",
@@ -703,6 +703,22 @@
 		"text": "Computer circuit boards will require precise circuits printed on boards to assemble electronics on. The machines available to you now aren't precise enough to create something that intricately detailed, but until then, you can etch it into your boards. Before then, you will need to prepare boards with thin circuits of copper to carry the signals. Use the roller press to press thin sheets of copper foil and polyethylene onto laminate substrate.",
 		"hint": "Use the roller press with laminate substrate with copper foil and low-density polyethylene. Copper foil can also be made in the roller press."
 	},
+	"a quick soak": {
+		"name": "A Quick Soak",
+		"start": false,
+		"requirement": {
+			"resources": {"printed circuit board": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["improved electronics"],
+			"recipes": ["computer board"],
+			"machines": []
+		},
+		"text": "Submerging the prepared copper-clad boards with a protective layer in an intended pattern will leave the copper circuits on the board, and it will be ready for other electronic components to be assembled onto it. The copper etched from the board will then be leached into the solution, but that could then be regenerated into usable etching solution. Process the spent etchent solution in the mixer with HCl acid and oxigen to regenerate it into fresh etching solution.",
+		"hint": "Use the etching bath to turn copper-clad substrates into printed circuit boards. Some of the etching solution will turn into spent etchent which can be regenerated in the mixer."
+	},
 	"improved electronics": {
 		"name": "Improved Electronics",
 		"start": false,
@@ -714,7 +730,7 @@
 		"unlocks": {
 			"quests": [],
 			"recipes": [],
-			"machines": []
+			"machines": ["smelter extruder", "component printer", "parts assembler"]
 		},
 		"text": "With transistors and a proper printed circuit board, you can now assemble boards used in more advanced computering hardware. These can then be programmed for smarter automation.",
 		"hint": "In a parts assembler, craft transistors, resistors, and capacitors with printed circuit boards."

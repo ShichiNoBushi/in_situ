@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ch76hukot0cbd"]
+[gd_scene format=3 uid="uid://ch76hukot0cbd"]
 
 [ext_resource type="Script" uid="uid://b0bv0qqgs87qd" path="res://scripts/GameData.cs" id="1_hh5uf"]
 [ext_resource type="PackedScene" uid="uid://krtatr5ambw4" path="res://Scenes/BuildPanel.tscn" id="2_chwn1"]
@@ -20,58 +20,58 @@
 [sub_resource type="ButtonGroup" id="ButtonGroup_c32x4"]
 resource_name = "ToFromInventoryGroup"
 
-[node name="Root" type="Node2D"]
+[node name="Root" type="Node2D" unique_id=1510446860]
 
-[node name="GameData" type="Node" parent="."]
+[node name="GameData" type="Node" parent="." unique_id=546641732]
 script = ExtResource("1_hh5uf")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=2071980308]
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
 current_tab = 0
 
-[node name="Base" type="Control" parent="TabContainer"]
+[node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="MapControl" parent="TabContainer/Base" instance=ExtResource("11_85gyg")]
+[node name="MapControl" parent="TabContainer/Base" unique_id=1028328577 instance=ExtResource("11_85gyg")]
 layout_mode = 1
 
-[node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/Base"]
+[node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/Base" unique_id=1444661538]
 layout_mode = 0
 offset_left = 762.0
 offset_top = 2.0
 offset_right = 1132.0
 offset_bottom = 673.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/ResourceScroll"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Base/ResourceScroll" unique_id=854891908]
 layout_mode = 2
 script = ExtResource("3_tx0tn")
 ResourcePanelScene = ExtResource("4_wjtap")
 ResourceLabelScene = ExtResource("5_v7gqg")
 
-[node name="StoragePanel" type="Panel" parent="TabContainer/Base"]
+[node name="StoragePanel" type="Panel" parent="TabContainer/Base" unique_id=1629525649]
 layout_mode = 0
 offset_left = 762.0
 offset_top = 681.0
 offset_right = 1132.0
 offset_bottom = 733.0
 
-[node name="StorageLabel" type="Label" parent="TabContainer/Base/StoragePanel"]
+[node name="StorageLabel" type="Label" parent="TabContainer/Base/StoragePanel" unique_id=86155851]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Max Storage:"
 
-[node name="MaxPhaseLabel" type="RichTextLabel" parent="TabContainer/Base/StoragePanel"]
+[node name="MaxPhaseLabel" type="RichTextLabel" parent="TabContainer/Base/StoragePanel" unique_id=1535552339]
 layout_mode = 0
 offset_top = 23.0
 offset_right = 370.0
 offset_bottom = 52.0
 bbcode_enabled = true
 
-[node name="MachinesTab" type="TabContainer" parent="TabContainer/Base"]
+[node name="MachinesTab" type="TabContainer" parent="TabContainer/Base" unique_id=813544583]
 layout_mode = 0
 offset_left = 1165.0
 offset_top = 2.0
@@ -82,54 +82,54 @@ script = ExtResource("3_u7krg")
 MachinePanelScene = ExtResource("4_6whob")
 InfrastructurePanelScene = ExtResource("8_fg7i4")
 
-[node name="Machines" type="ScrollContainer" parent="TabContainer/Base/MachinesTab"]
+[node name="Machines" type="ScrollContainer" parent="TabContainer/Base/MachinesTab" unique_id=1379453683]
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 0
 
-[node name="MachinesVBox" type="VBoxContainer" parent="TabContainer/Base/MachinesTab/Machines"]
+[node name="MachinesVBox" type="VBoxContainer" parent="TabContainer/Base/MachinesTab/Machines" unique_id=233388925]
 layout_mode = 2
 
-[node name="Infrastructure" type="ScrollContainer" parent="TabContainer/Base/MachinesTab"]
+[node name="Infrastructure" type="ScrollContainer" parent="TabContainer/Base/MachinesTab" unique_id=1070922256]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="InfrastructureVBox" type="VBoxContainer" parent="TabContainer/Base/MachinesTab/Infrastructure"]
+[node name="InfrastructureVBox" type="VBoxContainer" parent="TabContainer/Base/MachinesTab/Infrastructure" unique_id=1535918869]
 layout_mode = 2
 
-[node name="TravelPanel" parent="TabContainer/Base" instance=ExtResource("13_he4j0")]
+[node name="TravelPanel" parent="TabContainer/Base" unique_id=1513629766 instance=ExtResource("13_he4j0")]
 layout_mode = 1
 offset_left = 16.0
 offset_top = 739.0
 offset_right = -1107.0
 offset_bottom = -2.0
 
-[node name="QuestPanel" type="Panel" parent="TabContainer/Base"]
+[node name="QuestPanel" type="Panel" parent="TabContainer/Base" unique_id=963144907]
 layout_mode = 0
 offset_left = 626.0
 offset_top = 740.0
 offset_right = 992.0
 offset_bottom = 935.0
 
-[node name="QuestLabel" type="Label" parent="TabContainer/Base/QuestPanel"]
+[node name="QuestLabel" type="Label" parent="TabContainer/Base/QuestPanel" unique_id=137029867]
 layout_mode = 0
 offset_left = 136.0
 offset_right = 234.0
 offset_bottom = 23.0
 text = "Active Quest"
 
-[node name="ObjectiveScroll" type="ScrollContainer" parent="TabContainer/Base/QuestPanel"]
+[node name="ObjectiveScroll" type="ScrollContainer" parent="TabContainer/Base/QuestPanel" unique_id=698822245]
 layout_mode = 0
 offset_top = 23.0
 offset_right = 366.0
 offset_bottom = 195.0
 
-[node name="ObjectiveLabel" type="Label" parent="TabContainer/Base/QuestPanel/ObjectiveScroll"]
+[node name="ObjectiveLabel" type="Label" parent="TabContainer/Base/QuestPanel/ObjectiveScroll" unique_id=1963080038]
 layout_mode = 2
 text = "ERROR"
 
-[node name="HarvestPanel" parent="TabContainer/Base" instance=ExtResource("8_v7gqg")]
+[node name="HarvestPanel" parent="TabContainer/Base" unique_id=154173203 instance=ExtResource("8_v7gqg")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -141,33 +141,33 @@ offset_bottom = 739.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="BuildPanel" parent="TabContainer/Base" instance=ExtResource("2_chwn1")]
+[node name="BuildPanel" parent="TabContainer/Base" unique_id=612676841 instance=ExtResource("2_chwn1")]
 layout_mode = 1
 offset_left = 1315.0
 offset_top = 740.0
 offset_right = -63.0
 offset_bottom = -1.0
 
-[node name="Logistics" type="Control" parent="TabContainer"]
+[node name="Logistics" type="Control" parent="TabContainer" unique_id=1248405455]
 visible = false
 layout_mode = 2
 script = ExtResource("11_c32x4")
 metadata/_tab_index = 1
 
-[node name="LogisticsList" type="ItemList" parent="TabContainer/Logistics"]
+[node name="LogisticsList" type="ItemList" parent="TabContainer/Logistics" unique_id=2017273909]
 layout_mode = 0
 offset_top = 2.0
 offset_right = 698.0
 offset_bottom = 700.0
 
-[node name="LogisticsLabel" type="Label" parent="TabContainer/Logistics"]
+[node name="LogisticsLabel" type="Label" parent="TabContainer/Logistics" unique_id=1790359730]
 layout_mode = 0
 offset_left = 722.0
 offset_right = 1330.0
 offset_bottom = 158.0
 text = "Logistics Label"
 
-[node name="LogResourceMenu" type="OptionButton" parent="TabContainer/Logistics"]
+[node name="LogResourceMenu" type="OptionButton" parent="TabContainer/Logistics" unique_id=1748435922]
 layout_mode = 0
 offset_left = 722.0
 offset_top = 180.0
@@ -175,7 +175,7 @@ offset_right = 1165.0
 offset_bottom = 213.0
 disabled = true
 
-[node name="LogResourceLabel" type="Label" parent="TabContainer/Logistics"]
+[node name="LogResourceLabel" type="Label" parent="TabContainer/Logistics" unique_id=392961082]
 layout_mode = 0
 offset_left = 1188.0
 offset_top = 180.0
@@ -183,7 +183,7 @@ offset_right = 1275.0
 offset_bottom = 213.0
 horizontal_alignment = 2
 
-[node name="LogResourceSpin" type="SpinBox" parent="TabContainer/Logistics"]
+[node name="LogResourceSpin" type="SpinBox" parent="TabContainer/Logistics" unique_id=2132853009]
 layout_mode = 0
 offset_left = 1300.0
 offset_top = 180.0
@@ -195,7 +195,7 @@ allow_lesser = true
 alignment = 2
 editable = false
 
-[node name="LogOrderButton" type="Button" parent="TabContainer/Logistics"]
+[node name="LogOrderButton" type="Button" parent="TabContainer/Logistics" unique_id=350039495]
 layout_mode = 0
 offset_left = 722.0
 offset_top = 228.0
@@ -204,24 +204,24 @@ offset_bottom = 259.0
 disabled = true
 text = "Send Order"
 
-[node name="LogisticsScroll" type="ScrollContainer" parent="TabContainer/Logistics"]
+[node name="LogisticsScroll" type="ScrollContainer" parent="TabContainer/Logistics" unique_id=320328687]
 layout_mode = 0
 offset_left = 722.0
 offset_top = 267.0
 offset_right = 1387.0
 offset_bottom = 696.0
 
-[node name="LogOrderLabel" type="RichTextLabel" parent="TabContainer/Logistics/LogisticsScroll"]
+[node name="LogOrderLabel" type="RichTextLabel" parent="TabContainer/Logistics/LogisticsScroll" unique_id=637436414]
 custom_minimum_size = Vector2(665, 429)
 layout_mode = 2
 
-[node name="Android" type="Control" parent="TabContainer"]
+[node name="Android" type="Control" parent="TabContainer" unique_id=1531498862]
 visible = false
 layout_mode = 2
 script = ExtResource("12_c32x4")
 metadata/_tab_index = 2
 
-[node name="InventoryLabelTxt" type="Label" parent="TabContainer/Android"]
+[node name="InventoryLabelTxt" type="Label" parent="TabContainer/Android" unique_id=1456988485]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 33.0
@@ -229,7 +229,7 @@ offset_right = 148.0
 offset_bottom = 56.0
 text = "Current Inventory"
 
-[node name="InventoryLabel" type="Label" parent="TabContainer/Android"]
+[node name="InventoryLabel" type="Label" parent="TabContainer/Android" unique_id=425408457]
 layout_mode = 0
 offset_left = 148.0
 offset_top = 33.0
@@ -237,7 +237,7 @@ offset_right = 261.0
 offset_bottom = 56.0
 horizontal_alignment = 2
 
-[node name="MaximumLabelTxt" type="Label" parent="TabContainer/Android"]
+[node name="MaximumLabelTxt" type="Label" parent="TabContainer/Android" unique_id=1126645175]
 layout_mode = 0
 offset_left = 261.0
 offset_top = 33.0
@@ -245,25 +245,25 @@ offset_right = 413.0
 offset_bottom = 56.0
 text = "Maximum Capacity"
 
-[node name="MaximumLabel" type="Label" parent="TabContainer/Android"]
+[node name="MaximumLabel" type="Label" parent="TabContainer/Android" unique_id=1543455437]
 layout_mode = 0
 offset_left = 413.0
 offset_top = 33.0
 offset_right = 497.0
 offset_bottom = 56.0
 
-[node name="InventoryScroll" type="ScrollContainer" parent="TabContainer/Android"]
+[node name="InventoryScroll" type="ScrollContainer" parent="TabContainer/Android" unique_id=680239940]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 69.0
 offset_right = 512.0
 offset_bottom = 466.0
 
-[node name="FullInventoryLabel" type="RichTextLabel" parent="TabContainer/Android/InventoryScroll"]
+[node name="FullInventoryLabel" type="RichTextLabel" parent="TabContainer/Android/InventoryScroll" unique_id=1020136535]
 custom_minimum_size = Vector2(508, 397)
 layout_mode = 2
 
-[node name="ResourceLabelTxt" type="Label" parent="TabContainer/Android"]
+[node name="ResourceLabelTxt" type="Label" parent="TabContainer/Android" unique_id=2043146479]
 layout_mode = 0
 offset_left = 553.0
 offset_top = 33.0
@@ -271,14 +271,14 @@ offset_right = 630.0
 offset_bottom = 56.0
 text = "Resource"
 
-[node name="ResourceMenu" type="OptionButton" parent="TabContainer/Android"]
+[node name="ResourceMenu" type="OptionButton" parent="TabContainer/Android" unique_id=1855340253]
 layout_mode = 0
 offset_left = 553.0
 offset_top = 69.0
 offset_right = 788.0
 offset_bottom = 90.0
 
-[node name="AvailableLabelTxt" type="Label" parent="TabContainer/Android"]
+[node name="AvailableLabelTxt" type="Label" parent="TabContainer/Android" unique_id=331307509]
 layout_mode = 0
 offset_left = 797.0
 offset_top = 33.0
@@ -286,7 +286,7 @@ offset_right = 870.0
 offset_bottom = 56.0
 text = "Available"
 
-[node name="AvailableLabel" type="Label" parent="TabContainer/Android"]
+[node name="AvailableLabel" type="Label" parent="TabContainer/Android" unique_id=24234117]
 layout_mode = 0
 offset_left = 797.0
 offset_top = 69.0
@@ -294,7 +294,7 @@ offset_right = 886.0
 offset_bottom = 92.0
 horizontal_alignment = 2
 
-[node name="ToInventoryRadio" type="CheckBox" parent="TabContainer/Android"]
+[node name="ToInventoryRadio" type="CheckBox" parent="TabContainer/Android" unique_id=1403268572]
 layout_mode = 0
 offset_left = 553.0
 offset_top = 110.0
@@ -304,7 +304,7 @@ button_pressed = true
 button_group = SubResource("ButtonGroup_c32x4")
 text = "To Inventory"
 
-[node name="FromInventoryRadio" type="CheckBox" parent="TabContainer/Android"]
+[node name="FromInventoryRadio" type="CheckBox" parent="TabContainer/Android" unique_id=115194106]
 layout_mode = 0
 offset_left = 694.0
 offset_top = 110.0
@@ -313,7 +313,7 @@ offset_bottom = 141.0
 button_group = SubResource("ButtonGroup_c32x4")
 text = "From Inventory"
 
-[node name="TransferSpin" type="SpinBox" parent="TabContainer/Android"]
+[node name="TransferSpin" type="SpinBox" parent="TabContainer/Android" unique_id=1350560108]
 layout_mode = 0
 offset_left = 856.0
 offset_top = 110.0
@@ -321,7 +321,7 @@ offset_right = 942.5625
 offset_bottom = 141.0
 alignment = 2
 
-[node name="TransferButton" type="Button" parent="TabContainer/Android"]
+[node name="TransferButton" type="Button" parent="TabContainer/Android" unique_id=1116729328]
 layout_mode = 0
 offset_left = 553.0
 offset_top = 158.0
@@ -329,57 +329,57 @@ offset_right = 679.0
 offset_bottom = 189.0
 text = "Transfer"
 
-[node name="Quests" type="Control" parent="TabContainer"]
+[node name="Quests" type="Control" parent="TabContainer" unique_id=60669109]
 visible = false
 layout_mode = 2
 script = ExtResource("10_hvaui")
 metadata/_tab_index = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Quests"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Quests" unique_id=324564046]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 1710.0
 offset_bottom = 920.0
 
-[node name="QuestVBox" type="VBoxContainer" parent="TabContainer/Quests/HBoxContainer"]
+[node name="QuestVBox" type="VBoxContainer" parent="TabContainer/Quests/HBoxContainer" unique_id=714038364]
 custom_minimum_size = Vector2(850, 910)
 layout_mode = 2
 
-[node name="ActiveScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/QuestVBox"]
+[node name="ActiveScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/QuestVBox" unique_id=1263761443]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="ActiveList" type="ItemList" parent="TabContainer/Quests/HBoxContainer/QuestVBox/ActiveScroll"]
+[node name="ActiveList" type="ItemList" parent="TabContainer/Quests/HBoxContainer/QuestVBox/ActiveScroll" unique_id=301506178]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="CompleteScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/QuestVBox"]
+[node name="CompleteScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/QuestVBox" unique_id=603661753]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="CompleteList" type="ItemList" parent="TabContainer/Quests/HBoxContainer/QuestVBox/CompleteScroll"]
+[node name="CompleteList" type="ItemList" parent="TabContainer/Quests/HBoxContainer/QuestVBox/CompleteScroll" unique_id=1166771635]
 custom_minimum_size = Vector2(850, 460)
 layout_mode = 2
 
-[node name="DisplayVBox" type="VBoxContainer" parent="TabContainer/Quests/HBoxContainer"]
+[node name="DisplayVBox" type="VBoxContainer" parent="TabContainer/Quests/HBoxContainer" unique_id=267062850]
 layout_mode = 2
 
-[node name="DisplayScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/DisplayVBox"]
+[node name="DisplayScroll" type="ScrollContainer" parent="TabContainer/Quests/HBoxContainer/DisplayVBox" unique_id=1790123574]
 custom_minimum_size = Vector2(850, 850)
 layout_mode = 2
 
-[node name="DisplayLabel" type="Label" parent="TabContainer/Quests/HBoxContainer/DisplayVBox/DisplayScroll"]
+[node name="DisplayLabel" type="Label" parent="TabContainer/Quests/HBoxContainer/DisplayVBox/DisplayScroll" unique_id=1006092279]
 custom_minimum_size = Vector2(850, 0)
 layout_mode = 2
 text = "No quest selected"
 autowrap_mode = 2
 
-[node name="Panel" type="Panel" parent="TabContainer/Quests/HBoxContainer/DisplayVBox"]
+[node name="Panel" type="Panel" parent="TabContainer/Quests/HBoxContainer/DisplayVBox" unique_id=2037520090]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 
-[node name="TrackButton" type="Button" parent="TabContainer/Quests/HBoxContainer/DisplayVBox/Panel"]
+[node name="TrackButton" type="Button" parent="TabContainer/Quests/HBoxContainer/DisplayVBox/Panel" unique_id=801558119]
 layout_mode = 0
 offset_left = 338.0
 offset_top = 21.0
@@ -387,7 +387,7 @@ offset_right = 439.0
 offset_bottom = 52.0
 text = "Track Quest"
 
-[node name="QuestTestLabel" type="Label" parent="TabContainer/Quests"]
+[node name="QuestTestLabel" type="Label" parent="TabContainer/Quests" unique_id=1644893227]
 visible = false
 layout_mode = 0
 offset_left = 553.0
@@ -395,12 +395,12 @@ offset_top = 33.0
 offset_right = 904.0
 offset_bottom = 679.0
 
-[node name="Options" type="Control" parent="TabContainer"]
+[node name="Options" type="Control" parent="TabContainer" unique_id=1154904237]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="NewButton" type="Button" parent="TabContainer/Options"]
+[node name="NewButton" type="Button" parent="TabContainer/Options" unique_id=663729861]
 layout_mode = 0
 offset_left = 788.0
 offset_top = 18.0
@@ -408,7 +408,7 @@ offset_right = 903.0
 offset_bottom = 49.0
 text = "New"
 
-[node name="SaveButton" type="Button" parent="TabContainer/Options"]
+[node name="SaveButton" type="Button" parent="TabContainer/Options" unique_id=1358048983]
 layout_mode = 0
 offset_left = 788.0
 offset_top = 69.0
@@ -416,7 +416,7 @@ offset_right = 903.0
 offset_bottom = 100.0
 text = "Save"
 
-[node name="LoadButton" type="Button" parent="TabContainer/Options"]
+[node name="LoadButton" type="Button" parent="TabContainer/Options" unique_id=2086372747]
 layout_mode = 0
 offset_left = 788.0
 offset_top = 114.0
@@ -424,7 +424,7 @@ offset_right = 904.0
 offset_bottom = 145.0
 text = "Load"
 
-[node name="QuitButton" type="Button" parent="TabContainer/Options"]
+[node name="QuitButton" type="Button" parent="TabContainer/Options" unique_id=1708342668]
 layout_mode = 0
 offset_left = 788.0
 offset_top = 161.0
@@ -432,27 +432,27 @@ offset_right = 903.0
 offset_bottom = 192.0
 text = "Quit"
 
-[node name="NewConfirm" type="ConfirmationDialog" parent="TabContainer/Options"]
+[node name="NewConfirm" type="ConfirmationDialog" parent="TabContainer/Options" unique_id=577474661]
 
-[node name="SaveDialog" type="FileDialog" parent="TabContainer/Options"]
+[node name="SaveDialog" type="FileDialog" parent="TabContainer/Options" unique_id=2009853672]
 access = 2
 root_subfolder = "saves"
 filters = PackedStringArray("*.json")
 
-[node name="LoadDialog" type="FileDialog" parent="TabContainer/Options"]
+[node name="LoadDialog" type="FileDialog" parent="TabContainer/Options" unique_id=1168767764]
 title = "Open a File"
 file_mode = 0
 access = 2
 root_subfolder = "saves"
 filters = PackedStringArray("*.json")
 
-[node name="QuitConfirm" type="ConfirmationDialog" parent="TabContainer/Options"]
+[node name="QuitConfirm" type="ConfirmationDialog" parent="TabContainer/Options" unique_id=1866836175]
 title = "Quit Game"
 initial_position = 1
 ok_button_text = "Quit"
 dialog_text = "Are you sure you want to quit?"
 
-[node name="UnlockMachinesCheck" type="CheckBox" parent="TabContainer/Options"]
+[node name="UnlockMachinesCheck" type="CheckBox" parent="TabContainer/Options" unique_id=1316031492]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 607.0
@@ -460,7 +460,7 @@ offset_right = 243.0
 offset_bottom = 638.0
 text = "Unlock All Machines"
 
-[node name="UnlockRecipesCheck" type="CheckBox" parent="TabContainer/Options"]
+[node name="UnlockRecipesCheck" type="CheckBox" parent="TabContainer/Options" unique_id=639531841]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 638.0
@@ -468,7 +468,7 @@ offset_right = 229.0
 offset_bottom = 669.0
 text = "Unlock All Recipes"
 
-[node name="DisableWearCheck" type="CheckBox" parent="TabContainer/Options"]
+[node name="DisableWearCheck" type="CheckBox" parent="TabContainer/Options" unique_id=1273595396]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 669.0
@@ -476,7 +476,7 @@ offset_right = 190.0
 offset_bottom = 700.0
 text = "Disable Wear"
 
-[node name="DisableStorageCheck" type="CheckBox" parent="TabContainer/Options"]
+[node name="DisableStorageCheck" type="CheckBox" parent="TabContainer/Options" unique_id=2080307029]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 696.0
@@ -484,7 +484,7 @@ offset_right = 243.0
 offset_bottom = 727.0
 text = "Disable Storage"
 
-[node name="DisableSizeCheck" type="CheckBox" parent="TabContainer/Options"]
+[node name="DisableSizeCheck" type="CheckBox" parent="TabContainer/Options" unique_id=1804810073]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 727.0
@@ -492,7 +492,7 @@ offset_right = 180.0
 offset_bottom = 758.0
 text = "Disable Size"
 
-[node name="DevControl" parent="TabContainer/Options" instance=ExtResource("11_2ooml")]
+[node name="DevControl" parent="TabContainer/Options" unique_id=236315496 instance=ExtResource("11_2ooml")]
 layout_mode = 1
 offset_left = 18.0
 offset_top = 774.0
@@ -500,4 +500,4 @@ offset_right = 18.0
 offset_bottom = 774.0
 script = ExtResource("12_p20hg")
 
-[node name="TestDialog" type="AcceptDialog" parent="TabContainer/Options"]
+[node name="TestDialog" type="AcceptDialog" parent="TabContainer/Options" unique_id=1786245065]
