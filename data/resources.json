@@ -441,6 +441,19 @@
 		"sort": [3, 8],
 		"description": "Sodium hypochlorite bleach."
 	},
+	"quicklime": {
+		"name": "Quicklime",
+		"abbreviation": "CaO",
+		"type": "compound",
+		"subtypes": ["lime"],
+		"phase": "liquid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"lime": 1.0},
+		"value": 0.3,
+		"sort": [3, 9],
+		"description": "Lime extracted from limestone."
+	},
 	"salt water": {
 		"name": "Salt Water",
 		"abbreviation": "S-Water",
@@ -451,8 +464,34 @@
 		"starting amount": 0.0,
 		"scrap": {"salt water": 1.0},
 		"value": 0.3,
-		"sort": [3, 9],
+		"sort": [3, 10],
 		"description": "Salt disolved in water."
+	},
+	"hydrated lime": {
+		"name": "Hydrated Lime",
+		"abbreviation": "Ca(OH)2",
+		"type": "compound",
+		"subtypes": ["lime"],
+		"phase": "liquid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"salt water": 1.0},
+		"value": 0.3,
+		"sort": [3, 11],
+		"description": "Chemical from mixing quicklime with water."
+	},
+	"concrete": {
+		"name": "Concrete",
+		"abbreviation": "Conc",
+		"type": "compound",
+		"subtypes": ["solution", "construction"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"salt water": 1.0},
+		"value": 0.3,
+		"sort": [3, 12],
+		"description": "Concrete mix used for construction of solid structures."
 	},
 	"copper chloride etchent": {
 		"name": "Copper Chloride Etchent",
@@ -464,7 +503,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper chloride etchent": 1.0},
 		"value": 0.3,
-		"sort": [3, 10, 0],
+		"sort": [3, 13, 0],
 		"description": "Etching acid solution for PCBs."
 	},
 	"spent copper etchent": {
@@ -477,7 +516,7 @@
 		"starting amount": 0.0,
 		"scrap": {"spent copper etchent": 1.0},
 		"value": 0.3,
-		"sort": [3, 10, 1],
+		"sort": [3, 13, 1],
 		"description": "Spent etchent to be recycled."
 	},
 	"low-density polyethylene": {
