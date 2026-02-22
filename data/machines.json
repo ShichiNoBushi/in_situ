@@ -222,9 +222,9 @@
 	"solar array": {
 		"name": "Solar Panel Array",
 		"type": "generator",
-		"cost": {"iron": 20},
-		"durability": 5000,
-		"size": 10,
+		"cost": {"iron plate": 5, "iron rod": 5, "solar cell": 10, "glass pane": 5},
+		"durability": 20000,
+		"size": 5,
 		"starting amount": 0,
 		"available": false,
 		"sort": [8, 2],

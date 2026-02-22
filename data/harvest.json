@@ -28,5 +28,11 @@
 		"amount": 5.0,
 		"time": 1.0,
 		"action": "Mine Salt"
+	},
+	"mine limestone": {
+		"resource": "limestone",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Limestone"
 	}
 }

@@ -278,6 +278,24 @@
 		"local": "",
 		"description": "Craft a diode to use in electronics."
 	},
+	"light emetting diode": {
+		"name": "Light Emitting Diode",
+		"inputs": {"copper wire": 1, "p-doped silicon": 2, "n-doped silicon": 2, "low-density polyethylene": 2, "energy": 2},
+		"outputs": {"light emitting diode": 7},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft an LED to use in lighting."
+	},
+	"solar cell": {
+		"name": "Solar Cell",
+		"inputs": {"copper wire": 1, "p-doped silicon": 2, "n-doped silicon": 2, "energy": 2},
+		"outputs": {"diode": 5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a diode to use in electronics."
+	},
 	"control board": {
 		"name": "Control Board",
 		"inputs": {"copper wire": 0.75, "insulating substrate": 0.75, "resistor": 0.5, "capacitor": 0.5, "energy": 2},
@@ -458,6 +476,15 @@
 		"local": "",
 		"description": "Further grinds gravel into fine stone dust."
 	},
+	"crush limestone": {
+		"name": "Crush Limestone",
+		"inputs": {"limestone": 5, "energy": 1},
+		"outputs": {"crushed limestone": 4, "stone dust": 1},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Crushes limestone into aggregate."
+	},
 	"mix clay": {
 		"name": "Mix Clay",
 		"inputs": {"stone dust": 2, "water": 1, "energy": 1},
@@ -494,6 +521,24 @@
 		"local": "",
 		"description": "Replenishes spent etching solution."
 	},
+	"hydrate lime": {
+		"name": "Hydrate Lime",
+		"inputs": {"quicklime": 2, "water": 0.64, "energy": 1},
+		"outputs": {"hydrated lime": 2.64},
+		"available": false,
+		"machines": ["mixer"],
+		"local": "",
+		"description": "Mixes quicklime with water to make hydrated lime for cement."
+	},
+	"mix concrete": {
+		"name": "Mix concrete",
+		"inputs": {"stone dust": 1, "sand": 1, "gravel": 1.5, "hydrated lime": 0.5, "water": 0.5, "energy": 1},
+		"outputs": {"concrete": 4.5},
+		"available": false,
+		"machines": ["mixer"],
+		"local": "",
+		"description": "Mixes stone aggregates with hydrated lime and water to make concrete."
+	},
 	"bake ceramic": {
 		"name": "Bake Ceramic",
 		"inputs": {"clay slurry": 3, "energy": 2},
@@ -502,6 +547,15 @@
 		"machines": ["induction smelter"],
 		"local": "",
 		"description": "Bake clay into a ceramic."
+	},
+	"bake lime": {
+		"name": "Bake Lime",
+		"inputs": {"crushed limestone": 3, "energy": 2},
+		"outputs": {"quicklime": 1.68, "carbon dioxide": 1.32},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Bake limestone into lime."
 	},
 	"carve stone brick": {
 		"name": "Carve Stone Brick",
@@ -646,6 +700,15 @@
 		"machines": ["miner"],
 		"local": "mining",
 		"description": "Extract salt from a local deposit."
+	},
+	"mine limestone": {
+		"name": "Mine (Limestone)",
+		"inputs": {"energy": 1},
+		"outputs": {"limestone": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract limestone from a local deposit."
 	},
 	"collect atmosphere": {
 		"name": "Collect Atmosphere",
