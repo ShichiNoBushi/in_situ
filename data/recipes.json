@@ -314,6 +314,15 @@
 		"local": "",
 		"description": "Craft an advanced computer circuit board."
 	},
+	"lc oscillator module": {
+		"name": "LC Oscillator Module",
+		"inputs": {"insulating substrate": 1, "copper wire": 1, "resistor": 0.5, "capacitor": 0.5, "transistor": 0.5, "energy": 2},
+		"outputs": {"lc oscillator module": 3.5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a low-tech oscillator."
+	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",
 		"inputs": {"iron rod": 1, "energy": 2},

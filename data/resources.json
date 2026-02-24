@@ -922,6 +922,19 @@
 		"sort": [5, 15, 1],
 		"description": "An advanced circuit board for computer automation."
 	},
+	"lc oscillator module": {
+		"name": "LC Oscillator Module",
+		"abbreviation": "LC-Osc",
+		"type": "component",
+		"subtypes": ["circuit", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "p-doped silicon": 0.1, "n-doped silicon": 0.1, "polyethylene": 0.1, "carbon": 0.1},
+		"value": 0.7,
+		"sort": [5, 16, 0],
+		"description": "A complex electronic component for timing and radio."
+	},
 	"iron scrap": {
 		"name": "Iron Scrap",
 		"abbreviation": "FeScrap",
