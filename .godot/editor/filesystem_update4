@@ -1,7 +1,3 @@
 res://Scenes/node_2d.tscn
-res://data/quests.json
-res://data/machines.json
 res://data/recipes.json
-res://data/regions.json
 res://data/resources.json
-res://data/harvest.json

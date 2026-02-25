@@ -766,6 +766,19 @@
 		"sort": [5, 12, 1],
 		"description": "A coil that uses magnetic induction to efficiently generate heat."
 	},
+	"rf coil": {
+		"name": "RF Coil",
+		"abbreviation": "RFCoil",
+		"type": "component",
+		"subtypes": ["radio", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
+		"value": 0.7,
+		"sort": [5, 12, 2],
+		"description": "A coil that uses magnetic induction to efficiently generate heat."
+	},
 	"electromagnetic relay": {
 		"name": "Electromagnetic Relay",
 		"abbreviation": "EMRelay",
@@ -776,7 +789,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.5, "copper scrap": 0.5},
 		"value": 0.7,
-		"sort": [5, 12, 2],
+		"sort": [5, 12, 3],
 		"description": "A switch that activates automatically to close a circuit."
 	},
 	"resistor": {
@@ -934,6 +947,19 @@
 		"value": 0.7,
 		"sort": [5, 16, 0],
 		"description": "A complex electronic component for timing and radio."
+	},
+	"radio transceiver": {
+		"name": "Radio Transceiver",
+		"abbreviation": "RadTrans",
+		"type": "component",
+		"subtypes": ["circuit", "electronic", "radio"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "p-doped silicon": 0.1, "n-doped silicon": 0.1, "polyethylene": 0.1, "carbon": 0.1},
+		"value": 0.7,
+		"sort": [5, 16, 0],
+		"description": "A complex electronic component for transmitting and receiving radio signals."
 	},
 	"iron scrap": {
 		"name": "Iron Scrap",
