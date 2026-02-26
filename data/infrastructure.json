@@ -152,5 +152,33 @@
 		"available": false,
 		"sort": [2, 3, 1],
 		"description": "Uses motors and heavy weights to store energy as mechanical potential energy and releases it to generate and release it."
+	},
+	"radio antenna": {
+		"name": "Radio Antenna",
+		"type": "communication",
+		"serves": [],
+		"cost": {"radio transceiver": 10, "computer board": 5, "iron rod": 20},
+		"durability": 5000,
+		"size": 10,
+		"through": 20.0,
+		"energy cost": 0.0,
+		"starting amount": 0,
+		"available": false,
+		"sort": [3, 0],
+		"description": "Communicates long distances with radio transmissions."
+	},
+	"small landing platform": {
+		"name": "Small Landing Platform",
+		"type": "trade",
+		"serves": [],
+		"cost": {"concrete": 20, "iron rod": 10, "iron plate": 10, "light emitting diode": 5},
+		"durability": 5000,
+		"size": 10,
+		"through": 20.0,
+		"energy cost": 0.0,
+		"starting amount": 0,
+		"available": false,
+		"sort": [4, 0],
+		"description": "A platform for small ships to land on."
 	}
 }
