@@ -2,3 +2,5 @@ res://Scenes/node_2d.tscn
 res://data/recipes.json
 res://data/resources.json
 res://data/infrastructure.json
+res://data/traders.json
+res://Scenes/MarketUnitPanel.tscn

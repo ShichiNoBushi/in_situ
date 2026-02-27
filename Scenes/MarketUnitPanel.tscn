@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bf56wi3scf1r5"]
+
+[node name="MarketUnitPanel" type="Control" unique_id=99951990]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1697103052]
+layout_mode = 0
+offset_right = 328.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=164301552]
+layout_mode = 0
+offset_right = 328.0
+offset_bottom = 40.0
+
+[node name="ResourceLabel" type="Label" parent="Panel/HBoxContainer" unique_id=328865075]
+custom_minimum_size = Vector2(238, 0)
+layout_mode = 2
+text = "resource name"
+
+[node name="ValueLabel" type="Label" parent="Panel/HBoxContainer" unique_id=570961361]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "value"
+horizontal_alignment = 2

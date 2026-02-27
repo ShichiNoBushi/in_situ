@@ -1,0 +1,18 @@
+{
+	"generic trader": {
+		"preferences": {
+			"hydrogen": 1.0,
+			"lithium": 1.0,
+			"boron": 1.0,
+			"carbon": 1.0,
+			"oxygen": 1.0,
+			"sodium": 1.0,
+			"silicon": 1.0,
+			"phosphurus": 1.0,
+			"chlorine": 1.0,
+			"iron": 1.0,
+			"copper": 1.0
+		},
+		"frequency": 1.0
+	}
+}
