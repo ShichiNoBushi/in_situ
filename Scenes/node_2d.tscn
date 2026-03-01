@@ -335,12 +335,12 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Communication" unique_id=363712727]
+[node name="MarketVBox" type="VBoxContainer" parent="TabContainer/Communication" unique_id=363712727]
 layout_mode = 0
 offset_right = 413.0
 offset_bottom = 709.0
 
-[node name="Button" type="Button" parent="TabContainer/Communication" unique_id=844774593]
+[node name="CallButton" type="Button" parent="TabContainer/Communication" unique_id=844774593]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 849.0
@@ -355,9 +355,17 @@ metadata/_tab_index = 4
 [node name="TraderLabel" type="Label" parent="TabContainer/Trade" unique_id=631704202]
 layout_mode = 0
 offset_left = 44.0
+offset_top = 6.0
 offset_right = 96.0
-offset_bottom = 23.0
+offset_bottom = 29.0
 text = "Trader"
+
+[node name="TraderPanel" type="Panel" parent="TabContainer/Trade" unique_id=1005812857]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 30.0
+offset_right = 382.0
+offset_bottom = 490.0
 
 [node name="TraderScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=907218697]
 layout_mode = 0
@@ -370,13 +378,39 @@ offset_bottom = 490.0
 custom_minimum_size = Vector2(370, 460)
 layout_mode = 2
 
+[node name="PreviousTraderButton" type="Button" parent="TabContainer/Trade" unique_id=1305027766]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 498.0
+offset_right = 143.0
+offset_bottom = 529.0
+disabled = true
+text = "Previous Trader
+"
+
+[node name="NextTraderButton" type="Button" parent="TabContainer/Trade" unique_id=1678419033]
+layout_mode = 0
+offset_left = 151.0
+offset_top = 498.0
+offset_right = 282.0
+offset_bottom = 529.0
+disabled = true
+text = "Next Trader"
+
 [node name="ReserveLabel" type="Label" parent="TabContainer/Trade" unique_id=1754076709]
 layout_mode = 0
-offset_left = 398.0
-offset_top = 2.0
-offset_right = 460.0
-offset_bottom = 25.0
+offset_left = 408.0
+offset_top = 6.0
+offset_right = 470.0
+offset_bottom = 29.0
 text = "Reserve"
+
+[node name="ReservePanel" type="Panel" parent="TabContainer/Trade" unique_id=1000143226]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 30.0
+offset_right = 760.0
+offset_bottom = 490.0
 
 [node name="ReserveScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1207557410]
 layout_mode = 0
@@ -389,13 +423,39 @@ offset_bottom = 490.0
 custom_minimum_size = Vector2(370, 460)
 layout_mode = 2
 
+[node name="PreviousHubButton" type="Button" parent="TabContainer/Trade" unique_id=1442338187]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 498.0
+offset_right = 521.0
+offset_bottom = 529.0
+disabled = true
+text = "Previous Hub
+"
+
+[node name="NextHubButton" type="Button" parent="TabContainer/Trade" unique_id=1335144966]
+layout_mode = 0
+offset_left = 529.0
+offset_top = 498.0
+offset_right = 660.0
+offset_bottom = 529.0
+disabled = true
+text = "Next Hub"
+
 [node name="ResourceLabel" type="Label" parent="TabContainer/Trade" unique_id=463460980]
 layout_mode = 0
-offset_left = 780.0
+offset_left = 788.0
 offset_top = 6.0
-offset_right = 860.0
+offset_right = 868.0
 offset_bottom = 29.0
 text = "Resources"
+
+[node name="ResourcePanel" type="Panel" parent="TabContainer/Trade" unique_id=259519210]
+layout_mode = 0
+offset_left = 770.0
+offset_top = 30.0
+offset_right = 1140.0
+offset_bottom = 490.0
 
 [node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1449017512]
 layout_mode = 0
@@ -407,6 +467,124 @@ offset_bottom = 490.0
 [node name="ResourceScroll" type="VBoxContainer" parent="TabContainer/Trade/ResourceScroll" unique_id=343418491]
 custom_minimum_size = Vector2(370, 460)
 layout_mode = 2
+
+[node name="ToYouLabel" type="Label" parent="TabContainer/Trade" unique_id=1803962690]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 544.0
+offset_right = 88.0
+offset_bottom = 567.0
+text = "To You -->"
+
+[node name="TraderTradeMenu" type="OptionButton" parent="TabContainer/Trade" unique_id=329209995]
+layout_mode = 0
+offset_left = 107.0
+offset_top = 544.0
+offset_right = 387.0
+offset_bottom = 576.0
+
+[node name="TraderTradeSpin" type="SpinBox" parent="TabContainer/Trade" unique_id=1255964020]
+layout_mode = 0
+offset_left = 398.0
+offset_top = 544.0
+offset_right = 484.5
+offset_bottom = 575.0
+max_value = 0.0
+alignment = 2
+editable = false
+
+[node name="TraderOfferButton" type="Button" parent="TabContainer/Trade" unique_id=809275951]
+layout_mode = 0
+offset_left = 497.0
+offset_top = 544.0
+offset_right = 578.0
+offset_bottom = 575.0
+text = "Offer"
+
+[node name="PlayerTradeMenu" type="OptionButton" parent="TabContainer/Trade" unique_id=893013634]
+layout_mode = 0
+offset_left = 694.0
+offset_top = 544.0
+offset_right = 974.0
+offset_bottom = 576.0
+
+[node name="PlayerTradeSpin" type="SpinBox" parent="TabContainer/Trade" unique_id=805952114]
+layout_mode = 0
+offset_left = 985.0
+offset_top = 544.0
+offset_right = 1071.5
+offset_bottom = 575.0
+max_value = 0.0
+alignment = 2
+editable = false
+
+[node name="PlayerOfferButton" type="Button" parent="TabContainer/Trade" unique_id=1844512289]
+layout_mode = 0
+offset_left = 1084.0
+offset_top = 544.0
+offset_right = 1165.0
+offset_bottom = 575.0
+text = "Offer"
+
+[node name="FavorProgress" type="ProgressBar" parent="TabContainer/Trade" unique_id=494340530]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 590.0
+offset_right = 553.0
+offset_bottom = 617.0
+allow_greater = true
+
+[node name="TraderTradePanel" type="Panel" parent="TabContainer/Trade" unique_id=1982494694]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 638.0
+offset_right = 382.0
+offset_bottom = 895.0
+
+[node name="Button" type="Button" parent="TabContainer/Trade/TraderTradePanel" unique_id=2031276422]
+layout_mode = 0
+offset_left = 573.0
+offset_top = -48.0
+offset_right = 667.0
+offset_bottom = -17.0
+text = "Trade"
+
+[node name="TraderTradeScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1080012158]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 638.0
+offset_right = 382.0
+offset_bottom = 898.0
+
+[node name="TraderTradeVBox" type="VBoxContainer" parent="TabContainer/Trade/TraderTradeScroll" unique_id=1699420900]
+custom_minimum_size = Vector2(370, 260)
+layout_mode = 2
+
+[node name="PlayerTradePanel" type="Panel" parent="TabContainer/Trade" unique_id=763340008]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 638.0
+offset_right = 760.0
+offset_bottom = 895.0
+
+[node name="PlayerTradeScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1609099818]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 638.0
+offset_right = 760.0
+offset_bottom = 898.0
+
+[node name="PlayerTradeVBox" type="VBoxContainer" parent="TabContainer/Trade/PlayerTradeScroll" unique_id=2116247369]
+custom_minimum_size = Vector2(370, 260)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Trade" unique_id=957448971]
+layout_mode = 0
+offset_left = 584.0
+offset_top = 544.0
+offset_right = 626.0
+offset_bottom = 567.0
+text = "<-- To Trader"
 
 [node name="Quests" type="Control" parent="TabContainer" unique_id=60669109]
 visible = false
