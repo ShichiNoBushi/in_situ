@@ -1,14 +1,14 @@
 Label
+VBoxContainer
+ScrollContainer
 HBoxContainer
 Panel
 Button
-VBoxContainer
 Control
 ConfirmationDialog
 AcceptDialog
 FileDialog
 CheckBox
 RichTextLabel
-ScrollContainer
 TabContainer
 SpinBox

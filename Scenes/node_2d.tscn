@@ -29,9 +29,10 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 4
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -329,11 +330,89 @@ offset_right = 679.0
 offset_bottom = 189.0
 text = "Transfer"
 
+[node name="Communication" type="Control" parent="TabContainer" unique_id=1898777306]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Communication" unique_id=363712727]
+layout_mode = 0
+offset_right = 413.0
+offset_bottom = 709.0
+
+[node name="Button" type="Button" parent="TabContainer/Communication" unique_id=844774593]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 849.0
+offset_right = 124.0
+offset_bottom = 882.0
+text = "Call Trader"
+
+[node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="TraderLabel" type="Label" parent="TabContainer/Trade" unique_id=631704202]
+layout_mode = 0
+offset_left = 44.0
+offset_right = 96.0
+offset_bottom = 23.0
+text = "Trader"
+
+[node name="TraderScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=907218697]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 30.0
+offset_right = 382.0
+offset_bottom = 490.0
+
+[node name="TraderVBox" type="VBoxContainer" parent="TabContainer/Trade/TraderScroll" unique_id=1193236263]
+custom_minimum_size = Vector2(370, 460)
+layout_mode = 2
+
+[node name="ReserveLabel" type="Label" parent="TabContainer/Trade" unique_id=1754076709]
+layout_mode = 0
+offset_left = 398.0
+offset_top = 2.0
+offset_right = 460.0
+offset_bottom = 25.0
+text = "Reserve"
+
+[node name="ReserveScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1207557410]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 30.0
+offset_right = 760.0
+offset_bottom = 490.0
+
+[node name="ReserveVBox" type="VBoxContainer" parent="TabContainer/Trade/ReserveScroll" unique_id=1593076399]
+custom_minimum_size = Vector2(370, 460)
+layout_mode = 2
+
+[node name="ResourceLabel" type="Label" parent="TabContainer/Trade" unique_id=463460980]
+layout_mode = 0
+offset_left = 780.0
+offset_top = 6.0
+offset_right = 860.0
+offset_bottom = 29.0
+text = "Resources"
+
+[node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1449017512]
+layout_mode = 0
+offset_left = 770.0
+offset_top = 30.0
+offset_right = 1140.0
+offset_bottom = 490.0
+
+[node name="ResourceScroll" type="VBoxContainer" parent="TabContainer/Trade/ResourceScroll" unique_id=343418491]
+custom_minimum_size = Vector2(370, 460)
+layout_mode = 2
+
 [node name="Quests" type="Control" parent="TabContainer" unique_id=60669109]
 visible = false
 layout_mode = 2
 script = ExtResource("10_hvaui")
-metadata/_tab_index = 3
+metadata/_tab_index = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Quests" unique_id=324564046]
 layout_mode = 0
@@ -398,7 +477,7 @@ offset_bottom = 679.0
 [node name="Options" type="Control" parent="TabContainer" unique_id=1154904237]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 4
+metadata/_tab_index = 6
 
 [node name="NewButton" type="Button" parent="TabContainer/Options" unique_id=663729861]
 layout_mode = 0

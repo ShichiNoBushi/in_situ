@@ -11,12 +11,12 @@ grow_vertical = 2
 [node name="Panel" type="Panel" parent="." unique_id=1697103052]
 layout_mode = 0
 offset_right = 328.0
-offset_bottom = 40.0
+offset_bottom = 23.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=164301552]
 layout_mode = 0
 offset_right = 328.0
-offset_bottom = 40.0
+offset_bottom = 23.0
 
 [node name="ResourceLabel" type="Label" parent="Panel/HBoxContainer" unique_id=328865075]
 custom_minimum_size = Vector2(238, 0)
