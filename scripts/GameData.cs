@@ -19,6 +19,7 @@ public partial class GameData : Node
 	public static Dictionary<string, RecipeData> RECIPES = new();
 	public static Dictionary<string, RegionData> REGIONS = new();
 	public static Dictionary<string, QuestData> QUESTS = new();
+	public static Dictionary<string, TraderData> TRADERS = new();
 	
 	//Dictionaries to reference user facing strings to IDs in the above dictionaries.
 	public static Dictionary<string, string> resNameToKey = new();
@@ -34,6 +35,8 @@ public partial class GameData : Node
 	
 	//Region map referenced by keys of 2D tuples as coordinates.
 	public static Dictionary<(int x, int y), Region> regionMap = new();
+	
+	public static Dictionary<int, Trader> traders = new();
 	
 	//The region the player is currently in.
 	public static Region currentRegion;
@@ -190,6 +193,7 @@ public partial class GameData : Node
 		string recipePath = "res://data/recipes.json";
 		string regionsPath = "res://data/regions.json";
 		string questPath = "res://data/quests.json";
+		string traderPath = "res://data/traders.json";
 		
 		//Assign data to reference variables.
 		RESOURCES = LoadJson<Dictionary<string, ResourceData>>(resourcePath);
@@ -199,6 +203,7 @@ public partial class GameData : Node
 		RECIPES = LoadJson<Dictionary<string, RecipeData>>(recipePath);
 		REGIONS = LoadJson<Dictionary<string, RegionData>>(regionsPath);
 		QUESTS = LoadJson<Dictionary<string, QuestData>>(questPath);
+		TRADERS = LoadJson<Dictionary<string, TraderData>>(traderPath);
 	}
 	
 	public void OnNewPressed()
@@ -1516,6 +1521,18 @@ public class RegionData
 		neighbors = new();
 		features = new();
 		hazards = new();
+	}
+}
+
+public class TraderData
+{
+	public Dictionary<string, float> preferences {get; set;}
+	public float frequency {get; set;}
+	
+	public TraderData()
+	{
+		preferences = new();
+		frequency = 0f;
 	}
 }
 
@@ -3377,5 +3394,35 @@ public class AndroidSave
 	public AndroidSave(Android andro)
 	{
 		inventory = new(andro.inventory);
+	}
+}
+
+public class Trader
+{
+	public TraderData data {get; private set;}
+	public int id {get; private set;}
+	public string name {get; private set;}
+	public float favor {get; private set;}
+	public float prosperity {get; private set;}
+	public float greed {get; private set;}
+	
+	public Dictionary<string, float> inventory {get; private set;}
+	
+	public Trader(string traderID)
+	{
+		data = GameData.TRADERS[traderID];
+		
+		do
+		{
+			id = GameData.rng.RandiRange(0, 999999);
+		}
+		while (GameData.traders.Keys.Contains(id));
+		
+		name = $"Trader-{id}";
+		favor = 0.5f;
+		prosperity = 1f;
+		greed = 1f;
+		
+		inventory = new();
 	}
 }
