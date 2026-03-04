@@ -3408,6 +3408,33 @@ public class Trader
 	
 	public Dictionary<string, float> inventory {get; private set;}
 	
+	public static List<string> CATALOG = new() {
+		"hydrogen",
+		"carbon",
+		"oxygen",
+		"iron ore",
+		"copper ore",
+		"boron ore",
+		"phosphate ore",
+		"water",
+		"salt",
+		"methane",
+		"ethylene",
+		"concrete",
+		"low-density polyethylene",
+		"high-density polyethylene",
+		"electric motor",
+		"induction coil",
+		"electromagnetic relay",
+		"resistor",
+		"capacitor",
+		"transistor",
+		"diode",
+		"light emitting diode",
+		"solar cell",
+		"computer board"
+	};
+	
 	public Trader(string traderID)
 	{
 		data = GameData.TRADERS[traderID];
@@ -3424,5 +3451,56 @@ public class Trader
 		greed = 1f;
 		
 		inventory = new();
+	}
+	
+	public void GenerateInventory()
+	{
+		float inventoryValue = 1000f * prosperity;
+		int safety = 0;
+		
+		while (inventoryValue > 0f && safety++ > 1000)
+		{
+			int idx = (int)GameData.rng.RandiRange(0, CATALOG.Count - 1);
+			string resID = CATALOG[idx];
+			
+			if (!GameData.RESOURCES.ContainsKey(resID))
+			{
+				GD.PrintErr($"Trader: invalid resource ID {resID}");
+				continue;
+			}
+			
+			float unitValue = GameData.RESOURCES[resID].value;
+			if (unitValue <= 0f)
+			{
+				continue;
+			}
+			
+			float qty = GameData.rng.RandfRange(0f, 100f);
+			float cost = qty * unitValue;
+			
+			if (cost > inventoryValue)
+			{
+				qty = inventoryValue / unitValue;
+				cost = qty * unitValue;
+				
+				if (qty < 0.0001f)
+				{
+					break;
+				}
+			}
+			
+			if (inventory.ContainsKey(resID))
+			{
+				inventory[resID] += qty;
+			}
+			else
+			{
+				inventory[resID] = qty;
+			}
+			
+			inventoryValue -= cost;
+		}
+		
+		//GameData.SortResources(inventory);
 	}
 }
