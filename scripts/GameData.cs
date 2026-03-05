@@ -3503,4 +3503,25 @@ public class Trader
 		
 		//GameData.SortResources(inventory);
 	}
+	
+	public float CalculateFavor(Dictionary<string, float> offer)
+	{
+		float totalValue = 0f;
+		
+		foreach (var res in offer)
+		{
+			float resValue = GameData.RESOURCES[res.Key].value;
+			
+			if (data.preferences.ContainsKey(res.Key))
+			{
+				totalValue += resValue * data.preferences[res.Key] * res.Value;
+			}
+			else
+			{
+				totalValue += resValue * res.Value * 0.5f;
+			}
+		}
+		
+		return totalValue;
+	}
 }
