@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://coqjyf3w7b6o" path="res://scripts/AndroidControl.cs" id="12_c32x4"]
 [ext_resource type="Script" uid="uid://co1uc6kkcug1r" path="res://scripts/DevControl.cs" id="12_p20hg"]
 [ext_resource type="PackedScene" uid="uid://bjkmfl7l1ajlw" path="res://Scenes/TravelPanel.tscn" id="13_he4j0"]
+[ext_resource type="Script" uid="uid://cvtowtldsusyl" path="res://scripts/TradeControl.cs" id="14_gwne5"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_c32x4"]
 resource_name = "ToFromInventoryGroup"
@@ -350,6 +351,7 @@ text = "Call Trader"
 
 [node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
 layout_mode = 2
+script = ExtResource("14_gwne5")
 metadata/_tab_index = 4
 
 [node name="TraderLabel" type="Label" parent="TabContainer/Trade" unique_id=631704202]
@@ -464,7 +466,7 @@ offset_top = 30.0
 offset_right = 1140.0
 offset_bottom = 490.0
 
-[node name="ResourceScroll" type="VBoxContainer" parent="TabContainer/Trade/ResourceScroll" unique_id=343418491]
+[node name="ResourceVBox" type="VBoxContainer" parent="TabContainer/Trade/ResourceScroll" unique_id=343418491]
 custom_minimum_size = Vector2(370, 460)
 layout_mode = 2
 
@@ -508,6 +510,14 @@ offset_top = 544.0
 offset_right = 974.0
 offset_bottom = 576.0
 
+[node name="ToTraderLabel" type="Label" parent="TabContainer/Trade" unique_id=957448971]
+layout_mode = 0
+offset_left = 584.0
+offset_top = 544.0
+offset_right = 682.0
+offset_bottom = 567.0
+text = "<-- To Trader"
+
 [node name="PlayerTradeSpin" type="SpinBox" parent="TabContainer/Trade" unique_id=805952114]
 layout_mode = 0
 offset_left = 985.0
@@ -534,20 +544,20 @@ offset_right = 553.0
 offset_bottom = 617.0
 allow_greater = true
 
+[node name="TradeButton" type="Button" parent="TabContainer/Trade" unique_id=2031276422]
+layout_mode = 0
+offset_left = 585.0
+offset_top = 590.0
+offset_right = 679.0
+offset_bottom = 621.0
+text = "Trade"
+
 [node name="TraderTradePanel" type="Panel" parent="TabContainer/Trade" unique_id=1982494694]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 638.0
 offset_right = 382.0
 offset_bottom = 895.0
-
-[node name="Button" type="Button" parent="TabContainer/Trade/TraderTradePanel" unique_id=2031276422]
-layout_mode = 0
-offset_left = 573.0
-offset_top = -48.0
-offset_right = 667.0
-offset_bottom = -17.0
-text = "Trade"
 
 [node name="TraderTradeScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1080012158]
 layout_mode = 0
@@ -577,14 +587,6 @@ offset_bottom = 898.0
 [node name="PlayerTradeVBox" type="VBoxContainer" parent="TabContainer/Trade/PlayerTradeScroll" unique_id=2116247369]
 custom_minimum_size = Vector2(370, 260)
 layout_mode = 2
-
-[node name="Label" type="Label" parent="TabContainer/Trade" unique_id=957448971]
-layout_mode = 0
-offset_left = 584.0
-offset_top = 544.0
-offset_right = 626.0
-offset_bottom = 567.0
-text = "<-- To Trader"
 
 [node name="Quests" type="Control" parent="TabContainer" unique_id=60669109]
 visible = false
