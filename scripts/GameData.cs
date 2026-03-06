@@ -37,6 +37,7 @@ public partial class GameData : Node
 	public static Dictionary<(int x, int y), Region> regionMap = new();
 	
 	public static Dictionary<int, Trader> traders = new();
+	public static List<Trader> landedTraders = new();
 	
 	//The region the player is currently in.
 	public static Region currentRegion;
@@ -54,6 +55,7 @@ public partial class GameData : Node
 	public static BuildControl buildControl;
 	public static LogisticsControl logisticsControl;
 	public static AndroidControl androidControl;
+	public static TradeControl tradeControl;
 	public static QuestControl questControl;
 	
 	//Label to display the current tracked objective.
@@ -107,6 +109,7 @@ public partial class GameData : Node
 		buildControl = GetNode<BuildControl>("../TabContainer/Base/BuildPanel");
 		logisticsControl = GetNode<LogisticsControl>("../TabContainer/Logistics");
 		androidControl = GetNode<AndroidControl>("../TabContainer/Android");
+		tradeControl = GetNode<TradeControl>("../TabContainer/Trade");
 		questControl = GetNode<QuestControl>("../TabContainer/Quests");
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
@@ -227,6 +230,8 @@ public partial class GameData : Node
 		
 		//Reset the PC android.
 		android = new();
+		traders = new();
+		landedTraders = new();
 		
 		//Reset the map.
 		regionMap.Clear();
@@ -332,6 +337,19 @@ public partial class GameData : Node
 	public void ApplySave(GameSave save)
 	{
 		android = new Android(save.android);
+		
+		traders.Clear();
+		foreach (var trad in save.traders)
+		{
+			Trader newTrad = new Trader(trad);
+			traders[newTrad.idNum] = newTrad;
+		}
+		
+		landedTraders.Clear();
+		foreach (var tradID in save.landedTraders)
+		{
+			landedTraders.Add(traders[tradID]);
+		}
 		
 		regionMap.Clear();
 		coordStringToTuple.Clear();
@@ -1246,6 +1264,9 @@ public class GameSave
 {
 	public AndroidSave android {get; set;}
 	
+	public List<TraderSave> traders {get; set;}
+	public List<int> landedTraders {get; set;}
+	
 	public List<RegionSave> regionMap {get; set;}
 	public int currentX {get; set;}
 	public int currentY {get; set;}
@@ -1261,6 +1282,16 @@ public class GameSave
 	public GameSave()
 	{
 		android = new(GameData.android);
+		
+		traders = new();
+		foreach (var trad in GameData.traders.Values)
+		{
+			traders.Add(new TraderSave(trad));
+		}
+		foreach (var trad in GameData.landedTraders)
+		{
+			landedTraders.Add(trad.idNum);
+		}
 		
 		regionMap = new();
 		foreach (var reg in GameData.regionMap.Values)
@@ -3399,14 +3430,17 @@ public class AndroidSave
 
 public class Trader
 {
+	public string id {get; private set;}
 	public TraderData data {get; private set;}
-	public int id {get; private set;}
+	public int idNum {get; private set;}
 	public string name {get; private set;}
 	public float favor {get; private set;}
 	public float prosperity {get; private set;}
 	public float greed {get; private set;}
 	
 	public Dictionary<string, float> inventory {get; private set;}
+	
+	public TraderSave lastSave;
 	
 	public static List<string> CATALOG = new() {
 		"hydrogen",
@@ -3437,20 +3471,40 @@ public class Trader
 	
 	public Trader(string traderID)
 	{
+		id = traderID;
 		data = GameData.TRADERS[traderID];
 		
 		do
 		{
-			id = GameData.rng.RandiRange(0, 999999);
+			idNum = GameData.rng.RandiRange(0, 999999);
 		}
-		while (GameData.traders.Keys.Contains(id));
+		while (GameData.traders.Keys.Contains(idNum));
 		
-		name = $"Trader-{id}";
+		name = $"Trader-{idNum}";
 		favor = 0.5f;
 		prosperity = 1f;
 		greed = 1f;
 		
 		inventory = new();
+		
+		lastSave = null;
+	}
+	
+	public Trader(TraderSave save)
+	{
+		id = save.id;
+		data = GameData.TRADERS[save.id];
+		
+		idNum = save.idNum;
+		
+		name = save.name;
+		favor = save.favor;
+		prosperity = save.prosperity;
+		greed = save.greed;
+		
+		inventory = new(save.inventory);
+		
+		lastSave = save;
 	}
 	
 	public void GenerateInventory()
@@ -3523,5 +3577,51 @@ public class Trader
 		}
 		
 		return totalValue;
+	}
+}
+
+public class TraderSave
+{
+	/*public string id {get; private set;}
+	public TraderData data {get; private set;}
+	public int idNum {get; private set;}
+	public string name {get; private set;}
+	public float favor {get; private set;}
+	public float prosperity {get; private set;}
+	public float greed {get; private set;}
+	
+	public Dictionary<string, float> inventory {get; private set;}*/
+	
+	public string id {get; private set;}
+	public int idNum {get; private set;}
+	public string name {get; private  set;}
+	public float favor {get; private set;}
+	public float prosperity {get; private set;}
+	public float greed {get; private set;}
+	
+	public Dictionary<string, float> inventory {get; private set;}
+	
+	public TraderSave()
+	{
+		id = "no ID";
+		idNum = -1;
+		name = "no name";
+		favor = 0f;
+		prosperity = 0f;
+		greed = 0f;
+		
+		inventory = new();
+	}
+	
+	public TraderSave(Trader t)
+	{
+		id = t.id;
+		idNum = t.idNum;
+		name = t.name;
+		favor = t.favor;
+		prosperity = t.prosperity;
+		greed = t.greed;
+		
+		inventory = new(t.inventory);
 	}
 }

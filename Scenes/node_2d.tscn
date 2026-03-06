@@ -352,6 +352,7 @@ text = "Call Trader"
 [node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
 layout_mode = 2
 script = ExtResource("14_gwne5")
+ResourceLabelScene = ExtResource("4_wjtap")
 metadata/_tab_index = 4
 
 [node name="TraderLabel" type="Label" parent="TabContainer/Trade" unique_id=631704202]
