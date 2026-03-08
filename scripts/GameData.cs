@@ -37,7 +37,7 @@ public partial class GameData : Node
 	public static Dictionary<(int x, int y), Region> regionMap = new();
 	
 	public static Dictionary<int, Trader> traders = new();
-	public static List<Trader> landedTraders = new();
+	//public static List<Trader> landedTraders = new();
 	
 	//The region the player is currently in.
 	public static Region currentRegion;
@@ -60,6 +60,8 @@ public partial class GameData : Node
 	
 	//Label to display the current tracked objective.
 	public static Label objectiveLabel;
+	
+	public static Button callButton;
 	
 	public static Button newButton;
 	public static Button saveButton;
@@ -111,6 +113,9 @@ public partial class GameData : Node
 		androidControl = GetNode<AndroidControl>("../TabContainer/Android");
 		tradeControl = GetNode<TradeControl>("../TabContainer/Trade");
 		questControl = GetNode<QuestControl>("../TabContainer/Quests");
+		
+		callButton = GetNode<Button>("../TabContainer/Communication/CallButton");
+		callButton.Pressed += OnCallPressed;
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
 		
@@ -209,6 +214,35 @@ public partial class GameData : Node
 		TRADERS = LoadJson<Dictionary<string, TraderData>>(traderPath);
 	}
 	
+	public void OnCallPressed()
+	{
+		if (!currentRegion.ContainsCommunication() || !currentRegion.ContainsTrade() || !currentRegion.ContainsDock())
+		{
+			GD.Print($"GameData: cannot call trader; missing antenna, trade hub, or landing platform");
+			return;
+		}
+		
+		int pickTrader = rng.RandiRange(0, traders.Count);
+		Trader trad;
+		
+		GD.Print($"GameData: number {pickTrader} picked out of {traders.Count} traders");
+		
+		if (pickTrader < traders.Count)
+		{
+			List<int> tradIDs = traders.Keys.ToList();
+			trad = traders[tradIDs[pickTrader]];
+			
+			GD.Print($"GameData: Trader \"{trad.name}\" picked");
+		}
+		else
+		{
+			trad = new Trader("generic trader");
+			traders[trad.idNum] = trad;
+			
+			GD.Print($"GameData: New trader called {trad.name}");
+		}
+	}
+	
 	public void OnNewPressed()
 	{
 		newConfirm.PopupCentered();
@@ -231,7 +265,7 @@ public partial class GameData : Node
 		//Reset the PC android.
 		android = new();
 		traders = new();
-		landedTraders = new();
+		//landedTraders = new();
 		
 		//Reset the map.
 		regionMap.Clear();
@@ -345,11 +379,11 @@ public partial class GameData : Node
 			traders[newTrad.idNum] = newTrad;
 		}
 		
-		landedTraders.Clear();
+		/*landedTraders.Clear();
 		foreach (var tradID in save.landedTraders)
 		{
 			landedTraders.Add(traders[tradID]);
-		}
+		}*/
 		
 		regionMap.Clear();
 		coordStringToTuple.Clear();
@@ -1265,7 +1299,7 @@ public class GameSave
 	public AndroidSave android {get; set;}
 	
 	public List<TraderSave> traders {get; set;}
-	public List<int> landedTraders {get; set;}
+	//public List<int> landedTraders {get; set;}
 	
 	public List<RegionSave> regionMap {get; set;}
 	public int currentX {get; set;}
@@ -1288,10 +1322,10 @@ public class GameSave
 		{
 			traders.Add(new TraderSave(trad));
 		}
-		foreach (var trad in GameData.landedTraders)
+		/*foreach (var trad in GameData.landedTraders)
 		{
 			landedTraders.Add(trad.idNum);
-		}
+		}*/
 		
 		regionMap = new();
 		foreach (var reg in GameData.regionMap.Values)
@@ -1593,6 +1627,7 @@ public class Region
 	public List<Machine> machines;
 	public List<Infrastructure> infrastructure;
 	public List<string> nodes;
+	public List<Trader> landedTraders;
 	
 	public RegionSave lastSave {get; private set;}
 	
@@ -1623,6 +1658,7 @@ public class Region
 		machines = new();
 		infrastructure = new();
 		nodes = new();
+		landedTraders = new();
 		
 		//Create local resource deposits randomly determined by what's typically available in the region.
 		foreach (var res in regData.resources)
@@ -1686,6 +1722,12 @@ public class Region
 		}*/
 		
 		nodes = new(save.nodes);
+		
+		landedTraders = new();
+		foreach (var trad in save.landedTraders)
+		{
+			landedTraders.Add(GameData.traders[trad]);
+		}
 		
 		UpdateStorage();
 		
@@ -1816,20 +1858,60 @@ public class Region
 		
 		return vectX == 1 && vectY == 1;
 	}
+	
+	public bool ContainsCommunication()
+	{
+		foreach (var infra in infrastructure)
+		{
+			if (infra.type == "communication")
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public bool ContainsTrade()
+	{
+		foreach (var infra in infrastructure)
+		{
+			if (infra.type == "trade")
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public bool ContainsDock()
+	{
+		foreach (var infra in infrastructure)
+		{
+			if (infra.type == "dock")
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
 
 public class RegionSave
 {
-	public int coordX {set; get;}
-	public int coordY {set; get;}
-	public string id {set; get;}
-	public float windState {set; get;}
-	public float solarState {set; get;}
+	public int coordX {get; set;}
+	public int coordY {get; set;}
+	public string id {get; set;}
+	public float windState {get; set;}
+	public float solarState {get; set;}
 	
-	public Dictionary<string, float> resources {set; get;}
-	public List<MachineSave> machines {set; get;}
-	public List<InfrastructureSave> infrastructure {set; get;}
-	public List<string> nodes {set; get;}
+	public Dictionary<string, float> resources {get; set;}
+	public List<MachineSave> machines {get; set;}
+	public List<InfrastructureSave> infrastructure {get; set;}
+	public List<string> nodes {get; set;}
+	public List<int> landedTraders {get; set;}
 	
 	public RegionSave()
 	{
@@ -1843,6 +1925,7 @@ public class RegionSave
 		machines = new();
 		infrastructure = new();
 		nodes = new();
+		landedTraders = new();
 	}
 	
 	public RegionSave(Region reg)
@@ -1871,6 +1954,12 @@ public class RegionSave
 		}
 		
 		nodes = new(reg.nodes);
+		
+		landedTraders = new();
+		foreach (var trad in reg.landedTraders)
+		{
+			landedTraders.Add(trad.idNum);
+		}
 	}
 }
 
@@ -3582,16 +3671,6 @@ public class Trader
 
 public class TraderSave
 {
-	/*public string id {get; private set;}
-	public TraderData data {get; private set;}
-	public int idNum {get; private set;}
-	public string name {get; private set;}
-	public float favor {get; private set;}
-	public float prosperity {get; private set;}
-	public float greed {get; private set;}
-	
-	public Dictionary<string, float> inventory {get; private set;}*/
-	
 	public string id {get; private set;}
 	public int idNum {get; private set;}
 	public string name {get; private  set;}

@@ -30,10 +30,9 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 4
+current_tab = 0
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -350,6 +349,7 @@ offset_bottom = 882.0
 text = "Call Trader"
 
 [node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
+visible = false
 layout_mode = 2
 script = ExtResource("14_gwne5")
 ResourceLabelScene = ExtResource("4_wjtap")

@@ -1,22 +1,24 @@
 [gd_scene format=3 uid="uid://b618dfccesdqg"]
 
-[node name="ResourceLabel" type="Control"]
+[node name="ResourceLabel" type="Control" unique_id=1776359083]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 370.0
+offset_bottom = 25.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=933396079]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 0
 offset_right = 370.0
 offset_bottom = 25.0
 
-[node name="NameLabel" type="Label" parent="HBoxContainer"]
+[node name="NameLabel" type="Label" parent="HBoxContainer" unique_id=859540326]
 custom_minimum_size = Vector2(260, 0)
 layout_mode = 2
 text = "Resource Name"
 
-[node name="AmountLabel" type="Label" parent="HBoxContainer"]
+[node name="AmountLabel" type="Label" parent="HBoxContainer" unique_id=335678493]
 custom_minimum_size = Vector2(95, 0)
 layout_mode = 2
 text = "00.00g"
