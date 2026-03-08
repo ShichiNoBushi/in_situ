@@ -241,6 +241,19 @@ public partial class GameData : Node
 			
 			GD.Print($"GameData: New trader called {trad.name}");
 		}
+		
+		if (currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
+		{
+			trad.GenerateInventory();
+			
+			currentRegion.landedTraders.Add(trad);
+			
+			if (tradeControl.activeTrader == null)
+			{
+				tradeControl.activeTrader = trad;
+				tradeControl.UpdateTraderResourceLabels();
+			}
+		}
 	}
 	
 	public void OnNewPressed()
@@ -1828,6 +1841,20 @@ public class Region
 		}
 		
 		ShiftWeather((float)delta);
+	}
+	
+	public int DocksAvailable()
+	{
+		int docks = 0;
+		foreach (var infra in infrastructure)
+		{
+			if (infra.type == "dock")
+			{
+				docks++;
+			}
+		}
+		
+		return docks;
 	}
 	
 	public void ShiftWeather(float delta)
@@ -3601,7 +3628,7 @@ public class Trader
 		float inventoryValue = 1000f * prosperity;
 		int safety = 0;
 		
-		while (inventoryValue > 0f && safety++ > 1000)
+		while (inventoryValue > 0f && safety++ < 1000)
 		{
 			int idx = (int)GameData.rng.RandiRange(0, CATALOG.Count - 1);
 			string resID = CATALOG[idx];

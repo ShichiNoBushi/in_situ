@@ -93,5 +93,7 @@ public partial class ResourceControl : VBoxContainer
 			panel.CustomMinimumSize = new Vector2(panel.CustomMinimumSize.X, height);
 			tPanel.Value.CustomMinimumSize = new Vector2(tPanel.Value.CustomMinimumSize.X, height + 8);
 		}
+		
+		GameData.tradeControl.UpdateRegionResourceLabels();
 	}
 }

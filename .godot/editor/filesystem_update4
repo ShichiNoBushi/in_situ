@@ -16,3 +16,4 @@ res://scripts/MachinePanel.cs
 res://scripts/MachinesControl.cs
 res://scripts/ResourceControl.cs
 res://scripts/BuildControl.cs
+res://Scenes/ResourceLabel.tscn
