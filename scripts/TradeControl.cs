@@ -104,8 +104,15 @@ public partial class TradeControl : Node
 			child.QueueFree();
 		}
 		
-		if (activeTrader == null)
+		string selectedMeta = (string)traderTradeMenu.GetSelectedMetadata();
+		int selectedIdx = -1;
+		traderTradeMenu.Clear();
+		
+		if (activeTrader == null || activeTrader.inventory.Count == 0)
 		{
+			traderTradeMenu.AddItem("No Trader Inventory");
+			traderTradeMenu.Select(0);
+			traderTradeMenu.Disabled = true;
 			return;
 		}
 		
@@ -121,7 +128,24 @@ public partial class TradeControl : Node
 			traderResLabels[res.Key] = aLabel;
 			
 			traderVBox.AddChild(rLabel);
+			
+			traderTradeMenu.AddItem(GameData.RESOURCES[res.Key].name);
+			int idx = traderTradeMenu.ItemCount - 1;
+			traderTradeMenu.SetItemMetadata(idx, res.Key);
+			
+			if (selectedIdx < 0 && selectedMeta == res.Key)
+			{
+				selectedIdx = idx;
+				traderTradeMenu.Select(idx);
+			}
 		}
+		
+		if (selectedIdx < 0)
+		{
+			traderTradeMenu.Select(0);
+		}
+		
+		traderTradeMenu.Disabled = false;
 	}
 	
 	public void UpdateRegionResourceLabels()
@@ -131,6 +155,18 @@ public partial class TradeControl : Node
 		foreach (var child in resourceVBox.GetChildren())
 		{
 			child.QueueFree();
+		}
+		
+		string selectedMeta = (string)playerTradeMenu.GetSelectedMetadata();
+		int selectedIdx = -1;
+		playerTradeMenu.Clear();
+		
+		if (GameData.currentRegion.resources.Count == 0)
+		{
+			playerTradeMenu.AddItem("No Region Resources");
+			playerTradeMenu.Select(0);
+			playerTradeMenu.Disabled = true;
+			return;
 		}
 		
 		foreach (var res in GameData.currentRegion.resources)
@@ -145,7 +181,24 @@ public partial class TradeControl : Node
 			resourceResLabels[res.Key] = aLabel;
 			
 			resourceVBox.AddChild(rLabel);
+			
+			playerTradeMenu.AddItem(GameData.RESOURCES[res.Key].name);
+			int idx = playerTradeMenu.ItemCount - 1;
+			playerTradeMenu.SetItemMetadata(idx, res.Key);
+			
+			if (selectedIdx < 0 && selectedMeta == res.Key)
+			{
+				selectedIdx = idx;
+				playerTradeMenu.Select(idx);
+			}
 		}
+		
+		if (selectedIdx < 0)
+		{
+			playerTradeMenu.Select(0);
+		}
+		
+		playerTradeMenu.Disabled = false;
 	}
 	
 	public void UpdateTraderOfferLabels()

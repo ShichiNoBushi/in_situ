@@ -374,7 +374,7 @@ offset_bottom = 490.0
 layout_mode = 0
 offset_left = 12.0
 offset_top = 30.0
-offset_right = 382.0
+offset_right = 387.0
 offset_bottom = 490.0
 
 [node name="TraderVBox" type="VBoxContainer" parent="TabContainer/Trade/TraderScroll" unique_id=1193236263]
@@ -410,16 +410,16 @@ text = "Reserve"
 
 [node name="ReservePanel" type="Panel" parent="TabContainer/Trade" unique_id=1000143226]
 layout_mode = 0
-offset_left = 390.0
+offset_left = 395.0
 offset_top = 30.0
-offset_right = 760.0
+offset_right = 765.0
 offset_bottom = 490.0
 
 [node name="ReserveScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1207557410]
 layout_mode = 0
-offset_left = 390.0
+offset_left = 395.0
 offset_top = 30.0
-offset_right = 760.0
+offset_right = 770.0
 offset_bottom = 490.0
 
 [node name="ReserveVBox" type="VBoxContainer" parent="TabContainer/Trade/ReserveScroll" unique_id=1593076399]
@@ -455,16 +455,16 @@ text = "Resources"
 
 [node name="ResourcePanel" type="Panel" parent="TabContainer/Trade" unique_id=259519210]
 layout_mode = 0
-offset_left = 770.0
+offset_left = 780.0
 offset_top = 30.0
-offset_right = 1140.0
+offset_right = 1150.0
 offset_bottom = 490.0
 
 [node name="ResourceScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1449017512]
 layout_mode = 0
-offset_left = 770.0
+offset_left = 780.0
 offset_top = 30.0
-offset_right = 1140.0
+offset_right = 1155.0
 offset_bottom = 490.0
 
 [node name="ResourceVBox" type="VBoxContainer" parent="TabContainer/Trade/ResourceScroll" unique_id=343418491]
@@ -485,6 +485,7 @@ offset_left = 107.0
 offset_top = 544.0
 offset_right = 387.0
 offset_bottom = 576.0
+disabled = true
 
 [node name="TraderTradeSpin" type="SpinBox" parent="TabContainer/Trade" unique_id=1255964020]
 layout_mode = 0
@@ -494,7 +495,6 @@ offset_right = 484.5
 offset_bottom = 575.0
 max_value = 0.0
 alignment = 2
-editable = false
 
 [node name="TraderOfferButton" type="Button" parent="TabContainer/Trade" unique_id=809275951]
 layout_mode = 0
@@ -502,6 +502,7 @@ offset_left = 497.0
 offset_top = 544.0
 offset_right = 578.0
 offset_bottom = 575.0
+disabled = true
 text = "Offer"
 
 [node name="PlayerTradeMenu" type="OptionButton" parent="TabContainer/Trade" unique_id=893013634]
@@ -510,6 +511,7 @@ offset_left = 694.0
 offset_top = 544.0
 offset_right = 974.0
 offset_bottom = 576.0
+disabled = true
 
 [node name="ToTraderLabel" type="Label" parent="TabContainer/Trade" unique_id=957448971]
 layout_mode = 0
@@ -527,7 +529,6 @@ offset_right = 1071.5
 offset_bottom = 575.0
 max_value = 0.0
 alignment = 2
-editable = false
 
 [node name="PlayerOfferButton" type="Button" parent="TabContainer/Trade" unique_id=1844512289]
 layout_mode = 0
@@ -535,6 +536,7 @@ offset_left = 1084.0
 offset_top = 544.0
 offset_right = 1165.0
 offset_bottom = 575.0
+disabled = true
 text = "Offer"
 
 [node name="FavorProgress" type="ProgressBar" parent="TabContainer/Trade" unique_id=494340530]
@@ -551,20 +553,21 @@ offset_left = 585.0
 offset_top = 590.0
 offset_right = 679.0
 offset_bottom = 621.0
+disabled = true
 text = "Trade"
 
 [node name="TraderTradePanel" type="Panel" parent="TabContainer/Trade" unique_id=1982494694]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 638.0
-offset_right = 382.0
+offset_right = 387.0
 offset_bottom = 895.0
 
 [node name="TraderTradeScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1080012158]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 638.0
-offset_right = 382.0
+offset_right = 387.0
 offset_bottom = 898.0
 
 [node name="TraderTradeVBox" type="VBoxContainer" parent="TabContainer/Trade/TraderTradeScroll" unique_id=1699420900]
@@ -573,16 +576,16 @@ layout_mode = 2
 
 [node name="PlayerTradePanel" type="Panel" parent="TabContainer/Trade" unique_id=763340008]
 layout_mode = 0
-offset_left = 390.0
+offset_left = 395.0
 offset_top = 638.0
-offset_right = 760.0
+offset_right = 765.0
 offset_bottom = 895.0
 
 [node name="PlayerTradeScroll" type="ScrollContainer" parent="TabContainer/Trade" unique_id=1609099818]
 layout_mode = 0
-offset_left = 390.0
+offset_left = 395.0
 offset_top = 638.0
-offset_right = 760.0
+offset_right = 770.0
 offset_bottom = 898.0
 
 [node name="PlayerTradeVBox" type="VBoxContainer" parent="TabContainer/Trade/PlayerTradeScroll" unique_id=2116247369]

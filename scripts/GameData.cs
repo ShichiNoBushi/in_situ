@@ -3671,7 +3671,7 @@ public class Trader
 			inventoryValue -= cost;
 		}
 		
-		//GameData.SortResources(inventory);
+		GameData.SortResources(inventory);
 	}
 	
 	public float CalculateFavor(Dictionary<string, float> offer)
