@@ -494,6 +494,7 @@ offset_top = 544.0
 offset_right = 484.5
 offset_bottom = 575.0
 max_value = 0.0
+step = 0.001
 alignment = 2
 
 [node name="TraderOfferButton" type="Button" parent="TabContainer/Trade" unique_id=809275951]
@@ -528,6 +529,7 @@ offset_top = 544.0
 offset_right = 1071.5
 offset_bottom = 575.0
 max_value = 0.0
+step = 0.001
 alignment = 2
 
 [node name="PlayerOfferButton" type="Button" parent="TabContainer/Trade" unique_id=1844512289]
