@@ -28,7 +28,9 @@ public partial class TradeControl : Node
 	public SpinBox playerTradeSpin;
 	
 	public Button traderOfferButton;
+	public Button traderRetractButton;
 	public Button playerOfferButton;
+	public Button playerRetractButton;
 	
 	public ProgressBar favorProgress;
 	
@@ -63,10 +65,14 @@ public partial class TradeControl : Node
 		playerTradeSpin = GetNode<SpinBox>("PlayerTradeSpin");
 		
 		traderOfferButton = GetNode<Button>("TraderOfferButton");
+		traderRetractButton = GetNode<Button>("TraderRetractButton");
 		playerOfferButton = GetNode<Button>("PlayerOfferButton");
+		playerRetractButton = GetNode<Button>("PlayerRetractButton");
 		
 		traderOfferButton.Pressed += OnTraderOfferPress;
+		traderRetractButton.Pressed += OnTraderRetractPress;
 		playerOfferButton.Pressed += OnPlayerOfferPress;
+		playerRetractButton.Pressed += OnPlayerRetractPress;
 		
 		favorProgress = GetNode<ProgressBar>("FavorProgress");
 		
@@ -145,6 +151,44 @@ public partial class TradeControl : Node
 		
 		UpdateTraderResourceValues();
 		UpdateTraderOfferValues();
+		UpdateFavorProgress();
+	}
+	
+	public void OnTraderRetractPress()
+	{
+		if (activeTrader == null)
+		{
+			return;
+		}
+		
+		if (playerTradeMenu.GetSelectedId() < 0 || (string)playerTradeMenu.GetSelectedMetadata() == "N/A")
+		{
+			return;
+		}
+		
+		string resID = (string)traderTradeMenu.GetSelectedMetadata();
+		
+		if (!traderOffer.ContainsKey(resID))
+		{
+			return;
+		}
+		
+		float amount = traderOffer[resID];
+		
+		if (activeTrader.inventory.ContainsKey(resID))
+		{
+			activeTrader.inventory[resID] += amount;
+		}
+		else
+		{
+			activeTrader.inventory[resID] = amount;
+		}
+		
+		traderOffer.Remove(resID);
+		
+		UpdateTraderResourceValues();
+		UpdateTraderOfferValues();
+		UpdateFavorProgress();
 	}
 	
 	public void OnPlayerOfferPress()
@@ -160,6 +204,11 @@ public partial class TradeControl : Node
 		if (GameData.currentRegion.resources.ContainsKey(resID))
 		{
 			GameData.currentRegion.resources[resID] -= amount;
+			if (GameData.currentRegion.resources[resID] <= 0f)
+			{
+				GameData.currentRegion.resources.Remove(resID);
+				GameData.resourceControl.UpdateResourcePanels();
+			}
 		}
 		else
 		{
@@ -189,6 +238,40 @@ public partial class TradeControl : Node
 		
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
+		UpdateFavorProgress();
+	}
+	
+	public void OnPlayerRetractPress()
+	{
+		if (playerTradeMenu.GetSelectedId() < 0 || (string)playerTradeMenu.GetSelectedMetadata() == "N/A")
+		{
+			return;
+		}
+		
+		string resID = (string)playerTradeMenu.GetSelectedMetadata();
+		
+		if (!playerOffer.ContainsKey(resID))
+		{
+			return;
+		}
+		
+		float amount = playerOffer[resID];
+		
+		if (GameData.currentRegion.resources.ContainsKey(resID))
+		{
+			GameData.currentRegion.resources[resID] += amount;
+		}
+		else
+		{
+			GameData.currentRegion.resources[resID] = amount;
+			GameData.resourceControl.UpdateResourcePanels();
+		}
+		
+		playerOffer.Remove(resID);
+		
+		UpdateRegionResourceValues();
+		UpdatePlayerOfferValues();
+		UpdateFavorProgress();
 	}
 	
 	public void UpdateTraderResourceLabels()
@@ -212,6 +295,7 @@ public partial class TradeControl : Node
 			traderTradeMenu.Disabled = true;
 			traderTradeSpin.Editable = false;
 			traderOfferButton.Disabled = true;
+			traderRetractButton.Disabled = true;
 			return;
 		}
 		
@@ -247,6 +331,7 @@ public partial class TradeControl : Node
 		traderTradeMenu.Disabled = false;
 		traderTradeSpin.Editable = true;
 		traderOfferButton.Disabled = false;
+		traderRetractButton.Disabled = false;
 	}
 	
 	public void UpdateRegionResourceLabels()
@@ -270,6 +355,7 @@ public partial class TradeControl : Node
 			playerTradeMenu.Disabled = true;
 			playerTradeSpin.Editable = false;
 			playerOfferButton.Disabled = true;
+			playerRetractButton.Disabled = true;
 			return;
 		}
 		
@@ -305,6 +391,7 @@ public partial class TradeControl : Node
 		playerTradeMenu.Disabled = false;
 		playerTradeSpin.Editable = true;
 		playerOfferButton.Disabled = false;
+		playerRetractButton.Disabled = false;
 	}
 	
 	public void UpdateTraderOfferLabels()
@@ -418,5 +505,13 @@ public partial class TradeControl : Node
 		{
 			playerOfferLabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
 		}
+	}
+	
+	public void UpdateFavorProgress()
+	{
+		float playerValue = activeTrader.CalculateFavor(playerOffer);
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + 10f;
+		
+		favorProgress.Value = playerValue > 0f && traderValue > 0f ? playerValue / traderValue : 0f;
 	}
 }

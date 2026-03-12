@@ -506,27 +506,36 @@ offset_bottom = 575.0
 disabled = true
 text = "Offer"
 
+[node name="TraderRetractButton" type="Button" parent="TabContainer/Trade" unique_id=676306679]
+layout_mode = 0
+offset_left = 585.0
+offset_top = 544.0
+offset_right = 666.0
+offset_bottom = 575.0
+disabled = true
+text = "Retract"
+
 [node name="PlayerTradeMenu" type="OptionButton" parent="TabContainer/Trade" unique_id=893013634]
 layout_mode = 0
-offset_left = 694.0
+offset_left = 789.0
 offset_top = 544.0
-offset_right = 974.0
+offset_right = 1069.0
 offset_bottom = 576.0
 disabled = true
 
 [node name="ToTraderLabel" type="Label" parent="TabContainer/Trade" unique_id=957448971]
 layout_mode = 0
-offset_left = 584.0
+offset_left = 679.0
 offset_top = 544.0
-offset_right = 682.0
+offset_right = 777.0
 offset_bottom = 567.0
 text = "<-- To Trader"
 
 [node name="PlayerTradeSpin" type="SpinBox" parent="TabContainer/Trade" unique_id=805952114]
 layout_mode = 0
-offset_left = 985.0
+offset_left = 1080.0
 offset_top = 544.0
-offset_right = 1071.5
+offset_right = 1166.5
 offset_bottom = 575.0
 max_value = 0.0
 step = 0.001
@@ -534,12 +543,21 @@ alignment = 2
 
 [node name="PlayerOfferButton" type="Button" parent="TabContainer/Trade" unique_id=1844512289]
 layout_mode = 0
-offset_left = 1084.0
+offset_left = 1179.0
 offset_top = 544.0
-offset_right = 1165.0
+offset_right = 1260.0
 offset_bottom = 575.0
 disabled = true
 text = "Offer"
+
+[node name="PlayerRetractButton" type="Button" parent="TabContainer/Trade" unique_id=2059916558]
+layout_mode = 0
+offset_left = 1275.0
+offset_top = 544.0
+offset_right = 1356.0
+offset_bottom = 575.0
+disabled = true
+text = "Retract"
 
 [node name="FavorProgress" type="ProgressBar" parent="TabContainer/Trade" unique_id=494340530]
 layout_mode = 0
