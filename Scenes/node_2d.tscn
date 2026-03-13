@@ -30,9 +30,10 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 4
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -349,7 +350,6 @@ offset_bottom = 882.0
 text = "Call Trader"
 
 [node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
-visible = false
 layout_mode = 2
 script = ExtResource("14_gwne5")
 ResourceLabelScene = ExtResource("5_v7gqg")
@@ -569,9 +569,9 @@ allow_greater = true
 
 [node name="TradeButton" type="Button" parent="TabContainer/Trade" unique_id=2031276422]
 layout_mode = 0
-offset_left = 585.0
+offset_left = 694.0
 offset_top = 590.0
-offset_right = 679.0
+offset_right = 788.0
 offset_bottom = 621.0
 disabled = true
 text = "Trade"
@@ -611,6 +611,14 @@ offset_bottom = 898.0
 [node name="PlayerTradeVBox" type="VBoxContainer" parent="TabContainer/Trade/PlayerTradeScroll" unique_id=2116247369]
 custom_minimum_size = Vector2(370, 260)
 layout_mode = 2
+
+[node name="OfferValueLabel" type="Label" parent="TabContainer/Trade" unique_id=1558451812]
+layout_mode = 0
+offset_left = 564.0
+offset_top = 590.0
+offset_right = 694.0
+offset_bottom = 613.0
+text = "0 / 0"
 
 [node name="Quests" type="Control" parent="TabContainer" unique_id=60669109]
 visible = false

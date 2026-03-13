@@ -6,6 +6,8 @@ public partial class TradeControl : Node
 {
 	[Export] public PackedScene ResourceLabelScene;
 	
+	public const float TAKEOFF_FEE = 1f;
+	
 	public Trader activeTrader;
 	public Infrastructure activeHub;
 	
@@ -33,6 +35,7 @@ public partial class TradeControl : Node
 	public Button playerRetractButton;
 	
 	public ProgressBar favorProgress;
+	public Label offerValueLabel;
 	
 	public Button tradeButton;
 	
@@ -43,8 +46,8 @@ public partial class TradeControl : Node
 	public Dictionary<string, Label> reserveResLabels;
 	public Dictionary<string, Label> resourceResLabels;
 	
-	public Dictionary<string, Label> traderOfferLabels;
-	public Dictionary<string, Label> playerOfferLabels;
+	public Dictionary<string, Control> traderOfferLabels;
+	public Dictionary<string, Control> playerOfferLabels;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -75,6 +78,7 @@ public partial class TradeControl : Node
 		playerRetractButton.Pressed += OnPlayerRetractPress;
 		
 		favorProgress = GetNode<ProgressBar>("FavorProgress");
+		offerValueLabel = GetNode<Label>("OfferValueLabel");
 		
 		tradeButton = GetNode<Button>("TradeButton");
 		
@@ -137,14 +141,9 @@ public partial class TradeControl : Node
 		{
 			traderOffer[resID] = amount;
 			
-			Control rLabel = ResourceLabelScene.Instantiate<Control>();
-			Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
-			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			Control rLabel = CreateResourceLabel(resID, amount);
 			
-			nLabel.Text = GameData.RESOURCES[resID].name;
-			aLabel.Text = GameData.FormatUnit(amount, resID);
-			
-			traderOfferLabels[resID] = aLabel;
+			traderOfferLabels[resID] = rLabel;
 			
 			traderTradeVBox.AddChild(rLabel);
 		}
@@ -185,6 +184,7 @@ public partial class TradeControl : Node
 		}
 		
 		traderOffer.Remove(resID);
+		traderOfferLabels[resID].QueueFree();
 		
 		UpdateTraderResourceValues();
 		UpdateTraderOfferValues();
@@ -224,14 +224,9 @@ public partial class TradeControl : Node
 		{
 			playerOffer[resID] = amount;
 			
-			Control rLabel = ResourceLabelScene.Instantiate<Control>();
-			Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
-			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			Control rLabel = CreateResourceLabel(resID, amount);
 			
-			nLabel.Text = GameData.RESOURCES[resID].name;
-			aLabel.Text = GameData.FormatUnit(amount, resID);
-			
-			playerOfferLabels[resID] = aLabel;
+			playerOfferLabels[resID] = rLabel;
 			
 			playerTradeVBox.AddChild(rLabel);
 		}
@@ -268,10 +263,34 @@ public partial class TradeControl : Node
 		}
 		
 		playerOffer.Remove(resID);
+		playerOfferLabels[resID].QueueFree();
 		
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
 		UpdateFavorProgress();
+	}
+	
+	public Control CreateResourceLabel(string resID, float amount)
+	{
+		Control rLabel = ResourceLabelScene.Instantiate<Control>();
+		Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
+		Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+		
+		nLabel.Text = GameData.RESOURCES[resID].name;
+		aLabel.Text = GameData.FormatUnit(amount, resID);
+		
+		return rLabel;
+	}
+	
+	public void SetAmountLabelText(Control root, string resID, float amount)
+	{
+		if (root == null)
+		{
+			return;
+		}
+		
+		Label aLabel = root.GetNode<Label>("HBoxContainer/AmountLabel");
+		aLabel.Text = GameData.FormatUnit(amount, resID);
 	}
 	
 	public void UpdateTraderResourceLabels()
@@ -410,14 +429,9 @@ public partial class TradeControl : Node
 		
 		foreach (var res in traderOffer)
 		{
-			Control rLabel = ResourceLabelScene.Instantiate<Control>();
-			Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
-			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			Control rLabel = CreateResourceLabel(res.Key, res.Value);
 			
-			nLabel.Text = GameData.RESOURCES[res.Key].name;
-			aLabel.Text = GameData.FormatUnit(res.Value, res.Key);
-			
-			traderOfferLabels[res.Key] = aLabel;
+			traderOfferLabels[res.Key] = rLabel;
 			
 			traderTradeVBox.AddChild(rLabel);
 		}
@@ -434,14 +448,9 @@ public partial class TradeControl : Node
 		
 		foreach (var res in playerOffer)
 		{
-			Control rLabel = ResourceLabelScene.Instantiate<Control>();
-			Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
-			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			Control rLabel = CreateResourceLabel(res.Key, res.Value);
 			
-			nLabel.Text = GameData.RESOURCES[res.Key].name;
-			aLabel.Text = GameData.FormatUnit(res.Value, res.Key);
-			
-			playerOfferLabels[res.Key] = aLabel;
+			playerOfferLabels[res.Key] = rLabel;
 			
 			playerTradeVBox.AddChild(rLabel);
 		}
@@ -476,7 +485,7 @@ public partial class TradeControl : Node
 			resourceResLabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
 		}
 		
-		if (playerTradeMenu.GetSelectedId() < 0 || (string)traderTradeMenu.GetSelectedMetadata() == "N/A")
+		if (playerTradeMenu.GetSelectedId() < 0 || (string)playerTradeMenu.GetSelectedMetadata() == "N/A")
 		{
 			playerTradeSpin.MaxValue = 0;
 			return;
@@ -495,7 +504,10 @@ public partial class TradeControl : Node
 		
 		foreach (var res in traderOffer)
 		{
-			traderOfferLabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
+			if (traderOfferLabels.TryGetValue(res.Key, out Control root))
+			{
+				SetAmountLabelText(root, res.Key, res.Value);
+			}
 		}
 	}
 	
@@ -503,15 +515,19 @@ public partial class TradeControl : Node
 	{
 		foreach (var res in playerOffer)
 		{
-			playerOfferLabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
+			if (playerOfferLabels.TryGetValue(res.Key, out Control root))
+			{
+				SetAmountLabelText(root, res.Key, res.Value);
+			}
 		}
 	}
 	
 	public void UpdateFavorProgress()
 	{
 		float playerValue = activeTrader.CalculateFavor(playerOffer);
-		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + 10f;
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
 		
-		favorProgress.Value = playerValue > 0f && traderValue > 0f ? playerValue / traderValue : 0f;
+		favorProgress.Value = (playerValue > 0f && traderValue > 0f ? playerValue / traderValue : 0f) * 100f;
+		offerValueLabel.Text = $"{playerValue} / {traderValue}";
 	}
 }
