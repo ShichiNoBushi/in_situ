@@ -49,6 +49,8 @@ public partial class TradeControl : Node
 	public Dictionary<string, Control> traderOfferLabels;
 	public Dictionary<string, Control> playerOfferLabels;
 	
+	public TradeSave lastSave;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -106,6 +108,34 @@ public partial class TradeControl : Node
 		UpdateRegionResourceValues();
 		UpdateTraderOfferValues();
 		UpdatePlayerOfferValues();
+	}
+	
+	public void LoadSave(TradeSave save)
+	{
+		if (save.activeTrader >= 0)
+		{
+			activeTrader = GameData.traders[save.activeTrader];
+		}
+		else
+		{
+			activeTrader = null;
+		}
+		
+		if (save.activeHub >= 0)
+		{
+			activeHub = GameData.currentRegion.infrastructure[save.activeHub];
+		}
+		else
+		{
+			activeHub = null;
+		}
+		
+		traderOffer = new(save.traderOffer);
+		playerOffer = new(save.playerOffer);
+		
+		lastSave = save;
+		
+		UpdateAllLabels();
 	}
 	
 	public void OnTraderOfferPress()
@@ -291,6 +321,78 @@ public partial class TradeControl : Node
 		
 		Label aLabel = root.GetNode<Label>("HBoxContainer/AmountLabel");
 		aLabel.Text = GameData.FormatUnit(amount, resID);
+	}
+	
+	public void UpdateRegionTrade()
+	{
+		activeTrader = null;
+		if (GameData.currentRegion.landedTraders.Count > 0)
+		{
+			activeTrader = GameData.currentRegion.landedTraders[0];
+		}
+		
+		activeHub = null;
+		foreach (var infra in GameData.currentRegion.infrastructure)
+		{
+			if (infra.type == "trade")
+			{
+				activeHub = infra;
+				break;
+			}
+		}
+		
+		UpdateAllLabels();
+	}
+	
+	public void UpdateAllLabels()
+	{
+		UpdateTraderResourceLabels();
+		UpdateRegionResourceLabels();
+		UpdateTraderOfferLabels();
+		UpdatePlayerOfferLabels();
+	}
+	
+	public void RetractAllOffers()
+	{
+		if (activeTrader != null)
+		{
+			foreach (var res in traderOffer)
+			{
+				if (activeTrader.inventory.ContainsKey(res.Key))
+				{
+					activeTrader.inventory[res.Key] += res.Value;
+				}
+				else
+				{
+					activeTrader.inventory[res.Key] = res.Value;
+				}
+			}
+		}
+		
+		traderOffer.Clear();
+		
+		bool updateResPanels = false;
+		foreach (var res in playerOffer)
+		{
+			if (GameData.currentRegion.resources.ContainsKey(res.Key))
+			{
+				GameData.currentRegion.resources[res.Key] += res.Value;
+			}
+			else
+			{
+				GameData.currentRegion.resources[res.Key] = res.Value;
+				updateResPanels = true;
+			}
+		}
+		
+		playerOffer.Clear();
+		
+		if (updateResPanels)
+		{
+			GameData.resourceControl.UpdateResourcePanels();
+		}
+		
+		UpdateAllLabels();
 	}
 	
 	public void UpdateTraderResourceLabels()
@@ -529,5 +631,41 @@ public partial class TradeControl : Node
 		
 		favorProgress.Value = (playerValue > 0f && traderValue > 0f ? playerValue / traderValue : 0f) * 100f;
 		offerValueLabel.Text = $"{playerValue} / {traderValue}";
+	}
+}
+
+public class TradeSave
+{
+	public int activeTrader;
+	public int activeHub;
+	
+	public Dictionary<string, float> traderOffer;
+	public Dictionary<string, float> playerOffer;
+	
+	public TradeSave()
+	{
+		activeTrader = -1;
+		activeHub = -1;
+		
+		traderOffer = new();
+		playerOffer = new();
+	}
+	
+	public TradeSave(TradeControl tc)
+	{
+		activeTrader = tc.activeTrader.idNum;
+		activeHub = -1;
+		
+		for (int i = 0; i < GameData.currentRegion.infrastructure.Count; i++)
+		{
+			if (tc.activeHub == GameData.currentRegion.infrastructure[i])
+			{
+				activeHub = i;
+				break;
+			}
+		}
+		
+		traderOffer = new(tc.traderOffer);
+		playerOffer = new(tc.playerOffer);
 	}
 }

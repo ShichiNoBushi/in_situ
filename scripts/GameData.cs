@@ -392,12 +392,6 @@ public partial class GameData : Node
 			traders[newTrad.idNum] = newTrad;
 		}
 		
-		/*landedTraders.Clear();
-		foreach (var tradID in save.landedTraders)
-		{
-			landedTraders.Add(traders[tradID]);
-		}*/
-		
 		regionMap.Clear();
 		coordStringToTuple.Clear();
 		foreach (var reg in save.regionMap)
@@ -432,6 +426,8 @@ public partial class GameData : Node
 		{
 			infra.Value.available = save.unlocks.infrastructure.Contains(infra.Key);
 		}
+		
+		tradeControl.LoadSave(save.tradeSave);
 		
 		trackedQuest = (!string.IsNullOrEmpty(save.trackedQuest)) && qstNameToKey.ContainsKey(save.trackedQuest)
 			? GameData.QUESTS[save.trackedQuest]
@@ -978,6 +974,8 @@ public partial class GameData : Node
 		//Travel player to designated coordinate.
 		GD.Print($"GameData: Traveling to ({coord.x}, {coord.y})");
 		
+		tradeControl.RetractAllOffers();
+		
 		//Set current region to coordinate if it exists in the map.
 		if (regionMap.ContainsKey(coord))
 		{
@@ -1001,6 +999,7 @@ public partial class GameData : Node
 		}
 		
 		logisticsControl.UpdateRegionLogistics();
+		tradeControl.UpdateRegionTrade();
 		
 		//Update colored regions on the map.
 		mapControl.UpdateAllColors();
@@ -1320,6 +1319,8 @@ public class GameSave
 	
 	public UnlockSave unlocks {get; set;}
 	
+	public TradeSave tradeSave {get; set;}
+	
 	public string trackedQuest {get; set;}
 	public List<string> activeQuests {get; set;}
 	public List<string> completeQuests {get; set;}
@@ -1335,10 +1336,6 @@ public class GameSave
 		{
 			traders.Add(new TraderSave(trad));
 		}
-		/*foreach (var trad in GameData.landedTraders)
-		{
-			landedTraders.Add(trad.idNum);
-		}*/
 		
 		regionMap = new();
 		foreach (var reg in GameData.regionMap.Values)
@@ -1374,6 +1371,8 @@ public class GameSave
 				unlocks.infrastructure.Add(infra.Key);
 			}
 		}
+		
+		tradeSave = new(GameData.tradeControl);
 		
 		if (GameData.trackedQuest != null && GameData.qstNameToKey.ContainsKey(GameData.trackedQuest.name))
 		{
