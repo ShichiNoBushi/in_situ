@@ -61,6 +61,8 @@ public partial class GameData : Node
 	//Label to display the current tracked objective.
 	public static Label objectiveLabel;
 	
+	public static ItemList tradersList;
+	public static RichTextLabel traderInfoLabel;
 	public static Button callButton;
 	
 	public static Button newButton;
@@ -114,7 +116,10 @@ public partial class GameData : Node
 		tradeControl = GetNode<TradeControl>("../TabContainer/Trade");
 		questControl = GetNode<QuestControl>("../TabContainer/Quests");
 		
+		tradersList = GetNode<ItemList>("../TabContainer/Communication/TraderList");
+		traderInfoLabel = GetNode<RichTextLabel>("../TabContainer/Communication/TraderInfoLabel");
 		callButton = GetNode<Button>("../TabContainer/Communication/CallButton");
+		tradersList.ItemSelected += DisplayTraderInfo;
 		callButton.Pressed += OnCallPressed;
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
@@ -214,6 +219,15 @@ public partial class GameData : Node
 		TRADERS = LoadJson<Dictionary<string, TraderData>>(traderPath);
 	}
 	
+	public void DisplayTraderInfo(long idx)
+	{
+		int tradID = (int)tradersList.GetItemMetadata((int)idx);
+		Trader trad = traders[tradID];
+		
+		String info = $"Trader: {trad.name}\nType: {trad.id}\n\nFavor: {trad.favor}\nProsperity: {trad.prosperity}";
+		traderInfoLabel.Text = info;
+	}
+	
 	public void OnCallPressed()
 	{
 		if (!currentRegion.ContainsCommunication() || !currentRegion.ContainsTrade() || !currentRegion.ContainsDock())
@@ -238,6 +252,10 @@ public partial class GameData : Node
 		{
 			trad = new Trader("generic trader");
 			traders[trad.idNum] = trad;
+			
+			tradersList.AddItem(trad.name);
+			int idx = tradersList.ItemCount - 1;
+			tradersList.SetItemMetadata(idx, trad.idNum);
 			
 			GD.Print($"GameData: New trader called {trad.name}");
 		}
@@ -3692,6 +3710,16 @@ public class Trader
 		}
 		
 		return totalValue;
+	}
+	
+	public void AdjustFavor(float fav)
+	{
+		favor += fav;
+	}
+	
+	public void AdjustProsperity(float pros)
+	{
+		prosperity += pros;
 	}
 }
 

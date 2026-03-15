@@ -196,7 +196,7 @@ public partial class TradeControl : Node
 			return;
 		}
 		
-		if (playerTradeMenu.GetSelectedId() < 0 || (string)playerTradeMenu.GetSelectedMetadata() == "N/A")
+		if (traderTradeMenu.GetSelectedId() < 0 || (string)traderTradeMenu.GetSelectedMetadata() == "N/A")
 		{
 			return;
 		}
@@ -324,12 +324,12 @@ public partial class TradeControl : Node
 		
 		float playerValue = activeTrader.CalculateFavor(playerOffer);
 		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
-		float totalValue = playerValue / traderValue;
+		float totalValue = traderValue > 0f ? playerValue / traderValue: 2f;
 		
 		float rand1 = GameData.rng.Randf();
 		float rand2 = GameData.rng.Randf();
 		
-		if (rand1 <= totalValue && rand2 <= totalValue * 100f)
+		if (rand1 <= totalValue && rand2 <= totalValue)
 		{
 			GD.Print($"TradeControl: Trade confirmed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
 			TradeOffers();
@@ -337,12 +337,14 @@ public partial class TradeControl : Node
 		else
 		{
 			GD.Print($"TradeControl: Trade failed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
-			tradeButton.Disabled = false;
+			tradeButton.Disabled = true;
 		}
 	}
 	
 	public void TradeOffers()
 	{
+		float bonusProsperity = 0f;
+		
 		bool updateResRegion = false;
 		foreach (var res in traderOffer)
 		{
@@ -355,6 +357,8 @@ public partial class TradeControl : Node
 				GameData.currentRegion.resources[res.Key] = res.Value;
 				updateResRegion = true;
 			}
+			
+			bonusProsperity -= GameData.RESOURCES[res.Key].value * res.Value;
 		}
 		
 		if (updateResRegion)
@@ -372,7 +376,17 @@ public partial class TradeControl : Node
 			{
 				activeTrader.inventory[res.Key] = res.Value;
 			}
+			
+			bonusProsperity += GameData.RESOURCES[res.Key].value * res.Value;
 		}
+		
+		float playerValue = activeTrader.CalculateFavor(playerOffer);
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
+		float favorRatio = traderValue > 0f ? playerValue / traderValue : 2f;
+		float bonusFavor = Mathf.Clamp((favorRatio - 1f) * 0.25f, -0.25f, 0.5f);
+		
+		activeTrader.AdjustFavor(bonusFavor);
+		activeTrader.AdjustProsperity(bonusProsperity);
 		
 		GameData.currentRegion.landedTraders.Remove(activeTrader);
 		
@@ -384,6 +398,9 @@ public partial class TradeControl : Node
 		{
 			activeTrader = null;
 		}
+		
+		traderOffer.Clear();
+		playerOffer.Clear();
 		
 		UpdateAllLabels();
 		
@@ -720,7 +737,7 @@ public partial class TradeControl : Node
 		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
 		
 		favorProgress.Value = (playerValue > 0f && traderValue > 0f ? playerValue / traderValue : 0f) * 100f;
-		offerValueLabel.Text = $"{playerValue} / {traderValue}";
+		offerValueLabel.Text = $"{playerValue:0.00} / {traderValue:0.00}";
 	}
 }
 
@@ -743,7 +760,7 @@ public class TradeSave
 	
 	public TradeSave(TradeControl tc)
 	{
-		activeTrader = tc.activeTrader.idNum;
+		activeTrader = tc.activeTrader != null ? tc.activeTrader.idNum : -1;
 		activeHub = -1;
 		
 		for (int i = 0; i < GameData.currentRegion.infrastructure.Count; i++)
