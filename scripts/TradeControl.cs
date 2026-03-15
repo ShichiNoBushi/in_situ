@@ -84,6 +84,8 @@ public partial class TradeControl : Node
 		
 		tradeButton = GetNode<Button>("TradeButton");
 		
+		tradeButton.Pressed += OnTradePress;
+		
 		traderTradeVBox = GetNode<VBoxContainer>("TraderTradeScroll/TraderTradeVBox");
 		playerTradeVBox = GetNode<VBoxContainer>("PlayerTradeScroll/PlayerTradeVBox");
 		
@@ -136,6 +138,8 @@ public partial class TradeControl : Node
 		lastSave = save;
 		
 		UpdateAllLabels();
+		
+		tradeButton.Disabled = !(traderOffer.Count > 0 || playerOffer.Count > 0);
 	}
 	
 	public void OnTraderOfferPress()
@@ -178,6 +182,8 @@ public partial class TradeControl : Node
 			traderTradeVBox.AddChild(rLabel);
 		}
 		
+		tradeButton.Disabled = false;
+		
 		UpdateTraderResourceValues();
 		UpdateTraderOfferValues();
 		UpdateFavorProgress();
@@ -215,6 +221,8 @@ public partial class TradeControl : Node
 		
 		traderOffer.Remove(resID);
 		traderOfferLabels[resID].QueueFree();
+		
+		tradeButton.Disabled = traderOffer.Count == 0 && playerOffer.Count == 0;
 		
 		UpdateTraderResourceValues();
 		UpdateTraderOfferValues();
@@ -261,6 +269,8 @@ public partial class TradeControl : Node
 			playerTradeVBox.AddChild(rLabel);
 		}
 		
+		tradeButton.Disabled = false;
+		
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
 		UpdateFavorProgress();
@@ -295,9 +305,89 @@ public partial class TradeControl : Node
 		playerOffer.Remove(resID);
 		playerOfferLabels[resID].QueueFree();
 		
+		tradeButton.Disabled = traderOffer.Count == 0 && playerOffer.Count == 0;
+		
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
 		UpdateFavorProgress();
+	}
+	
+	public void OnTradePress()
+	{
+		if (activeTrader == null)
+		{
+			GD.Print("TradeControl: Active Trader is null value");
+			return;
+		}
+		
+		GD.Print("TradeControl: Beginning trade negotiations...");
+		
+		float playerValue = activeTrader.CalculateFavor(playerOffer);
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
+		float totalValue = playerValue / traderValue;
+		
+		float rand1 = GameData.rng.Randf();
+		float rand2 = GameData.rng.Randf();
+		
+		if (rand1 <= totalValue && rand2 <= totalValue * 100f)
+		{
+			GD.Print($"TradeControl: Trade confirmed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
+			TradeOffers();
+		}
+		else
+		{
+			GD.Print($"TradeControl: Trade failed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
+			tradeButton.Disabled = false;
+		}
+	}
+	
+	public void TradeOffers()
+	{
+		bool updateResRegion = false;
+		foreach (var res in traderOffer)
+		{
+			if (GameData.currentRegion.resources.ContainsKey(res.Key))
+			{
+				GameData.currentRegion.resources[res.Key] += res.Value;
+			}
+			else
+			{
+				GameData.currentRegion.resources[res.Key] = res.Value;
+				updateResRegion = true;
+			}
+		}
+		
+		if (updateResRegion)
+		{
+			GameData.resourceControl.UpdateResourcePanels();
+		}
+		
+		foreach (var res in playerOffer)
+		{
+			if (activeTrader.inventory.ContainsKey(res.Key))
+			{
+				activeTrader.inventory[res.Key] += res.Value;
+			}
+			else
+			{
+				activeTrader.inventory[res.Key] = res.Value;
+			}
+		}
+		
+		GameData.currentRegion.landedTraders.Remove(activeTrader);
+		
+		if (GameData.currentRegion.landedTraders.Count > 0)
+		{
+			activeTrader = GameData.currentRegion.landedTraders[0];
+		}
+		else
+		{
+			activeTrader = null;
+		}
+		
+		UpdateAllLabels();
+		
+		tradeButton.Disabled = true;
 	}
 	
 	public Control CreateResourceLabel(string resID, float amount)
