@@ -3758,3 +3758,64 @@ public class TraderSave
 		inventory = new(t.inventory);
 	}
 }
+
+public class CommodityStock
+{
+	public string resource {get; private set;}
+	public float baseValue {get; private set;}
+	public float shift {get; private set;}
+	public float bull {get; private set;}
+	public float bear {get; private set;}
+	public float volatility {get; private set;}
+	public float reversion {get; private set;}
+	
+	public float bullDecay {get; private set;}
+	public float bearDecay {get; private set;}
+	
+	public float minMultiplier {get; private set;}
+	public float maxMultiplier {get; private set;}
+	
+	public CommodityStock(string resID)
+	{
+		resource = resID;
+		baseValue = GameData.RESOURCES[resID].value;
+		
+		shift = 1f;
+		bull = 0f;
+		bear = 0f;
+		volatility = 1f;
+		reversion = 1f;
+		
+		bullDecay = 0.05f;
+		bearDecay = 0.05f;
+		
+		minMultiplier = 0.3f;
+		maxMultiplier = 3.0f;
+	}
+	
+	public void Tick(double delta)
+	{
+		float dt = (float)delta;
+		
+		shift += -reversion * (shift - 1f) * dt + volatility * Mathf.Sqrt(dt) * GameData.RandNormal(0f, 1f);
+		
+		bull = Math.Max(bull - dt * bullDecay, 0f);
+		bear = Math.Max(bear - dt * bearDecay, 0f);
+	}
+	
+	public float GetMarketValue()
+	{
+		float multiplier = Math.Clamp(shift * (1 + bull - bear), minMultiplier, maxMultiplier);
+		return baseValue * multiplier;
+	}
+	
+	public void ApplyBull(float amount)
+	{
+		bull += amount;
+	}
+	
+	public void ApplyBear(float amount)
+	{
+		bear += amount;
+	}
+}
