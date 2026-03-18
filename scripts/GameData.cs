@@ -45,6 +45,8 @@ public partial class GameData : Node
 	//The currently tracked quest.
 	public static QuestData trackedQuest;
 	
+	public static Dictionary<string, CommodityStock> galMarket;
+	
 	//Quick references to interfaces within the game.
 	public static MapControl mapControl;
 	public static TravelControl travelControl;
@@ -169,6 +171,8 @@ public partial class GameData : Node
 		
 		//Generate the map.
 		regionMap = new();
+		
+		galMarket = new();
 		
 		try
 		{
@@ -301,6 +305,8 @@ public partial class GameData : Node
 		//Reset the map.
 		regionMap.Clear();
 		
+		galMarket.Clear();
+		
 		try
 		{
 			GenerateStartingRegion();
@@ -428,6 +434,12 @@ public partial class GameData : Node
 		foreach (var reg in regionMap.Values)
 		{
 			reg.LinkFromSave();
+		}
+		
+		galMarket.Clear();
+		foreach (var commSave in save.galMarket)
+		{
+			galMarket[commSave.resource] = new(commSave);
 		}
 		
 		foreach (var rec in GameData.RECIPES)
@@ -584,6 +596,18 @@ public partial class GameData : Node
 		foreach (var qst in QUESTS)
 		{
 			qstNameToKey[qst.Value.name] = qst.Key;
+		}
+	}
+	
+	public static void GenerateGalMarket()
+	{
+		GD.Print("GameData: Generating Galactic Market...");
+		
+		galMarket.Clear();
+		
+		foreach (var res in GameData.RESOURCES.Keys)
+		{
+			galMarket[res] = new(res);
 		}
 	}
 	
@@ -1329,11 +1353,12 @@ public class GameSave
 	public AndroidSave android {get; set;}
 	
 	public List<TraderSave> traders {get; set;}
-	//public List<int> landedTraders {get; set;}
 	
 	public List<RegionSave> regionMap {get; set;}
 	public int currentX {get; set;}
 	public int currentY {get; set;}
+	
+	public List<CommoditySave> galMarket {get; set;}
 	
 	public UnlockSave unlocks {get; set;}
 	
@@ -1363,6 +1388,12 @@ public class GameSave
 		
 		currentX = GameData.currentRegion.coordX;
 		currentY = GameData.currentRegion.coordY;
+		
+		galMarket = new();
+		foreach (var comm in GameData.galMarket.Values)
+		{
+			galMarket.Add(new(comm));
+		}
 		
 		unlocks = new();
 		
@@ -3793,6 +3824,24 @@ public class CommodityStock
 		maxMultiplier = 3.0f;
 	}
 	
+	public CommodityStock(CommoditySave save)
+	{
+		resource = save.resource;
+		baseValue = GameData.RESOURCES[resource].value;
+		
+		shift = save.shift;
+		bull = save.bull;
+		bear = save.bear;
+		volatility = 1f;
+		reversion = 1f;
+		
+		bullDecay = 0.05f;
+		bearDecay = 0.05f;
+		
+		minMultiplier = 0.3f;
+		maxMultiplier = 3.0f;
+	}
+	
 	public void Tick(double delta)
 	{
 		float dt = (float)delta;
@@ -3817,5 +3866,21 @@ public class CommodityStock
 	public void ApplyBear(float amount)
 	{
 		bear += amount;
+	}
+}
+
+public class CommoditySave
+{
+	public string resource {get; private set;}
+	public float shift {get; private set;}
+	public float bull {get; private set;}
+	public float bear {get; private set;}
+	
+	public CommoditySave(CommodityStock comm)
+	{
+		resource = comm.resource;
+		shift = comm.shift;
+		bull = comm.bull;
+		bear = comm.bear;
 	}
 }

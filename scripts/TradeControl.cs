@@ -496,6 +496,7 @@ public partial class TradeControl : Node
 		
 		if (updateResPanels)
 		{
+			GameData.SortResources(GameData.currentRegion.resources);
 			GameData.resourceControl.UpdateResourcePanels();
 		}
 		
