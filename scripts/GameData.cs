@@ -1653,12 +1653,18 @@ public class RegionData
 public class TraderData
 {
 	public Dictionary<string, float> preferences {get; set;}
+	public Dictionary<string, float> catalog {get; set;}
 	public float frequency {get; set;}
+	public float greed {get; set;}
+	public float landingFee {get; set;}
 	
 	public TraderData()
 	{
 		preferences = new();
+		catalog = new();
 		frequency = 0f;
+		greed = 1f;
+		landingFee = 0f;
 	}
 }
 
@@ -3647,7 +3653,7 @@ public class Trader
 		name = $"Trader-{idNum}";
 		favor = 0.5f;
 		prosperity = 1f;
-		greed = 1f;
+		greed = data.greed;
 		
 		inventory = new();
 		
@@ -3679,7 +3685,8 @@ public class Trader
 		while (inventoryValue > 0f && safety++ < 1000)
 		{
 			int idx = (int)GameData.rng.RandiRange(0, CATALOG.Count - 1);
-			string resID = CATALOG[idx];
+			List<string> cat = GameData.TRADERS[id].catalog.Keys.ToList();
+			string resID = cat[idx];
 			
 			if (!GameData.RESOURCES.ContainsKey(resID))
 			{

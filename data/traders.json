@@ -8,11 +8,51 @@
 			"oxygen": 1.0,
 			"sodium": 1.0,
 			"silicon": 1.0,
-			"phosphurus": 1.0,
+			"phosphorus": 1.0,
 			"chlorine": 1.0,
 			"iron": 1.0,
 			"copper": 1.0
 		},
-		"frequency": 1.0
+		"catalog": {
+			"hydrogen": 1.0,
+			"lithium": 1.0,
+			"boron": 1.0,
+			"carbon": 1.0,
+			"oxygen": 1.0,
+			"sodium": 1.0,
+			"silicon": 1.0,
+			"phosphorus": 1.0,
+			"chlorine": 1.0,
+			"iron": 1.0,
+			"copper": 1.0
+		},
+		"frequency": 1.0,
+		"greed": 1.0,
+		"landing_fee": 1.0
+	},
+	"asteroid miner": {
+		"preferences": {
+			"iron ore": 0.7,
+			"copper ore": 0.7,
+			"boron ore": 0.7,
+			"phosphate ore": 0.7,
+			"ice": 0.7,
+			"hydrogen": 1.2,
+			"oxygen": 1.2,
+			"silicon": 1.0,
+			"phosphurus": 1.0,
+			"iron": 1.3,
+			"copper": 1.3
+		},
+		"catalog": {
+			"iron ore": 5.0,
+			"copper ore": 3.0,
+			"boron ore": 1.0,
+			"phosphate ore": 1.0,
+			"ice": 2.0
+		},
+		"frequency": 1.0,
+		"greed": 1.2,
+		"landing_fee": 50.0
 	}
 }
