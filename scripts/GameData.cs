@@ -1183,7 +1183,7 @@ public partial class GameData : Node
 		}
 		
 		//If somehow the cummulative exceeds the total weight, default to the biome with the largest probability.
-		if (cummulative >= total)
+		if (selectedBiome == "nowhere" && cummulative >= total)
 		{
 			selectedBiome = largestBiome;
 		}
@@ -3682,11 +3682,54 @@ public class Trader
 		float inventoryValue = 1000f * prosperity;
 		int safety = 0;
 		
+		Dictionary<string, float> catalog = GameData.TRADERS[id].catalog;
+		
 		while (inventoryValue > 0f && safety++ < 1000)
 		{
-			int idx = (int)GameData.rng.RandiRange(0, CATALOG.Count - 1);
-			List<string> cat = GameData.TRADERS[id].catalog.Keys.ToList();
-			string resID = cat[idx];
+			//int idx = (int)GameData.rng.RandiRange(0, CATALOG.Count - 1);
+			
+			//List<string> cat = GameData.TRADERS[id].catalog.Keys.ToList();
+			
+			float total = 0f;
+			string largestResource = "";
+			float largestValue = 0f;
+			
+			foreach (var res in catalog)
+			{
+				total += res.Value;
+				
+				if (res.Value > largestValue)
+				{
+					largestResource = res.Key;
+					largestValue = res.Value;
+				}
+			}
+			
+			string resID = "";
+			float roll = GameData.rng.Randf() * total;
+			float cummulative = 0f;
+			
+			foreach (var res in catalog)
+			{
+				cummulative += res.Value;
+				
+				if (cummulative >= roll)
+				{
+					resID = res.Key;
+					break;
+				}
+			}
+			
+			if (resID == "" && cummulative >= total)
+			{
+				resID = largestResource;
+			}
+			
+			if (resID == "")
+			{
+				GD.PrintErr($"Trader: error rolling for resource - Total: {total}, Roll: {roll}, Cummulative: {cummulative}");
+				continue;
+			}
 			
 			if (!GameData.RESOURCES.ContainsKey(resID))
 			{
