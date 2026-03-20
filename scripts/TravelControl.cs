@@ -22,6 +22,7 @@ public partial class TravelControl : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GD.Print("TravelControl: _Ready() called...");
 		currentLabel = GetNode<Label>("Panel/CurrentLabel");
 		regionMenu = GetNode<OptionButton>("Panel/RegionMenu");
 		travelButton = GetNode<Button>("Panel/TravelButton");
@@ -29,6 +30,8 @@ public partial class TravelControl : Control
 		exploreButton = GetNode<Button>("Panel/ExploreButton");
 		featuresLabel = GetNode<Label>("Panel/FeaturesScroll/FeaturesLabel");
 		
+		/*GD.Print("TravelControl: assigning coordinate references");
+		GD.Print($"TravelControl: GameData.currentRegion null? {GameData.currentRegion == null}");
 		Region current = GameData.currentRegion;
 		northRegion = (current.coordX, current.coordY + 1);
 		southRegion = (current.coordX, current.coordY - 1);
@@ -37,8 +40,12 @@ public partial class TravelControl : Control
 		neRegion = (current.coordX + 1, current.coordY + 1);
 		seRegion = (current.coordX + 1, current.coordY - 1);
 		swRegion = (current.coordX - 1, current.coordY - 1);
-		nwRegion = (current.coordX - 1, current.coordY + 1);
+		nwRegion = (current.coordX - 1, current.coordY + 1);*/
 		
+		GD.Print($"TravelControl: regionMenu null? {regionMenu == null}");
+		GD.Print($"TravelControl: travelButton null? {regionMenu == null}");
+		GD.Print($"TravelControl: directionMenu null? {directionMenu == null}");
+		GD.Print($"TravelControl: exploreButton null? {exploreButton == null}");
 		regionMenu.ItemSelected += OnRegionSelect;
 		travelButton.Pressed += TravelRegion;
 		directionMenu.ItemSelected += OnDirectionSelect;
@@ -54,6 +61,19 @@ public partial class TravelControl : Control
 	public override void _Process(double delta)
 	{
 		DisplayFeatures();
+	}
+	
+	public void AssignCoordinateReferences()
+	{
+		Region current = GameData.currentRegion;
+		northRegion = (current.coordX, current.coordY + 1);
+		southRegion = (current.coordX, current.coordY - 1);
+		westRegion = (current.coordX - 1, current.coordY);
+		eastRegion = (current.coordX + 1, current.coordY);
+		neRegion = (current.coordX + 1, current.coordY + 1);
+		seRegion = (current.coordX + 1, current.coordY - 1);
+		swRegion = (current.coordX - 1, current.coordY - 1);
+		nwRegion = (current.coordX - 1, current.coordY + 1);
 	}
 	
 	public void DisplayFeatures()

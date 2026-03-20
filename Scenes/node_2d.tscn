@@ -30,10 +30,9 @@ script = ExtResource("1_hh5uf")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 3
+current_tab = 0
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -332,6 +331,7 @@ offset_bottom = 189.0
 text = "Transfer"
 
 [node name="Communication" type="Control" parent="TabContainer" unique_id=1898777306]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
@@ -343,11 +343,15 @@ offset_right = 134.0
 offset_bottom = 33.0
 text = "Galactic Market"
 
-[node name="MarketVBox" type="VBoxContainer" parent="TabContainer/Communication" unique_id=363712727]
+[node name="MarketScroll" type="ScrollContainer" parent="TabContainer/Communication" unique_id=1451984282]
 layout_mode = 0
 offset_top = 36.0
 offset_right = 413.0
-offset_bottom = 709.0
+offset_bottom = 716.0
+
+[node name="MarketVBox" type="VBoxContainer" parent="TabContainer/Communication/MarketScroll" unique_id=363712727]
+custom_minimum_size = Vector2(413, 680)
+layout_mode = 2
 
 [node name="TradersLabel" type="Label" parent="TabContainer/Communication" unique_id=746910794]
 layout_mode = 0

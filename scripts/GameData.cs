@@ -8,6 +8,9 @@ using System.Linq;
 //The main control of the game containing the persistent data.
 public partial class GameData : Node
 {
+	[Export] public PackedScene ResourceLabelSceneRef;
+	public static PackedScene ResourceLabelScene;
+	
 	//RNG for random effects.
 	public static RandomNumberGenerator rng = new();
 	
@@ -63,6 +66,7 @@ public partial class GameData : Node
 	//Label to display the current tracked objective.
 	public static Label objectiveLabel;
 	
+	public static VBoxContainer marketVBox;
 	public static ItemList tradersList;
 	public static RichTextLabel traderInfoLabel;
 	public static Button callButton;
@@ -101,6 +105,8 @@ public partial class GameData : Node
 	{
 		GD.Print("GameData._Ready() called from ", GetPath());
 		
+		ResourceLabelScene = ResourceLabelSceneRef;
+		
 		//Initialize the RNG.
 		rng = new();
 		rng.Randomize();
@@ -118,7 +124,8 @@ public partial class GameData : Node
 		tradeControl = GetNode<TradeControl>("../TabContainer/Trade");
 		questControl = GetNode<QuestControl>("../TabContainer/Quests");
 		
-		tradersList = GetNode<ItemList>("../TabContainer/Communication/TraderList");
+		marketVBox = GetNode<VBoxContainer>("../TabContainer/Communication/MarketScroll/MarketVBox");
+		tradersList = GetNode<ItemList>("../TabContainer/Communication/TradersList");
 		traderInfoLabel = GetNode<RichTextLabel>("../TabContainer/Communication/TraderInfoLabel");
 		callButton = GetNode<Button>("../TabContainer/Communication/CallButton");
 		tradersList.ItemSelected += DisplayTraderInfo;
@@ -174,14 +181,16 @@ public partial class GameData : Node
 		
 		galMarket = new();
 		
-		try
+		CallDeferred(nameof(NewGameDeferred));
+		
+		/*try
 		{
 			NewGame();
 		}
 		catch (Exception e)
 		{
 			GD.PrintErr($"GameData: Error starting new game - {e}");
-		}
+		}*/
 		
 		//logisticsControl.CallDeferred(nameof(LogisticsControl.PopulateResourceMenu));
 	}
@@ -254,12 +263,14 @@ public partial class GameData : Node
 		}
 		else
 		{
-			trad = new Trader("generic trader");
+			int idx = rng.RandiRange(0, TRADERS.Count);
+			string tradID = TRADERS.Keys.ToList()[idx];
+			trad = new Trader(tradID);
 			traders[trad.idNum] = trad;
 			
 			tradersList.AddItem(trad.name);
-			int idx = tradersList.ItemCount - 1;
-			tradersList.SetItemMetadata(idx, trad.idNum);
+			int tradIdx = tradersList.ItemCount - 1;
+			tradersList.SetItemMetadata(tradIdx, trad.idNum);
 			
 			GD.Print($"GameData: New trader called {trad.name}");
 		}
@@ -267,6 +278,7 @@ public partial class GameData : Node
 		if (currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
 		{
 			trad.GenerateInventory();
+			trad.GenerateSnapshot();
 			
 			currentRegion.landedTraders.Add(trad);
 			
@@ -276,6 +288,8 @@ public partial class GameData : Node
 				tradeControl.UpdateTraderResourceLabels();
 			}
 		}
+		
+		UpdateMarket();
 	}
 	
 	public void OnNewPressed()
@@ -286,6 +300,18 @@ public partial class GameData : Node
 	public void NewConfirmed()
 	{
 		NewGame();
+	}
+	
+	public void NewGameDeferred()
+	{
+		try
+		{
+			NewGame();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Error starting new game - {e}");
+		}
 	}
 	
 	public void NewGame()
@@ -318,9 +344,12 @@ public partial class GameData : Node
 		//Create starting resources and machines according to JSON labels.
 		GiveStartingResources();
 		GiveStartingMachines();
+		machinesControl.AddStartingMachines();
+		machinesControl.AddStartingInfrastructure();
 		
 		//Assign the player's initial location as the center of the map.
 		currentRegion = regionMap[(0, 0)];
+		travelControl.AssignCoordinateReferences();
 		
 		coordStringToTuple.Clear();
 		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
@@ -338,6 +367,7 @@ public partial class GameData : Node
 		harvestControl.UpdateHarvest();
 		logisticsControl.UpdateRegionLogistics();
 		mapControl.GenerateMap();
+		mapControl.UpdateAllColors();
 		UpdateQuestTracking();
 		questControl.UpdateQuestLists();
 		DisplayMaxStorage();
@@ -1345,6 +1375,26 @@ public partial class GameData : Node
 		float u2 = rng.Randf();
 		
 		return mean + stddev * Mathf.Sqrt(-2f * Mathf.Log(u1)) * Mathf.Cos(2f * Mathf.Pi * u2);
+	}
+	
+	public static void UpdateMarket()
+	{
+	foreach (var child in marketVBox.GetChildren())
+		{
+			child.QueueFree();
+		}
+		
+		foreach (var comm in galMarket)
+		{
+			Control rLabel = ResourceLabelScene.Instantiate<Control>();
+			Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
+			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			
+			nLabel.Text = RESOURCES[comm.Key].name;
+			aLabel.Text = $"{comm.Value.GetMarketValue():0.00}";
+			
+			marketVBox.AddChild(rLabel);
+		}
 	}
 }
 
@@ -3609,6 +3659,7 @@ public class Trader
 	public float greed {get; private set;}
 	
 	public Dictionary<string, float> inventory {get; private set;}
+	public Dictionary<string, float> marketSnapshot {get; private set;}
 	
 	public TraderSave lastSave;
 	
@@ -3656,6 +3707,7 @@ public class Trader
 		greed = data.greed;
 		
 		inventory = new();
+		marketSnapshot = new();
 		
 		lastSave = null;
 	}
@@ -3673,12 +3725,15 @@ public class Trader
 		greed = save.greed;
 		
 		inventory = new(save.inventory);
+		marketSnapshot = new(save.marketSnapshot);
 		
 		lastSave = save;
 	}
 	
 	public void GenerateInventory()
 	{
+		inventory.Clear();
+		
 		float inventoryValue = 1000f * prosperity;
 		int safety = 0;
 		
@@ -3772,13 +3827,28 @@ public class Trader
 		GameData.SortResources(inventory);
 	}
 	
+	public void GenerateSnapshot()
+	{
+		marketSnapshot.Clear();
+		
+		foreach (var comm in GameData.galMarket)
+		{
+			marketSnapshot[comm.Key] = comm.Value.GetMarketValue();
+		}
+	}
+	
 	public float CalculateFavor(Dictionary<string, float> offer)
 	{
 		float totalValue = 0f;
 		
 		foreach (var res in offer)
 		{
-			float resValue = GameData.RESOURCES[res.Key].value;
+			if (!marketSnapshot.ContainsKey(res.Key))
+			{
+				continue;
+			}
+			
+			float resValue = marketSnapshot[res.Key];
 			
 			if (data.preferences.ContainsKey(res.Key))
 			{
@@ -3814,6 +3884,7 @@ public class TraderSave
 	public float greed {get; private set;}
 	
 	public Dictionary<string, float> inventory {get; private set;}
+	public Dictionary<string, float> marketSnapshot {get; private set;}
 	
 	public TraderSave()
 	{
@@ -3825,6 +3896,7 @@ public class TraderSave
 		greed = 0f;
 		
 		inventory = new();
+		marketSnapshot = new();
 	}
 	
 	public TraderSave(Trader t)
@@ -3837,6 +3909,7 @@ public class TraderSave
 		greed = t.greed;
 		
 		inventory = new(t.inventory);
+		marketSnapshot = new(t.marketSnapshot);
 	}
 }
 

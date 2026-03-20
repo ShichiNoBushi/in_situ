@@ -1,3 +1,4 @@
+ScrollContainer
 RichTextLabel
 Label
 ItemList
@@ -8,8 +9,6 @@ OptionButton
 SpinBox
 MenuButton
 VBoxContainer
-ScrollContainer
 HBoxContainer
 Control
 ConfirmationDialog
-AcceptDialog

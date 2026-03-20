@@ -14,7 +14,15 @@ public partial class MachinesControl : TabContainer
 	public override void _Ready()
 	{
 		GD.Print("MachinesControl._Ready() called...");
-		GD.Print($"Machine count: {GameData.currentRegion.machines.Count}");
+		
+		if (GameData.currentRegion != null)
+		{
+			GD.Print($"MachinesControl: {GameData.currentRegion.machines.Count}");
+		}
+		else
+		{
+			GD.Print("MachinesControl: currentRegion is null");
+		}
 		
 		machinesVBox = GetNode<VBoxContainer>("Machines/MachinesVBox");
 		infrastructureVBox = GetNode<VBoxContainer>("Infrastructure/InfrastructureVBox");
@@ -28,8 +36,8 @@ public partial class MachinesControl : TabContainer
 			GD.Print("MachinesControl: infrastructureVBox improperly instantiated");
 		}
 		
-		AddStartingMachines();
-		AddStartingInfrastructure();
+		//AddStartingMachines();
+		//AddStartingInfrastructure();
 		/*foreach (var mach in GameData.currentRegion.machines)
 		{
 			AddMachinePanel(mach);
@@ -89,6 +97,7 @@ public partial class MachinesControl : TabContainer
 	public void UpdateMachinePanels()
 	{
 		GD.Print("MachinesControl: Updating panel recipe menus...");
+		GD.Print($"MachinesControl: machinesVBox null? {machinesVBox == null}");
 		foreach (var child in machinesVBox.GetChildren())
 		{
 			if (child is MachinePanel mp)
