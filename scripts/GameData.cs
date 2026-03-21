@@ -204,6 +204,11 @@ public partial class GameData : Node
 			reg.Tick(delta);
 		}
 		
+		foreach (var comm in galMarket.Values)
+		{
+			comm.Tick(delta);
+		}
+		
 		DisplayMaxStorage();
 		UpdateQuestTracking();
 		CheckQuests();
@@ -254,7 +259,7 @@ public partial class GameData : Node
 		
 		GD.Print($"GameData: number {pickTrader} picked out of {traders.Count} traders");
 		
-		if (pickTrader < traders.Count)
+		if (traders.Count != 0 && pickTrader < traders.Count)
 		{
 			List<int> tradIDs = traders.Keys.ToList();
 			trad = traders[tradIDs[pickTrader]];
@@ -263,10 +268,20 @@ public partial class GameData : Node
 		}
 		else
 		{
-			int idx = rng.RandiRange(0, TRADERS.Count);
-			string tradID = TRADERS.Keys.ToList()[idx];
-			trad = new Trader(tradID);
-			traders[trad.idNum] = trad;
+			int idx = -1;
+			string tradID = "[N/A]";
+			try
+			{
+				idx = rng.RandiRange(0, TRADERS.Count - 1);
+				tradID = TRADERS.Keys.ToList()[idx];
+				trad = new Trader(tradID);
+				traders[trad.idNum] = trad;
+			}
+			catch (Exception e)
+			{
+				GD.PrintErr($"GameData: error selecting new trader - idx: {idx}, tradID {tradID} {e}");
+				return;
+			}
 			
 			tradersList.AddItem(trad.name);
 			int tradIdx = tradersList.ItemCount - 1;
@@ -355,6 +370,7 @@ public partial class GameData : Node
 		coordStringToTuple[CoordToString((0, 0))] = (0, 0);
 		
 		questControl.GiveStartingQuests();
+		GenerateGalMarket();
 		
 		trackedQuest = null;
 		LogisticOrder.logisticsSequence = -1;
@@ -1379,7 +1395,7 @@ public partial class GameData : Node
 	
 	public static void UpdateMarket()
 	{
-	foreach (var child in marketVBox.GetChildren())
+		foreach (var child in marketVBox.GetChildren())
 		{
 			child.QueueFree();
 		}

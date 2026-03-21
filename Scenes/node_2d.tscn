@@ -25,6 +25,7 @@ resource_name = "ToFromInventoryGroup"
 
 [node name="GameData" type="Node" parent="." unique_id=546641732]
 script = ExtResource("1_hh5uf")
+ResourceLabelSceneRef = ExtResource("5_v7gqg")
 
 [node name="TabContainer" type="TabContainer" parent="." unique_id=2071980308]
 offset_right = 1728.0
