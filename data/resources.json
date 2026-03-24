@@ -9,6 +9,7 @@
 		"starting amount": 0.0,
 		"scrap": {"hydrogen": 1.0},
 		"value": 0.2,
+		"liquidity": 500.0,
 		"sort": [0, 1],
 		"description": "An elemental gas used in many chemical reactions and nuclear fusion."
 	},
@@ -22,6 +23,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon": 1.0},
 		"value": 0.2,
+		"liquidity": 50.0,
 		"sort": [0, 3],
 		"description": "An alcaline metal used to store charge."
 	},
@@ -35,6 +37,7 @@
 		"starting amount": 0.0,
 		"scrap": {"boron": 1.0},
 		"value": 0.2,
+		"liquidity": 100.0,
 		"sort": [0, 5],
 		"description": "An element useful for p-doping."
 	},
@@ -48,6 +51,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon": 1.0},
 		"value": 0.2,
+		"liquidity": 500.0,
 		"sort": [0, 6],
 		"description": "An element that makes up organic compounds and hydrocarbons."
 	},
@@ -61,6 +65,7 @@
 		"starting amount": 0.0,
 		"scrap": {"oxygen": 1.0},
 		"value": 0.2,
+		"liquidity": 700.0,
 		"sort": [0, 8],
 		"description": "An elemental gas used in many chemical reactions and as an oxidizer."
 	},
@@ -74,6 +79,7 @@
 		"starting amount": 0.0,
 		"scrap": {"sodium": 1.0},
 		"value": 0.2,
+		"liquidity": 500.0,
 		"sort": [0, 11],
 		"description": "An alkali metal formed from common salt."
 	},
@@ -87,6 +93,7 @@
 		"starting amount": 0.0,
 		"scrap": {"silicon": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [0, 14],
 		"description": "A metaloid used for electronic components."
 	},
@@ -100,6 +107,7 @@
 		"starting amount": 0.0,
 		"scrap": {"phosphorus": 1.0},
 		"value": 0.5,
+		"liquidity": 200.0,
 		"sort": [0, 15],
 		"description": "A nonmetal useful in fertilizer."
 	},
@@ -113,6 +121,7 @@
 		"starting amount": 0.0,
 		"scrap": {"ice": 1.0},
 		"value": 0.2,
+		"liquidity": 500.0,
 		"sort": [0, 17],
 		"description": "Poisonous green gas."
 	},
@@ -126,6 +135,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 1000.0,
 		"sort": [0, 26],
 		"description": "A common metal used for building and machine components."
 	},
@@ -139,6 +149,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 1000.0,
 		"sort": [0, 29],
 		"description": "A common metal with high conductivity frequently used for electricity."
 	},
@@ -152,6 +163,7 @@
 		"starting amount": 0.0,
 		"scrap": {"plutonium scrap": 1.0},
 		"value": 100.0,
+		"liquidity": 5.0,
 		"sort": [0, 94],
 		"description": "A radioactive rare earth metal used in nuclear fission reactions."
 	},
@@ -165,6 +177,7 @@
 		"starting amount": 0.0,
 		"scrap": {"p-doped silicon": 1.0},
 		"value": 2.0,
+		"liquidity": 80.0,
 		"sort": [1, 0],
 		"description": "Silicon with boron impurities."
 	},
@@ -178,6 +191,7 @@
 		"starting amount": 0.0,
 		"scrap": {"n-doped silicon": 1.0},
 		"value": 2.0,
+		"liquidity": 80.0,
 		"sort": [1, 1],
 		"description": "Silicon with phosphorus impurities."
 	},
@@ -191,6 +205,7 @@
 		"starting amount": 0.0,
 		"scrap": {"gravel": 1.0},
 		"value": 0.1,
+		"liquidity": 2000.0,
 		"sort": [2, 0],
 		"description": "A common mineral on rocky planets."
 	},
@@ -204,6 +219,7 @@
 		"starting amount": 0.0,
 		"scrap": {"boron ore": 1.0},
 		"value": 0.2,
+		"liquidity": 100.0,
 		"sort": [2, 1, 5],
 		"description": "An ore mineral containing boron."
 	},
@@ -217,6 +233,7 @@
 		"starting amount": 0.0,
 		"scrap": {"phosphate ore": 1.0},
 		"value": 0.2,
+		"liquidity": 100.0,
 		"sort": [2, 1, 15],
 		"description": "An ore mineral containing phosphorus."
 	},
@@ -230,6 +247,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron ore": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [2, 1, 26],
 		"description": "An ore that refines into iron."
 	},
@@ -243,6 +261,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper ore": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [2, 1, 29],
 		"description": "An ore that refines into copper."
 	},
@@ -256,6 +275,7 @@
 		"starting amount": 0.0,
 		"scrap": {"limestone": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [2, 2],
 		"description": "An calcium carbinate mineral."
 	},
@@ -269,6 +289,7 @@
 		"starting amount": 0.0,
 		"scrap": {"gravel": 1.0},
 		"value": 0.1,
+		"liquidity": 2000.0,
 		"sort": [0, 0],
 		"description": "Stone cruched into an aggregate of small pieces."
 	},
@@ -282,6 +303,7 @@
 		"starting amount": 0.0,
 		"scrap": {"stone dust": 1.0},
 		"value": 0.1,
+		"liquidity": 2000.0,
 		"sort": [3, 0, 0],
 		"description": "Stone pulverized into a fine dust."
 	},
@@ -295,6 +317,7 @@
 		"starting amount": 0.0,
 		"scrap": {"sand": 1.0},
 		"value": 0.2,
+		"liquidity": 2000.0,
 		"sort": [3, 0, 1],
 		"description": "Fine grains of quartz or silica."
 	},
@@ -308,6 +331,7 @@
 		"starting amount": 0.0,
 		"scrap": {"crushed limestone": 1.0},
 		"value": 0.1,
+		"liquidity": 2000.0,
 		"sort": [3, 0, 2],
 		"description": "Limestone crushed into aggregate."
 	},
@@ -321,6 +345,7 @@
 		"starting amount": 0.0,
 		"scrap": {"clay slurry": 1.0},
 		"value": 0.2,
+		"liquidity": 1000.0,
 		"sort": [3, 1],
 		"description": "A mixture of fine stone dust and water to be used as a bonding paste."
 	},
@@ -334,6 +359,7 @@
 		"starting amount": 0.0,
 		"scrap": {"water": 1.0},
 		"value": 0.3,
+		"liquidity": 1500.0,
 		"sort": [3, 2, 0],
 		"description": "Liquid water."
 	},
@@ -347,6 +373,7 @@
 		"starting amount": 0.0,
 		"scrap": {"ice": 1.0},
 		"value": 0.1,
+		"liquidity": 1500.0,
 		"sort": [3, 2, 1],
 		"description": "Frozen water."
 	},
@@ -360,6 +387,7 @@
 		"starting amount": 0.0,
 		"scrap": {"salt": 1.0},
 		"value": 0.2,
+		"liquidity": 1000.0,
 		"sort": [3, 3],
 		"description": "Sodium chloride table salt."
 	},
@@ -373,6 +401,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon monoxide": 1.0},
 		"value": 0.1,
+		"liquidity": 300.0,
 		"sort": [3, 4, 1],
 		"description": "A toxic gas as a biproduct of chemical reactions and combustion."
 	},
@@ -386,6 +415,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon dioxide": 1.0},
 		"value": 0.1,
+		"liquidity": 1500.0,
 		"sort": [3, 4, 2],
 		"description": "Gas produced by combustion or respiration."
 	},
@@ -399,6 +429,7 @@
 		"starting amount": 0.0,
 		"scrap": {"methane": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [3, 5, 1, 4],
 		"description": "Natural gas hydrocarbon used in combustion and chemical reactions."
 	},
@@ -412,6 +443,7 @@
 		"starting amount": 0.0,
 		"scrap": {"methane": 1.0},
 		"value": 0.3,
+		"liquidity": 200.0,
 		"sort": [3, 5, 2, 4],
 		"description": "Hydrocarbon used as a monomer for simple plastics."
 	},
@@ -425,6 +457,7 @@
 		"starting amount": 0.0,
 		"scrap": {"lye soda": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [3, 6],
 		"description": "Sodium hydroxide caustic soda."
 	},
@@ -438,6 +471,7 @@
 		"starting amount": 0.0,
 		"scrap": {"hydrochloric acid": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [3, 7, 17],
 		"description": "Potent hydrocholic acid."
 	},
@@ -451,6 +485,7 @@
 		"starting amount": 0.0,
 		"scrap": {"bleach": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [3, 8],
 		"description": "Sodium hypochlorite bleach."
 	},
@@ -464,6 +499,7 @@
 		"starting amount": 0.0,
 		"scrap": {"quicklime": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [3, 9],
 		"description": "Lime extracted from limestone."
 	},
@@ -477,6 +513,7 @@
 		"starting amount": 0.0,
 		"scrap": {"salt water": 1.0},
 		"value": 0.3,
+		"liquidity": 1500.0,
 		"sort": [3, 10],
 		"description": "Salt disolved in water."
 	},
@@ -490,6 +527,7 @@
 		"starting amount": 0.0,
 		"scrap": {"hydrated lime": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [3, 11],
 		"description": "Chemical from mixing quicklime with water."
 	},
@@ -503,6 +541,7 @@
 		"starting amount": 0.0,
 		"scrap": {"concrete": 1.0},
 		"value": 0.3,
+		"liquidity": 2000.0,
 		"sort": [3, 12],
 		"description": "Concrete mix used for construction of solid structures."
 	},
@@ -516,6 +555,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper chloride etchent": 1.0},
 		"value": 0.3,
+		"liquidity": 1000.0,
 		"sort": [3, 13, 0],
 		"description": "Etching acid solution for PCBs."
 	},
@@ -529,6 +569,7 @@
 		"starting amount": 0.0,
 		"scrap": {"spent copper etchent": 1.0},
 		"value": 0.3,
+		"liquidity": 1500.0,
 		"sort": [3, 13, 1],
 		"description": "Spent etchent to be recycled."
 	},
@@ -542,6 +583,7 @@
 		"starting amount": 0.0,
 		"scrap": {"low-density polyethylene": 1.0},
 		"value": 0.2,
+		"liquidity": 400.0,
 		"sort": [4, 0],
 		"description": "A cheap plastic."
 	},
@@ -555,6 +597,7 @@
 		"starting amount": 0.0,
 		"scrap": {"high-density polyethylene": 1.0},
 		"value": 0.2,
+		"liquidity": 700.0,
 		"sort": [4, 1],
 		"description": "A durable common plastic."
 	},
@@ -568,6 +611,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 600.0,
 		"sort": [5, 1, 26],
 		"description": "Iron extruded and wound into thin wire."
 	},
@@ -581,6 +625,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 600.0,
 		"sort": [5, 1, 29],
 		"description": "Copper extruded and wound into thin wire."
 	},
@@ -594,6 +639,7 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 1.0},
 		"value": 0.2,
+		"liquidity": 600.0,
 		"sort": [5, 2, 0],
 		"description": "A thin filament of glass."
 	},
@@ -607,6 +653,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.667, "low-density polyethylene": 0.333},
 		"value": 0.5,
+		"liquidity": 400.0,
 		"sort": [5, 3, 29],
 		"description": "Insulated cable made of copper."
 	},
@@ -620,6 +667,7 @@
 		"starting amount": 0.0,
 		"scrap": {"gravel": 1.0},
 		"value": 0.2,
+		"liquidity": 1000.0,
 		"sort": [5, 4, 0],
 		"description": "Stone carved and sculpted into uniform bricks."
 	},
@@ -633,6 +681,7 @@
 		"starting amount": 0.0,
 		"scrap": {"stone dust": 1.0},
 		"value": 0.2,
+		"liquidity": 1000.0,
 		"sort": [5, 4, 1],
 		"description": "Clay baked into ceramic."
 	},
@@ -646,6 +695,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 5, 26],
 		"description": "Small iron gears used in machines."
 	},
@@ -659,6 +709,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 6, 26],
 		"description": "A thick, sturdy rod of iron."
 	},
@@ -672,6 +723,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 7, 26],
 		"description": "A sharp blade made of iron for cutting or carving."
 	},
@@ -685,6 +737,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 8, 26],
 		"description": "A flat plate made of iron used in construction."
 	},
@@ -698,6 +751,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 8, 29],
 		"description": "A flat plate made of copper used in construction."
 	},
@@ -711,6 +765,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 9, 29],
 		"description": "A thin foil sheet made of copper used in electronics."
 	},
@@ -724,6 +779,7 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 1.0},
 		"value": 0.3,
+		"liquidity": 500.0,
 		"sort": [5, 10, 0],
 		"description": "A sheet of transparent glass."
 	},
@@ -737,6 +793,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 11, 26],
 		"description": "A magnetized piece of iron."
 	},
@@ -750,6 +807,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
+		"liquidity": 200.0,
 		"sort": [5, 12, 0],
 		"description": "A motor using electromagnetism to convert electricity into mechanical work or vice versa."
 	},
@@ -763,6 +821,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
+		"liquidity": 200.0,
 		"sort": [5, 12, 1],
 		"description": "A coil that uses magnetic induction to efficiently generate heat."
 	},
@@ -776,6 +835,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.4, "copper scrap": 0.6},
 		"value": 0.7,
+		"liquidity": 200.0,
 		"sort": [5, 12, 2],
 		"description": "A coil that uses magnetic induction to efficiently generate heat."
 	},
@@ -789,6 +849,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 0.5, "copper scrap": 0.5},
 		"value": 0.7,
+		"liquidity": 100.0,
 		"sort": [5, 12, 3],
 		"description": "A switch that activates automatically to close a circuit."
 	},
@@ -802,6 +863,7 @@
 		"starting amount": 0.0,
 		"scrap": {"carbon": 0.5, "copper scrap": 0.25, "stone dust": 0.25},
 		"value": 0.7,
+		"liquidity": 150.0,
 		"sort": [5, 13, 0],
 		"description": "An electronic component for controlling currents."
 	},
@@ -815,6 +877,7 @@
 		"starting amount": 0.0,
 		"scrap": {"stone dust": 0.25, "copper scrap": 0.75},
 		"value": 0.7,
+		"liquidity": 150.0,
 		"sort": [5, 13, 1],
 		"description": "An electronic component to store energy."
 	},
@@ -828,6 +891,7 @@
 		"starting amount": 0.0,
 		"scrap": {"p-doped silicon": 0.4, "n-doped silicon": 0.4, "copper scrap": 0.2},
 		"value": 5.0,
+		"liquidity": 50.0,
 		"sort": [5, 13, 2],
 		"description": "An electronic component for computing."
 	},
@@ -841,6 +905,7 @@
 		"starting amount": 0.0,
 		"scrap": {"p-doped silicon": 0.4, "n-doped silicon": 0.4, "copper scrap": 0.2},
 		"value": 5.0,
+		"liquidity": 50.0,
 		"sort": [4, 13, 3],
 		"description": "An electronic component for computing."
 	},
@@ -854,6 +919,7 @@
 		"starting amount": 0.0,
 		"scrap": {"p-doped silicon": 0.285, "n-doped silicon": 0.285, "copper scrap": 0.144, "low-density polyethylene": 0.286},
 		"value": 5.0,
+		"liquidity": 50.0,
 		"sort": [4, 13, 4],
 		"description": "An electronic component for emitting light."
 	},
@@ -867,6 +933,7 @@
 		"starting amount": 0.0,
 		"scrap": {"p-doped silicon": 0.4, "n-doped silicon": 0.4, "copper scrap": 0.2},
 		"value": 5.0,
+		"liquidity": 50.0,
 		"sort": [4, 13, 5],
 		"description": "An electronic component for generating electricity."
 	},
@@ -880,6 +947,7 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 0.5, "stone dust": 0.5},
 		"value": 0.5,
+		"liquidity": 500.0,
 		"sort": [5, 14, 0],
 		"description": "A starter board for constructing electric circuits."
 	},
@@ -893,6 +961,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
 		"value": 0.5,
+		"liquidity": 200.0,
 		"sort": [5, 14, 1],
 		"description": "A board laminated with copper foil."
 	},
@@ -906,6 +975,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.25, "glass shard": 0.25, "stone dust": 0.25, "low-density polyethylene": 0.25},
 		"value": 0.5,
+		"liquidity": 200.0,
 		"sort": [5, 14, 2],
 		"description": "A board with circuits etched and prepared for electronics."
 	},
@@ -919,6 +989,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "carbon": 0.1},
 		"value": 0.7,
+		"liquidity": 30.0,
 		"sort": [5, 15, 0],
 		"description": "A control board for simple electronic automation."
 	},
@@ -932,6 +1003,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "p-doped silicon": 0.1, "n-doped silicon": 0.1, "polyethylene": 0.1, "carbon": 0.1},
 		"value": 0.7,
+		"liquidity": 30.0,
 		"sort": [5, 15, 1],
 		"description": "An advanced circuit board for computer automation."
 	},
@@ -945,6 +1017,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "p-doped silicon": 0.1, "n-doped silicon": 0.1, "polyethylene": 0.1, "carbon": 0.1},
 		"value": 0.7,
+		"liquidity": 40.0,
 		"sort": [5, 16, 0],
 		"description": "A complex electronic component for timing and radio."
 	},
@@ -958,6 +1031,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 0.5, "glass shard": 0.15, "stone dust": 0.25, "p-doped silicon": 0.1, "n-doped silicon": 0.1, "polyethylene": 0.1, "carbon": 0.1},
 		"value": 0.7,
+		"liquidity": 25.0,
 		"sort": [5, 16, 0],
 		"description": "A complex electronic component for transmitting and receiving radio signals."
 	},
@@ -971,6 +1045,7 @@
 		"starting amount": 0.0,
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.1,
+		"liquidity": 1200.0,
 		"sort": [6, 0, 26],
 		"description": "Scraps of damaged iron that can be recycled."
 	},
@@ -984,6 +1059,7 @@
 		"starting amount": 0.0,
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.1,
+		"liquidity": 1200.0,
 		"sort": [6, 0, 29],
 		"description": "Scraps of damaged copper that can be recycled."
 	},
@@ -997,6 +1073,7 @@
 		"starting amount": 0.0,
 		"scrap": {"plutonium scrap": 1.0},
 		"value": 0.5,
+		"liquidity": 200.0,
 		"sort": [6, 0, 94],
 		"description": "Scraps of damaged plutonium that can be recycled."
 	},
@@ -1010,6 +1087,7 @@
 		"starting amount": 0.0,
 		"scrap": {"glass shard": 1.0},
 		"value": 0.1,
+		"liquidity": 1000.0,
 		"sort": [6, 1, 0],
 		"description": "Shards of broken glass that can be recycled."
 	},
@@ -1023,6 +1101,7 @@
 		"starting amount": 10.0,
 		"scrap": {"energy": 1.0},
 		"value": 0.2,
+		"liquidity": 2000.0,
 		"sort": [7, 0],
 		"description": "Energy used to power machines."
 	}

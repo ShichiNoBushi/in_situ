@@ -360,7 +360,7 @@ public partial class TradeControl : Node
 			
 			bonusProsperity -= GameData.RESOURCES[res.Key].value * res.Value;
 			
-			GameData.galMarket[res.Key].ApplyBear(res.Value * 0.01f);
+			GameData.galMarket[res.Key].ApplyBear(res.Value);
 		}
 		
 		if (updateResRegion)
@@ -382,7 +382,7 @@ public partial class TradeControl : Node
 			
 			bonusProsperity += GameData.RESOURCES[res.Key].value * res.Value;
 			
-			GameData.galMarket[res.Key].ApplyBull(res.Value * 0.01f);
+			GameData.galMarket[res.Key].ApplyBull(res.Value);
 		}
 		
 		float playerValue = activeTrader.CalculateFavor(playerOffer);

@@ -1533,6 +1533,7 @@ public class ResourceData
 	
 	public Dictionary<string, float> scrap {get; set;}
 	public float value {get; set;}
+	public float liquidity {get; set;}
 	public List<int> sort {get; set;}
 	public string description {get; set;}
 	
@@ -1546,6 +1547,7 @@ public class ResourceData
 		unit = "u";
 		scrap = new Dictionary<string, float>();
 		value = 0f;
+		liquidity = 5000f;
 		sort = new();
 		description = "No description";
 	}
@@ -3933,6 +3935,7 @@ public class CommodityStock
 {
 	public string resource {get; private set;}
 	public float baseValue {get; private set;}
+	public float liquidity {get; private set;}
 	public float shift {get; private set;}
 	public float bull {get; private set;}
 	public float bear {get; private set;}
@@ -3949,6 +3952,7 @@ public class CommodityStock
 	{
 		resource = resID;
 		baseValue = GameData.RESOURCES[resID].value;
+		liquidity = GameData.RESOURCES[resID].liquidity;
 		
 		shift = 1f;
 		bull = 0f;
@@ -3967,6 +3971,7 @@ public class CommodityStock
 	{
 		resource = save.resource;
 		baseValue = GameData.RESOURCES[resource].value;
+		liquidity = GameData.RESOURCES[resource].liquidity;
 		
 		shift = save.shift;
 		bull = save.bull;
@@ -3985,7 +3990,7 @@ public class CommodityStock
 	{
 		float dt = (float)delta;
 		
-		shift += -reversion * (shift - 1f) * dt + volatility * Mathf.Sqrt(dt) * GameData.RandNormal(0f, 1f);
+		shift += -reversion * (shift - 1f) * dt / liquidity + volatility * Mathf.Sqrt(dt) * GameData.RandNormal(0f, 1f);
 		
 		bull = Math.Max(bull - dt * bullDecay, 0f);
 		bear = Math.Max(bear - dt * bearDecay, 0f);
@@ -3999,12 +4004,12 @@ public class CommodityStock
 	
 	public void ApplyBull(float amount)
 	{
-		bull += amount;
+		bull += amount / liquidity;
 	}
 	
 	public void ApplyBear(float amount)
 	{
-		bear += amount;
+		bear += amount / liquidity;
 	}
 }
 
