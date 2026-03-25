@@ -568,7 +568,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["mineral rush", "salty miner", "better boards"],
+			"quests": ["mineral rush", "salty miner", "better boards", "limey stone"],
 			"recipes": [],
 			"machines": []
 		},
@@ -734,5 +734,69 @@
 		},
 		"text": "With transistors and a proper printed circuit board, you can now assemble boards used in more advanced computering hardware. These can then be programmed for smarter automation.",
 		"hint": "In a parts assembler, craft transistors, resistors, and capacitors with printed circuit boards."
+	},
+	"limey stone": {
+		"name": "Limey Stone",
+		"start": false,
+		"requirement": {
+			"resources": {"limestone": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["lime-flavored cement"],
+			"recipes": ["crush limestone", "hydrate lime"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"lime-flavored cement": {
+		"name": "Lime-flavored Cement",
+		"start": false,
+		"requirement": {
+			"resources": {"hydrated lime": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["concrete solutions"],
+			"recipes": ["mix concrete"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"concrete solutions": {
+		"name": "Concrete Solutions",
+		"start": false,
+		"requirement": {
+			"resources": {"concrete": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["opening up shop"],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"opening up shop pt1": {
+		"name": "Opening Up Shop Part I",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {},
+			"quests": ["concrete solutions"]
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
 	}
 }
