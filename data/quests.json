@@ -728,8 +728,8 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
-			"recipes": [],
+			"quests": ["electric oscillations"],
+			"recipes": ["lc oscillator module"],
 			"machines": ["smelter extruder", "component printer", "parts assembler"]
 		},
 		"text": "With transistors and a proper printed circuit board, you can now assemble boards used in more advanced computering hardware. These can then be programmed for smarter automation.",
@@ -744,8 +744,24 @@
 			"quests": []
 		},
 		"unlocks": {
+			"quests": ["flaky lime crust"],
+			"recipes": ["crush limestone", "bake lime"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"flaky lime crust": {
+		"name": "Flaky Lime Crust",
+		"start": false,
+		"requirement": {
+			"resources": {"quicklime": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
 			"quests": ["lime-flavored cement"],
-			"recipes": ["crush limestone", "hydrate lime"],
+			"recipes": ["hydrate lime"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
@@ -783,13 +799,45 @@
 		"text": "<placeholder text>",
 		"hint": "<placeholder text>"
 	},
+	"electric oscillations": {
+		"name": "Electric Oscillations",
+		"start": false,
+		"requirement": {
+			"resources": {"lc oscillator module": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["picking up signals"],
+			"recipes": ["radio transceiver"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"picking up signals": {
+		"name": "Picking Up Signals",
+		"start": false,
+		"requirement": {
+			"resources": {"radio transceiver": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["opening up shop pt1"],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
 	"opening up shop pt1": {
 		"name": "Opening Up Shop Part I",
 		"start": false,
 		"requirement": {
 			"resources": {},
 			"machines": {},
-			"quests": ["concrete solutions"]
+			"quests": ["concrete solutions", "picking up signals"]
 		},
 		"unlocks": {
 			"quests": [],
