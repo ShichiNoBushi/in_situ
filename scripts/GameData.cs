@@ -210,7 +210,14 @@ public partial class GameData : Node
 		}
 		
 		DisplayMaxStorage();
-		UpdateQuestTracking();
+		try
+		{
+			UpdateQuestTracking();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Quest tracking failed {e.Message}");
+		}
 		CheckQuests();
 	}
 	
@@ -743,13 +750,26 @@ public partial class GameData : Node
 				
 				foreach (var res in requirements.resources)
 				{
+					ResourceData resource = null;
 					//Calculate available resources total among all regions and display along with required amounts.
-					ResourceData resource = RESOURCES[res.Key];
+					if (RESOURCES.ContainsKey(res.Key))
+					{
+						resource = RESOURCES[res.Key];
+					}
+					else
+					{
+						GD.PrintErr($"GameData: Quest tracking failed - {res.Key} not in RESOURCES dictionary");
+						trackedQuest = null;
+						return;
+					}
 					float available = 0f;
 					
 					foreach (var reg in regionMap)
 					{
-						available += reg.Value.resources[res.Key];
+						if (reg.Value.resources.ContainsKey(res.Key))
+						{
+							available += reg.Value.resources[res.Key];
+						}
 					}
 					
 					text += $"\n{resource.name}: {FormatUnit(available, res.Key)} / {FormatUnit(res.Value, res.Key)}";
@@ -2185,7 +2205,7 @@ public class Buildable
 		{
 			float needed = repairComponents[compKey];
 			//Determine how much of the required resource is available at the machine's location.
-			float available = location.resources[compKey];
+			float available = location.resources.ContainsKey(compKey) ? location.resources[compKey] : 0f;
 			//Track an amount of scrap that would be produced from this resource.
 			float scrap = 0f;
 			
@@ -2201,7 +2221,11 @@ public class Buildable
 			{
 				//If amount is insufficient, consume all that is available and reduce that amount from amount required taking not of scrap.
 				repairComponents[compKey] = needed - available;
-				location.resources[compKey] = 0;
+				if (location.resources.ContainsKey(compKey))
+				{
+					location.resources.Remove(compKey);
+				}
+				//location.resources[compKey] = 0;
 				total += available;
 				scrap = available;
 			}
@@ -2209,7 +2233,16 @@ public class Buildable
 			foreach (var sc in GameData.RESOURCES[compKey].scrap)
 			{
 				//For each resource used to craft the replaced component, produce the associated scrap component.
-				location.resources[sc.Key] += scrap * sc.Value;
+				float scrapAmount = scrap * sc.Value;
+				
+				if (location.resources.ContainsKey(sc.Key))
+				{
+					location.resources[sc.Key] += scrapAmount;
+				}
+				else if (scrapAmount > 0f)
+				{
+					location.resources[sc.Key] = scrapAmount;
+				}
 			}
 		}
 		

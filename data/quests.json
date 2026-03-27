@@ -616,7 +616,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["not led astray"],
 			"recipes": [],
 			"machines": []
 		},
@@ -696,7 +696,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["a quick soak"],
 			"recipes": [],
 			"machines": []
 		},
@@ -831,13 +831,45 @@
 		"text": "<placeholder text>",
 		"hint": "<placeholder text>"
 	},
+	"not led astray": {
+		"name": "Not LED Astray",
+		"start": false,
+		"requirement": {
+			"resources": {"light emitting diode": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["opening up shop pt1"],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
 	"opening up shop pt1": {
 		"name": "Opening Up Shop Part I",
 		"start": false,
 		"requirement": {
 			"resources": {},
 			"machines": {},
-			"quests": ["concrete solutions", "picking up signals"]
+			"quests": ["improved electronics", "concrete solutions", "picking up signals", "not led astray"]
+		},
+		"unlocks": {
+			"quests": ["opening up shop pt2"],
+			"recipes": [],
+			"machines": ["radio antenna", "trade hub", "small landing platform"]
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"opening up shop pt2": {
+		"name": "Opening Up Shop Part II",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"radio antenna": 1, "trade hub": 1, "small landing platform": 1},
+			"quests": []
 		},
 		"unlocks": {
 			"quests": [],

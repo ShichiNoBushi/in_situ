@@ -108,7 +108,19 @@ public partial class MachinePanel : Control
 	private void RepairMachine()
 	{
 		GD.Print($"MachinePanel: Repairing machine {GameData.MACHINES[machine.id].name}");
-		machine.Repair();
+		
+		try
+		{
+			machine.Repair();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"MachinePanel: Error repairing machine - {e.Message}");
+		}
+		
+		DisplayMaintenance();
+		DisplayRecipeResources();
+		GameData.resourceControl.UpdateResourcePanels();
 	}
 	
 	private void DismantleMachine()

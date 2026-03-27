@@ -15,14 +15,16 @@ public partial class HarvestControl : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GD.Print("HarvestControl: _Ready called...");
 		harvesting = false;
 		harvestTimer = 0f;
 		
 		harvestMenu = GetNode<OptionButton>("Panel/HarvestMenu");
 		harvestButton = GetNode<Button>("Panel/HarvestButton");
 		harvestProgress = GetNode<ProgressBar>("Panel/HarvestProgress");
+		GD.Print($"HarvestControl: harvestButton null? {harvestButton == null}");
 		
-		foreach (var node in GameData.currentRegion.nodes)
+		/*foreach (var node in GameData.currentRegion.nodes)
 		{
 			foreach (var harv in GameData.HARVEST)
 			{
@@ -34,14 +36,23 @@ public partial class HarvestControl : Control
 					break;
 				}
 			}
-		}
-		
-		int idx = harvestMenu.GetSelectedId();
-		String harvestKey = GameData.harvActionToKey[harvestMenu.GetItemText(idx)];
-		harvestAction = GameData.HARVEST[harvestKey];
+		}*/
 		
 		harvestButton.Pressed += StartHarvest;
 		harvestMenu.ItemSelected += SelectHarvest;
+		
+		/*if (harvestMenu.ItemCount > 0)
+		{
+			int idx = harvestMenu.GetSelectedId();
+			string harvestKey = GameData.harvActionToKey[harvestMenu.GetItemText(idx)];
+			harvestAction = GameData.HARVEST[harvestKey];
+		}
+		else
+		{
+			harvestButton.Disabled = true;
+		}*/
+		
+		UpdateHarvest();
 		
 		harvestProgress.Value = 0f;
 	}
@@ -83,10 +94,13 @@ public partial class HarvestControl : Control
 		{
 			harvestMenu.AddItem("No Deposits");
 			harvestMenu.Disabled = true;
+			harvestAction = null;
 		}
 		else
 		{
 			harvestMenu.Disabled = false;
+			string harvestKey = (string)harvestMenu.GetItemMetadata(0);
+			harvestAction = GameData.HARVEST[harvestKey];
 		}
 	}
 	
@@ -97,8 +111,15 @@ public partial class HarvestControl : Control
 	
 	public void StartHarvest()
 	{
+		GD.Print("HarvestControl: Harvest button pressed");
+		
 		if (!harvesting)
 		{
+			if (!GameData.RESOURCES.ContainsKey(harvestAction.resource))
+			{
+				GD.PrintErr($"HarvestControl: Harvest failed - key {harvestAction.resource} not in RESOURCES dictionary");
+				return;
+			}
 			harvestButton.Disabled = true;
 			harvestMenu.Disabled = true;
 			
@@ -111,7 +132,7 @@ public partial class HarvestControl : Control
 		harvesting = false;
 		harvestTimer = 0f;
 		
-		String res = harvestAction.resource;
+		string res = harvestAction.resource;
 		
 		if (GameData.currentRegion.resources.ContainsKey(res))
 		{
