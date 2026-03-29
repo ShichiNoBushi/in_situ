@@ -441,7 +441,7 @@
 		},
 		"unlocks": {
 			"quests": ["pottery"],
-			"recipes": ["bake ceramic"],
+			"recipes": ["bake ceramic", "oxydize carbon monoxide"],
 			"machines": []
 		},
 		"text": "The ultimate goal of this sequence of objectives is to achieve rudimentary electronics, and a critical substance for creating electronics is the element silicon. Fortunately, silicon is one of the most abundant elements especially in rocky crust. Up to now, you might have been using sand or silicon dioxide and to produce glass, but now you will need extract silicon from it to utilize pure silicon. The following is not the ideal method, and you will be introduced to a more efficient process once it becomes available to you, but for now you are going to reduce silicon. In an smelter, combine sand with carbon to get silicon and carbon monoxide as a biproduct. Carbon monoxide is poisonous to organics, but store it for now as you will also be able to process and recycle it later.",

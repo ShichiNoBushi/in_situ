@@ -497,7 +497,7 @@
 	"pulverize gravel": {
 		"name": "Pulverize Gravel",
 		"inputs": {"gravel": 5, "energy": 1},
-		"outputs": {"stone dust": 2},
+		"outputs": {"stone dust": 5},
 		"available": false,
 		"machines": ["crusher"],
 		"local": "",
