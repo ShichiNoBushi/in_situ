@@ -2249,6 +2249,8 @@ public class Buildable
 		//Reduce wear and diagnosed wear by the total amount repaired.
 		wear -= total;
 		diagnosedWear -= total;
+		
+		GameData.SortResources(location.resources);
 	}
 	
 	public void Diagnose()
