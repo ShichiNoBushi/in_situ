@@ -492,7 +492,18 @@ public partial class GameData : Node
 		galMarket.Clear();
 		foreach (var commSave in save.galMarket)
 		{
-			galMarket[commSave.resource] = new(commSave);
+			try
+			{
+				galMarket[commSave.resource] = new(commSave);
+			}
+			catch (Exception e)
+			{
+				GD.PrintErr($"GameData: Error loading market commodity - {commSave.resource}");
+				if (GameData.RESOURCES.ContainsKey(commSave.resource))
+				{
+					galMarket[commSave.resource] = new(commSave.resource);
+				}
+			}
 		}
 		
 		foreach (var rec in GameData.RECIPES)
@@ -1527,9 +1538,9 @@ public class GameSave
 
 public class UnlockSave
 {
-	public List<string> recipes;
-	public List<string> machines;
-	public List<string> infrastructure;
+	public List<string> recipes {get; set;}
+	public List<string> machines {get; set;}
+	public List<string> infrastructure {get; set;}
 	
 	public UnlockSave()
 	{
@@ -4050,10 +4061,18 @@ public class CommodityStock
 
 public class CommoditySave
 {
-	public string resource {get; private set;}
-	public float shift {get; private set;}
-	public float bull {get; private set;}
-	public float bear {get; private set;}
+	public string resource {get; set;}
+	public float shift {get; set;}
+	public float bull {get; set;}
+	public float bear {get; set;}
+	
+	public CommoditySave()
+	{
+		resource = "";
+		shift = 0f;
+		bull = 0f;
+		bear = 0f;
+	}
 	
 	public CommoditySave(CommodityStock comm)
 	{
