@@ -159,11 +159,15 @@ public partial class DevControl : Control
 				devLabel.Text = $"Unlocked recipe {GameData.RECIPES[name].name}";
 				break;
 			case "machine":
-				if (!GameData.MACHINES.ContainsKey(name))
+				if (!GameData.MACHINES.ContainsKey(name) || !GameData.INFRASTRUCTURE.ContainsKey(name))
 				{
 					if(GameData.machNameToKey.ContainsKey(name))
 					{
 						name = GameData.machNameToKey[name];
+					}
+					else if (GameData.infraNameToKey.ContainsKey(name))
+					{
+						name = GameData.infraNameToKey[name];
 					}
 					else
 					{
@@ -172,9 +176,17 @@ public partial class DevControl : Control
 					}
 				}
 				
-				GameData.MACHINES[name].available = true;
+				if (GameData.MACHINES.ContainsKey(name))
+				{
+					GameData.MACHINES[name].available = true;
+					devLabel.Text = $"Unlocked machine {GameData.MACHINES[name].name}";
+				}
+				else if (GameData.INFRASTRUCTURE.ContainsKey(name))
+				{
+					GameData.INFRASTRUCTURE[name].available = true;
+					devLabel.Text = $"Unlocked infrastructure {GameData.INFRASTRUCTURE[name].name}";
+				}
 				GameData.buildControl.UpdateBuildMenu();
-				devLabel.Text = $"Unlocked machine {GameData.MACHINES[name].name}";
 				break;
 			case "quest":
 				if (!GameData.QUESTS.ContainsKey(name))

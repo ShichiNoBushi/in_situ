@@ -28,6 +28,7 @@ public partial class GameData : Node
 	public static Dictionary<string, string> resNameToKey = new();
 	public static Dictionary<string, string> harvActionToKey = new();
 	public static Dictionary<string, string> machNameToKey = new();
+	public static Dictionary<string, string> infraNameToKey = new();
 	public static Dictionary<string, string> recNameToKey = new();
 	public static Dictionary<string, string> regNameToKey = new();
 	public static Dictionary<string, string> qstNameToKey = new();
@@ -498,7 +499,7 @@ public partial class GameData : Node
 			}
 			catch (Exception e)
 			{
-				GD.PrintErr($"GameData: Error loading market commodity - {commSave.resource}");
+				GD.PrintErr($"GameData: Error loading market commodity - {commSave.resource} {e.Message}");
 				if (GameData.RESOURCES.ContainsKey(commSave.resource))
 				{
 					galMarket[commSave.resource] = new(commSave.resource);
@@ -645,6 +646,11 @@ public partial class GameData : Node
 		foreach (var mach in MACHINES)
 		{
 			machNameToKey[mach.Value.name] = mach.Key;
+		}
+		infraNameToKey.Clear();
+		foreach (var infra in INFRASTRUCTURE)
+		{
+			infraNameToKey[infra.Value.name] = infra.Key;
 		}
 		recNameToKey.Clear();
 		foreach (var rec in RECIPES)

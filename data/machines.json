@@ -115,7 +115,7 @@
 		"cost": {"iron plate": 10, "iron gear small": 10, "electric motor": 10, "computer board": 2},
 		"durability": 5000,
 		"size": 5,
-		"starting amount": 1,
+		"starting amount": 0,
 		"available": false,
 		"sort": [3, 1],
 		"description": "A machine to coat metal wire in insulator."
