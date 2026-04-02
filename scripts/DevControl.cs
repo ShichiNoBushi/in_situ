@@ -159,7 +159,7 @@ public partial class DevControl : Control
 				devLabel.Text = $"Unlocked recipe {GameData.RECIPES[name].name}";
 				break;
 			case "machine":
-				if (!GameData.MACHINES.ContainsKey(name) || !GameData.INFRASTRUCTURE.ContainsKey(name))
+				if (!GameData.MACHINES.ContainsKey(name) && !GameData.INFRASTRUCTURE.ContainsKey(name))
 				{
 					if(GameData.machNameToKey.ContainsKey(name))
 					{

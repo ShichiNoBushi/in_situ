@@ -154,32 +154,68 @@ public partial class QuestControl : Control
 	{
 		completeList.DeselectAll();
 		
-		string questName = activeList.GetItemText((int)index);
-		//String quest = GameData.qstNameToKey[questName];
-		string quest = (string)activeList.GetItemMetadata((int)index);
-		
-		displayLabel.Text = DisplayQuestText(quest, true);
-		
-		trackButton.Disabled = false;
+		try
+		{
+			string questName = activeList.GetItemText((int)index);
+			//String quest = GameData.qstNameToKey[questName];
+			string quest = (string)activeList.GetItemMetadata((int)index);
+			
+			if (GameData.QUESTS.ContainsKey(quest))
+			{
+				displayLabel.Text = DisplayQuestText(quest, true);
+				
+				trackButton.Disabled = false;
+			}
+			else
+			{
+				displayLabel.Text = $"Error displaying quest information\nQuest key not in dictionary: {quest}";
+				trackButton.Disabled = true;
+			}
+		}
+		catch (Exception e)
+		{
+			displayLabel.Text = $"Error displaying quest information\n{e}";
+			GD.PrintErr($"QuestControl: Error displaying quest information - {e}");
+		}
 	}
 	
 	private void DisplayCompleteQuest(long index)
 	{
 		activeList.DeselectAll();
 		
-		string questName = completeList.GetItemText((int)index);
-		//String quest = GameData.qstNameToKey[questName];
-		string quest = (string)completeList.GetItemMetadata((int)index);
-		
-		displayLabel.Text = DisplayQuestText(quest, false);
-		
-		trackButton.Disabled = true;
+		try
+		{
+			string questName = completeList.GetItemText((int)index);
+			//String quest = GameData.qstNameToKey[questName];
+			string quest = (string)completeList.GetItemMetadata((int)index);
+			
+			if (GameData.QUESTS.ContainsKey(quest))
+			{
+				displayLabel.Text = DisplayQuestText(quest, false);
+				
+				trackButton.Disabled = true;
+			}
+			else
+			{
+				displayLabel.Text = $"Error displaying quest information\nQuest key not in dictionary: {quest}";
+				trackButton.Disabled = true;
+			}
+		}
+		catch (Exception e)
+		{
+			displayLabel.Text = $"Error displaying quest information\n{e}";
+			GD.PrintErr($"QuestControl: Error displaying quest information - {e}");
+		}
 	}
 	
 	private string DisplayQuestText(string quest, bool active)
 	{
 		QuestData selectedQuest = GameData.QUESTS[quest];
 		string text = selectedQuest.text;
+		
+		string status = active ? "active" : "completed";
+		
+		GD.Print($"QuestControl: display {status} quest {selectedQuest.name}");
 		
 		if (active)
 		{
@@ -199,11 +235,22 @@ public partial class QuestControl : Control
 			
 			if (requirements.machines.Count > 0)
 			{
-				text += "\n\nMachines:";
+				text += "\n\nMachines and Infrastructure:";
 				
 				foreach (var mach in requirements.machines)
 				{
-					text += $"\n{GameData.MACHINES[mach.Key].name}: {mach.Value}";
+					if (GameData.MACHINES.ContainsKey(mach.Key))
+					{
+						text += $"\n{GameData.MACHINES[mach.Key].name}: {mach.Value}";
+					}
+					else if (GameData.INFRASTRUCTURE.ContainsKey(mach.Key))
+					{
+						text += $"\n{GameData.INFRASTRUCTURE[mach.Key].name}: {mach.Value}";
+					}
+					else
+					{
+						text += $"\n[Missing Buildable Key: {mach.Key}]: {mach.Value}";
+					}
 				}
 			}
 			
@@ -225,15 +272,29 @@ public partial class QuestControl : Control
 	{
 		if (activeList.IsAnythingSelected())
 		{
-			int idx = activeList.GetSelectedItems()[0];
-			string questName = activeList.GetItemText(idx);
-			//String questKey = GameData.qstNameToKey[questName];
-			string questKey = (string)activeList.GetItemMetadata(idx);
-			
-			GD.Print($"QuestControl: Tracking quest {questName}...");
-			
-			GameData.trackedQuest = GameData.QUESTS[questKey];
-			GD.Print("QuestControl: Assigned quest tracking...");
+			try
+			{
+				int idx = activeList.GetSelectedItems()[0];
+				string questName = activeList.GetItemText(idx);
+				//String questKey = GameData.qstNameToKey[questName];
+				string questKey = (string)activeList.GetItemMetadata(idx);
+				
+				GD.Print($"QuestControl: Tracking quest {questName}...");
+				
+				if (GameData.QUESTS.ContainsKey(questKey))
+				{
+					GameData.trackedQuest = GameData.QUESTS[questKey];
+					GD.Print("QuestControl: Assigned quest tracking...");
+				}
+				else
+				{
+					GD.Print($"QuestControl: Quest key not found - {questKey}");
+				}
+			}
+			catch (Exception e)
+			{
+				GD.Print($"QuestControl: Error assigning tracked quest - {e}");
+			}
 		}
 		else
 		{

@@ -524,7 +524,7 @@ public partial class GameData : Node
 		
 		tradeControl.LoadSave(save.tradeSave);
 		
-		trackedQuest = (!string.IsNullOrEmpty(save.trackedQuest)) && qstNameToKey.ContainsKey(save.trackedQuest)
+		trackedQuest = (!string.IsNullOrEmpty(save.trackedQuest)) && QUESTS.ContainsKey(save.trackedQuest)
 			? GameData.QUESTS[save.trackedQuest]
 			: null;
 		
@@ -775,6 +775,7 @@ public partial class GameData : Node
 					}
 					else
 					{
+						objectiveLabel.Text = $"Tracking failed\n{res.Key} not in RESOURCES dictionary";
 						GD.PrintErr($"GameData: Quest tracking failed - {res.Key} not in RESOURCES dictionary");
 						trackedQuest = null;
 						return;
@@ -800,22 +801,46 @@ public partial class GameData : Node
 				
 				foreach (var mach in requirements.machines)
 				{
-					//Count all constructed machines among all regions and display along with required amount.
-					MachineData machine = MACHINES[mach.Key];
 					int machineCount = 0;
-					
-					foreach (var reg in regionMap)
+					//Count all constructed machines among all regions and display along with required amount.
+					if (MACHINES.ContainsKey(mach.Key))
 					{
-						foreach (Machine mach2 in reg.Value.machines)
+						MachineData machine = MACHINES[mach.Key];
+						
+						foreach (var reg in regionMap)
 						{
-							if (mach2.id == mach.Key)
+							foreach (Machine mach2 in reg.Value.machines)
 							{
-								machineCount++;
+							if (mach2.id == mach.Key)
+								{
+									machineCount++;
+								}
 							}
 						}
+						
+						text += $"\n{machine.name}: {machineCount} / {mach.Value}";
 					}
-					
-					text += $"\n{machine.name}: {machineCount} / {mach.Value}";
+					else if (INFRASTRUCTURE.ContainsKey(mach.Key))
+					{
+						InfrastructureData infrastructure = INFRASTRUCTURE[mach.Key];
+						
+						foreach (var reg in regionMap)
+						{
+							foreach (Infrastructure mach2 in reg.Value.infrastructure)
+							{
+							if (mach2.id == mach.Key)
+								{
+									machineCount++;
+								}
+							}
+						}
+						
+						text += $"\n{infrastructure.name}: {machineCount} / {mach.Value}";
+					}
+					else
+					{
+						text += $"\nMachine key not valid: {mach.Key}";
+					}
 				}
 			}
 			
@@ -858,7 +883,20 @@ public partial class GameData : Node
 		}
 		else
 		{
-			objectiveLabel.Text = "No quest tracked.";
+			string text = "No quest tracked";
+			if (questControl == null)
+			{
+				text += "\nquestControl null";
+			}
+			if (trackedQuest == null)
+			{
+				text += "\ntrackedQuest null";
+			}
+			if (trackedQuest != null && trackedQuest.name == "No name")
+			{
+				text += "\ntrackedQuest name \"No name\"";
+			}
+			objectiveLabel.Text = text;
 		}
 	}
 	
