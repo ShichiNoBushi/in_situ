@@ -18,7 +18,7 @@ public partial class AndroidControl : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		android = GameData.android;
+		UpdateAndroid();
 		
 		inventoryLabel = GetNode<Label>("InventoryLabel");
 		maximumLabel = GetNode<Label>("MaximumLabel");
@@ -30,7 +30,38 @@ public partial class AndroidControl : Control
 		transferSpin = GetNode<SpinBox>("TransferSpin");
 		transferButton = GetNode<Button>("TransferButton");
 		
-		fullInventoryLabel.BbcodeEnabled = true;
+		//fullInventoryLabel.BbcodeEnabled = true;
+		
+		/*foreach (var res in GameData.RESOURCES)
+		{
+			if (res.Value.phase == "solid")
+			{
+				resourceMenu.AddItem(res.Value.name);
+				int idx = resourceMenu.ItemCount - 1;
+				resourceMenu.SetItemMetadata(idx, res.Key);
+			}
+		}*/
+		UpdateResourceMenu();
+		CallDeferred(nameof(UpdateResourceMenu));
+		
+		transferButton.Pressed += TransferResource;
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		DisplayInventory();
+	}
+	
+	public void UpdateResourceMenu()
+	{
+		if (resourceMenu == null)
+		{
+			GD.PrintErr("AndroidControl: resourceMenu null");
+			return;
+		}
+		
+		resourceMenu.Clear();
 		
 		foreach (var res in GameData.RESOURCES)
 		{
@@ -42,13 +73,22 @@ public partial class AndroidControl : Control
 			}
 		}
 		
-		transferButton.Pressed += TransferResource;
+		if (resourceMenu.ItemCount == 0)
+		{
+			resourceMenu.AddItem("No solid resources");
+			resourceMenu.Disabled = true;
+		}
+		else
+		{
+			resourceMenu.Disabled = false;
+		}
+		
+		resourceMenu.Select(0);
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	
+	public void UpdateAndroid()
 	{
-		DisplayInventory();
+		android = GameData.android;
 	}
 	
 	public void DisplayInventory()
@@ -61,20 +101,30 @@ public partial class AndroidControl : Control
 		
 		float available = 0f;
 		int resIdx = resourceMenu.GetSelected();
-		string resID = (string)resourceMenu.GetItemMetadata(resIdx);
-		if (GameData.currentRegion.resources.ContainsKey(resID))
-		{
-			available = GameData.currentRegion.resources[resID];
-		}
-		string availableForm = GameData.FormatUnit2(available, "g");
+		string resID = "";
+		string availableForm = "";
 		
-		if (toInventoryRadio.ButtonPressed)
+		if (resourceMenu.ItemCount > 0 && resIdx >= 0 && !resourceMenu.Disabled)
 		{
-			transferSpin.MaxValue = available;
+			resID = (string)resourceMenu.GetItemMetadata(resIdx);
+			if (GameData.currentRegion.resources.ContainsKey(resID))
+			{
+				available = GameData.currentRegion.resources[resID];
+			}
+			availableForm = GameData.FormatUnit2(available, "g");
+			
+			if (toInventoryRadio.ButtonPressed)
+			{
+				transferSpin.MaxValue = available;
+			}
+			else if(fromInventoryRadio.ButtonPressed)
+			{
+				transferSpin.MaxValue = android.GetResource(resID);
+			}
 		}
-		else if(fromInventoryRadio.ButtonPressed)
+		else
 		{
-			transferSpin.MaxValue = android.GetResource(resID);
+			transferSpin.MaxValue = 0f;
 		}
 		
 		inventoryLabel.Text = carriedForm;
@@ -98,22 +148,31 @@ public partial class AndroidControl : Control
 	
 	public void TransferResource()
 	{
+		GD.Print("AndroidControl: Transferring resources 1");
 		float transferAmount = (float)transferSpin.Value;
 		
 		if (transferAmount <= 0f)
 		{
+			GD.Print("AndroidControl: insufficient transfered resources");
 			return;
 		}
+		
+		GD.Print("AndroidControl: 2");
 		
 		int resIdx = resourceMenu.GetSelected();
 		
-		if (resourceMenu.ItemCount <= 0 || resIdx <= 0)
+		if (resourceMenu.ItemCount <= 0 || resIdx < 0)
 		{
+			GD.Print($"AndroidControl: error with resourceMenu - Count {resourceMenu.ItemCount} index {resIdx}");
 			return;
 		}
 		
+		GD.Print("AndroidControl: 3");
+		
 		string resID = (string)resourceMenu.GetItemMetadata(resIdx);
 		//float amount = GameData.currentRegion.resources[resID];
+		
+		GD.Print("AndroidControl: 4");
 		
 		if (toInventoryRadio.ButtonPressed)
 		{
@@ -123,12 +182,27 @@ public partial class AndroidControl : Control
 		{
 			TransferFrom(resID, transferAmount);
 		}
+		else
+		{
+			GD.Print("AndroidControl: Error determining selected radio button");
+		}
 	}
 	
 	public void TransferTo(string res, float amt)
 	{
-		float difference = android.GiveResource(res, amt);
-		float transfered = amt;
+		float difference = 0f;
+		float transfered = 0f;
+		
+		try
+		{
+			difference = android.GiveResource(res, amt);
+			transfered = amt;
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"AndroidControl: Error giving android resources - {e.Message}");
+			return;
+		}
 		
 		GD.Print($"AndroidControl: Transferring {GameData.FormatUnit(amt, res)} of {GameData.RESOURCES[res].name} to inventory");
 		GD.Print($"AndroidControl: difference of {GameData.FormatUnit(difference, res)} cannot be transferred");
@@ -138,20 +212,52 @@ public partial class AndroidControl : Control
 			transfered = amt - difference;
 		}
 		
-		GD.Print($"AndroidControl: {GameData.FormatUnit(GameData.currentRegion.resources[res], res)} before transfer");
-		GameData.currentRegion.resources[res] -= transfered;
-		GD.Print($"AndroidControl: {GameData.FormatUnit(GameData.currentRegion.resources[res], res)} after transfer");
+		float before = GameData.currentRegion.resources.ContainsKey(res) ? GameData.currentRegion.resources[res] : 0f;
+		GD.Print($"AndroidControl: {GameData.FormatUnit(before, res)} before transfer");
+		
+		if (GameData.currentRegion.resources.ContainsKey(res))
+		{
+			GameData.currentRegion.resources[res] -= transfered;
+			if (GameData.currentRegion.resources[res] <= 0f)
+			{
+				GameData.currentRegion.resources.Remove(res);
+			}
+		}
+		
+		float after = GameData.currentRegion.resources.ContainsKey(res) ? GameData.currentRegion.resources[res] : 0f;
+		GD.Print($"AndroidControl: {GameData.FormatUnit(after, res)} after transfer");
 	}
 	
 	public void TransferFrom(string res, float amt)
 	{
-		float taken = android.TakeResource(res, amt);
+		float taken = 0f;
+		
+		try
+		{
+			taken = android.TakeResource(res, amt);
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"AndroidControl: Error taking resources from android - {e.Message}");
+			return;
+		}
 		
 		GD.Print($"AndroidControl: Transferring {GameData.FormatUnit(amt, res)} of {GameData.RESOURCES[res].name} from inventory");
 		GD.Print($"AndroidControl: {GameData.FormatUnit(taken, res)} available to be transferred");
 		
-		GD.Print($"AndroidControl: {GameData.FormatUnit(GameData.currentRegion.resources[res], res)} before transfer");
-		GameData.currentRegion.resources[res] += taken;
-		GD.Print($"AndroidControl: {GameData.FormatUnit(GameData.currentRegion.resources[res], res)} after transfer");
+		float before = GameData.currentRegion.resources.ContainsKey(res) ? GameData.currentRegion.resources[res] : 0f;
+		GD.Print($"AndroidControl: {GameData.FormatUnit(before, res)} before transfer");
+		
+		if (GameData.currentRegion.resources.ContainsKey(res))
+		{
+			GameData.currentRegion.resources[res] += taken;
+		}
+		else
+		{
+			GameData.currentRegion.resources[res] = taken;
+		}
+		
+		float after = GameData.currentRegion.resources.ContainsKey(res) ? GameData.currentRegion.resources[res] : 0f;
+		GD.Print($"AndroidControl: {GameData.FormatUnit(after, res)} after transfer");
 	}
 }

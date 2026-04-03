@@ -363,6 +363,7 @@ public partial class GameData : Node
 		
 		//Reset the PC android.
 		android = new();
+		androidControl.UpdateAndroid();
 		traders = new();
 		//landedTraders = new();
 		
@@ -479,6 +480,7 @@ public partial class GameData : Node
 	public void ApplySave(GameSave save)
 	{
 		android = new Android(save.android);
+		androidControl.UpdateAndroid();
 		
 		traders.Clear();
 		foreach (var trad in save.traders)

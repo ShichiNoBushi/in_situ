@@ -264,6 +264,7 @@ offset_bottom = 466.0
 [node name="FullInventoryLabel" type="RichTextLabel" parent="TabContainer/Android/InventoryScroll" unique_id=1020136535]
 custom_minimum_size = Vector2(508, 397)
 layout_mode = 2
+bbcode_enabled = true
 
 [node name="ResourceLabelTxt" type="Label" parent="TabContainer/Android" unique_id=2043146479]
 layout_mode = 0
