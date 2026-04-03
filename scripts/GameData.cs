@@ -205,12 +205,27 @@ public partial class GameData : Node
 			reg.Tick(delta);
 		}
 		
-		foreach (var comm in galMarket.Values)
+		try
 		{
-			comm.Tick(delta);
+			foreach (var comm in galMarket.Values)
+			{
+				comm.Tick(delta);
+			}
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Error ticking galactic market - {e.Message}");
 		}
 		
-		DisplayMaxStorage();
+		try
+		{
+			DisplayMaxStorage();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"GameData: Error updating max storage - {e.Message}");
+		}
+		
 		try
 		{
 			UpdateQuestTracking();
@@ -367,8 +382,8 @@ public partial class GameData : Node
 		//Create starting resources and machines according to JSON labels.
 		GiveStartingResources();
 		GiveStartingMachines();
-		machinesControl.AddStartingMachines();
-		machinesControl.AddStartingInfrastructure();
+		//machinesControl.AddStartingMachines();
+		//machinesControl.AddStartingInfrastructure();
 		
 		//Assign the player's initial location as the center of the map.
 		currentRegion = regionMap[(0, 0)];
@@ -385,6 +400,8 @@ public partial class GameData : Node
 		
 		SortResources(currentRegion.resources);
 		resourceControl.UpdateResourcePanels();
+		machinesControl.UpdateRegionMachines();
+		machinesControl.UpdateRegionInfrastructure();
 		machinesControl.UpdateMachinePanels();
 		buildControl.UpdateBuildMenu();
 		buildControl.UpdateNeighborMenu();
@@ -747,10 +764,10 @@ public partial class GameData : Node
 	
 	public static void UpdateQuestTracking()
 	{
-		if (!questUpdateFunctioning)
+		/*if (!questUpdateFunctioning)
 		{
 			return;
-		}
+		}*/
 		
 		//Check if questControl and trackedQuest are functioning and a quest is being tracked.
 		if (questControl != null && trackedQuest != null && trackedQuest.name != "No name")
@@ -760,123 +777,144 @@ public partial class GameData : Node
 			
 			QuestRequirement requirements = trackedQuest.requirement;
 			
-			if (requirements.resources.Count > 0)
+			try
 			{
-				//Display required resources if any.
-				text += "\n\nResources:";
-				
-				foreach (var res in requirements.resources)
+				if (requirements.resources.Count > 0)
 				{
-					ResourceData resource = null;
-					//Calculate available resources total among all regions and display along with required amounts.
-					if (RESOURCES.ContainsKey(res.Key))
-					{
-						resource = RESOURCES[res.Key];
-					}
-					else
-					{
-						objectiveLabel.Text = $"Tracking failed\n{res.Key} not in RESOURCES dictionary";
-						GD.PrintErr($"GameData: Quest tracking failed - {res.Key} not in RESOURCES dictionary");
-						trackedQuest = null;
-						return;
-					}
-					float available = 0f;
+					//Display required resources if any.
+					text += "\n\nResources:";
 					
-					foreach (var reg in regionMap)
+					foreach (var res in requirements.resources)
 					{
-						if (reg.Value.resources.ContainsKey(res.Key))
+						ResourceData resource = null;
+						//Calculate available resources total among all regions and display along with required amounts.
+						if (RESOURCES.ContainsKey(res.Key))
 						{
-							available += reg.Value.resources[res.Key];
+							resource = RESOURCES[res.Key];
 						}
-					}
-					
-					text += $"\n{resource.name}: {FormatUnit(available, res.Key)} / {FormatUnit(res.Value, res.Key)}";
-				}
-			}
-			
-			if (requirements.machines.Count > 0)
-			{
-				//Display required machines if any.
-				text += "\n\nMachines:";
-				
-				foreach (var mach in requirements.machines)
-				{
-					int machineCount = 0;
-					//Count all constructed machines among all regions and display along with required amount.
-					if (MACHINES.ContainsKey(mach.Key))
-					{
-						MachineData machine = MACHINES[mach.Key];
+						else
+						{
+							objectiveLabel.Text = $"Tracking failed\n{res.Key} not in RESOURCES dictionary";
+							GD.PrintErr($"GameData: Quest tracking failed - {res.Key} not in RESOURCES dictionary");
+							trackedQuest = null;
+							return;
+						}
+						float available = 0f;
 						
 						foreach (var reg in regionMap)
 						{
-							foreach (Machine mach2 in reg.Value.machines)
+							if (reg.Value.resources.ContainsKey(res.Key))
 							{
-							if (mach2.id == mach.Key)
-								{
-									machineCount++;
-								}
+								available += reg.Value.resources[res.Key];
 							}
 						}
 						
-						text += $"\n{machine.name}: {machineCount} / {mach.Value}";
-					}
-					else if (INFRASTRUCTURE.ContainsKey(mach.Key))
-					{
-						InfrastructureData infrastructure = INFRASTRUCTURE[mach.Key];
-						
-						foreach (var reg in regionMap)
-						{
-							foreach (Infrastructure mach2 in reg.Value.infrastructure)
-							{
-							if (mach2.id == mach.Key)
-								{
-									machineCount++;
-								}
-							}
-						}
-						
-						text += $"\n{infrastructure.name}: {machineCount} / {mach.Value}";
-					}
-					else
-					{
-						text += $"\nMachine key not valid: {mach.Key}";
+						text += $"\n{resource.name}: {FormatUnit(available, res.Key)} / {FormatUnit(res.Value, res.Key)}";
 					}
 				}
 			}
-			
-			if (requirements.quests.Count > 0)
+			catch (Exception e)
 			{
-				//Display required quests completed if any.
-				text += "\n\nQuests:";
-				
-				foreach (var qst in requirements.quests)
+				text += $"\nError counting resources\n{e.Message}";
+			}
+			
+			try
+			{
+				if (requirements.machines.Count > 0)
 				{
-					//Display quests' current status whether active, completed, or somehow both.
-					QuestData quest = QUESTS[qst];
-					string questState;
+					//Display required machines if any.
+					text += "\n\nMachines:";
 					
-					bool active = questControl.activeQuests.ContainsKey(qst);
-					bool complete = questControl.completeQuests.ContainsKey(qst);
-					
-					if (active && complete)
+					foreach (var mach in requirements.machines)
 					{
-						questState = "Error: A & C";
+						int machineCount = 0;
+						//Count all constructed machines among all regions and display along with required amount.
+						if (MACHINES.ContainsKey(mach.Key))
+						{
+							MachineData machine = MACHINES[mach.Key];
+							
+							foreach (var reg in regionMap)
+							{
+								foreach (Machine mach2 in reg.Value.machines)
+								{
+								if (mach2.id == mach.Key)
+									{
+										machineCount++;
+									}
+								}
+							}
+							
+							text += $"\n{machine.name}: {machineCount} / {mach.Value}";
+						}
+						else if (INFRASTRUCTURE.ContainsKey(mach.Key))
+						{
+							InfrastructureData infrastructure = INFRASTRUCTURE[mach.Key];
+							
+							foreach (var reg in regionMap)
+							{
+								foreach (Infrastructure mach2 in reg.Value.infrastructure)
+								{
+								if (mach2.id == mach.Key)
+									{
+										machineCount++;
+									}
+								}
+							}
+							
+							text += $"\n{infrastructure.name}: {machineCount} / {mach.Value}";
+						}
+						else
+						{
+							text += $"\nMachine key not valid: {mach.Key}";
+						}
 					}
-					else if (active)
-					{
-						questState = "Active";
-					}
-					else if (complete)
-					{
-						questState = "Complete";
-					}
-					else
-					{
-						questState = "Incomplete";
-					}
-					
-					text += $"\n{quest.name}: {questState}";
 				}
+			}
+			catch (Exception e)
+			{
+				text += $"\nError counting machines\n{e.Message}";
+			}
+			
+			try
+			{
+				if (requirements.quests.Count > 0)
+				{
+					//Display required quests completed if any.
+					text += "\n\nQuests:";
+					
+					foreach (var qst in requirements.quests)
+					{
+						//Display quests' current status whether active, completed, or somehow both.
+						QuestData quest = QUESTS[qst];
+						string questState;
+						
+						bool active = questControl.activeQuests.ContainsKey(qst);
+						bool complete = questControl.completeQuests.ContainsKey(qst);
+						
+						if (active && complete)
+						{
+							questState = "Error: A & C";
+						}
+						else if (active)
+						{
+							questState = "Active";
+						}
+						else if (complete)
+						{
+							questState = "Complete";
+						}
+						else
+						{
+							questState = "Incomplete";
+						}
+						
+						text += $"\n{quest.name}: {questState}";
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				text += $"\nError counting quests\n{e.Message}";
 			}
 			
 			objectiveLabel.Text = text;
@@ -1918,6 +1956,13 @@ public class Region
 		
 		resources = new(save.resources);
 		maxStorage = new();
+		foreach (var res in GameData.RESOURCES)
+		{
+			if (!maxStorage.ContainsKey(res.Value.phase))
+			{
+				maxStorage[res.Value.phase] = (0f, res.Value.unit);
+			}
+		}
 		
 		machines = new();
 		/*foreach (var mach in save.machines)
@@ -1955,6 +2000,8 @@ public class Region
 		{
 			infrastructure.Add(new Infrastructure(infra));
 		}
+		
+		UpdateStorage();
 	}
 	
 	public void LinkFromSave()
@@ -2597,6 +2644,7 @@ public class Machine : Buildable
 		wear = save.wear;
 		
 		diagnosedWear = save.diagnosedWear;
+		repairComponents = new(save.repairComponents);
 		maxWear = 0f;
 		foreach (var res in data.cost.Values)
 		{
@@ -2606,7 +2654,11 @@ public class Machine : Buildable
 		//Assign recipes based on which ones are assigned to this machine.
 		recipes = GameData.RECIPES.Where(r => r.Value.machines.Contains(id)).OrderBy(r => r.Key).Select(r => r.Key).ToList();
 		
-		if (recipes.Count > 0)
+		if (!string.IsNullOrEmpty(save.currentRecipe) && GameData.RECIPES.ContainsKey(save.currentRecipe))
+		{
+			currentRecipe = save.currentRecipe;
+		}
+		else if (recipes.Count > 0)
 		{
 			currentRecipe = recipes[0];
 		}
@@ -2614,6 +2666,8 @@ public class Machine : Buildable
 		{
 			currentRecipe = "";
 		}
+		
+		outputBuffer = new(save.outputBuffer);
 		
 		lastSave = save;
 	}
@@ -2919,6 +2973,7 @@ public class Infrastructure : Buildable
 		wear = save.wear;
 		
 		diagnosedWear = save.diagnosedWear;
+		repairComponents = new(save.repairComponents);
 		maxWear = 0f;
 		
 		foreach (var res in data.cost.Values)

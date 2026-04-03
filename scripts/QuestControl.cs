@@ -284,6 +284,7 @@ public partial class QuestControl : Control
 				if (GameData.QUESTS.ContainsKey(questKey))
 				{
 					GameData.trackedQuest = GameData.QUESTS[questKey];
+					GameData.UpdateQuestTracking();
 					GD.Print("QuestControl: Assigned quest tracking...");
 				}
 				else

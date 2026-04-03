@@ -46,6 +46,11 @@ public partial class MachinesControl : TabContainer
 	
 	public void AddStartingMachines()
 	{
+		foreach (var child in machinesVBox.GetChildren())
+		{
+			child.QueueFree();
+		}
+		
 		foreach (var mach in GameData.regionMap[(0, 0)].machines)
 		{
 			AddMachinePanel(mach);
@@ -54,6 +59,11 @@ public partial class MachinesControl : TabContainer
 	
 	public void AddStartingInfrastructure()
 	{
+		foreach (var child in infrastructureVBox.GetChildren())
+		{
+			child.QueueFree();
+		}
+		
 		foreach (var infra in GameData.regionMap[(0, 0)].infrastructure)
 		{
 			AddInfrastructurePanel(infra);
