@@ -569,7 +569,7 @@
 		},
 		"unlocks": {
 			"quests": ["mineral rush", "salty miner", "better boards", "limey stone"],
-			"recipes": [],
+			"recipes": ["mine boron ore", "mine phosphate ore", "mine salt", "mine limestone"],
 			"machines": []
 		},
 		"text": "As stated earlier, your ship landed in a location with resource deposits critical to get started, but to gain access to more advanced technology, you will need to find rarer, more valuable resources. When you do explore and find other resources, you will need to find some way to transport large volumes of resources. Rather than carrying it all yourself, you can set up logistics networks to automatically transport it for you.\n\nThe first structure you will need to construct is a logistics hub which will be able to process resources imports and exports between regions. The other is a bus of conveyers that will carry resources on them between adjacent regions. Conveyer busses can transport solid materials, but to effectively transport liquids and gasses, you will need pipes. When you find another resource deposit, construct hubs at that region and your base and connect the two with conveyer busses. You will of course need to personally carry the necessary construction materials first.",

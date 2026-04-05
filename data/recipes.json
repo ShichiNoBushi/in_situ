@@ -692,6 +692,24 @@
 		"local": "mining",
 		"description": "Extract raw stone from the earth."
 	},
+	"mine boron ore": {
+		"name": "Mine (Boron Ore)",
+		"inputs": {"energy": 1},
+		"outputs": {"boron ore": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract boron ore from a local vein."
+	},
+	"mine phosphate ore": {
+		"name": "Mine (Phosphate Ore)",
+		"inputs": {"energy": 1},
+		"outputs": {"phosphate ore": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract phosphate ore from a local vein."
+	},
 	"mine iron ore": {
 		"name": "Mine (Iron Ore)",
 		"inputs": {"energy": 1},
