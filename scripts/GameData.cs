@@ -554,10 +554,12 @@ public partial class GameData : Node
 		SortResources(currentRegion.resources);
 		resourceControl.UpdateResourcePanels();
 		machinesControl.UpdateRegionMachines();
+		machinesControl.UpdateRegionInfrastructure();
 		machinesControl.UpdateMachinePanels();
 		buildControl.UpdateBuildMenu();
 		logisticsControl.UpdateRegionLogistics();
 		travelControl.UpdateRegions();
+		mapControl.GenerateMap();
 		mapControl.UpdateAllColors();
 		UpdateQuestTracking();
 	}
@@ -1195,6 +1197,7 @@ public partial class GameData : Node
 		try
 		{
 			machinesControl.UpdateRegionMachines();
+			machinesControl.UpdateRegionInfrastructure();
 		}
 		catch (Exception e)
 		{
