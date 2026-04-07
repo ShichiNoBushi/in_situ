@@ -16,7 +16,7 @@
 		"temperature": 30,
 		"pressure": 0.5,
 		"roughness": 0.2,
-		"resources": {"stone": 1.0, "limestone": 0.4, "iron ore": 0.4, "copper ore": 0.4, "ice": 0.2, "salt": 0.4},
+		"resources": {"stone": 1.0, "limestone": 0.4, "boron ore": 0.4, "phosphate ore": 0.4, "iron ore": 0.4, "copper ore": 0.4, "ice": 0.2, "salt": 0.4},
 		"neighbors": {"plains": 45, "hills": 25, "mountains": 5, "plateau": 15, "ravine": 10},
 		"features": {},
 		"hazards": {}
@@ -27,7 +27,7 @@
 		"temperature": 20,
 		"pressure": 0.4,
 		"roughness": 0.4,
-		"resources": {"stone": 1.0, "limestone": 0.2, "iron ore": 0.5, "copper ore": 0.5, "ice": 0.4, "salt": 0.3},
+		"resources": {"stone": 1.0, "limestone": 0.2, "boron ore": 0.5, "phosphate ore": 0.5, "iron ore": 0.5, "copper ore": 0.5, "ice": 0.4, "salt": 0.3},
 		"neighbors": {"plains": 15, "hills": 30, "mountains": 20, "plateau": 15, "ravine": 15},
 		"features": {},
 		"hazards": {}
@@ -38,7 +38,7 @@
 		"temperature": 10,
 		"pressure": 0.2,
 		"roughness": 0.6,
-		"resources": {"stone": 1.0, "limestone": 0.1, "iron ore": 0.7, "copper ore": 0.7, "ice": 0.5, "salt": 0.2},
+		"resources": {"stone": 1.0, "limestone": 0.1, "boron ore": 0.7, "phosphate ore": 0.7, "iron ore": 0.7, "copper ore": 0.7, "ice": 0.5, "salt": 0.2},
 		"neighbors": {"plains": 5, "hills": 30, "mountains": 35, "plateau": 20, "ravine": 10},
 		"features": {},
 		"hazards": {}
@@ -49,7 +49,7 @@
 		"temperature": 15,
 		"pressure": 0.25,
 		"roughness": 0.3,
-		"resources": {"stone": 1.0, "limestone": 0.3, "iron ore": 0.3, "copper ore": 0.3, "ice": 0.2, "salt": 0.2},
+		"resources": {"stone": 1.0, "limestone": 0.3, "boron ore": 0.3, "phosphate ore": 0.3, "iron ore": 0.3, "copper ore": 0.3, "ice": 0.2, "salt": 0.2},
 		"neighbors": {"plains": 15, "hills": 20, "mountains": 15, "plateau": 40, "ravine": 10},
 		"features": {},
 		"hazards": {}
@@ -60,7 +60,7 @@
 		"temperature": 30,
 		"pressure": 0.2,
 		"roughness": 0.6,
-		"resources": {"stone": 1.0, "limestone": 0.2, "iron ore": 0.8, "copper ore": 0.8, "ice": 0.6, "salt": 0.4},
+		"resources": {"stone": 1.0, "limestone": 0.2, "boron ore": 0.8, "phosphate ore": 0.8, "iron ore": 0.8, "copper ore": 0.8, "ice": 0.6, "salt": 0.4},
 		"neighbors": {"plains": 30, "hills": 20, "mountains": 15, "plateau": 15, "ravine": 20},
 		"features": {},
 		"hazards": {}

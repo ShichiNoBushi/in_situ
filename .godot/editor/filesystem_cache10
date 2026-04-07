@@ -1,5 +1,5 @@
 72322a848ab928aa5c89f0cb78209805
-::res://::1775245808
+::res://::1775522562
 export_presets.cfg::TextFile::-1::1769046305::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::6315106701495293280::1762038848::1762631326::1::::<><><>0<>0<>6f252b64a6f6928cc2049f82fe0ea95a<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 README.md::TextFile::-1::1766545119::0::1::::<><><>0<>0<><>::
@@ -7,21 +7,21 @@ README.md::TextFile::-1::1766545119::0::1::::<><><>0<>0<><>::
 ::res://build/data_In Situ_windows_x86_64/::1769046277
 In Situ.deps.json::JSON::-1::1769046277::0::1::::<><><>0<>0<><>::
 In Situ.runtimeconfig.json::JSON::-1::1769046277::0::1::::<><><>0<>0<><>::
-::res://data/::1775007161
+::res://data/::1775349260
 harvest.json::JSON::-1::1771787986::0::1::::<><><>0<>0<><>::
 infrastructure.json::JSON::-1::1774924115::0::1::::<><><>0<>0<><>::
 machines.json::JSON::-1::1774924115::0::1::::<><><>0<>0<><>::
-quests.json::JSON::-1::1775007161::0::1::::<><><>0<>0<><>::
-recipes.json::JSON::-1::1774833288::0::1::::<><><>0<>0<><>::
+quests.json::JSON::-1::1775349260::0::1::::<><><>0<>0<><>::
+recipes.json::JSON::-1::1775349260::0::1::::<><><>0<>0<><>::
 regions.json::JSON::-1::1771630241::0::1::::<><><>0<>0<><>::
 resources.json::JSON::-1::1774319660::0::1::::<><><>0<>0<><>::
 templates.json::JSON::-1::1761095948::0::1::::<><><>0<>0<><>::
 traders.json::JSON::-1::1773888489::0::1::::<><><>0<>0<><>::
 ::res://saves/::1775103892
-save1.json::JSON::-1::1775242542::0::1::::<><><>0<>0<><>::
+save1.json::JSON::-1::1775440992::0::1::::<><><>0<>0<><>::
 test_save2.json::JSON::-1::1771127341::0::1::::<><><>0<>0<><>::
 test_save.json::JSON::-1::1771127313::0::1::::<><><>0<>0<><>::
-::res://Scenes/::1775244757
+::res://Scenes/::1775440503
 BuildPanel.tscn::PackedScene::738137506630766957::1768003248::0::1::::<><><>0<>0<><>::uid://dq3te6rdten4s::::res://scripts/BuildControl.cs
 DevControl.tscn::PackedScene::1859301353485963922::1763526195::0::1::::<><><>0<>0<><>::
 HarvestPanel.tscn::PackedScene::1010526594941675542::1764043759::0::1::::<><><>0<>0<><>::uid://cwju1t2p20fso::::res://scripts/HarvestControl.cs
@@ -30,15 +30,15 @@ MachinePanel.tscn::PackedScene::147102679624355081::1771028743::0::1::::<><><>0<
 MapCell.tscn::PackedScene::6075510652135122775::1764904700::0::1::::<><><>0<>0<><>::uid://cx3s6w8ajb5sj::::res://scripts/MapCell.cs
 MapControl.tscn::PackedScene::8514525836743775534::1764825233::0::1::::<><><>0<>0<><>::uid://csta1jmbb27nv::::res://Scenes/MapCell.tscn<>uid://bg4s8vej8r3js::::res://scripts/MapControl.cs
 MarketUnitPanel.tscn::PackedScene::2801218213008786640::1772872982::0::1::::<><><>0<>0<><>::
-node_2d.tscn::PackedScene::5332119154892954597::1775244757::0::1::::<><><>0<>0<><>::uid://b0bv0qqgs87qd::::res://scripts/GameData.cs<>uid://krtatr5ambw4::::res://Scenes/BuildPanel.tscn<>uid://b62cq2a5o0yuq::::res://scripts/ResourceControl.cs<>uid://hd0m7mmykoag::::res://scripts/MachinesControl.cs<>uid://cdi03e7hbg46::::res://Scenes/MachinePanel.tscn<>uid://bi1x747f6h56g::::res://Scenes/ResourcePanel.tscn<>uid://b618dfccesdqg::::res://Scenes/ResourceLabel.tscn<>uid://cxf07sjgmw17m::::res://Scenes/InfrastructurePanel.tscn<>uid://onrhwsj7frpm::::res://Scenes/HarvestPanel.tscn<>uid://d3tvug5vn80j4::::res://scripts/QuestControl.cs<>uid://1qwolok3tcso::::res://Scenes/DevControl.tscn<>uid://dtkq85ae14dik::::res://Scenes/MapControl.tscn<>uid://cwbbcdxoyjbyq::::res://scripts/LogisticsControl.cs<>uid://coqjyf3w7b6o::::res://scripts/AndroidControl.cs<>uid://co1uc6kkcug1r::::res://scripts/DevControl.cs<>uid://bjkmfl7l1ajlw::::res://Scenes/TravelPanel.tscn<>uid://cvtowtldsusyl::::res://scripts/TradeControl.cs
+node_2d.tscn::PackedScene::5332119154892954597::1775440503::0::1::::<><><>0<>0<><>::uid://b0bv0qqgs87qd::::res://scripts/GameData.cs<>uid://krtatr5ambw4::::res://Scenes/BuildPanel.tscn<>uid://b62cq2a5o0yuq::::res://scripts/ResourceControl.cs<>uid://hd0m7mmykoag::::res://scripts/MachinesControl.cs<>uid://cdi03e7hbg46::::res://Scenes/MachinePanel.tscn<>uid://bi1x747f6h56g::::res://Scenes/ResourcePanel.tscn<>uid://b618dfccesdqg::::res://Scenes/ResourceLabel.tscn<>uid://cxf07sjgmw17m::::res://Scenes/InfrastructurePanel.tscn<>uid://onrhwsj7frpm::::res://Scenes/HarvestPanel.tscn<>uid://d3tvug5vn80j4::::res://scripts/QuestControl.cs<>uid://1qwolok3tcso::::res://Scenes/DevControl.tscn<>uid://dtkq85ae14dik::::res://Scenes/MapControl.tscn<>uid://cwbbcdxoyjbyq::::res://scripts/LogisticsControl.cs<>uid://coqjyf3w7b6o::::res://scripts/AndroidControl.cs<>uid://co1uc6kkcug1r::::res://scripts/DevControl.cs<>uid://bjkmfl7l1ajlw::::res://Scenes/TravelPanel.tscn<>uid://cvtowtldsusyl::::res://scripts/TradeControl.cs
 ResourceLabel.tscn::PackedScene::4617957942023954370::1773006461::0::1::::<><><>0<>0<><>::
 ResourcePanel.tscn::PackedScene::3003060463521309540::1762923854::0::1::::<><><>0<>0<><>::
 TravelPanel.tscn::PackedScene::3039502214583850416::1769304364::0::1::::<><><>0<>0<><>::uid://bvpyhxjo78y57::::res://scripts/TravelControl.cs
-::res://scripts/::1775245177
-AndroidControl.cs::CSharpScript::170267789449585872::1775245177::0::1::::<>Control<><>0<>0<><>::
+::res://scripts/::1775440503
+AndroidControl.cs::CSharpScript::170267789449585872::1775248696::0::1::::<>Control<><>0<>0<><>::
 BuildControl.cs::CSharpScript::8341248547087076880::1771183030::0::1::::<>Control<><>0<>0<><>::
 DevControl.cs::CSharpScript::5810378555497068189::1775099602::0::1::::<>Control<><>0<>0<><>::
-GameData.cs::CSharpScript::4144526719482162699::1775182801::0::1::::<>Node<><>0<>0<><>::
+GameData.cs::CSharpScript::4144526719482162699::1775440503::0::1::::<>Node<><>0<>0<><>::
 HarvestControl.cs::CSharpScript::6336837138078282526::1774640489::0::1::::<>Control<><>0<>0<><>::
 InfrastructurePanel.cs::CSharpScript::6055826175378944624::1770602315::0::1::::<>Control<><>0<>0<><>::
 LogisticsControl.cs::CSharpScript::6319124787526626316::1770500549::0::1::::<>Control<><>0<>0<><>::

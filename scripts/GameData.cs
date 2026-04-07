@@ -407,6 +407,7 @@ public partial class GameData : Node
 		buildControl.UpdateBuildMenu();
 		buildControl.UpdateNeighborMenu();
 		harvestControl.UpdateHarvest();
+		logisticsControl.PopulateResourceMenu();
 		logisticsControl.UpdateRegionLogistics();
 		mapControl.GenerateMap();
 		mapControl.UpdateAllColors();
@@ -3241,7 +3242,7 @@ public class Infrastructure : Buildable
 			{
 				foreach (var ord in output)
 				{
-					if (infra.CanServe(ord))
+					if ((infra.type == "hub" || infra.type == "conveyer") && infra.CanServe(ord))
 					{
 						convAndHubs.Add(infra);
 						break;
