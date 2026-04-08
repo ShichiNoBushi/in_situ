@@ -5,6 +5,18 @@
 		"time": 1.0,
 		"action": "Mine Stone"
 	},
+	"mine boron ore": {
+		"resource": "boron ore",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Boron Ore"
+	},
+	"mine phosphate ore": {
+		"resource": "phosphate ore",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Phosphate Ore"
+	},
 	"mine iron ore": {
 		"resource": "iron ore",
 		"amount": 5.0,

@@ -322,7 +322,7 @@
 		"description": "Fine grains of quartz or silica."
 	},
 	"crushed limestone": {
-		"name": "crushed limestone",
+		"name": "Crushed Limestone",
 		"abbreviation": "CrshLm",
 		"type": "compound",
 		"subtypes": ["mineral", "aggregate"],

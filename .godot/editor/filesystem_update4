@@ -15,4 +15,7 @@ res://scripts/ResourceControl.cs
 res://scripts/BuildControl.cs
 res://scripts/GameData.cs
 res://Scenes/node_2d.tscn
-res://data/regions.json
+res://data/harvest.json
+res://data/quests.json
+res://data/recipes.json
+res://data/resources.json

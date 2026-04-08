@@ -287,7 +287,7 @@
 		"local": "",
 		"description": "Craft a diode to use in electronics."
 	},
-	"light emetting diode": {
+	"light emitting diode": {
 		"name": "Light Emitting Diode",
 		"inputs": {"copper wire": 1, "p-doped silicon": 2, "n-doped silicon": 2, "low-density polyethylene": 2, "energy": 2},
 		"outputs": {"light emitting diode": 7},
@@ -360,7 +360,7 @@
 		"description": "Create an board of insulating substrate for circuit boards."
 	},
 	"press copper substrate": {
-		"name": "Laminate Substrate",
+		"name": "Press Copper Substrate",
 		"inputs": {"insulating substrate": 1, "copper foil": 0.1, "low-density polyethylene": 0.1, "energy": 2},
 		"outputs": {"copper-clad substrate": 1.2},
 		"available": false,
@@ -558,7 +558,7 @@
 		"description": "Mixes quicklime with water to make hydrated lime for cement."
 	},
 	"mix concrete": {
-		"name": "Mix concrete",
+		"name": "Mix Concrete",
 		"inputs": {"stone dust": 1, "sand": 1, "gravel": 1.5, "hydrated lime": 0.5, "water": 0.5, "energy": 1},
 		"outputs": {"concrete": 4.5},
 		"available": false,
