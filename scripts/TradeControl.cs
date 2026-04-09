@@ -408,6 +408,7 @@ public partial class TradeControl : Node
 		playerOffer.Clear();
 		
 		UpdateAllLabels();
+		UpdateFavorProgress();
 		
 		tradeButton.Disabled = true;
 	}

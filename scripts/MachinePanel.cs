@@ -84,10 +84,17 @@ public partial class MachinePanel : Control
 		if (machine == null) return;
 		
 		//string recipeID = machine.recipes[(int)index];
-		string recipeID = (string)recipeMenu.GetItemMetadata((int)index);
-		machine.SetRecipe(recipeID);
-		
-		DisplayRecipeResources();
+		try
+		{
+			string recipeID = (string)recipeMenu.GetItemMetadata((int)index);
+			machine.SetRecipe(recipeID);
+			
+			DisplayRecipeResources();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"MachinePanel: Error displaying recipe - {e.Message}");
+		}
 	}
 	
 	private void DiagnoseMachine()
@@ -279,12 +286,20 @@ public partial class MachinePanel : Control
 				inputDisplay += "\n[table=5]";
 				foreach(var res in inputs)
 				{
-					string resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
-					string availResForm = machine.location.resources.ContainsKey(res.Key) ? GameData.FormatUnit(machine.location.resources[res.Key], res.Key) : GameData.FormatUnit(0f, res.Key);
-					string inputResForm = GameData.FormatUnit(res.Value, res.Key);
-					//inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
-					inputDisplay += $"\n[cell]{resAbbrev}[/cell][cell]:[/cell][cell][right]{availResForm}[/right][/cell][cell]/[/cell][cell][right]{inputResForm}[/right][/cell]";
-					//availableDisplay += $"\n[code]{availResForm, 8} / {inputResForm, 8}[/code]";
+					if (GameData.RESOURCES.ContainsKey(res.Key))
+					{
+						string resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
+						string availResForm = machine.location.resources.ContainsKey(res.Key) ? GameData.FormatUnit(machine.location.resources[res.Key], res.Key) : GameData.FormatUnit(0f, res.Key);
+						string inputResForm = GameData.FormatUnit(res.Value, res.Key);
+						//inputDisplay += $"\n{resAbbrev}: {availResForm} / {inputResForm}";
+						inputDisplay += $"\n[cell]{resAbbrev}[/cell][cell]:[/cell][cell][right]{availResForm}[/right][/cell][cell]/[/cell][cell][right]{inputResForm}[/right][/cell]";
+						//availableDisplay += $"\n[code]{availResForm, 8} / {inputResForm, 8}[/code]";
+					}
+					else
+					{
+						inputDisplay += $"\nInvalid key ({res.Key})";
+						GD.PrintErr($"MachinePanel: Invalid key - {res.Key}");
+					}
 				}
 				inputDisplay += "\n[/table]";
 			}
@@ -314,11 +329,19 @@ public partial class MachinePanel : Control
 				
 				foreach(var res in outputs)
 				{
-					string resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
-					string outputResForm = GameData.FormatUnit(res.Value * weather, res.Key);
-					//outputDisplay += $"\n{resAbbrev}: {outputResForm}";
-					outputDisplay += $"\n[cell]{resAbbrev, -15}[/cell][cell]:[/cell][cell][right]{outputResForm}[/right][/cell]";
-					//producedDisplay += $"\n[code]{outputResForm, 8}[/code]";
+					if (GameData.RESOURCES.ContainsKey(res.Key))
+					{
+						string resAbbrev = GameData.RESOURCES[res.Key].abbreviation;
+						string outputResForm = GameData.FormatUnit(res.Value * weather, res.Key);
+						//outputDisplay += $"\n{resAbbrev}: {outputResForm}";
+						outputDisplay += $"\n[cell]{resAbbrev, -15}[/cell][cell]:[/cell][cell][right]{outputResForm}[/right][/cell]";
+						//producedDisplay += $"\n[code]{outputResForm, 8}[/code]";
+					}
+					else
+					{
+						outputDisplay += $"\nInvalid key ({res.Key})";
+						GD.PrintErr($"MachinePanel: Invalid key ({res.Key})");
+					}
 				}
 				outputDisplay += "\n[/table]";
 			}

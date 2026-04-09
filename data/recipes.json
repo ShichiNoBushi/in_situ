@@ -233,7 +233,7 @@
 		"local": "",
 		"description": "Craft a coil to generate heat through magnetic induction."
 	},
-	"fr coil": {
+	"rf coil": {
 		"name": "RF Coil",
 		"inputs": {"copper wire": 3, "iron rod": 2, "energy": 2},
 		"outputs": {"rf coil": 5},
@@ -299,7 +299,7 @@
 	"solar cell": {
 		"name": "Solar Cell",
 		"inputs": {"copper wire": 1, "p-doped silicon": 2, "n-doped silicon": 2, "energy": 2},
-		"outputs": {"diode": 5},
+		"outputs": {"solar cell": 5},
 		"available": false,
 		"machines": ["parts assembler"],
 		"local": "",
@@ -334,8 +334,8 @@
 	},
 	"radio transceiver": {
 		"name": "Radio Transceiver",
-		"inputs": {"lc oscilator module": 1, "rf coil": 0.5, "relay": 0.5, "transistor": 0.5, "energy": 2},
-		"outputs": {"lc oscillator module": 2.5},
+		"inputs": {"lc oscillator module": 1, "rf coil": 0.5, "electromagnetic relay": 0.5, "transistor": 0.5, "energy": 2},
+		"outputs": {"radio transceiver": 2.5},
 		"available": false,
 		"machines": ["parts assembler"],
 		"local": "",

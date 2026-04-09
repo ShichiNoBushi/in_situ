@@ -809,7 +809,7 @@
 		},
 		"unlocks": {
 			"quests": ["picking up signals"],
-			"recipes": ["radio transceiver"],
+			"recipes": ["rf coil", "radio transceiver"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
