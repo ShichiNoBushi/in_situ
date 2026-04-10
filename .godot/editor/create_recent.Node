@@ -1,9 +1,10 @@
+ColorRect
+Panel
+Label
 ScrollContainer
 RichTextLabel
-Label
 ItemList
 Button
-Panel
 ProgressBar
 OptionButton
 SpinBox

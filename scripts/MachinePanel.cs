@@ -4,11 +4,20 @@ using System.Collections.Generic;
 
 public partial class MachinePanel : Control
 {
+	private static readonly Color INACTIVE = Colors.Black;
+	private static readonly Color RUNNING = Colors.Green;
+	private static readonly Color WARNING = Colors.Yellow;
+	private static readonly Color BLOCKED = Colors.Orange;
+	private static readonly Color FAILURE = Colors.Red;
+	private static readonly Color ERROR = Colors.Purple;
+	
 	public Machine machine {get; set;}
 	
 	private Label nameLabel;
 	private Button holdButton;
 	private CheckButton activeButton;
+	private ColorRect statusRect;
+	private Label statusLabel;
 	private OptionButton recipeMenu;
 	private RichTextLabel inputLabel;
 	private RichTextLabel outputLabel;
@@ -26,6 +35,8 @@ public partial class MachinePanel : Control
 		nameLabel = GetNode<Label>("Panel/VBoxMain/MachineName");
 		holdButton = GetNode<Button>("Panel/VBoxMain/HBoxContainer/HoldButton");
 		activeButton = GetNode<CheckButton>("Panel/VBoxMain/HBoxContainer/ActiveButton");
+		statusRect = GetNode<ColorRect>("Panel/VBoxMain/HBoxContainer/StatusPanel/StatusRect");
+		statusLabel = GetNode<Label>("Panel/VBoxMain/HBoxContainer/StatusPanel/StatusLabel");
 		recipeMenu = GetNode<OptionButton>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeOption");
 		inputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Inputs");
 		outputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Outputs");
@@ -95,6 +106,48 @@ public partial class MachinePanel : Control
 		{
 			GD.PrintErr($"MachinePanel: Error displaying recipe - {e.Message}");
 		}
+	}
+	
+	private void UpdateStatus()
+	{
+		if (machine == null)
+		{
+			SetStatus("Error - null machine", ERROR);
+		}
+		else if (!GameData.RECIPES.ContainsKey(machine.currentRecipe))
+		{
+			SetStatus("Error - invalid recipe", ERROR);
+		}
+		else if (machine.wear >= machine.maxWear)
+		{
+			SetStatus("Failure - excessive wear", FAILURE);
+		}
+		else if (!GameData.disableStorage && machine.outputBuffer.Count > 0)
+		{
+			SetStatus("Blocked - output jammed", BLOCKED);
+		}
+		else if (machine.active && machine.CanCraft(1.0f) <= 0f)
+		{
+			SetStatus("Blocked - insufficient input", BLOCKED);
+		}
+		else if (machine.active && machine.wear > machine.maxWear / 2)
+		{
+			SetStatus("Warning - high wear", WARNING);
+		}
+		else if (machine.active)
+		{
+			SetStatus("Running", RUNNING);
+		}
+		else
+		{
+			SetStatus("Inactive", INACTIVE);
+		}
+	}
+	
+	private void SetStatus(string text, Color color)
+	{
+		statusLabel.Text = text;
+		statusRect.Color = color;
 	}
 	
 	private void DiagnoseMachine()
@@ -176,6 +229,7 @@ public partial class MachinePanel : Control
 	{
 		DisplayRecipeResources();
 		DisplayMaintenance();
+		UpdateStatus();
 	}
 	
 	public void UpdateRecipeMenu()

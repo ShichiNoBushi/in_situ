@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdi03e7hbg46"]
+[gd_scene format=3 uid="uid://cdi03e7hbg46"]
 
 [ext_resource type="Script" uid="uid://vxikyx7p4hlw" path="res://scripts/MachinePanel.cs" id="1_56xds"]
 
-[node name="MachinePanel" type="Control"]
+[node name="MachinePanel" type="Control" unique_id=685248476]
 custom_minimum_size = Vector2(0, 307)
 layout_mode = 3
 anchors_preset = 0
@@ -10,43 +10,60 @@ offset_right = 562.0
 offset_bottom = 307.0
 script = ExtResource("1_56xds")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=868502323]
 layout_mode = 0
 offset_right = 562.0
 offset_bottom = 307.0
 
-[node name="VBoxMain" type="VBoxContainer" parent="Panel"]
+[node name="VBoxMain" type="VBoxContainer" parent="Panel" unique_id=651810302]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MachineName" type="Label" parent="Panel/VBoxMain"]
+[node name="MachineName" type="Label" parent="Panel/VBoxMain" unique_id=1178144082]
 layout_mode = 2
 text = "Name"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain" unique_id=770193193]
 layout_mode = 2
 
-[node name="HoldButton" type="Button" parent="Panel/VBoxMain/HBoxContainer"]
+[node name="HoldButton" type="Button" parent="Panel/VBoxMain/HBoxContainer" unique_id=960138455]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Hold"
 
-[node name="ActiveButton" type="CheckButton" parent="Panel/VBoxMain/HBoxContainer"]
+[node name="ActiveButton" type="CheckButton" parent="Panel/VBoxMain/HBoxContainer" unique_id=573175913]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Active"
 
-[node name="MachineTab" type="TabContainer" parent="Panel/VBoxMain"]
+[node name="StatusPanel" type="Panel" parent="Panel/VBoxMain/HBoxContainer" unique_id=23873812]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+
+[node name="StatusRect" type="ColorRect" parent="Panel/VBoxMain/HBoxContainer/StatusPanel" unique_id=1394804149]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 0
+offset_right = 350.0
+offset_bottom = 31.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="StatusLabel" type="Label" parent="Panel/VBoxMain/HBoxContainer/StatusPanel" unique_id=261437101]
+layout_mode = 0
+offset_right = 345.0
+offset_bottom = 23.0
+text = "Status"
+
+[node name="MachineTab" type="TabContainer" parent="Panel/VBoxMain" unique_id=730695021]
 custom_minimum_size = Vector2(560, 0)
 layout_mode = 2
 current_tab = 0
 
-[node name="Production" type="Control" parent="Panel/VBoxMain/MachineTab"]
+[node name="Production" type="Control" parent="Panel/VBoxMain/MachineTab" unique_id=1306275231]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="VBoxProduction" type="VBoxContainer" parent="Panel/VBoxMain/MachineTab/Production"]
+[node name="VBoxProduction" type="VBoxContainer" parent="Panel/VBoxMain/MachineTab/Production" unique_id=2054863755]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,25 +72,25 @@ offset_bottom = 214.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RecipeOption" type="OptionButton" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction"]
+[node name="RecipeOption" type="OptionButton" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction" unique_id=759601687]
 layout_mode = 2
 selected = 0
 item_count = 1
 popup/item_0/text = "No Recipes Available"
 popup/item_0/id = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction" unique_id=261912604]
 layout_mode = 2
 alignment = 1
 
-[node name="Inputs" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
+[node name="Inputs" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer" unique_id=756311829]
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 bbcode_enabled = true
 text = "Inputs:
 No Recipe"
 
-[node name="Available" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
+[node name="Available" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer" unique_id=446281915]
 visible = false
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -81,14 +98,14 @@ bbcode_enabled = true
 text = "
 No resources"
 
-[node name="Outputs" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
+[node name="Outputs" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer" unique_id=1660296707]
 custom_minimum_size = Vector2(250, 150)
 layout_mode = 2
 bbcode_enabled = true
 text = "Outputs:
 No Recipe"
 
-[node name="Produced" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer"]
+[node name="Produced" type="RichTextLabel" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer" unique_id=585008974]
 visible = false
 custom_minimum_size = Vector2(100, 150)
 layout_mode = 2
@@ -96,47 +113,47 @@ bbcode_enabled = true
 text = "
 No resources"
 
-[node name="RecipProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction"]
+[node name="RecipProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction" unique_id=258358092]
 custom_minimum_size = Vector2(300, 25)
 layout_mode = 2
 show_percentage = false
 
-[node name="Maintenance" type="Control" parent="Panel/VBoxMain/MachineTab"]
+[node name="Maintenance" type="Control" parent="Panel/VBoxMain/MachineTab" unique_id=937395664]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="VBoxMaintenance" type="VBoxContainer" parent="Panel/VBoxMain/MachineTab/Maintenance"]
+[node name="VBoxMaintenance" type="VBoxContainer" parent="Panel/VBoxMain/MachineTab/Maintenance" unique_id=872486996]
 layout_mode = 0
 offset_left = 3.0
 offset_right = 560.0
 offset_bottom = 214.0
 
-[node name="WearProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance"]
+[node name="WearProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance" unique_id=1627647942]
 layout_mode = 2
 
-[node name="WearScroll" type="ScrollContainer" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance"]
+[node name="WearScroll" type="ScrollContainer" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance" unique_id=692761868]
 custom_minimum_size = Vector2(0, 146)
 layout_mode = 2
 
-[node name="WearLabel" type="Label" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearScroll"]
+[node name="WearLabel" type="Label" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearScroll" unique_id=681238042]
 layout_mode = 2
 text = "Required Materials:"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance" unique_id=1747210813]
 layout_mode = 2
 
-[node name="DiagnosticsButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+[node name="DiagnosticsButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer" unique_id=1926089242]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Diagnostics"
 
-[node name="RepairButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+[node name="RepairButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer" unique_id=1778404663]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Repair"
 
-[node name="DismantleButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer"]
+[node name="DismantleButton" type="Button" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/HBoxContainer" unique_id=1909769378]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 disabled = true
