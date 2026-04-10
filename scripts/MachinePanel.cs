@@ -10,6 +10,8 @@ public partial class MachinePanel : Control
 	private static readonly Color BLOCKED = Colors.Orange;
 	private static readonly Color FAILURE = Colors.Red;
 	private static readonly Color ERROR = Colors.Purple;
+	private static readonly Color LIGHTTEXT = Colors.White;
+	private static readonly Color DARKTEXT = Colors.Black;
 	
 	public Machine machine {get; set;}
 	
@@ -112,42 +114,43 @@ public partial class MachinePanel : Control
 	{
 		if (machine == null)
 		{
-			SetStatus("Error - null machine", ERROR);
+			SetStatus("Error - null machine", ERROR, LIGHTTEXT);
 		}
 		else if (!GameData.RECIPES.ContainsKey(machine.currentRecipe))
 		{
-			SetStatus("Error - invalid recipe", ERROR);
+			SetStatus("Error - invalid recipe", ERROR, LIGHTTEXT);
 		}
 		else if (machine.wear >= machine.maxWear)
 		{
-			SetStatus("Failure - excessive wear", FAILURE);
+			SetStatus("Failure - excessive wear", FAILURE, LIGHTTEXT);
 		}
 		else if (!GameData.disableStorage && machine.outputBuffer.Count > 0)
 		{
-			SetStatus("Blocked - output jammed", BLOCKED);
+			SetStatus("Blocked - output jammed", BLOCKED, DARKTEXT);
 		}
 		else if (machine.active && machine.CanCraft(1.0f) <= 0f)
 		{
-			SetStatus("Blocked - insufficient input", BLOCKED);
+			SetStatus("Blocked - insufficient input", BLOCKED, DARKTEXT);
 		}
 		else if (machine.active && machine.wear > machine.maxWear / 2)
 		{
-			SetStatus("Warning - high wear", WARNING);
+			SetStatus("Warning - high wear", WARNING, DARKTEXT);
 		}
 		else if (machine.active)
 		{
-			SetStatus("Running", RUNNING);
+			SetStatus("Running", RUNNING, DARKTEXT);
 		}
 		else
 		{
-			SetStatus("Inactive", INACTIVE);
+			SetStatus("Inactive", INACTIVE, LIGHTTEXT);
 		}
 	}
 	
-	private void SetStatus(string text, Color color)
+	private void SetStatus(string text, Color colorRect, Color colorText)
 	{
 		statusLabel.Text = text;
-		statusRect.Color = color;
+		statusLabel.AddThemeColorOverride("font_color", colorText);
+		statusRect.Color = colorRect;
 	}
 	
 	private void DiagnoseMachine()
