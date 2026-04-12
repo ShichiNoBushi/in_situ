@@ -3711,6 +3711,211 @@ public class LogisticSave
 	}
 }
 
+public class LogisticsNetwork
+{
+	private HashSet<(int x, int y)> nodeSet;
+	private HashSet<Infrastructure> hubSet;
+	private HashSet<Infrastructure> conveyerSet;
+	public Dictionary<(int x, int y), List<Infrastructure>> hubsByNode {get; set;}
+	public Dictionary<Infrastructure, List<Infrastructure>> adjacency {get; set;}
+	public string phaseServed {get; set;}
+	
+	public LogisticsNetwork()
+	{
+		nodeSet = new();
+		hubSet = new();
+		conveyerSet = new();
+		hubsByNode = new();
+		adjacency = new();
+		phaseServed = "";
+	}
+	
+	public LogisticsNetwork((int x, int y) start, string phase)
+	{
+		nodeSet = new();
+		hubSet = new();
+		conveyerSet = new();
+		hubsByNode = new();
+		adjacency = new();
+		phaseServed = phase;
+		
+		//BuildFromNode(start);
+	}
+	
+	public List<(int x, int y)> Nodes => nodeSet.ToList();
+	public List<Infrastructure> Hubs => hubSet.ToList();
+	public List<Infrastructure> Conveyers => conveyerSet.ToList();
+	
+	public void AddNode((int x, int y) node)
+	{
+		if (!GameData.regionMap.ContainsKey(node))
+		{
+			return;
+		}
+		
+		nodeSet.Add(node);
+		Region reg = GameData.regionMap[node];
+		
+		if (!hubsByNode.ContainsKey(node))
+		{
+			hubsByNode[node] = new();
+		}
+		
+		foreach (var infra in reg.infrastructure)
+		{
+			if (infra.type == "hub" && infra.serves.Contains(phaseServed))
+			{
+				hubSet.Add(infra);
+				
+				if (!hubsByNode[node].Contains(infra))
+				{
+					hubsByNode[node].Add(infra);
+				}
+				
+				if (!adjacency.ContainsKey(infra))
+				{
+					adjacency[infra] = new();
+				}
+				
+				foreach (var infra2 in reg.infrastructure)
+				{
+					if (infra2.type == "conveyer" && !adjacency[infra].Contains(infra2))
+					{
+						adjacency[infra].Add(infra2);
+						
+						if (!adjacency.ContainsKey(infra2))
+						{
+							adjacency[infra2] = new();
+						}
+						
+						adjacency[infra2].Add(infra);
+					}
+				}
+			}
+			else if (infra.type == "conveyer" && infra.serves.Contains(phaseServed))
+			{
+				conveyerSet.Add(infra);
+				
+				if (!adjacency.ContainsKey(infra))
+				{
+					adjacency[infra] = new();
+				}
+				
+				if (infra.link != null)
+				{
+					conveyerSet.Add(infra.link);
+					
+					if (!adjacency.ContainsKey(infra.link))
+					{
+						adjacency[infra.link] = new();
+					}
+					
+					if (!adjacency[infra].Contains(infra.link))
+					{
+						adjacency[infra].Add(infra.link);
+					}
+					
+					if (!adjacency[infra.link].Contains(infra))
+					{
+						adjacency[infra.link].Add(infra);
+					}
+				}
+				
+				foreach (var infra2 in reg.infrastructure)
+				{
+					if ((infra2.type == "hub" || infra2.type == "conveyer") && !adjacency[infra].Contains(infra2))
+					{
+						adjacency[infra].Add(infra2);
+						
+						if (!adjacency.ContainsKey(infra2))
+						{
+							adjacency[infra2] = new();
+						}
+						
+						adjacency[infra2].Add(infra);
+					}
+				}
+			}
+		}
+	}
+	
+	public bool ContainsNode((int x, int y) coord)
+	{
+		return nodeSet.Contains(coord);
+	}
+	
+	public bool ContainsInfrastructure(Infrastructure infra)
+	{
+		return hubSet.Contains(infra) || conveyerSet.Contains(infra);
+	}
+	
+	public bool CanServe(string phase)
+	{
+		return phaseServed == phase;
+	}
+	
+	public bool IsConnectedTo (LogisticsNetwork other)
+	{
+		if (other == null)
+		{
+			return false;
+		}
+		
+		return other.Nodes.Any(ContainsNode) || other.Hubs.Any(ContainsInfrastructure) || other.Conveyers.Any(ContainsInfrastructure);
+	}
+	
+	public List<Infrastructure> FindRoute((int x, int y) start, (int x, int y) end)
+	{
+		return null;
+	}
+	
+	public bool MergeNetworks(LogisticsNetwork other)
+	{
+		if (other == null || !CanServe(other.phaseServed) || !IsConnectedTo(other))
+		{
+			return false;
+		}
+		
+		nodeSet.UnionWith(other.nodeSet);
+		hubSet.UnionWith(other.hubSet);
+		conveyerSet.UnionWith(other.conveyerSet);
+		
+		foreach (var hubs in other.hubsByNode)
+		{
+			if (!hubsByNode.ContainsKey(hubs.Key))
+			{
+				hubsByNode[hubs.Key] = new();
+			}
+			
+			foreach (var hub in hubs.Value)
+			{
+				if (!hubsByNode[hubs.Key].Contains(hub))
+				{
+					hubsByNode[hubs.Key].Add(hub);
+				}
+			}
+		}
+		
+		foreach (var adj in other.adjacency)
+		{
+			if (!adjacency.ContainsKey(adj.Key))
+			{
+				adjacency[adj.Key] = new();
+			}
+			
+			foreach (var neighbor in adj.Value)
+			{
+				if (!adjacency[adj.Key].Contains(neighbor))
+				{
+					adjacency[adj.Key].Add(neighbor);
+				}
+			}
+		}
+		
+		return true;
+	}
+}
+
 //Android character to represent the player
 public class Android
 {
