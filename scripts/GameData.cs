@@ -780,6 +780,11 @@ public partial class GameData : Node
 			//Reference quest's name and requirements.
 			string text = trackedQuest.name;
 			
+			if (IsQuestFulfilled(trackedQuest))
+			{
+				text += "\n\nCOMPLETED!";
+			}
+			
 			QuestRequirement requirements = trackedQuest.requirement;
 			
 			try
