@@ -3746,6 +3746,49 @@ public class LogisticsNetwork
 	public List<Infrastructure> Hubs => hubSet.ToList();
 	public List<Infrastructure> Conveyers => conveyerSet.ToList();
 	
+	public void BuildFromNode((int x, int y) start)
+	{
+		if (!GameData.regionMap.ContainsKey(start))
+		{
+			return;
+		}
+		
+		Queue<(int x, int y)> frontier = new();
+		HashSet<(int x, int y)> visited = new();
+		frontier.Enqueue(start);
+		
+		while (frontier.Count > 0)
+		{
+			(int x, int y) node = frontier.Dequeue();
+			
+			if (!visited.Add(node))
+			{
+				continue;
+			}
+			
+			AddNode(node);
+			Region reg = GameData.regionMap[node];
+			
+			foreach (var infra in reg.infrastructure)
+			{
+				if (infra.type != "conveyer" || !IsNetworkCompatible(infra))
+				{
+					continue;
+				}
+				
+				if (infra.link != null)
+				{
+					(int x, int y) target = (infra.link.location.coordX, infra.link.location.coordY);
+					
+					if (!visited.Contains(target))
+					{
+						frontier.Enqueue(target);
+					}
+				}
+			}
+		}
+	}
+	
 	public void AddNode((int x, int y) node)
 	{
 		if (!GameData.regionMap.ContainsKey(node))
@@ -3763,80 +3806,101 @@ public class LogisticsNetwork
 		
 		foreach (var infra in reg.infrastructure)
 		{
-			if (infra.type == "hub" && infra.serves.Contains(phaseServed))
+			if (!IsNetworkCompatible(infra))
 			{
-				hubSet.Add(infra);
-				
-				if (!hubsByNode[node].Contains(infra))
-				{
-					hubsByNode[node].Add(infra);
-				}
-				
-				if (!adjacency.ContainsKey(infra))
-				{
-					adjacency[infra] = new();
-				}
-				
+				continue;
+			}
+			
+			RegisterInfrastructure(infra);
+			
+			if (infra.type == "hub")
+			{
 				foreach (var infra2 in reg.infrastructure)
 				{
-					if (infra2.type == "conveyer" && !adjacency[infra].Contains(infra2))
+					if (infra2.type == "conveyer" && IsNetworkCompatible(infra2))
 					{
-						adjacency[infra].Add(infra2);
-						
-						if (!adjacency.ContainsKey(infra2))
-						{
-							adjacency[infra2] = new();
-						}
-						
-						adjacency[infra2].Add(infra);
+						RegisterInfrastructure(infra2);
+						AddEdge(infra, infra2);
 					}
 				}
 			}
-			else if (infra.type == "conveyer" && infra.serves.Contains(phaseServed))
+			else if (infra.type == "conveyer")
 			{
-				conveyerSet.Add(infra);
-				
-				if (!adjacency.ContainsKey(infra))
-				{
-					adjacency[infra] = new();
-				}
-				
 				if (infra.link != null)
 				{
-					conveyerSet.Add(infra.link);
-					
-					if (!adjacency.ContainsKey(infra.link))
-					{
-						adjacency[infra.link] = new();
-					}
-					
-					if (!adjacency[infra].Contains(infra.link))
-					{
-						adjacency[infra].Add(infra.link);
-					}
-					
-					if (!adjacency[infra.link].Contains(infra))
-					{
-						adjacency[infra.link].Add(infra);
-					}
+					RegisterInfrastructure(infra.link);
+					AddEdge(infra, infra.link);
 				}
 				
 				foreach (var infra2 in reg.infrastructure)
 				{
-					if ((infra2.type == "hub" || infra2.type == "conveyer") && !adjacency[infra].Contains(infra2))
+					if ((infra2.type == "hub" || infra2.type == "conveyer") && IsNetworkCompatible(infra2))
 					{
-						adjacency[infra].Add(infra2);
-						
-						if (!adjacency.ContainsKey(infra2))
-						{
-							adjacency[infra2] = new();
-						}
-						
-						adjacency[infra2].Add(infra);
+						RegisterInfrastructure(infra2);
+						AddEdge(infra, infra2);
 					}
 				}
 			}
 		}
+	}
+	
+	public void RegisterInfrastructure(Infrastructure infra)
+	{
+		if (infra == null)
+		{
+			return;
+		}
+		
+		if (infra.type == "hub")
+		{
+			hubSet.Add(infra);
+			
+			(int x, int y) coord = (infra.location.coordX, infra.location.coordY);
+			
+			if (!hubsByNode.ContainsKey(coord))
+			{
+				hubsByNode[coord] = new();
+			}
+			
+			if (!hubsByNode[coord].Contains(infra))
+			{
+				hubsByNode[coord].Add(infra);
+			}
+		}
+		else if (infra.type == "conveyer")
+		{
+			conveyerSet.Add(infra);
+		}
+		
+		if (!adjacency.ContainsKey(infra))
+		{
+			adjacency[infra] = new();
+		}
+	}
+	
+	public void AddEdge(Infrastructure a, Infrastructure b)
+	{
+		if (a == null || b == null || ReferenceEquals(a, b))
+		{
+			return;
+		}
+		
+		RegisterInfrastructure(a);
+		RegisterInfrastructure(b);
+		
+		if (!adjacency[a].Contains(b))
+		{
+			adjacency[a].Add(b);
+		}
+		if (!adjacency[b].Contains(a))
+		{
+			adjacency[b].Add(a);
+		}
+	}
+	
+	public bool IsNetworkCompatible(Infrastructure infra)
+	{
+		return infra != null && (infra.type == "hub" || infra.type == "conveyer") && infra.serves.Contains(phaseServed);
 	}
 	
 	public bool ContainsNode((int x, int y) coord)
