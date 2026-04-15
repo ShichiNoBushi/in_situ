@@ -3739,7 +3739,7 @@ public class LogisticsNetwork
 		adjacency = new();
 		phaseServed = phase;
 		
-		//BuildFromNode(start);
+		BuildFromNode(start);
 	}
 	
 	public List<(int x, int y)> Nodes => nodeSet.ToList();
@@ -3928,9 +3928,45 @@ public class LogisticsNetwork
 		return other.Nodes.Any(ContainsNode) || other.Hubs.Any(ContainsInfrastructure) || other.Conveyers.Any(ContainsInfrastructure);
 	}
 	
-	public List<Infrastructure> FindRoute((int x, int y) start, (int x, int y) end)
+	public List<Infrastructure> FindRoute(Infrastructure current, (int x, int y) end, HashSet<Infrastructure> visited)
 	{
-		return null;
+		if (nodeSet.Count == 0 || !(hubSet.Contains(current) || conveyerSet.Contains(current)) || visited.Contains(current))
+		{
+			return null;
+		}
+		
+		visited.Add(current);
+		
+		if (current.type == "conveyer" && current.link != null && (current.link.location.coordX, current.link.location.coordY) == end)
+		{
+			List<Infrastructure> path = new();
+			path.Add(current);
+			return path;
+		}
+		
+		List<Infrastructure> bestPath = null;
+		
+		foreach (var infra in adjacency[current])
+		{
+			if (infra.type == "conveyer" && !ReferenceEquals(infra, current.link))
+			{
+				List<Infrastructure> candidate = FindRoute(infra, end, new HashSet<Infrastructure>(visited));
+				
+				if (candidate != null)
+				{
+					List<Infrastructure> path = new();
+					path.Add(current);
+					path.AddRange(candidate);
+					
+					if (bestPath == null || path.Count < bestPath.Count)
+					{
+						bestPath = path;
+					}
+				}
+			}
+		}
+		
+		return bestPath;
 	}
 	
 	public bool MergeNetworks(LogisticsNetwork other)
