@@ -40,6 +40,8 @@ public partial class GameData : Node
 	//Region map referenced by keys of 2D tuples as coordinates.
 	public static Dictionary<(int x, int y), Region> regionMap = new();
 	
+	public static Dictionary<string, List<LogisticsNetwork>> networks = new();
+	
 	public static Dictionary<int, Trader> traders = new();
 	//public static List<Trader> landedTraders = new();
 	
@@ -1886,6 +1888,7 @@ public class Region
 	public List<Machine> machines;
 	public List<Infrastructure> infrastructure;
 	public List<string> nodes;
+	public Dictionary<string, LogisticsNetwork> localNetworks;
 	public List<Trader> landedTraders;
 	
 	public RegionSave lastSave {get; private set;}
@@ -1917,6 +1920,7 @@ public class Region
 		machines = new();
 		infrastructure = new();
 		nodes = new();
+		localNetworks = new();
 		landedTraders = new();
 		
 		//Create local resource deposits randomly determined by what's typically available in the region.
@@ -1989,6 +1993,8 @@ public class Region
 		
 		nodes = new(save.nodes);
 		
+		localNetworks = new();
+		
 		landedTraders = new();
 		foreach (var trad in save.landedTraders)
 		{
@@ -2042,6 +2048,32 @@ public class Region
 					maxStorage[phase] = (maxStorage[phase].amount + infra.through, maxStorage[phase].unit);
 				}
 			}
+		}
+	}
+	
+	public void AddNetwork(LogisticsNetwork network)
+	{
+		string phase = network.phaseServed;
+		
+		if (!localNetworks.ContainsKey(phase))
+		{
+			localNetworks[phase] = network;
+			return;
+		}
+		
+		if (localNetworks[phase].IsConnectedTo(network))
+		{
+			localNetworks[phase].MergeNetworks(network);
+		}
+	}
+	
+	public void RemoveNetwork(LogisticsNetwork network)
+	{
+		string phase = network.phaseServed;
+		
+		if (localNetworks.ContainsKey(phase) && ReferenceEquals(localNetworks[phase], network))
+		{
+			localNetworks.Remove(phase);
 		}
 	}
 	
@@ -2953,6 +2985,7 @@ public class Infrastructure : Buildable
 	public float through {get; private set;}
 	public float energyCost {get; private set;}
 	public Infrastructure link {get; private set;}
+	public Dictionary<string, LogisticsNetwork> localNetworks {get; private set;}
 	public Region target {get; private set;}
 	public List<LogisticOrder> input {get; private set;}
 	public List<LogisticOrder> output {get; private set;}
@@ -2968,12 +3001,41 @@ public class Infrastructure : Buildable
 		through = data.through;
 		energyCost = data.energyCost;
 		link = null;
+		localNetworks = new();
 		target = null;
 		input = new();
 		output = new();
 		lastServed = -1;
 		
 		lastSave = null;
+		
+		if (type == "hub" || type == "conveyer")
+		{
+			foreach (var phase in serves)
+			{
+				if (location.localNetworks.ContainsKey(phase))
+				{
+					AddNetwork(location.localNetworks[phase]);
+					localNetworks[phase].RegisterInfrastructure(this);
+				}
+				else
+				{
+					(int x, int y) coord = (location.coordX, location.coordY);
+					LogisticsNetwork network = new(coord, phase);
+					AddNetwork(network);
+					location.AddNetwork(network);
+					
+					if (!GameData.networks.ContainsKey(phase))
+					{
+						GameData.networks[phase] = new();
+					}
+					
+					GameData.networks[phase].Add(network);
+					
+					network.RegisterInfrastructure(this);
+				}
+			}
+		}
 	}
 	
 	public Infrastructure(InfrastructureSave save) : base(save.id, GameData.regionMap[(save.coordX, save.coordY)])
@@ -2998,6 +3060,7 @@ public class Infrastructure : Buildable
 		energyCost = data.energyCost;
 		
 		link = null;
+		localNetworks = new();
 		target = null;
 		
 		input = new();
@@ -3111,13 +3174,39 @@ public class Infrastructure : Buildable
 			LogisticOrder ord = null;
 			
 			int serveIndex = 0;
+			
 			while (serveIndex < output.Count)
 			{
 				ord = output[serveIndex];
+				
 				if (ord == null)
 				{
 					output.RemoveAt(0);
 					continue;
+				}
+				
+				if (ord.hasDestination && location.localNetworks.ContainsKey(ord.phase) && ord.destinationCoord == (location.coordX, location.coordY))
+				{
+					con = this;
+					
+					conveyerIndex = conveyerIndex == 0 ? conveyers.Count - 1 : conveyerIndex - 1;
+				}
+				else if (ord.hasDestination && location.localNetworks.ContainsKey(ord.phase))
+				{
+					LogisticsNetwork network = location.localNetworks[ord.phase];
+					
+					List<Infrastructure> path = network.FindRoute(this, ord.destinationCoord, new HashSet<Infrastructure>());
+					
+					int idx = 0;
+					
+					while (!ReferenceEquals(this, path[idx]))
+					{
+						idx++;
+					}
+					
+					con = path[idx];
+					
+					conveyerIndex = conveyerIndex == 0 ? conveyers.Count - 1 : conveyerIndex - 1;
 				}
 				
 				if (con.CanServe(ord))
@@ -3308,6 +3397,34 @@ public class Infrastructure : Buildable
 					continue;
 				}
 				
+				if (ord.hasDestination && location.localNetworks.ContainsKey(ord.phase) && ord.destinationCoord == (location.coordX, location.coordY))
+				{
+					LogisticsNetwork network = location.localNetworks[ord.phase];
+					
+					List<Infrastructure> hubs = network.hubsByNode[ord.destinationCoord];
+					
+					infra = hubs[0];
+					
+					infraIndex = infraIndex == 0 ? convAndHubs.Count - 1 : infraIndex - 1;
+				}
+				else if (ord.hasDestination && location.localNetworks.ContainsKey(ord.phase))
+				{
+					LogisticsNetwork network = location.localNetworks[ord.phase];
+					
+					List<Infrastructure> path = network.FindRoute(this, ord.destinationCoord, new HashSet<Infrastructure>());
+					
+					int idx = 0;
+					
+					while (!ReferenceEquals(this, path[idx]))
+					{
+						idx++;
+					}
+					
+					infra = path[idx];
+					
+					infraIndex = infraIndex == 0 ? convAndHubs.Count - 1 : infraIndex - 1;
+				}
+				
 				if (infra.CanServe(ord))
 				{
 					break;
@@ -3458,6 +3575,32 @@ public class Infrastructure : Buildable
 				output[i].Merge(output[i + 1]);
 				output.RemoveAt(i + 1);
 			}
+		}
+	}
+	
+	public void AddNetwork(LogisticsNetwork network)
+	{
+		string phase = network.phaseServed;
+		
+		if (!localNetworks.ContainsKey(phase))
+		{
+			localNetworks[phase] = network;
+			return;
+		}
+		
+		if (localNetworks[phase].IsConnectedTo(network))
+		{
+			localNetworks[phase].MergeNetworks(network);
+		}
+	}
+	
+	public void RemoveNetwork(LogisticsNetwork network)
+	{
+		string phase = network.phaseServed;
+		
+		if (localNetworks.ContainsKey(phase) && ReferenceEquals(localNetworks[phase], network))
+		{
+			localNetworks.Remove(phase);
 		}
 	}
 	
