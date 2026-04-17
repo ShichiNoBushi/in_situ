@@ -2061,6 +2061,11 @@ public class Region
 			return;
 		}
 		
+		if (ReferenceEquals(localNetworks[phase], network))
+		{
+			return;
+		}
+		
 		if (localNetworks[phase].IsConnectedTo(network))
 		{
 			localNetworks[phase].MergeNetworks(network);
@@ -3483,6 +3488,8 @@ public class Infrastructure : Buildable
 	{
 		link = lnk;
 		target = link.location;
+		
+		LinkNetworks();
 	}
 	
 	private bool AttemptRelink()
@@ -3500,6 +3507,8 @@ public class Infrastructure : Buildable
 					break;
 				}
 			}
+			
+			LinkNetworks();
 			return found;
 		}
 		else
@@ -3528,6 +3537,46 @@ public class Infrastructure : Buildable
 						link = infra;
 						break;
 					}
+				}
+			}
+			
+			LinkNetworks();
+		}
+	}
+	
+	public void LinkNetworks()
+	{
+		foreach (var phase in serves)
+		{
+			bool localHasNetwork = localNetworks.ContainsKey(phase) && localNetworks != null;
+			bool linkHasNetwork = link.localNetworks.ContainsKey(phase) && link.localNetworks != null;
+			
+			if (!localHasNetwork && !linkHasNetwork)
+			{
+				//create network locally and assign it to local and link
+				LogisticsNetwork network = new((location.coordX, location.coordY), phase);
+				network.RegisterInfrastructure(this);
+				network.RegisterInfrastructure(link);
+				network.AddEdge(this, link);
+			}
+			else if (localHasNetwork && !linkHasNetwork)
+			{
+				//assign local network to link
+				localNetworks[phase].RegisterInfrastructure(link);
+				localNetworks[phase].AddEdge(this, link);
+			}
+			else if (!localHasNetwork && linkHasNetwork)
+			{
+				//assign link's network to local
+				localNetworks[phase].RegisterInfrastructure(this);
+				localNetworks[phase].AddEdge(this, link);
+			}
+			else if (localHasNetwork && linkHasNetwork)
+			{
+				//if the networks are different, merge the two together
+				if (!ReferenceEquals(localNetworks[phase], link.localNetworks[phase]))
+				{
+					localNetworks[phase].MergeNetworks(link.localNetworks[phase]);
 				}
 			}
 		}
@@ -3585,6 +3634,11 @@ public class Infrastructure : Buildable
 		if (!localNetworks.ContainsKey(phase))
 		{
 			localNetworks[phase] = network;
+			return;
+		}
+		
+		if (ReferenceEquals(localNetworks[phase], network))
+		{
 			return;
 		}
 		
@@ -3942,6 +3996,8 @@ public class LogisticsNetwork
 		nodeSet.Add(node);
 		Region reg = GameData.regionMap[node];
 		
+		reg.AddNetwork(this);
+		
 		if (!hubsByNode.ContainsKey(node))
 		{
 			hubsByNode[node] = new();
@@ -3993,6 +4049,8 @@ public class LogisticsNetwork
 		{
 			return;
 		}
+		
+		infra.AddNetwork(this);
 		
 		if (infra.type == "hub")
 		{
@@ -4153,6 +4211,11 @@ public class LogisticsNetwork
 					adjacency[adj.Key].Add(neighbor);
 				}
 			}
+		}
+		
+		foreach (var node in other.nodeSet)
+		{
+			AddNode(node);
 		}
 		
 		return true;
