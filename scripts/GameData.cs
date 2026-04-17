@@ -2072,12 +2072,24 @@ public class Region
 		}
 	}
 	
+	public void ReplaceNetwork(LogisticsNetwork network)
+	{
+		string phase = network.phaseServed;
+		
+		if (localNetworks.ContainsKey(phase) && !ReferenceEquals(localNetworks[phase], network))
+		{
+			//localNetworks[phase].UnregisterNode((coordX, coordY));
+			localNetworks[phase] = network;
+		}
+	}
+	
 	public void RemoveNetwork(LogisticsNetwork network)
 	{
 		string phase = network.phaseServed;
 		
 		if (localNetworks.ContainsKey(phase) && ReferenceEquals(localNetworks[phase], network))
 		{
+			//localNetworks[phase].UnregisterNode((coordX, coordY));
 			localNetworks.Remove(phase);
 		}
 	}
@@ -3648,12 +3660,24 @@ public class Infrastructure : Buildable
 		}
 	}
 	
+	public void ReplaceNetwork(LogisticsNetwork network)
+	{
+		string phase = network.phaseServed;
+		
+		if (localNetworks.ContainsKey(phase) && !ReferenceEquals(localNetworks[phase], network))
+		{
+			//localNetworks[phase].UnregisterInfrastructure(this);
+			localNetworks[phase] = network;
+		}
+	}
+	
 	public void RemoveNetwork(LogisticsNetwork network)
 	{
 		string phase = network.phaseServed;
 		
 		if (localNetworks.ContainsKey(phase) && ReferenceEquals(localNetworks[phase], network))
 		{
+			//network.UnregisterInfrastructure(this);
 			localNetworks.Remove(phase);
 		}
 	}
@@ -4099,6 +4123,16 @@ public class LogisticsNetwork
 		}
 	}
 	
+	public void UnregisterNode((int x, int y) node)
+	{
+		
+	}
+	
+	public void UnregisterInfrastructure(Infrastructure infra)
+	{
+		
+	}
+	
 	public bool IsNetworkCompatible(Infrastructure infra)
 	{
 		return infra != null && (infra.type == "hub" || infra.type == "conveyer") && infra.serves.Contains(phaseServed);
@@ -4181,7 +4215,7 @@ public class LogisticsNetwork
 		hubSet.UnionWith(other.hubSet);
 		conveyerSet.UnionWith(other.conveyerSet);
 		
-		foreach (var hubs in other.hubsByNode)
+		/*foreach (var hubs in other.hubsByNode)
 		{
 			if (!hubsByNode.ContainsKey(hubs.Key))
 			{
@@ -4195,9 +4229,30 @@ public class LogisticsNetwork
 					hubsByNode[hubs.Key].Add(hub);
 				}
 			}
+		}*/
+		
+		foreach (var node in other.Nodes)
+		{
+			if (GameData.regionMap.ContainsKey(node))
+			{
+				GameData.regionMap[node].ReplaceNetwork(this);
+			}
 		}
 		
-		foreach (var adj in other.adjacency)
+		foreach (var hub in other.Hubs)
+		{
+			hub.ReplaceNetwork(this);
+		}
+		
+		foreach (var conv in other.Conveyers)
+		{
+			conv.ReplaceNetwork(this);
+		}
+		
+		RebuildAdjacency();
+		RebuildHubsByNode();
+		
+		/*foreach (var adj in other.adjacency)
 		{
 			if (!adjacency.ContainsKey(adj.Key))
 			{
@@ -4211,14 +4266,180 @@ public class LogisticsNetwork
 					adjacency[adj.Key].Add(neighbor);
 				}
 			}
-		}
+		}*/
 		
 		foreach (var node in other.nodeSet)
 		{
 			AddNode(node);
 		}
 		
+		other.ValidateAndPrune();
+		
 		return true;
+	}
+	
+	public void ValidateAndPrune()
+	{
+		List<Infrastructure> hubsToRemove = new();
+		List<Infrastructure> convsToRemove = new();
+		List<(int x, int y)> nodesToRemove = new();
+		
+		foreach (var hub in hubSet)
+		{
+			if (hub == null || !hub.localNetworks.ContainsKey(phaseServed) || !ReferenceEquals(hub.localNetworks[phaseServed], this))
+			{
+				hubsToRemove.Add(hub);
+			}
+		}
+		
+		foreach (var hub in hubsToRemove)
+		{
+			hubSet.Remove(hub);
+		}
+		
+		foreach (var conv in conveyerSet)
+		{
+			if (conv == null || !conv.localNetworks.ContainsKey(phaseServed) || !ReferenceEquals(conv.localNetworks[phaseServed], this))
+			{
+				convsToRemove.Add(conv);
+			}
+		}
+		
+		foreach (var conv in convsToRemove)
+		{
+			conveyerSet.Remove(conv);
+		}
+		
+		foreach (var node in nodeSet)
+		{
+			Region reg = GameData.regionMap.ContainsKey(node) ? GameData.regionMap[node] : null;
+			
+			if (reg == null || !reg.localNetworks.ContainsKey(phaseServed) || !ReferenceEquals(reg.localNetworks[phaseServed], this))
+			{
+				nodesToRemove.Add(node);
+				continue;
+			}
+			
+			//check if all compatible infrastructure references this network
+		}
+		
+		foreach (var node in nodesToRemove)
+		{
+			nodeSet.Remove(node);
+		}
+		
+		if (nodeSet.Count == 0 && hubSet.Count == 0 && conveyerSet.Count == 0)
+		{
+			Unregister();
+		}
+		else
+		{
+			RebuildAdjacency();
+			RebuildHubsByNode();
+		}
+	}
+	
+	public void RebuildAdjacency()
+	{
+		adjacency.Clear();
+		
+		foreach (var hub in hubSet)
+		{
+			if (!adjacency.ContainsKey(hub))
+			{
+				adjacency[hub] = new();
+			}
+			
+			foreach (var infra2 in hub.location.infrastructure)
+			{
+				if (!adjacency.ContainsKey(infra2))
+				{
+					adjacency[infra2] = new();
+				}
+				
+				if (infra2.type == "conveyer")
+				{
+					//AddEdge(hub, infra2);
+					if (!adjacency[hub].Contains(infra2))
+					{
+						adjacency[hub].Add(infra2);
+					}
+					if (!adjacency[infra2].Contains(hub))
+					{
+						adjacency[infra2].Add(hub);
+					}
+				}
+			}
+		}
+		
+		foreach (var conv in conveyerSet)
+		{
+			if (!adjacency.ContainsKey(conv))
+			{
+				adjacency[conv] = new();
+			}
+			
+			if (conv.link != null && !adjacency.ContainsKey(conv.link))
+			{
+				adjacency[conv.link] = new();
+			}
+			
+			if (conv.link != null)
+			{
+				//AddEdge(conv, conv.link);
+				if (!adjacency[conv].Contains(conv.link))
+				{
+					adjacency[conv].Add(conv.link);
+				}
+				if (!adjacency[conv.link].Contains(conv))
+				{
+					adjacency[conv.link].Add(conv);
+				}
+			}
+			
+			foreach (var infra2 in conv.location.infrastructure)
+			{
+				if (infra2.type == "hub" || infra2.type == "conveyer")
+				{
+					if (!adjacency.ContainsKey(infra2))
+					{
+						adjacency[infra2] = new();
+					}
+					
+					//AddEdge(conv, infra2);
+					if (!adjacency[conv].Contains(infra2))
+					{
+						adjacency[conv].Add(infra2);
+					}
+					if (!adjacency[infra2].Contains(conv))
+					{
+						adjacency[infra2].Add(conv);
+					}
+				}
+			}
+		}
+	}
+	
+	public void RebuildHubsByNode()
+	{
+		hubsByNode.Clear();
+		
+		foreach (var hub in hubSet)
+		{
+			(int x, int y) coord = (hub.location.coordX, hub.location.coordY);
+			
+			if (!hubsByNode.ContainsKey(coord))
+			{
+				hubsByNode[coord] = new();
+			}
+			
+			hubsByNode[coord].Add(hub);
+		}
+	}
+	
+	private void Unregister()
+	{
+		GameData.networks[phaseServed].Remove(this);
 	}
 }
 
