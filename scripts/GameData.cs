@@ -2555,7 +2555,7 @@ public class Buildable
 		}
 	}
 	
-	public void Dismantle()
+	public virtual void Dismantle()
 	{
 		if (!(GameData.MACHINES.ContainsKey(id) || GameData.INFRASTRUCTURE.ContainsKey(id)))
 		{
@@ -2891,6 +2891,13 @@ public class Machine : Buildable
 			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
 		}
+	}
+	
+	public override void Dismantle()
+	{
+		base.Dismantle();
+		
+		location.machines.Remove(this);
 	}
 	
 	public float CanCraft(double delta)
@@ -3496,12 +3503,37 @@ public class Infrastructure : Buildable
 		}
 	}
 	
+	public override void Dismantle()
+	{
+		base.Dismantle();
+		
+		DumpBuffers();
+		
+		if (type == "conveyer" && link != null)
+		{
+			link.SetLink(null);
+			link.Dismantle();
+		}
+		
+		foreach (var phase in serves)
+		{
+			localNetworks[phase].UnregisterInfrastructure(this);
+			localNetworks[phase].ValidateAndPrune();
+		}
+		
+		location.infrastructure.Remove(this);
+	}
+	
 	public void SetLink(Infrastructure lnk)
 	{
 		link = lnk;
-		target = link.location;
 		
-		LinkNetworks();
+		if (lnk != null)
+		{
+			target = link.location;
+			
+			LinkNetworks();
+		}
 	}
 	
 	private bool AttemptRelink()
@@ -3560,26 +3592,41 @@ public class Infrastructure : Buildable
 	{
 		foreach (var phase in serves)
 		{
-			bool localHasNetwork = localNetworks.ContainsKey(phase) && localNetworks != null;
-			bool linkHasNetwork = link.localNetworks.ContainsKey(phase) && link.localNetworks != null;
+			bool localHasNetwork = localNetworks.ContainsKey(phase) && localNetworks[phase] != null;
+			bool linkHasNetwork = link.localNetworks.ContainsKey(phase) && link.localNetworks[phase] != null;
 			
 			if (!localHasNetwork && !linkHasNetwork)
 			{
 				//create network locally and assign it to local and link
 				LogisticsNetwork network = new((location.coordX, location.coordY), phase);
+				
+				if (!GameData.networks.ContainsKey(phase))
+				{
+					GameData.networks[phase] = new();
+				}
+				
+				GameData.networks[phase].Add(network);
+				AddNetwork(network);
+				location.AddNetwork(network);
 				network.RegisterInfrastructure(this);
+				link.AddNetwork(network);
+				link.location.AddNetwork(network);
 				network.RegisterInfrastructure(link);
 				network.AddEdge(this, link);
 			}
 			else if (localHasNetwork && !linkHasNetwork)
 			{
 				//assign local network to link
+				link.AddNetwork(localNetworks[phase]);
+				link.location.AddNetwork(localNetworks[phase]);
 				localNetworks[phase].RegisterInfrastructure(link);
 				localNetworks[phase].AddEdge(this, link);
 			}
 			else if (!localHasNetwork && linkHasNetwork)
 			{
 				//assign link's network to local
+				AddNetwork(link.localNetworks[phase]);
+				location.AddNetwork(link.localNetworks[phase]);
 				localNetworks[phase].RegisterInfrastructure(this);
 				localNetworks[phase].AddEdge(this, link);
 			}
@@ -4125,12 +4172,63 @@ public class LogisticsNetwork
 	
 	public void UnregisterNode((int x, int y) node)
 	{
+		Region reg = GameData.regionMap.ContainsKey(node) ? GameData.regionMap[node] : null;
 		
+		if (reg == null || !nodeSet.Contains(node))
+		{
+			return;
+		}
+		
+		foreach (var infra in reg.infrastructure)
+		{
+			if (IsNetworkCompatible(infra) && (hubSet.Contains(infra) || conveyerSet.Contains(infra)))
+			{
+				UnregisterInfrastructure(infra);
+			}
+		}
+		
+		reg.RemoveNetwork(this);
+		nodeSet.Remove(node);
+		
+		ValidateAndPrune();
 	}
 	
 	public void UnregisterInfrastructure(Infrastructure infra)
 	{
+		if (!IsNetworkCompatible(infra) || !(hubSet.Contains(infra) || conveyerSet.Contains(infra)))
+		{
+			return;
+		}
 		
+		infra.RemoveNetwork(this);
+		
+		if (hubSet.Contains(infra))
+		{
+			hubSet.Remove(infra);
+			
+			hubsByNode[(infra.location.coordX, infra.location.coordY)].Remove(infra);
+		}
+		else if (conveyerSet.Contains(infra))
+		{
+			conveyerSet.Remove(infra);
+		}
+		
+		bool remainingInfra = false;
+		
+		foreach (var infra2 in infra.location.infrastructure)
+		{
+			if (!ReferenceEquals(infra, infra2) && IsNetworkCompatible(infra2) && (hubSet.Contains(infra2) || conveyerSet.Contains(infra2)))
+			{
+				remainingInfra = true;
+				break;
+			}
+		}
+		
+		if (!remainingInfra)
+		{
+			nodeSet.Remove((infra.location.coordX, infra.location.coordY));
+			ValidateAndPrune();
+		}
 	}
 	
 	public bool IsNetworkCompatible(Infrastructure infra)
@@ -4215,22 +4313,6 @@ public class LogisticsNetwork
 		hubSet.UnionWith(other.hubSet);
 		conveyerSet.UnionWith(other.conveyerSet);
 		
-		/*foreach (var hubs in other.hubsByNode)
-		{
-			if (!hubsByNode.ContainsKey(hubs.Key))
-			{
-				hubsByNode[hubs.Key] = new();
-			}
-			
-			foreach (var hub in hubs.Value)
-			{
-				if (!hubsByNode[hubs.Key].Contains(hub))
-				{
-					hubsByNode[hubs.Key].Add(hub);
-				}
-			}
-		}*/
-		
 		foreach (var node in other.Nodes)
 		{
 			if (GameData.regionMap.ContainsKey(node))
@@ -4251,22 +4333,6 @@ public class LogisticsNetwork
 		
 		RebuildAdjacency();
 		RebuildHubsByNode();
-		
-		/*foreach (var adj in other.adjacency)
-		{
-			if (!adjacency.ContainsKey(adj.Key))
-			{
-				adjacency[adj.Key] = new();
-			}
-			
-			foreach (var neighbor in adj.Value)
-			{
-				if (!adjacency[adj.Key].Contains(neighbor))
-				{
-					adjacency[adj.Key].Add(neighbor);
-				}
-			}
-		}*/
 		
 		foreach (var node in other.nodeSet)
 		{
@@ -4352,6 +4418,11 @@ public class LogisticsNetwork
 			
 			foreach (var infra2 in hub.location.infrastructure)
 			{
+				if (!IsNetworkCompatible(infra2) && infra2.localNetworks[phaseServed] != this)
+				{
+					continue;
+				}
+				
 				if (!adjacency.ContainsKey(infra2))
 				{
 					adjacency[infra2] = new();
@@ -4399,6 +4470,11 @@ public class LogisticsNetwork
 			
 			foreach (var infra2 in conv.location.infrastructure)
 			{
+				if (!IsNetworkCompatible(infra2) && infra2.localNetworks[phaseServed] != this)
+				{
+					continue;
+				}
+				
 				if (infra2.type == "hub" || infra2.type == "conveyer")
 				{
 					if (!adjacency.ContainsKey(infra2))
@@ -4426,6 +4502,11 @@ public class LogisticsNetwork
 		
 		foreach (var hub in hubSet)
 		{
+			if (!IsNetworkCompatible(hub))
+			{
+				continue;
+			}
+			
 			(int x, int y) coord = (hub.location.coordX, hub.location.coordY);
 			
 			if (!hubsByNode.ContainsKey(coord))
