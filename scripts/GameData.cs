@@ -3627,8 +3627,8 @@ public class Infrastructure : Buildable
 				//assign link's network to local
 				AddNetwork(link.localNetworks[phase]);
 				location.AddNetwork(link.localNetworks[phase]);
-				localNetworks[phase].RegisterInfrastructure(this);
-				localNetworks[phase].AddEdge(this, link);
+				link.localNetworks[phase].RegisterInfrastructure(this);
+				link.localNetworks[phase].AddEdge(this, link);
 			}
 			else if (localHasNetwork && linkHasNetwork)
 			{
