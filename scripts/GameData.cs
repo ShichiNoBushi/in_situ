@@ -3219,7 +3219,7 @@ public class Infrastructure : Buildable
 				{
 					LogisticsNetwork network = location.localNetworks[ord.phase];
 					
-					List<Infrastructure> path = network.FindRoute(this, ord.destinationCoord, new HashSet<Infrastructure>());
+					/*List<Infrastructure> path = network.FindRoute(this, ord.destinationCoord, new HashSet<Infrastructure>());
 					
 					int idx = 0;
 					
@@ -3228,9 +3228,16 @@ public class Infrastructure : Buildable
 						idx++;
 					}
 					
-					con = path[idx];
+					con = path[idx];*/
 					
-					conveyerIndex = conveyerIndex == 0 ? conveyers.Count - 1 : conveyerIndex - 1;
+					Infrastructure next = network.FindNext(this, ord.destinationCoord);
+					
+					if (next != null)
+					{
+						con = next;
+						
+						conveyerIndex = conveyerIndex == 0 ? conveyers.Count - 1 : conveyerIndex - 1;
+					}
 				}
 				
 				if (con.CanServe(ord))
@@ -3435,7 +3442,7 @@ public class Infrastructure : Buildable
 				{
 					LogisticsNetwork network = location.localNetworks[ord.phase];
 					
-					List<Infrastructure> path = network.FindRoute(this, ord.destinationCoord, new HashSet<Infrastructure>());
+					/*List<Infrastructure> path = network.FindRoute(this, ord.destinationCoord, new HashSet<Infrastructure>());
 					
 					int idx = 0;
 					
@@ -3444,9 +3451,16 @@ public class Infrastructure : Buildable
 						idx++;
 					}
 					
-					infra = path[idx];
+					infra = path[idx];*/
 					
-					infraIndex = infraIndex == 0 ? convAndHubs.Count - 1 : infraIndex - 1;
+					Infrastructure next = network.FindNext(this, ord.destinationCoord);
+					
+					if (next != null)
+					{
+						infra = next;
+						
+						infraIndex = infraIndex == 0 ? convAndHubs.Count - 1 : infraIndex - 1;
+					}
 				}
 				
 				if (infra.CanServe(ord))
@@ -3517,8 +3531,9 @@ public class Infrastructure : Buildable
 		
 		foreach (var phase in serves)
 		{
-			localNetworks[phase].UnregisterInfrastructure(this);
-			localNetworks[phase].ValidateAndPrune();
+			LogisticsNetwork net = localNetworks[phase];
+			net.UnregisterInfrastructure(this);
+			net.ValidateAndPrune();
 		}
 		
 		location.infrastructure.Remove(this);
@@ -4302,6 +4317,33 @@ public class LogisticsNetwork
 		return bestPath;
 	}
 	
+	public Infrastructure FindNext(Infrastructure current, (int x, int y) end)
+	{
+		if (current == null)
+		{
+			return null;
+		}
+		
+		List<Infrastructure> path = FindRoute(current, end, new HashSet<Infrastructure>());
+		
+		if (path == null)
+		{
+			return null;
+		}
+		
+		if (path.Count >= 2)
+		{
+			return path[1];
+		}
+		
+		if (path.Count == 1)
+		{
+			return path[0];
+		}
+		
+		return null;
+	}
+	
 	public bool MergeNetworks(LogisticsNetwork other)
 	{
 		if (other == null || !CanServe(other.phaseServed) || !IsConnectedTo(other))
@@ -4418,7 +4460,7 @@ public class LogisticsNetwork
 			
 			foreach (var infra2 in hub.location.infrastructure)
 			{
-				if (!IsNetworkCompatible(infra2) && infra2.localNetworks[phaseServed] != this)
+				if (!IsNetworkCompatible(infra2) || !infra2.localNetworks.ContainsKey(phaseServed) || infra2.localNetworks[phaseServed] != this)
 				{
 					continue;
 				}
@@ -4450,7 +4492,7 @@ public class LogisticsNetwork
 				adjacency[conv] = new();
 			}
 			
-			if (conv.link != null && !adjacency.ContainsKey(conv.link))
+			if (conv.link != null && !adjacency.ContainsKey(conv.link) && conv.link.localNetworks.ContainsKey(phaseServed) && conv.link.localNetworks[phaseServed] == this)
 			{
 				adjacency[conv.link] = new();
 			}
@@ -4470,7 +4512,7 @@ public class LogisticsNetwork
 			
 			foreach (var infra2 in conv.location.infrastructure)
 			{
-				if (!IsNetworkCompatible(infra2) && infra2.localNetworks[phaseServed] != this)
+				if (!IsNetworkCompatible(infra2) || !infra2.localNetworks.ContainsKey(phaseServed) || infra2.localNetworks[phaseServed] != this)
 				{
 					continue;
 				}
