@@ -4497,7 +4497,7 @@ public class LogisticsNetwork
 				adjacency[conv.link] = new();
 			}
 			
-			if (conv.link != null)
+			if (conv.link != null && conv.link.localNetworks.ContainsKey(phaseServed) && conv.link.localNetworks[phaseServed] == this)
 			{
 				//AddEdge(conv, conv.link);
 				if (!adjacency[conv].Contains(conv.link))
