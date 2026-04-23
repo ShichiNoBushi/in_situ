@@ -3523,9 +3523,13 @@ public class Infrastructure : Buildable
 		
 		DumpBuffers();
 		
+		Region linkedRegion;
+		List<LogisticsNetwork> affectedNetworks = new();
+		
 		if (type == "conveyer" && link != null)
 		{
-			link.SetLink(null);
+			linkedRegion = link.location;
+			link.Unlink();
 			link.Dismantle();
 		}
 		
@@ -3601,6 +3605,11 @@ public class Infrastructure : Buildable
 			
 			LinkNetworks();
 		}
+	}
+	
+	public void Unlink()
+	{
+		link = null;
 	}
 	
 	public void LinkNetworks()
@@ -4445,6 +4454,11 @@ public class LogisticsNetwork
 			RebuildAdjacency();
 			RebuildHubsByNode();
 		}
+	}
+	
+	public void RepartitionNetwork()
+	{
+		
 	}
 	
 	public void RebuildAdjacency()
