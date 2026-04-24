@@ -3529,6 +3529,14 @@ public class Infrastructure : Buildable
 		if (type == "conveyer" && link != null)
 		{
 			linkedRegion = link.location;
+			
+			foreach (var phase in serves)
+			{
+				LogisticsNetwork net = localNetworks[phase];
+				
+				net.adjacency[this].Remove(link);
+			}
+			
 			link.Unlink();
 			link.Dismantle();
 		}
@@ -3609,6 +3617,13 @@ public class Infrastructure : Buildable
 	
 	public void Unlink()
 	{
+		foreach (var phase in serves)
+		{
+			LogisticsNetwork net = localNetworks[phase];
+			
+			net.adjacency[this].Remove(link);
+		}
+		
 		link = null;
 	}
 	
@@ -4237,6 +4252,12 @@ public class LogisticsNetwork
 			conveyerSet.Remove(infra);
 		}
 		
+		foreach (var infra2 in adjacency[infra])
+		{
+			adjacency[infra2].Remove(infra);
+		}
+		adjacency.Remove(infra);
+		
 		bool remainingInfra = false;
 		
 		foreach (var infra2 in infra.location.infrastructure)
@@ -4351,6 +4372,60 @@ public class LogisticsNetwork
 		}
 		
 		return null;
+	}
+	
+	public List<HashSet<Infrastructure>> FindConnectedComponents()
+	{
+		List<Infrastructure> survivors = new();
+		survivors.AddRange(hubSet);
+		survivors.AddRange(conveyerSet);
+		
+		if (survivors.Count == 0)
+		{
+			return null;
+		}
+		
+		List<HashSet<Infrastructure>> componentList = new();
+		HashSet<Infrastructure> visited = new();
+		
+		foreach (var infra in survivors)
+		{
+			if (!visited.Contains(infra))
+			{
+				HashSet<Infrastructure> component = new();
+				Queue<Infrastructure> frontier = new();
+				
+				frontier.Enqueue(infra);
+				
+				visited.Add(infra);
+				
+				while (frontier.Count > 0)
+				{
+					Infrastructure current = frontier.Dequeue();
+					component.Add(current);
+					
+					if (!adjacency.ContainsKey(current))
+					{
+						continue;
+					}
+					
+					foreach (var neighbor in adjacency[current])
+					{
+						if (neighbor == null || !survivors.Contains(neighbor) || visited.Contains(neighbor))
+						{
+							continue;
+						}
+						
+						visited.Add(neighbor);
+						frontier.Enqueue(neighbor);
+					}
+				}
+				
+				componentList.Add(component);
+			}
+		}
+		
+		return componentList;
 	}
 	
 	public bool MergeNetworks(LogisticsNetwork other)
