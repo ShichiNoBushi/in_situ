@@ -2089,7 +2089,7 @@ public class Region
 		
 		if (localNetworks.ContainsKey(phase) && ReferenceEquals(localNetworks[phase], network))
 		{
-			//localNetworks[phase].UnregisterNode((coordX, coordY));
+			localNetworks[phase].UnregisterNode((coordX, coordY));
 			localNetworks.Remove(phase);
 		}
 	}
@@ -4037,6 +4037,16 @@ public class LogisticsNetwork
 		phaseServed = "";
 	}
 	
+	public LogisticsNetwork(string phase)
+	{
+		nodeSet = new();
+		hubSet = new();
+		conveyerSet = new();
+		hubsByNode = new();
+		adjacency = new();
+		phaseServed = phase;
+	}
+	
 	public LogisticsNetwork((int x, int y) start, string phase)
 	{
 		nodeSet = new();
@@ -4533,7 +4543,54 @@ public class LogisticsNetwork
 	
 	public void RepartitionNetwork()
 	{
+		List<HashSet<Infrastructure>> components = FindConnectedComponents();
 		
+		if (components == null || components.Count == 0)
+		{
+			Unregister();
+			return;
+		}
+		
+		if (components.Count >= 2)
+		{
+			int i = 1;
+			
+			while (i < components.Count)
+			{
+				HashSet<Infrastructure> comp = components[i];
+				
+				/*Region originReg = comp.First().location;
+				(int x, int y) origin = (originReg.coordX, originReg.coordY);*/
+				LogisticsNetwork newNetwork = new(phaseServed);
+				
+				//HashSet<(int x, int y)> nodesToRemove = new();
+				
+				foreach (var infra in comp)
+				{
+					(int x, int y) coord = (infra.location.coordX, infra.location.coordY);
+					
+					//nodesToRemove.Add(coord);
+					
+					UnregisterInfrastructure(infra);
+					
+					if (!newNetwork.Nodes.Contains(coord))
+					{
+						newNetwork.AddNode(coord);
+					}
+					
+					newNetwork.RegisterInfrastructure(infra);
+				}
+				
+				/*foreach (var node in nodesToRemove)
+				{
+					UnregisterNode(node);
+				}*/
+				
+				GameData.networks[phaseServed].Add(newNetwork);
+				
+				i++;
+			}
+		}
 	}
 	
 	public void RebuildAdjacency()
