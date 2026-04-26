@@ -31,9 +31,10 @@ ResourceLabelSceneRef = ExtResource("5_v7gqg")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -151,7 +152,6 @@ offset_right = -63.0
 offset_bottom = -1.0
 
 [node name="Logistics" type="Control" parent="TabContainer" unique_id=1248405455]
-visible = false
 layout_mode = 2
 script = ExtResource("11_c32x4")
 metadata/_tab_index = 1
@@ -205,6 +205,35 @@ offset_right = 858.0
 offset_bottom = 259.0
 disabled = true
 text = "Send Order"
+
+[node name="LogSmartCheck" type="CheckBox" parent="TabContainer/Logistics" unique_id=15830971]
+layout_mode = 0
+offset_left = 1463.0
+offset_top = 127.0
+offset_right = 1608.0
+offset_bottom = 158.0
+disabled = true
+text = "Smart Logistics"
+
+[node name="DestinationLabel" type="Label" parent="TabContainer/Logistics" unique_id=1164014879]
+layout_mode = 0
+offset_left = 1463.0
+offset_top = 158.0
+offset_right = 1553.0
+offset_bottom = 181.0
+text = "Destination"
+
+[node name="LogDestinationMenu" type="OptionButton" parent="TabContainer/Logistics" unique_id=1954933849]
+layout_mode = 0
+offset_left = 1463.0
+offset_top = 180.0
+offset_right = 1614.0
+offset_bottom = 211.0
+disabled = true
+selected = 0
+item_count = 1
+popup/item_0/text = "No Valid Nodes"
+popup/item_0/id = 0
 
 [node name="LogisticsScroll" type="ScrollContainer" parent="TabContainer/Logistics" unique_id=320328687]
 layout_mode = 0

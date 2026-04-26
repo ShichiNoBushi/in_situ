@@ -10,6 +10,8 @@ public partial class LogisticsControl : Control
 	public OptionButton logResourceMenu;
 	public Label logResourceLabel;
 	public SpinBox logResourceSpin;
+	public CheckBox logSmartCheck;
+	public OptionButton logDestinationMenu;
 	public Button logOrderButton;
 	public RichTextLabel logOrderLabel;
 	
@@ -23,6 +25,8 @@ public partial class LogisticsControl : Control
 		logResourceMenu = GetNode<OptionButton>("LogResourceMenu");
 		logResourceLabel = GetNode<Label>("LogResourceLabel");
 		logResourceSpin = GetNode<SpinBox>("LogResourceSpin");
+		logSmartCheck = GetNode<CheckBox>("LogSmartCheck");
+		logDestinationMenu = GetNode<OptionButton>("LogDestinationMenu");
 		logOrderButton = GetNode<Button>("LogOrderButton");
 		logOrderLabel = GetNode<RichTextLabel>("LogisticsScroll/LogOrderLabel");
 		
@@ -127,6 +131,58 @@ public partial class LogisticsControl : Control
 			}
 			
 			logResourceMenu.Select(firstIndex);
+			
+			List<LogisticsNetwork> networks = new();
+			
+			foreach (var phase in logistics.serves)
+			{
+				if (logistics.localNetworks.ContainsKey(phase))
+				{
+					networks.Add(logistics.localNetworks[phase]);
+				}
+			}
+			
+			HashSet<(int x, int y)> destinations = new();
+			
+			foreach (var net in networks)
+			{
+				foreach (var node in net.Nodes)
+				{
+					if (net.hubsByNode.ContainsKey(node) && net.hubsByNode[node].Count > 0 && node != (logistics.location.coordX, logistics.location.coordY))
+					{
+						destinations.Add(node);
+					}
+				}
+			}
+			
+			logDestinationMenu.Clear();
+			foreach (var node in destinations)
+			{
+				logDestinationMenu.AddItem(GameData.CoordToString(node));
+				int idx = logDestinationMenu.ItemCount - 1;
+				Vector2I coordV2 = new(node.x, node.y);
+				logDestinationMenu.SetItemMetadata(idx, coordV2);
+				
+				logSmartCheck.Disabled = false;
+				logDestinationMenu.Disabled = false;
+			}
+			
+			if (destinations.Count == 0)
+			{
+				logSmartCheck.Disabled = true;
+				logSmartCheck.SetPressedNoSignal(false);
+				
+				logDestinationMenu.AddItem("No Valid Nodes");
+				logDestinationMenu.Disabled = true;
+			}
+		}
+		else
+		{
+			logSmartCheck.Disabled = true;
+			logSmartCheck.SetPressedNoSignal(false);
+			
+			logDestinationMenu.AddItem("No Valid Nodes");
+			logDestinationMenu.Disabled = true;
 		}
 	}
 	
@@ -169,7 +225,34 @@ public partial class LogisticsControl : Control
 			}
 		}
 		
-		LogisticOrder order = new(resource, amount);
+		LogisticsNetwork network = null;
+		string phase = GameData.RESOURCES[resource].phase;
+		
+		if (infra.localNetworks.ContainsKey(phase))
+		{
+			network = infra.localNetworks[phase];
+		}
+		
+		Vector2I coordV2 = new(0, 0);
+		bool destinationExists = false;
+		
+		if (!logDestinationMenu.Disabled)
+		{
+			int coordIdx = logDestinationMenu.GetSelected();
+			coordV2 = (Vector2I)logDestinationMenu.GetItemMetadata(coordIdx);
+			destinationExists = network != null && network.Nodes.Contains((coordV2.X, coordV2.Y));
+		}
+		
+		LogisticOrder order;
+		
+		if (logSmartCheck.ButtonPressed && destinationExists)
+		{
+			order = new(resource, amount, true, coordV2.X, coordV2.Y);
+		}
+		else
+		{
+			order = new(resource, amount);
+		}
 		infra.GiveOutput(order);
 		
 		logResourceSpin.Value = 0f;
