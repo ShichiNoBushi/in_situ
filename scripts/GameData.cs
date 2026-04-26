@@ -95,7 +95,7 @@ public partial class GameData : Node
 	public static CheckBox disableSizeCheck;
 	
 	//A variable to test if a feature is functioning (possibly no longer necessary).
-	private static bool questUpdateFunctioning;
+	//private static bool questUpdateFunctioning;
 	
 	//Variables set in development for test purposes.
 	public static bool unlockAllMachines;
@@ -170,7 +170,7 @@ public partial class GameData : Node
 		disableSizeCheck.Toggled += ToggleSize;
 		
 		//Possibly unnecessary test variable.
-		questUpdateFunctioning = true;
+		//questUpdateFunctioning = true;
 		
 		//Set these to true to unlock all machines or recipes.
 		unlockAllMachines = false;
@@ -3546,6 +3546,11 @@ public class Infrastructure : Buildable
 			LogisticsNetwork net = localNetworks[phase];
 			net.UnregisterInfrastructure(this);
 			net.ValidateAndPrune();
+			
+			if (GameData.networks[phase].Contains(net))
+			{
+				net.RepartitionNetwork();
+			}
 		}
 		
 		location.infrastructure.Remove(this);
@@ -4553,43 +4558,57 @@ public class LogisticsNetwork
 		
 		if (components.Count >= 2)
 		{
+			HashSet<Infrastructure> infraToRemove = new();
+			HashSet<(int x, int y)> nodesToRemove = new();
 			int i = 1;
 			
 			while (i < components.Count)
 			{
 				HashSet<Infrastructure> comp = components[i];
 				
-				/*Region originReg = comp.First().location;
-				(int x, int y) origin = (originReg.coordX, originReg.coordY);*/
 				LogisticsNetwork newNetwork = new(phaseServed);
-				
-				//HashSet<(int x, int y)> nodesToRemove = new();
 				
 				foreach (var infra in comp)
 				{
 					(int x, int y) coord = (infra.location.coordX, infra.location.coordY);
 					
-					//nodesToRemove.Add(coord);
-					
-					UnregisterInfrastructure(infra);
+					//UnregisterInfrastructure(infra);
+					infra.ReplaceNetwork(newNetwork);
+					infraToRemove.Add(infra);
 					
 					if (!newNetwork.Nodes.Contains(coord))
 					{
 						newNetwork.AddNode(coord);
+						GameData.regionMap[coord].ReplaceNetwork(newNetwork);
+						nodesToRemove.Add(coord);
 					}
 					
 					newNetwork.RegisterInfrastructure(infra);
 				}
 				
-				/*foreach (var node in nodesToRemove)
-				{
-					UnregisterNode(node);
-				}*/
-				
 				GameData.networks[phaseServed].Add(newNetwork);
 				
 				i++;
 			}
+			
+			foreach (var infra in infraToRemove)
+			{
+				if (infra.type == "hub")
+				{
+					hubSet.Remove(infra);
+				}
+				else if (infra.type == "conveyer")
+				{
+					conveyerSet.Remove(infra);
+				}
+			}
+			foreach (var node in nodesToRemove)
+			{
+				nodeSet.Remove(node);
+			}
+			
+			RebuildAdjacency();
+			RebuildHubsByNode();
 		}
 	}
 	
