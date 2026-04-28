@@ -132,46 +132,59 @@ public partial class LogisticsControl : Control
 			
 			logResourceMenu.Select(firstIndex);
 			
-			List<LogisticsNetwork> networks = new();
-			
-			foreach (var phase in logistics.serves)
+			if (logistics.smart)
 			{
-				if (logistics.localNetworks.ContainsKey(phase))
+				List<LogisticsNetwork> networks = new();
+				
+				foreach (var phase in logistics.serves)
 				{
-					networks.Add(logistics.localNetworks[phase]);
-				}
-			}
-			
-			HashSet<(int x, int y)> destinations = new();
-			
-			foreach (var net in networks)
-			{
-				foreach (var node in net.Nodes)
-				{
-					if (net.hubsByNode.ContainsKey(node) && net.hubsByNode[node].Count > 0 && node != (logistics.location.coordX, logistics.location.coordY))
+					if (logistics.localNetworks.ContainsKey(phase))
 					{
-						destinations.Add(node);
+						networks.Add(logistics.localNetworks[phase]);
 					}
 				}
-			}
-			
-			logDestinationMenu.Clear();
-			foreach (var node in destinations)
-			{
-				logDestinationMenu.AddItem(GameData.CoordToString(node));
-				int idx = logDestinationMenu.ItemCount - 1;
-				Vector2I coordV2 = new(node.x, node.y);
-				logDestinationMenu.SetItemMetadata(idx, coordV2);
 				
-				logSmartCheck.Disabled = false;
-				logDestinationMenu.Disabled = false;
+				HashSet<(int x, int y)> destinations = new();
+				
+				foreach (var net in networks)
+				{
+					foreach (var node in net.Nodes)
+					{
+						if (net.hubsByNode.ContainsKey(node) && net.hubsByNode[node].Count > 0 && node != (logistics.location.coordX, logistics.location.coordY))
+						{
+							destinations.Add(node);
+						}
+					}
+				}
+				
+				logDestinationMenu.Clear();
+				foreach (var node in destinations)
+				{
+					logDestinationMenu.AddItem(GameData.CoordToString(node));
+					int idx = logDestinationMenu.ItemCount - 1;
+					Vector2I coordV2 = new(node.x, node.y);
+					logDestinationMenu.SetItemMetadata(idx, coordV2);
+					
+					logSmartCheck.Disabled = false;
+					logDestinationMenu.Disabled = false;
+				}
+				
+				if (destinations.Count == 0)
+				{
+					logSmartCheck.Disabled = true;
+					logSmartCheck.SetPressedNoSignal(false);
+					
+					logDestinationMenu.Clear();
+					logDestinationMenu.AddItem("No Valid Nodes");
+					logDestinationMenu.Disabled = true;
+				}
 			}
-			
-			if (destinations.Count == 0)
+			else
 			{
 				logSmartCheck.Disabled = true;
 				logSmartCheck.SetPressedNoSignal(false);
 				
+				logDestinationMenu.Clear();
 				logDestinationMenu.AddItem("No Valid Nodes");
 				logDestinationMenu.Disabled = true;
 			}
@@ -181,6 +194,7 @@ public partial class LogisticsControl : Control
 			logSmartCheck.Disabled = true;
 			logSmartCheck.SetPressedNoSignal(false);
 			
+			logDestinationMenu.Clear();
 			logDestinationMenu.AddItem("No Valid Nodes");
 			logDestinationMenu.Disabled = true;
 		}
