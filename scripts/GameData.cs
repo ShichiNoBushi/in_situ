@@ -3107,6 +3107,34 @@ public class Infrastructure : Buildable
 		lastServed = save.lastServed;
 		
 		lastSave = save;
+		
+		if (type == "hub" || type == "conveyer")
+		{
+			foreach (var phase in serves)
+			{
+				if (location.localNetworks.ContainsKey(phase))
+				{
+					AddNetwork(location.localNetworks[phase]);
+					localNetworks[phase].RegisterInfrastructure(this);
+				}
+				else
+				{
+					(int x, int y) coord = (location.coordX, location.coordY);
+					LogisticsNetwork network = new(coord, phase);
+					AddNetwork(network);
+					location.AddNetwork(network);
+					
+					if (!GameData.networks.ContainsKey(phase))
+					{
+						GameData.networks[phase] = new();
+					}
+					
+					GameData.networks[phase].Add(network);
+					
+					network.RegisterInfrastructure(this);
+				}
+			}
+		}
 	}
 	
 	public override void Tick(double delta)
