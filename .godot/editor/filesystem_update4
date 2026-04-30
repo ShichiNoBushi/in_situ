@@ -17,3 +17,4 @@ res://scripts/BuildControl.cs
 res://scripts/GameData.cs
 res://Scenes/node_2d.tscn
 res://data/infrastructure.json
+res://data/resources.json
