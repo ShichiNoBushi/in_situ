@@ -62,6 +62,15 @@
 		"local": "",
 		"description": "Smelts phosphate ore into raw phosphorus."
 	},
+	"refine lithium": {
+		"name": "Refine Lithium",
+		"inputs": {"lithium concentrate": 5, "energy": 1},
+		"outputs": {"lithium": 3},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Smelts lithium concentrate into raw lithium."
+	},
 	"p-dope silicon": {
 		"name": "P-Dope Silicon",
 		"inputs": {"boron": 1, "silicon": 1, "energy": 1},
@@ -305,6 +314,15 @@
 		"local": "",
 		"description": "Craft a diode to use in electronics."
 	},
+	"carbon anode": {
+		"name": "Carbon Anode",
+		"inputs": {"lithium": 3, "carbon": 1, "energy": 1},
+		"outputs": {"carbon anode": 4},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft an anode for storing energy."
+	},
 	"control board": {
 		"name": "Control Board",
 		"inputs": {"copper wire": 0.75, "insulating substrate": 0.75, "resistor": 0.5, "capacitor": 0.5, "energy": 2},
@@ -340,6 +358,24 @@
 		"machines": ["parts assembler"],
 		"local": "",
 		"description": "Craft a low-tech radio transceiver."
+	},
+	"battery cell": {
+		"name": "Battery Cell",
+		"inputs": {"carbon anode": 2, "lithium phosphate": 3, "copper foil": 1, "low-density polyethylene": 1, "energy": 1},
+		"outputs": {"battery cell": 7},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a lithium battery cell for storing energy."
+	},
+	"battery module": {
+		"name": "battery module",
+		"inputs": {"battery cell": 5, "insulating substrate": 2, "resistor": 1, "capacitor": 1, "energy": 1},
+		"outputs": {"battery module": 9},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Craft a regulated battery module."
 	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",
@@ -457,6 +493,15 @@
 		"machines": ["chemical reactor"],
 		"local": "",
 		"description": "Create bleach from lye and chlirine."
+	},
+	"synthesize lithium phsophate": {
+		"name": "Synthesize Lithium Phosphate",
+		"inputs": {"lithium": 0.67, "phosphorus": 1, "oxygen": 2.07, "energy": 1},
+		"outputs": {"lithium phosphate": 3.74},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Create lithium phosphate for batteries."
 	},
 	"polymerize ldpe": {
 		"name": "Polymerize LDPE",
@@ -593,6 +638,24 @@
 		"local": "",
 		"description": "Carves stone into uniform bricks."
 	},
+	"crush lithium ore": {
+		"name": "Crush Lithium Ore",
+		"inputs": {"lithium ore": 5, "energy": 1},
+		"outputs": {"crushed lithium ore": 5},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Crushes lithium ore for processing."
+	},
+	"concentrate lithium": {
+		"name": "Concentrate Lithium",
+		"inputs": {"crushed lithium ore": 5, "water": 2, "energy": 1},
+		"outputs": {"lithium concentrate": 3, "clay slurry": 4},
+		"available": false,
+		"machines": ["mixer"],
+		"local": "",
+		"description": "Mixes and washes lithium ore for processing and refinement."
+	},
 	"scrap small iron gear": {
 		"name": "Scrap Small Iron Gear",
 		"inputs": {"iron gear small": 1, "energy": 0.5},
@@ -664,6 +727,24 @@
 		"machines": ["crusher"],
 		"local": "",
 		"description": "Breaks down copper wire into recyclable scrap."
+	},
+	"recycle lithium": {
+		"name": "Recycle Lithium",
+		"inputs": {"lithium scrap": 5, "energy": 0.5},
+		"outputs": {"lithium": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles lithium scrap into usable raw lithium."
+	},
+	"carve stone brick": {
+		"name": "Carve Stone Brick",
+		"inputs": {"boron scrap": 5, "energy": 0.5},
+		"outputs": {"boron": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles boron scrap into usable raw boron."
 	},
 	"recycle iron": {
 		"name": "Recycle Iron",

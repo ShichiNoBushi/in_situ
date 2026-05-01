@@ -169,7 +169,7 @@
 		"type": "storage",
 		"serves": ["energy"],
 		"smart": false,
-		"cost": {"lithium": 20, "iron plate": 10},
+		"cost": {"battery module": 20, "iron plate": 10},
 		"durability": 5000,
 		"size": 5,
 		"through": 1000.0,

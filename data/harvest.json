@@ -5,6 +5,12 @@
 		"time": 1.0,
 		"action": "Mine Stone"
 	},
+	"mine lithium ore": {
+		"resource": "lithium ore",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Lithium Ore"
+	},
 	"mine boron ore": {
 		"resource": "boron ore",
 		"amount": 5.0,
