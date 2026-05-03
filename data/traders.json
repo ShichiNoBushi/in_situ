@@ -92,6 +92,38 @@
 		"greed": 1.2,
 		"landing_fee": 50.0
 	},
+	"mechanic": {
+		"preferences": {
+			"silicon": 1.0,
+			"iron": 1.0,
+			"copper": 1.0,
+			"iron wire": 1.0,
+			"copper wire": 1.0,
+			"iron gear small": 1.0,
+			"iron rod": 1.0,
+			"iron blade": 1.0,
+			"iron plate": 1.0,
+			"copper plate": 1.0,
+			"magnet": 1.0,
+			"electric motor": 1.0,
+			"induction coil": 1.0,
+			"electromagnetic relay": 1.0
+		},
+		"catalog": {
+			"silicon": 1.0,
+			"iron": 5.0,
+			"copper": 5.0,
+			"iron wire": 3.0,
+			"copper wire": 3.0,
+			"iron gear small": 2.0,
+			"iron rod": 2.0,
+			"iron plate": 3.0,
+			"copper plate": 3.0
+		},
+		"frequency": 1.0,
+		"greed": 1.2,
+		"landing_fee": 50.0
+	},
 	"electrical engineer": {
 		"preferences": {
 			"copper": 0.8,
@@ -135,6 +167,35 @@
 			"transistor": 1.0,
 			"insulating substrate": 1.0,
 			"printed circuit board": 1.0
+		},
+		"frequency": 1.0,
+		"greed": 1.2,
+		"landing_fee": 50.0
+	},
+	"salvager": {
+		"preferences": {
+			"lithium": 1.1,
+			"copper": 1.1,
+			"iron": 1.1,
+			"boron": 1.1,
+			"silicon": 0.8,
+			"phosphorus": 0.8,
+			"glass pane": 1.1,
+			"electric motor": 1.2,
+			"induction coil": 1.2,
+			"rf coil": 1.2,
+			"electronic relay": 1.2,
+			"control board": 1.2,
+			"computer board": 1.2,
+			"lc oscilator module": 1.2,
+			"radio transceiver": 1.2
+		},
+		"catalog": {
+			"lithium scrap": 1.0,
+			"boron scrap": 1.0,
+			"iron scrap": 1.0,
+			"copper scrap": 1.0,
+			"glass shard": 1.0
 		},
 		"frequency": 1.0,
 		"greed": 1.2,
