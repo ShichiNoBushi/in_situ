@@ -83,6 +83,20 @@
 		"sort": [0, 11],
 		"description": "An alkali metal formed from common salt."
 	},
+	"aluminum": {
+		"name": "Aluminum",
+		"abbreviation": "El-Al",
+		"type": "element",
+		"subtypes": ["metal", "structural"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"aluminum scrap": 1.0},
+		"value": 0.2,
+		"liquidity": 500.0,
+		"sort": [0, 13],
+		"description": "A lightweight metal that is also durable."
+	},
 	"silicon": {
 		"name": "Silicon",
 		"abbreviation": "El-Si",
@@ -237,6 +251,20 @@
 		"sort": [2, 1, 5],
 		"description": "An ore mineral containing boron."
 	},
+	"bauxite ore": {
+		"name": "Bauxite Ore",
+		"abbreviation": "BauxOre",
+		"type": "mineral",
+		"subtypes": ["mineral"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"bauxite ore": 1.0},
+		"value": 0.2,
+		"liquidity": 500.0,
+		"sort": [2, 1, 13],
+		"description": "An ore used to refine into aluminum."
+	},
 	"phosphate ore": {
 		"name": "Phosphate Ore",
 		"abbreviation": "POre",
@@ -293,20 +321,6 @@
 		"sort": [2, 2],
 		"description": "An calcium carbinate mineral."
 	},
-	"gravel": {
-		"name": "Gravel",
-		"abbreviation": "Grvl",
-		"type": "compound",
-		"subtypes": ["mineral", "aggregate"],
-		"phase": "solid",
-		"unit": "g",
-		"starting amount": 0.0,
-		"scrap": {"gravel": 1.0},
-		"value": 0.1,
-		"liquidity": 2000.0,
-		"sort": [0, 0],
-		"description": "Stone cruched into an aggregate of small pieces."
-	},
 	"stone dust": {
 		"name": "Stone Dust",
 		"abbreviation": "StDst",
@@ -335,6 +349,20 @@
 		"sort": [3, 0, 1],
 		"description": "Fine grains of quartz or silica."
 	},
+	"gravel": {
+		"name": "Gravel",
+		"abbreviation": "Grvl",
+		"type": "compound",
+		"subtypes": ["mineral", "aggregate"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"gravel": 1.0},
+		"value": 0.1,
+		"liquidity": 2000.0,
+		"sort": [3, 0, 2],
+		"description": "Stone cruched into an aggregate of small pieces."
+	},
 	"crushed lithium ore": {
 		"name": "Crushed Lithium Ore",
 		"abbreviation": "CrshLiOre",
@@ -346,8 +374,22 @@
 		"scrap": {"crushed lithium ore": 1.0},
 		"value": 0.1,
 		"liquidity": 2000.0,
-		"sort": [3, 0, 2],
+		"sort": [3, 0, 3],
 		"description": "Lithium ore crushed into aggregate."
+	},
+	"crushed bauxite": {
+		"name": "Crushed Bauxite",
+		"abbreviation": "CrshBaux",
+		"type": "compound",
+		"subtypes": ["mineral", "aggregate"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"crushed bauxite": 1.0},
+		"value": 0.1,
+		"liquidity": 2000.0,
+		"sort": [3, 0, 4],
+		"description": "Bauxite ore crushed into aggregate."
 	},
 	"crushed limestone": {
 		"name": "Crushed Limestone",
@@ -360,7 +402,7 @@
 		"scrap": {"crushed limestone": 1.0},
 		"value": 0.1,
 		"liquidity": 2000.0,
-		"sort": [3, 0, 3],
+		"sort": [3, 0, 5],
 		"description": "Limestone crushed into aggregate."
 	},
 	"clay slurry": {
@@ -390,6 +432,20 @@
 		"liquidity": 1000.0,
 		"sort": [3, 1, 1],
 		"description": "A mixture of lithium ore and water to be used in refining lithium."
+	},
+	"bauxite slurry": {
+		"name": "Bauxite Slurry",
+		"abbreviation": "BauxSlry",
+		"type": "compound",
+		"subtypes": ["mineral", "aggregate"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"bauxite slurry": 1.0},
+		"value": 0.1,
+		"liquidity": 2000.0,
+		"sort": [3, 1, 2],
+		"description": "Crushed bauxite solution."
 	},
 	"water": {
 		"name": "Water",
@@ -433,6 +489,20 @@
 		"sort": [3, 3],
 		"description": "Sodium chloride table salt."
 	},
+	"alumina": {
+		"name": "Alumina",
+		"abbreviation": "AlO",
+		"type": "compound",
+		"subtypes": ["mineral", "aggregate"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"alumina": 1.0},
+		"value": 0.1,
+		"liquidity": 2000.0,
+		"sort": [3, 4],
+		"description": "Aluminum oxide compound."
+	},
 	"carbon monoxide": {
 		"name": "Carbon Monoxide",
 		"abbreviation": "CO",
@@ -444,7 +514,7 @@
 		"scrap": {"carbon monoxide": 1.0},
 		"value": 0.1,
 		"liquidity": 300.0,
-		"sort": [3, 4, 1],
+		"sort": [3, 5, 1],
 		"description": "A toxic gas as a biproduct of chemical reactions and combustion."
 	},
 	"carbon dioxide": {
@@ -458,7 +528,7 @@
 		"scrap": {"carbon dioxide": 1.0},
 		"value": 0.1,
 		"liquidity": 1500.0,
-		"sort": [3, 4, 2],
+		"sort": [3, 5, 2],
 		"description": "Gas produced by combustion or respiration."
 	},
 	"methane": {
@@ -472,7 +542,7 @@
 		"scrap": {"methane": 1.0},
 		"value": 0.3,
 		"liquidity": 1000.0,
-		"sort": [3, 5, 1, 4],
+		"sort": [3, 6, 1, 4],
 		"description": "Natural gas hydrocarbon used in combustion and chemical reactions."
 	},
 	"ethylene": {
@@ -486,7 +556,7 @@
 		"scrap": {"methane": 1.0},
 		"value": 0.3,
 		"liquidity": 200.0,
-		"sort": [3, 5, 2, 4],
+		"sort": [3, 6, 2, 4],
 		"description": "Hydrocarbon used as a monomer for simple plastics."
 	},
 	"lye soda": {
@@ -500,7 +570,7 @@
 		"scrap": {"lye soda": 1.0},
 		"value": 0.3,
 		"liquidity": 1000.0,
-		"sort": [3, 6],
+		"sort": [3, 7],
 		"description": "Sodium hydroxide caustic soda."
 	},
 	"hydrochloric acid": {
@@ -514,7 +584,7 @@
 		"scrap": {"hydrochloric acid": 1.0},
 		"value": 0.3,
 		"liquidity": 1000.0,
-		"sort": [3, 7, 17],
+		"sort": [3, 8, 17],
 		"description": "Potent hydrocholic acid."
 	},
 	"bleach": {
@@ -528,7 +598,7 @@
 		"scrap": {"bleach": 1.0},
 		"value": 0.3,
 		"liquidity": 1000.0,
-		"sort": [3, 8],
+		"sort": [3, 9],
 		"description": "Sodium hypochlorite bleach."
 	},
 	"quicklime": {
@@ -542,7 +612,7 @@
 		"scrap": {"quicklime": 1.0},
 		"value": 0.3,
 		"liquidity": 1000.0,
-		"sort": [3, 9],
+		"sort": [3, 10],
 		"description": "Lime extracted from limestone."
 	},
 	"salt water": {
@@ -556,7 +626,7 @@
 		"scrap": {"salt water": 1.0},
 		"value": 0.3,
 		"liquidity": 1500.0,
-		"sort": [3, 10],
+		"sort": [3, 11],
 		"description": "Salt disolved in water."
 	},
 	"hydrated lime": {
@@ -570,7 +640,7 @@
 		"scrap": {"hydrated lime": 1.0},
 		"value": 0.3,
 		"liquidity": 1000.0,
-		"sort": [3, 11],
+		"sort": [3, 12],
 		"description": "Chemical from mixing quicklime with water."
 	},
 	"concrete": {
@@ -584,7 +654,7 @@
 		"scrap": {"concrete": 1.0},
 		"value": 0.3,
 		"liquidity": 2000.0,
-		"sort": [3, 12],
+		"sort": [3, 13],
 		"description": "Concrete mix used for construction of solid structures."
 	},
 	"lithium phosphate": {
@@ -598,7 +668,7 @@
 		"scrap": {"lithium phosphate": 1.0},
 		"value": 0.3,
 		"liquidity": 2000.0,
-		"sort": [3, 13],
+		"sort": [3, 14],
 		"description": "Lithium compound used in batteries."
 	},
 	"copper chloride etchent": {
@@ -612,7 +682,7 @@
 		"scrap": {"copper chloride etchent": 1.0},
 		"value": 0.3,
 		"liquidity": 1000.0,
-		"sort": [3, 14, 0],
+		"sort": [3, 15, 0],
 		"description": "Etching acid solution for PCBs."
 	},
 	"spent copper etchent": {
@@ -626,7 +696,7 @@
 		"scrap": {"spent copper etchent": 1.0},
 		"value": 0.3,
 		"liquidity": 1500.0,
-		"sort": [3, 14, 1],
+		"sort": [3, 15, 1],
 		"description": "Spent etchent to be recycled."
 	},
 	"low-density polyethylene": {
@@ -1146,6 +1216,20 @@
 		"liquidity": 1200.0,
 		"sort": [6, 0, 3],
 		"description": "Scraps of damaged lithium that can be recycled."
+	},
+	"aluminum scrap": {
+		"name": "Aluminum Scrap",
+		"abbreviation": "AlScrap",
+		"type": "compound",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"gravel": 1.0},
+		"value": 0.1,
+		"liquidity": 2000.0,
+		"sort": [6, 0, 13],
+		"description": "Scraps of damaged aluminum that can be recycled."
 	},
 	"boron scrap": {
 		"name": "Boron Scrap",
