@@ -17,6 +17,12 @@
 		"time": 1.0,
 		"action": "Mine Boron Ore"
 	},
+	"mine bauxite ore": {
+		"resource": "bauxite ore",
+		"amount": 5.0,
+		"time": 1.0,
+		"action": "Mine Bauxtite Ore"
+	},
 	"mine phosphate ore": {
 		"resource": "phosphate ore",
 		"amount": 5.0,

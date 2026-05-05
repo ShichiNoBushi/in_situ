@@ -71,6 +71,15 @@
 		"local": "",
 		"description": "Smelts lithium concentrate into raw lithium."
 	},
+	"refine bauxite": {
+		"name": "Refine Bauxite",
+		"inputs": {"bauxite slurry": 5, "energy": 1},
+		"outputs": {"alumina": 1, "water": 2},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Refines bauxite slurry into alumina."
+	},
 	"p-dope silicon": {
 		"name": "P-Dope Silicon",
 		"inputs": {"boron": 1, "silicon": 1, "energy": 1},
@@ -440,6 +449,15 @@
 		"local": "",
 		"description": "Electrolyze brine into lye and chlorine with byproducts."
 	},
+	"eletrolyze alumina": {
+		"name": "Electrolyze Alumina",
+		"inputs": {"alumina": 5, "energy": 2},
+		"outputs": {"aluminum scrap": 2.65, "oxygen": 2.35},
+		"available": false,
+		"machines": ["electrolyzer"],
+		"local": "",
+		"description": "Electrolyze to seperate alumina into aluminum and oxygen."
+	},
 	"sabatier reaction": {
 		"name": "Sabatier Reaction",
 		"inputs": {"carbon dioxide": 2.2, "hydrogen": 0.404, "energy": 2},
@@ -557,6 +575,15 @@
 		"local": "",
 		"description": "Crushes limestone into aggregate."
 	},
+	"crush bauxite": {
+		"name": "Crush Bauxite",
+		"inputs": {"bauxite ore": 5, "energy": 1},
+		"outputs": {"crushed bauxite": 5},
+		"available": false,
+		"machines": ["crusher"],
+		"local": "",
+		"description": "Crushes bauxite ore for aluminum refinement."
+	},
 	"mix clay": {
 		"name": "Mix Clay",
 		"inputs": {"stone dust": 2, "water": 1, "energy": 1},
@@ -610,6 +637,15 @@
 		"machines": ["mixer"],
 		"local": "",
 		"description": "Mixes stone aggregates with hydrated lime and water to make concrete."
+	},
+	"mix bauxite slurry": {
+		"name": "Refine Lithium",
+		"inputs": {"crushed bauxite": 3, "water": 2, "energy": 1},
+		"outputs": {"bauxite slurry": 5},
+		"available": false,
+		"machines": ["mixer"],
+		"local": "",
+		"description": "Mixes bauxite into slurry."
 	},
 	"bake ceramic": {
 		"name": "Bake Ceramic",
@@ -728,6 +764,15 @@
 		"local": "",
 		"description": "Breaks down copper wire into recyclable scrap."
 	},
+	"carve stone brick": {
+		"name": "Carve Stone Brick",
+		"inputs": {"boron scrap": 5, "energy": 0.5},
+		"outputs": {"boron": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles boron scrap into usable raw boron."
+	},
 	"recycle lithium": {
 		"name": "Recycle Lithium",
 		"inputs": {"lithium scrap": 5, "energy": 0.5},
@@ -737,14 +782,14 @@
 		"local": "",
 		"description": "Recycles lithium scrap into usable raw lithium."
 	},
-	"carve stone brick": {
-		"name": "Carve Stone Brick",
-		"inputs": {"boron scrap": 5, "energy": 0.5},
-		"outputs": {"boron": 5},
+	"recycle aluminum": {
+		"name": "Recycle Aluminum",
+		"inputs": {"aluminum scrap": 5, "energy": 0.5},
+		"outputs": {"aluminum": 5},
 		"available": false,
 		"machines": ["induction smelter"],
 		"local": "",
-		"description": "Recycles boron scrap into usable raw boron."
+		"description": "Recycles aluminum scrap into usable raw aluminum."
 	},
 	"recycle iron": {
 		"name": "Recycle Iron",
