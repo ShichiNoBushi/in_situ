@@ -33,6 +33,7 @@
 	"asteroid miner": {
 		"preferences": {
 			"lithium ore": 0.7,
+			"bauxite ore": 0.7,
 			"iron ore": 0.7,
 			"copper ore": 0.7,
 			"boron ore": 0.7,
@@ -40,6 +41,7 @@
 			"ice": 0.7,
 			"hydrogen": 1.2,
 			"lithium": 1.2,
+			"aluminum": 1.5,
 			"oxygen": 1.2,
 			"silicon": 1.0,
 			"phosphurus": 1.0,
@@ -48,6 +50,7 @@
 		},
 		"catalog": {
 			"lithium ore": 1.0,
+			"bauxite ore": 1.0,
 			"iron ore": 5.0,
 			"copper ore": 3.0,
 			"boron ore": 1.0,
@@ -175,6 +178,7 @@
 	"salvager": {
 		"preferences": {
 			"lithium": 1.1,
+			"aluminum": 1.1,
 			"copper": 1.1,
 			"iron": 1.1,
 			"boron": 1.1,
@@ -188,10 +192,17 @@
 			"control board": 1.2,
 			"computer board": 1.2,
 			"lc oscilator module": 1.2,
-			"radio transceiver": 1.2
+			"radio transceiver": 1.2,
+			"lithium scrap": 0.6,
+			"aluminum scrap": 0.6,
+			"boron scrap": 0.6,
+			"iron scrap": 0.6,
+			"copper scrap": 0.6,
+			"glass shard": 0.6
 		},
 		"catalog": {
 			"lithium scrap": 1.0,
+			"aluminum scrap": 1.0,
 			"boron scrap": 1.0,
 			"iron scrap": 1.0,
 			"copper scrap": 1.0,
