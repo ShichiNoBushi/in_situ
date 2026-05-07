@@ -152,6 +152,15 @@
 		"local": "",
 		"description": "Crafts a pane of glass."
 	},
+	"aluminum gear small mold": {
+		"name": "Aluminum Gear (Small; Mold)",
+		"inputs": {"aluminum": 4, "energy": 0.5},
+		"outputs": {"aluminum gear small": 4},
+		"available": false,
+		"machines": ["component mold"],
+		"local": "",
+		"description": "Crafts a small gear of iron from a mold."
+	},
 	"iron gear small mold": {
 		"name": "Iron Gear (Small; Mold)",
 		"inputs": {"iron": 4, "energy": 0.5},
@@ -169,6 +178,15 @@
 		"machines": ["component mold"],
 		"local": "",
 		"description": "Crafts a sharp blade of iron from a mold."
+	},
+	"alumimum plate press": {
+		"name": "Aluminum Plate (Press)",
+		"inputs": {"aluminum": 4, "energy": 0.5},
+		"outputs": {"aluminum plate": 4},
+		"available": false,
+		"machines": ["roller press"],
+		"local": "",
+		"description": "Rolls aluminum into flat plates."
 	},
 	"iron plate press": {
 		"name": "Iron Plate (Press)",
@@ -188,6 +206,15 @@
 		"local": "",
 		"description": "Rolls copper into flat plates."
 	},
+	"aluminum foil press": {
+		"name": "Aluminum Foil (Press)",
+		"inputs": {"aluminum": 1, "energy": 0.5},
+		"outputs": {"aluminum foil": 1},
+		"available": false,
+		"machines": ["roller press"],
+		"local": "",
+		"description": "Rolls aluminum into thin foil sheets."
+	},
 	"copper foil press": {
 		"name": "Copper Foil (Press)",
 		"inputs": {"copper": 1, "energy": 0.5},
@@ -196,6 +223,24 @@
 		"machines": ["roller press"],
 		"local": "",
 		"description": "Rolls copper into thin foil sheets."
+	},
+	"extrude aluminum wire": {
+		"name": "Aluminum Wire (Extrude)",
+		"inputs": {"aluminum": 4, "energy": 0.5},
+		"outputs": {"aluminum wire": 4},
+		"available": false,
+		"machines": ["extruder"],
+		"local": "",
+		"description": "Extrudes aluminum into thin wire."
+	},
+	"extrude aluminum rod": {
+		"name": "Aluminum Rod (Extrude)",
+		"inputs": {"aluminum": 4, "energy": 0.5},
+		"outputs": {"aluminum rod": 4},
+		"available": false,
+		"machines": ["extruder"],
+		"local": "",
+		"description": "Extrudes aluminum into thick rods."
 	},
 	"extrude iron wire": {
 		"name": "Iron Wire (Extrude)",
@@ -452,7 +497,7 @@
 	"eletrolyze alumina": {
 		"name": "Electrolyze Alumina",
 		"inputs": {"alumina": 5, "energy": 2},
-		"outputs": {"aluminum scrap": 2.65, "oxygen": 2.35},
+		"outputs": {"aluminum": 2.65, "oxygen": 2.35},
 		"available": false,
 		"machines": ["electrolyzer"],
 		"local": "",

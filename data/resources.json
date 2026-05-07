@@ -727,6 +727,20 @@
 		"sort": [4, 1],
 		"description": "A durable common plastic."
 	},
+	"aluminum wire": {
+		"name": "Aluminum Wire",
+		"abbreviation": "Wire-Al",
+		"type": "component",
+		"subtypes": ["wire", "metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"aluminum scrap": 1.0},
+		"value": 0.5,
+		"liquidity": 500.0,
+		"sort": [5, 1, 13],
+		"description": "Aluminum estruded and wound into thin wire."
+	},
 	"iron wire": {
 		"name": "Iron Wire",
 		"abbreviation": "Wire-Fe",
@@ -811,6 +825,20 @@
 		"sort": [5, 4, 1],
 		"description": "Clay baked into ceramic."
 	},
+	"aluminum gear small": {
+		"name": "Aluminum Gear (small)",
+		"abbreviation": "Gear-Al-Sm",
+		"type": "component",
+		"subtypes": ["gear", "metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"aluminum scrap": 1.0},
+		"value": 0.5,
+		"liquidity": 500.0,
+		"sort": [5, 5, 13],
+		"description": "Small aluminum gears used in machines."
+	},
 	"iron gear small": {
 		"name": "Iron Gear (Small)",
 		"abbreviation": "Gear-Fe-Sm",
@@ -824,6 +852,20 @@
 		"liquidity": 500.0,
 		"sort": [5, 5, 26],
 		"description": "Small iron gears used in machines."
+	},
+	"aluminum rod": {
+		"name": "Aluminum Rod",
+		"abbreviation": "Rod-Al",
+		"type": "component",
+		"subtypes": ["rod", "metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"aluminum scrap": 1.0},
+		"value": 0.5,
+		"liquidity": 500.0,
+		"sort": [5, 5, 13],
+		"description": "A thick, sturdy rod of aluminum."
 	},
 	"iron rod": {
 		"name": "Iron Rod",
@@ -853,6 +895,20 @@
 		"sort": [5, 7, 26],
 		"description": "A sharp blade made of iron for cutting or carving."
 	},
+	"aluminum plate": {
+		"name": "Aluminum Plate",
+		"abbreviation": "Plate-Al",
+		"type": "component",
+		"subtypes": ["sheet", "metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"aluminum scrap": 1.0},
+		"value": 0.5,
+		"liquidity": 500.0,
+		"sort": [5, 8, 13],
+		"description": "A flat plate made of aluminum used in construction."
+	},
 	"iron plate": {
 		"name": "Iron Plate",
 		"abbreviation": "Plate-Fe",
@@ -880,6 +936,20 @@
 		"liquidity": 500.0,
 		"sort": [5, 8, 29],
 		"description": "A flat plate made of copper used in construction."
+	},
+	"aluminum foil": {
+		"name": "Aluminum Foil",
+		"abbreviation": "Foil-Al",
+		"type": "component",
+		"subtypes": ["sheet", "metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"aluminum scrap": 1.0},
+		"value": 0.5,
+		"liquidity": 500.0,
+		"sort": [5, 9, 13],
+		"description": "A thin foil sheet made of aluminum."
 	},
 	"copper foil": {
 		"name": "Copper Foil",
