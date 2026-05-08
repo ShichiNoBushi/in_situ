@@ -87,6 +87,17 @@
 		"sort": [2, 3],
 		"description": "Extrudes materials as long, round pieces of varrying widths."
 	},
+	"minting press": {
+		"name": "Minting Press",
+		"type": "crafter",
+		"cost": {"iron plate": 10, "induction coil": 5, "electric motor": 5},
+		"durability": 5000,
+		"size": 10,
+		"starting amount": 0,
+		"available": false,
+		"sort": [2, 4],
+		"description": "Mints metals into conveniently tradable bullion."
+	},
 	"stone carver": {
 		"name": "Stone Carver",
 		"type": "crafter",
@@ -95,7 +106,7 @@
 		"size": 5,
 		"starting amount": 0,
 		"available": false,
-		"sort": [2, 4],
+		"sort": [2, 5],
 		"description": "Carves stone into specified shapes."
 	},
 	"parts assembler": {

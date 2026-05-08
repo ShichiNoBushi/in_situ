@@ -92,7 +92,7 @@
 		"unit": "g",
 		"starting amount": 0.0,
 		"scrap": {"aluminum scrap": 1.0},
-		"value": 0.2,
+		"value": 0.6,
 		"liquidity": 500.0,
 		"sort": [0, 13],
 		"description": "A lightweight metal that is also durable."
@@ -1329,6 +1329,76 @@
 		"sort": [5, 17, 1],
 		"description": "A complex electronic component for storing and regulating energy."
 	},
+	"aluminum bullion": {
+		"name": "Aluminum Bullion",
+		"abbreviation": "AlBullion",
+		"type": "bullion",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"aluminum scrap": 1.0},
+		"value": 0.66,
+		"liquidity": 1400.0,
+		"sort": [6, 0, 13],
+		"description": "Aluminum minted into bullion to be conveniently traded."
+	},
+	"iron bullion": {
+		"name": "Iron Bullion",
+		"abbreviation": "FeBullion",
+		"type": "bullion",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"iron scrap": 1.0},
+		"value": 0.55,
+		"liquidity": 1200.0,
+		"sort": [6, 0, 26],
+		"description": "Iron minted into bullion to be conveniently traded."
+	},
+	"copper bullion": {
+		"name": "Copper Bullion",
+		"abbreviation": "CuBullion",
+		"type": "bullion",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper scrap": 1.0},
+		"value": 0.55,
+		"liquidity": 1200.0,
+		"sort": [6, 0, 29],
+		"description": "Copper minted into bullion to be conveniently traded."
+	},
+	"silver bullion": {
+		"name": "Silver Bullion",
+		"abbreviation": "AgBullion",
+		"type": "bullion",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"silver scrap": 1.0},
+		"value": 1.32,
+		"liquidity": 1500.0,
+		"sort": [6, 0, 47],
+		"description": "Silver minted into bullion to be conveniently traded."
+	},
+	"gold bullion": {
+		"name": "Gold Bullion",
+		"abbreviation": "AuBullion",
+		"type": "bullion",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"gold scrap": 1.0},
+		"value": 2.2,
+		"liquidity": 1600.0,
+		"sort": [6, 0, 79],
+		"description": "Gold minted into bullion to be conveniently traded."
+	},
 	"lithium scrap": {
 		"name": "Lithium Scrap",
 		"abbreviation": "LiScrap",
@@ -1340,7 +1410,7 @@
 		"scrap": {"lithium scrap": 1.0},
 		"value": 0.1,
 		"liquidity": 1200.0,
-		"sort": [6, 0, 3],
+		"sort": [7, 0, 3],
 		"description": "Scraps of damaged lithium that can be recycled."
 	},
 	"aluminum scrap": {
@@ -1354,7 +1424,7 @@
 		"scrap": {"gravel": 1.0},
 		"value": 0.1,
 		"liquidity": 2000.0,
-		"sort": [6, 0, 13],
+		"sort": [7, 0, 13],
 		"description": "Scraps of damaged aluminum that can be recycled."
 	},
 	"boron scrap": {
@@ -1365,10 +1435,10 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
-		"scrap": {"iron scrap": 1.0},
+		"scrap": {"boron scrap": 1.0},
 		"value": 0.1,
 		"liquidity": 1200.0,
-		"sort": [6, 0, 5],
+		"sort": [7, 0, 5],
 		"description": "Scraps of damaged boron that can be recycled."
 	},
 	"iron scrap": {
@@ -1382,7 +1452,7 @@
 		"scrap": {"iron scrap": 1.0},
 		"value": 0.1,
 		"liquidity": 1200.0,
-		"sort": [6, 0, 26],
+		"sort": [7, 0, 26],
 		"description": "Scraps of damaged iron that can be recycled."
 	},
 	"copper scrap": {
@@ -1396,7 +1466,7 @@
 		"scrap": {"copper scrap": 1.0},
 		"value": 0.1,
 		"liquidity": 1200.0,
-		"sort": [6, 0, 29],
+		"sort": [7, 0, 29],
 		"description": "Scraps of damaged copper that can be recycled."
 	},
 	"silver scrap": {
@@ -1410,7 +1480,7 @@
 		"scrap": {"silver scrap": 1.0},
 		"value": 0.5,
 		"liquidity": 1000.0,
-		"sort": [6, 0, 47],
+		"sort": [7, 0, 47],
 		"description": "Scraps of damaged silver that can be recycled."
 	},
 	"gold scrap": {
@@ -1421,10 +1491,10 @@
 		"phase": "solid",
 		"unit": "g",
 		"starting amount": 0.0,
-		"scrap": {"copper ore": 1.0},
+		"scrap": {"gold scrap": 1.0},
 		"value": 1.0,
 		"liquidity": 1000.0,
-		"sort": [6, 0, 79],
+		"sort": [7, 0, 79],
 		"description": "Scraps of damaged gold that can be recycled."
 	},
 	"plutonium scrap": {
@@ -1438,7 +1508,7 @@
 		"scrap": {"plutonium scrap": 1.0},
 		"value": 0.5,
 		"liquidity": 200.0,
-		"sort": [6, 0, 94],
+		"sort": [7, 0, 94],
 		"description": "Scraps of damaged plutonium that can be recycled."
 	},
 	"glass shard": {
@@ -1452,7 +1522,7 @@
 		"scrap": {"glass shard": 1.0},
 		"value": 0.1,
 		"liquidity": 1000.0,
-		"sort": [6, 1, 0],
+		"sort": [7, 1, 0],
 		"description": "Shards of broken glass that can be recycled."
 	},
 	"energy": {

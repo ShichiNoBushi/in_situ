@@ -44,6 +44,24 @@
 		"local": "",
 		"description": "Smelts copper ore into raw copper."
 	},
+	"smelt silver": {
+		"name": "Smelt Silver",
+		"inputs": {"silver ore": 5, "energy": 1},
+		"outputs": {"silver": 3},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Smelts silver ore into raw silver."
+	},
+	"smelt gold": {
+		"name": "Smelt Gold",
+		"inputs": {"gold ore": 5, "energy": 1},
+		"outputs": {"gold": 3},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Smelts gold ore into raw gold."
+	},
 	"refine boron": {
 		"name": "Refine Boron",
 		"inputs": {"boron ore": 5, "energy": 1},
@@ -809,17 +827,98 @@
 		"local": "",
 		"description": "Breaks down copper wire into recyclable scrap."
 	},
-	"carve stone brick": {
-		"name": "Carve Stone Brick",
-		"inputs": {"boron scrap": 5, "energy": 0.5},
-		"outputs": {"boron": 5},
+	"mint aluminum bullion": {
+		"name": "Mint Aluminum Bullion",
+		"inputs": {"aluminum": 5, "energy": 0.5},
+		"outputs": {"aluminum bullion": 5},
+		"available": false,
+		"machines": ["minting press"],
+		"local": "",
+		"description": "Mints aluminum into tradeable aluminum bullion."
+	},
+	"mint iron bullion": {
+		"name": "Mint Iron Bullion",
+		"inputs": {"iron": 5, "energy": 0.5},
+		"outputs": {"iron bullion": 5},
+		"available": false,
+		"machines": ["minting press"],
+		"local": "",
+		"description": "Mints iron into tradeable iron bullion."
+	},
+	"mint copper bullion": {
+		"name": "Mint Copper Bullion",
+		"inputs": {"copper": 5, "energy": 0.5},
+		"outputs": {"copper bullion": 5},
+		"available": false,
+		"machines": ["minting press"],
+		"local": "",
+		"description": "Mints copper into tradeable copper bullion."
+	},
+	"mint silver bullion": {
+		"name": "Mint Silver Bullion",
+		"inputs": {"silver": 5, "energy": 0.5},
+		"outputs": {"silver bullion": 5},
+		"available": false,
+		"machines": ["minting press"],
+		"local": "",
+		"description": "Mints silver into tradeable silver bullion."
+	},
+	"mint gold bullion": {
+		"name": "Mint Gold Bullion",
+		"inputs": {"gold": 5, "energy": 0.5},
+		"outputs": {"gold bullion": 5},
+		"available": false,
+		"machines": ["minting press"],
+		"local": "",
+		"description": "Mints gold into tradeable gold bullion."
+	},
+	"recycle aluminum bullion": {
+		"name": "Recycle Aluminum Bullion",
+		"inputs": {"aluminum bullion": 5, "energy": 0.5},
+		"outputs": {"aluminum": 5},
 		"available": false,
 		"machines": ["induction smelter"],
 		"local": "",
-		"description": "Recycles boron scrap into usable raw boron."
+		"description": "Recycles aluminum bullion into usable raw aluminum."
 	},
-	"recycle lithium": {
-		"name": "Recycle Lithium",
+	"recycle iron bullion": {
+		"name": "Recycle Iron Bullion",
+		"inputs": {"iron bullion": 5, "energy": 0.5},
+		"outputs": {"iron": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles iron bullion into usable raw iron."
+	},
+	"recycle copper bullion": {
+		"name": "Recycle Copper Bullion",
+		"inputs": {"copper bullion": 5, "energy": 0.5},
+		"outputs": {"copper": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles copper bullion into usable raw copper."
+	},
+	"recycle silver bullion": {
+		"name": "Recycle silver Bullion",
+		"inputs": {"silver bullion": 5, "energy": 0.5},
+		"outputs": {"silver": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles silver bullion into usable raw silver."
+	},
+	"recycle gold bullion": {
+		"name": "Recycle Gold Bullion",
+		"inputs": {"gold bullion": 5, "energy": 0.5},
+		"outputs": {"gold": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles gold bullion into usable raw gold."
+	},
+	"recycle lithium scrap": {
+		"name": "Recycle Lithium Scrap",
 		"inputs": {"lithium scrap": 5, "energy": 0.5},
 		"outputs": {"lithium": 5},
 		"available": false,
@@ -827,8 +926,17 @@
 		"local": "",
 		"description": "Recycles lithium scrap into usable raw lithium."
 	},
-	"recycle aluminum": {
-		"name": "Recycle Aluminum",
+	"recycle boron scrap": {
+		"name": "Recycle Boron Scrap",
+		"inputs": {"boron scrap": 5, "energy": 0.5},
+		"outputs": {"boron": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles boron scrap into usable raw boron."
+	},
+	"recycle aluminum scrap": {
+		"name": "Recycle Aluminum Scrap",
 		"inputs": {"aluminum scrap": 5, "energy": 0.5},
 		"outputs": {"aluminum": 5},
 		"available": false,
@@ -836,8 +944,8 @@
 		"local": "",
 		"description": "Recycles aluminum scrap into usable raw aluminum."
 	},
-	"recycle iron": {
-		"name": "Recycle Iron",
+	"recycle iron scrap": {
+		"name": "Recycle Iron Scrap",
 		"inputs": {"iron scrap": 5, "energy": 0.5},
 		"outputs": {"iron": 5},
 		"available": false,
@@ -845,14 +953,32 @@
 		"local": "",
 		"description": "Recycles iron scrap into usable raw iron."
 	},
-	"recycle copper": {
-		"name": "Recycle Copper",
+	"recycle copper scrap": {
+		"name": "Recycle Copper Scrap",
 		"inputs": {"copper scrap": 5, "energy": 0.5},
 		"outputs": {"copper": 5},
 		"available": false,
 		"machines": ["induction smelter"],
 		"local": "",
 		"description": "Recycles copper scrap into usable raw copper."
+	},
+	"recycle silver scrap": {
+		"name": "Recycle Silver Scrap",
+		"inputs": {"silver scrap": 5, "energy": 0.5},
+		"outputs": {"silver": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles silver scrap into usable raw silver."
+	},
+	"recycle gold scrap": {
+		"name": "Recycle Gold Scrap",
+		"inputs": {"gold scrap": 5, "energy": 0.5},
+		"outputs": {"gold": 5},
+		"available": false,
+		"machines": ["induction smelter"],
+		"local": "",
+		"description": "Recycles gold scrap into usable raw gold."
 	},
 	"mine stone": {
 		"name": "Mine (Stone)",
@@ -907,6 +1033,24 @@
 		"machines": ["miner"],
 		"local": "mining",
 		"description": "Extract copper ore from a local vein."
+	},
+	"mine silver ore": {
+		"name": "Mine (Silver Ore)",
+		"inputs": {"energy": 1},
+		"outputs": {"silver ore": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract silver ore from a local vein."
+	},
+	"mine gold ore": {
+		"name": "Mine (Gold Ore)",
+		"inputs": {"energy": 1},
+		"outputs": {"gold ore": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract gold ore from a local vein."
 	},
 	"mine ice": {
 		"name": "Mine (Ice)",
