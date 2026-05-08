@@ -872,6 +872,15 @@
 		"local": "mining",
 		"description": "Extract boron ore from a local vein."
 	},
+	"mine bauxite ore": {
+		"name": "Mine (Bauxite Ore)",
+		"inputs": {"energy": 1},
+		"outputs": {"bauxite ore": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract bauxite ore from a local vein."
+	},
 	"mine phosphate ore": {
 		"name": "Mine (Phosphate Ore)",
 		"inputs": {"energy": 1},

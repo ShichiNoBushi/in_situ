@@ -167,6 +167,34 @@
 		"sort": [0, 29],
 		"description": "A common metal with high conductivity frequently used for electricity."
 	},
+	"silver": {
+		"name": "Silver",
+		"abbreviation": "El-Ag",
+		"type": "element",
+		"subtypes": ["metal", "precious"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"silver scrap": 1.0},
+		"value": 1.2,
+		"liquidity": 1000.0,
+		"sort": [0, 47],
+		"description": "A precious metal."
+	},
+	"gold": {
+		"name": "Gold",
+		"abbreviation": "El-Au",
+		"type": "element",
+		"subtypes": ["metal", "precious"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"gold scrap": 1.0},
+		"value": 2.0,
+		"liquidity": 1000.0,
+		"sort": [0, 79],
+		"description": "A precious metal."
+	},
 	"plutonium": {
 		"name": "Plutonium",
 		"abbreviation": "El-Pu",
@@ -306,6 +334,34 @@
 		"liquidity": 1000.0,
 		"sort": [2, 1, 29],
 		"description": "An ore that refines into copper."
+	},
+	"silver ore": {
+		"name": "Silver Ore",
+		"abbreviation": "AgOre",
+		"type": "mineral",
+		"subtypes": ["mineral"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"silver ore": 1.0},
+		"value": 0.8,
+		"liquidity": 1000.0,
+		"sort": [2, 1, 47],
+		"description": "An ore that refines into silver."
+	},
+	"gold ore": {
+		"name": "Gold Ore",
+		"abbreviation": "AuOre",
+		"type": "mineral",
+		"subtypes": ["mineral"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"gold ore": 1.0},
+		"value": 1.0,
+		"liquidity": 1000.0,
+		"sort": [2, 1, 79],
+		"description": "An ore that refines into gold."
 	},
 	"limestone": {
 		"name": "Limestone",
@@ -1342,6 +1398,34 @@
 		"liquidity": 1200.0,
 		"sort": [6, 0, 29],
 		"description": "Scraps of damaged copper that can be recycled."
+	},
+	"silver scrap": {
+		"name": "Silver Scrap",
+		"abbreviation": "AgScrap",
+		"type": "scrap",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"silver scrap": 1.0},
+		"value": 0.5,
+		"liquidity": 1000.0,
+		"sort": [6, 0, 47],
+		"description": "Scraps of damaged silver that can be recycled."
+	},
+	"gold scrap": {
+		"name": "gold scrap",
+		"abbreviation": "AuScrap",
+		"type": "scrap",
+		"subtypes": ["metal"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"copper ore": 1.0},
+		"value": 1.0,
+		"liquidity": 1000.0,
+		"sort": [6, 0, 79],
+		"description": "Scraps of damaged gold that can be recycled."
 	},
 	"plutonium scrap": {
 		"name": "Plutonium Scrap",
