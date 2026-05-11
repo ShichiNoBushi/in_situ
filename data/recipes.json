@@ -575,7 +575,7 @@
 		"local": "",
 		"description": "Create bleach from lye and chlirine."
 	},
-	"synthesize lithium phsophate": {
+	"synthesize lithium phosophate": {
 		"name": "Synthesize Lithium Phosphate",
 		"inputs": {"lithium": 0.67, "phosphorus": 1, "oxygen": 2.07, "energy": 1},
 		"outputs": {"lithium phosphate": 3.74},
