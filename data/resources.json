@@ -547,7 +547,7 @@
 	},
 	"alumina": {
 		"name": "Alumina",
-		"abbreviation": "AlO",
+		"abbreviation": "Al2O3",
 		"type": "compound",
 		"subtypes": ["mineral", "aggregate"],
 		"phase": "solid",

@@ -105,7 +105,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["mine stone", "mine iron ore", "mine copper ore", "mine ice"],
+			"recipes": ["mine stone", "mine iron ore", "mine copper ore", "mine ice", "mine boron ore", "mine phosphate ore", "mine limestone", "mine lithium ore", "mine bauxite ore"],
 			"machines": []
 		},
 		"text": "Now that you can make motors, it is time to get the machines to do work for you and save yourself from having to harvest the raw resources yourself.\n\nThe schematics for an automated miner have been unlocked for you.",
@@ -568,7 +568,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["mineral rush", "salty miner", "better boards", "limey stone", "lithium ore rush"],
+			"quests": ["mineral rush", "salty miner", "better boards", "limey stone", "lithium ore rush", "outside the baux"],
 			"recipes": ["press copper substrate", "mine boron ore", "mine phosphate ore", "mine salt", "mine limestone"],
 			"machines": []
 		},
@@ -891,6 +891,54 @@
 			"quests": [],
 			"recipes": [],
 			"machines": ["lithium battery"]
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"outside the baux": {
+		"name": "Outside the Baux",
+		"start": false,
+		"requirement": {
+			"resources": {"bauxite ore": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["alumina yum"],
+			"recipes": ["crush bauxite", "mix bauxite slurry", "refine bauxite"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"alumina yum": {
+		"name": "Alumina, Yum",
+		"start": false,
+		"requirement": {
+			"resources": {"alumina": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["alumina electrolysis"],
+			"recipes": ["electrolyze alumina"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"alumina electrolysis": {
+		"name": "Alumina Electrolysis",
+		"start": false,
+		"requirement": {
+			"resources": {"aluminum": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["aluminum gear small mold", "extrude aluminum wire", "extrude aluminum rod", "aluminum plate press", "aluminum foil press", "recycle aluminum scrap"],
+			"machines": []
 		},
 		"text": "<placeholder text>",
 		"hint": "<placeholder text>"
