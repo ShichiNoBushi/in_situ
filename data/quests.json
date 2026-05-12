@@ -943,6 +943,38 @@
 		"text": "<placeholder text>",
 		"hint": "<placeholder text>"
 	},
+	"silver age": {
+		"name": "Silver Age",
+		"start": false,
+		"requirement": {
+			"resources": {"silver ore": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["smelt gold ore"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"golden age": {
+		"name": "Golden Age",
+		"start": false,
+		"requirement": {
+			"resources": {"gold ore": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["smelt gold ore"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
 	"electric oscillations": {
 		"name": "Electric Oscillations",
 		"start": false,
@@ -1016,8 +1048,40 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["minty fresh"],
 			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"minty fresh": {
+		"name": "Minty Fresh",
+		"start": false,
+		"requirement": {
+			"resources": {"gold bullion": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["making bank"],
+			"recipes": [],
+			"machines": ["minting press"]
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"making bank": {
+		"name": "Making Bank",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"minting press": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["mint iron bullion", "mint copper bullion", "mint aluminum bullion", "mint silver bullion", "mint gold bullion", "recycle iron bullion", "recycle copper bullion", "recycle aluminum bullion", "recycle silver bullion", "recycle gold bullion"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
