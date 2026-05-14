@@ -23,6 +23,8 @@ public partial class MachinePanel : Control
 	private OptionButton recipeMenu;
 	private RichTextLabel inputLabel;
 	private RichTextLabel outputLabel;
+	private Label throttlePercLabel;
+	private HSlider throttleSlider;
 	private ProgressBar recipeProgress;
 	private ProgressBar wearProgress;
 	private Label wearLabel;
@@ -42,6 +44,8 @@ public partial class MachinePanel : Control
 		recipeMenu = GetNode<OptionButton>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeOption");
 		inputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Inputs");
 		outputLabel = GetNode<RichTextLabel>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/HBoxContainer/Outputs");
+		throttlePercLabel = GetNode<Label>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/ThrottleHBox/ThrottlePercLabel");
+		throttleSlider = GetNode<HSlider>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/ThrottleSlider");
 		recipeProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Production/VBoxProduction/RecipeProgress");
 		wearProgress = GetNode<ProgressBar>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearProgress");
 		wearLabel = GetNode<Label>("Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearScroll/WearLabel");
@@ -53,6 +57,7 @@ public partial class MachinePanel : Control
 		holdButton.ButtonUp += OnHoldUp;
 		activeButton.Toggled += OnActiveToggled;
 		recipeMenu.ItemSelected += OnRecipeSelected;
+		throttleSlider.ValueChanged += OnThrottleChanged;
 		diagnosticsButton.Pressed += DiagnoseMachine;
 		repairButton.Pressed += RepairMachine;
 		dismantleButton.Pressed += DismantleMachine;
@@ -110,6 +115,20 @@ public partial class MachinePanel : Control
 		}
 	}
 	
+	private void OnThrottleChanged(double val)
+	{
+		if (machine == null)
+		{
+			return;
+		}
+		
+		float value = Math.Clamp((float)val, 0f, 100f);
+		
+		machine.SetThrottle(value);
+		
+		throttlePercLabel.Text = $"{value:0.0}%";
+	}
+	
 	private void UpdateStatus()
 	{
 		if (machine == null)
@@ -136,7 +155,7 @@ public partial class MachinePanel : Control
 		{
 			SetStatus("Warning - high wear", WARNING, DARKTEXT);
 		}
-		else if (machine.active)
+		else if (machine.active && machine.throttle > 0f)
 		{
 			SetStatus("Running", RUNNING, DARKTEXT);
 		}

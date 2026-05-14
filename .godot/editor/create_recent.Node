@@ -1,5 +1,7 @@
-CheckBox
 Label
+HBoxContainer
+HSlider
+CheckBox
 OptionButton
 ColorRect
 Panel
@@ -10,6 +12,3 @@ Button
 ProgressBar
 SpinBox
 MenuButton
-VBoxContainer
-HBoxContainer
-Control

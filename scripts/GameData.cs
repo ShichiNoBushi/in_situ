@@ -2671,6 +2671,7 @@ public class Machine : Buildable
 	public List<string> recipes {get; private set;} = new();
 	public string currentRecipe {get; private set;}
 	public Dictionary<string, float> outputBuffer {get; private set;} = new();
+	public float throttle {get; private set;}
 	public MachineSave lastSave {get; private set;}
 	
 	public Machine(string machineID, Region loc) : base(machineID, loc)
@@ -2695,6 +2696,8 @@ public class Machine : Buildable
 			currentRecipe = "";
 		}
 		
+		throttle = 100f;
+		
 		lastSave = null;
 	}
 	
@@ -2702,6 +2705,7 @@ public class Machine : Buildable
 	{
 		MachineData data = GameData.MACHINES[id];
 		active = save.active;
+		throttle = save.throttle;
 		
 		wear = save.wear;
 		
@@ -2740,6 +2744,11 @@ public class Machine : Buildable
 		currentRecipe = rid;
 	}
 	
+	public void SetThrottle(float val)
+	{
+		throttle = Math.Clamp(val, 0f, 100f);
+	}
+	
 	public override void Tick(double delta)
 	{
 		bool updateResources = false;
@@ -2747,7 +2756,7 @@ public class Machine : Buildable
 		if (active && (GameData.disableStorage || outputBuffer.Count == 0) && (GameData.disableWear || wear < maxWear) && GameData.RECIPES.ContainsKey(currentRecipe))
 		{
 			//Create a ratio value based on if recipe can be crafted.
-			float ratio = CanCraft(delta);
+			float ratio = CanCraft(delta) * (throttle / 100f);
 			
 			if (ratio > 0f)
 			{
@@ -2963,6 +2972,7 @@ public class MachineSave
 {
 	public string id {get; set;}
 	public bool active {get; set;}
+	public float throttle {get; set;}
 	public float wear {get; set;}
 	public float diagnosedWear {get; set;}
 	
@@ -2977,6 +2987,7 @@ public class MachineSave
 	{
 		id = "";
 		active = false;
+		throttle = 100f;
 		wear = 0f;
 		diagnosedWear = 0f;
 		
@@ -2992,6 +3003,7 @@ public class MachineSave
 	{
 		id = mach.id;
 		active = mach.active;
+		throttle = mach.throttle;
 		wear = mach.wear;
 		diagnosedWear = mach.diagnosedWear;
 		

@@ -3,17 +3,17 @@
 [ext_resource type="Script" uid="uid://vxikyx7p4hlw" path="res://scripts/MachinePanel.cs" id="1_56xds"]
 
 [node name="MachinePanel" type="Control" unique_id=685248476]
-custom_minimum_size = Vector2(0, 307)
+custom_minimum_size = Vector2(0, 350)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 562.0
-offset_bottom = 307.0
+offset_bottom = 331.0
 script = ExtResource("1_56xds")
 
 [node name="Panel" type="Panel" parent="." unique_id=868502323]
 layout_mode = 0
 offset_right = 562.0
-offset_bottom = 307.0
+offset_bottom = 350.0
 
 [node name="VBoxMain" type="VBoxContainer" parent="Panel" unique_id=651810302]
 layout_mode = 0
@@ -68,7 +68,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 214.0
+offset_top = -4.0
+offset_bottom = 257.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -113,6 +114,27 @@ bbcode_enabled = true
 text = "
 No resources"
 
+[node name="ThrottleHBox" type="HBoxContainer" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction" unique_id=1284790372]
+layout_mode = 2
+
+[node name="ThrottleTextLabel" type="Label" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/ThrottleHBox" unique_id=1947793405]
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+text = "Throttle:"
+
+[node name="ThrottlePercLabel" type="Label" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction/ThrottleHBox" unique_id=1405710811]
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+text = "100.0%"
+horizontal_alignment = 2
+
+[node name="ThrottleSlider" type="HSlider" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction" unique_id=1505291823]
+layout_mode = 2
+step = 0.1
+value = 100.0
+tick_count = 11
+ticks_on_borders = true
+
 [node name="RecipProgress" type="ProgressBar" parent="Panel/VBoxMain/MachineTab/Production/VBoxProduction" unique_id=258358092]
 custom_minimum_size = Vector2(300, 25)
 layout_mode = 2
@@ -133,7 +155,7 @@ offset_bottom = 214.0
 layout_mode = 2
 
 [node name="WearScroll" type="ScrollContainer" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance" unique_id=692761868]
-custom_minimum_size = Vector2(0, 146)
+custom_minimum_size = Vector2(0, 188)
 layout_mode = 2
 
 [node name="WearLabel" type="Label" parent="Panel/VBoxMain/MachineTab/Maintenance/VBoxMaintenance/WearScroll" unique_id=681238042]
