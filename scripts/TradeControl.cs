@@ -23,6 +23,14 @@ public partial class TradeControl : Node
 	public Button previousHubButton;
 	public Button nextHubButton;
 	
+	public OptionButton reserveMenu;
+	public SpinBox reserveSpin;
+	public Button reserveButton;
+	
+	public OptionButton returnMenu;
+	public SpinBox returnSpin;
+	public Button returnButton;
+	
 	public OptionButton traderTradeMenu;
 	public OptionButton playerTradeMenu;
 	
@@ -62,6 +70,14 @@ public partial class TradeControl : Node
 		nextTraderButton = GetNode<Button>("NextTraderButton");
 		previousHubButton = GetNode<Button>("PreviousHubButton");
 		nextHubButton = GetNode<Button>("NextHubButton");
+		
+		reserveMenu = GetNode<OptionButton>("ReserveMenu");
+		reserveSpin = GetNode<SpinBox>("ReserveSpin");
+		reserveButton = GetNode<Button>("ReserveButton");
+		
+		returnMenu = GetNode<OptionButton>("ReturnMenu");
+		returnSpin = GetNode<SpinBox>("ReturnSpin");
+		returnButton = GetNode<Button>("ReturnButton");
 		
 		traderTradeMenu = GetNode<OptionButton>("TraderTradeMenu");
 		playerTradeMenu = GetNode<OptionButton>("PlayerTradeMenu");

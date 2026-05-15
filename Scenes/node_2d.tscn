@@ -31,9 +31,10 @@ ResourceLabelSceneRef = ExtResource("5_v7gqg")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 4
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -417,7 +418,6 @@ offset_bottom = 882.0
 text = "Call Trader"
 
 [node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
-visible = false
 layout_mode = 2
 script = ExtResource("14_gwne5")
 ResourceLabelScene = ExtResource("5_v7gqg")
@@ -538,6 +538,72 @@ offset_bottom = 490.0
 [node name="ResourceVBox" type="VBoxContainer" parent="TabContainer/Trade/ResourceScroll" unique_id=343418491]
 custom_minimum_size = Vector2(370, 460)
 layout_mode = 2
+
+[node name="ToReserveLabel" type="Label" parent="TabContainer/Trade" unique_id=417107321]
+layout_mode = 0
+offset_left = 1173.0
+offset_top = 200.0
+offset_right = 1276.0
+offset_bottom = 223.0
+text = "<- To Reserve"
+
+[node name="ReserveMenu" type="OptionButton" parent="TabContainer/Trade" unique_id=382114179]
+layout_mode = 0
+offset_left = 1173.0
+offset_top = 228.0
+offset_right = 1530.0
+offset_bottom = 259.0
+
+[node name="ReserveSpin" type="SpinBox" parent="TabContainer/Trade" unique_id=844651528]
+layout_mode = 0
+offset_left = 1553.0
+offset_top = 228.0
+offset_right = 1639.5
+offset_bottom = 259.0
+max_value = 0.0
+step = 0.001
+alignment = 2
+
+[node name="ReserveButton" type="Button" parent="TabContainer/Trade" unique_id=640112985]
+layout_mode = 0
+offset_left = 1173.0
+offset_top = 267.0
+offset_right = 1260.0
+offset_bottom = 298.0
+text = "Reserve"
+
+[node name="ToResourceLabel" type="Label" parent="TabContainer/Trade" unique_id=2134912293]
+layout_mode = 0
+offset_left = 1173.0
+offset_top = 320.0
+offset_right = 1294.0
+offset_bottom = 343.0
+text = "-> To Resources"
+
+[node name="ReturnMenu" type="OptionButton" parent="TabContainer/Trade" unique_id=1619310767]
+layout_mode = 0
+offset_left = 1173.0
+offset_top = 345.0
+offset_right = 1530.0
+offset_bottom = 376.0
+
+[node name="ReturnSpin" type="SpinBox" parent="TabContainer/Trade" unique_id=1755882386]
+layout_mode = 0
+offset_left = 1553.0
+offset_top = 345.0
+offset_right = 1639.5
+offset_bottom = 376.0
+max_value = 0.0
+step = 0.001
+alignment = 2
+
+[node name="ReturnButton" type="Button" parent="TabContainer/Trade" unique_id=1518278165]
+layout_mode = 0
+offset_left = 1179.0
+offset_top = 395.0
+offset_right = 1260.0
+offset_bottom = 426.0
+text = "Return"
 
 [node name="ToYouLabel" type="Label" parent="TabContainer/Trade" unique_id=1803962690]
 layout_mode = 0
