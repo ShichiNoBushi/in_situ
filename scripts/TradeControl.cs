@@ -11,6 +11,10 @@ public partial class TradeControl : Node
 	public Trader activeTrader;
 	public Infrastructure activeHub;
 	
+	public List<Infrastructure> tradeHubs;
+	public Dictionary<(int x, int y), List<Dictionary<string, float>>> hubInventories;
+	public int hubIndex;
+	
 	public Dictionary<string, float> traderOffer;
 	public Dictionary<string, float> playerOffer;
 	
@@ -90,6 +94,9 @@ public partial class TradeControl : Node
 		playerOfferButton = GetNode<Button>("PlayerOfferButton");
 		playerRetractButton = GetNode<Button>("PlayerRetractButton");
 		
+		reserveButton.Pressed += OnReservePress;
+		returnButton.Pressed += OnReturnPress;
+		
 		traderOfferButton.Pressed += OnTraderOfferPress;
 		traderRetractButton.Pressed += OnTraderRetractPress;
 		playerOfferButton.Pressed += OnPlayerOfferPress;
@@ -107,6 +114,11 @@ public partial class TradeControl : Node
 		
 		activeTrader = null;
 		activeHub = null;
+		
+		tradeHubs = new();
+		hubInventories = new();
+		hubInventories[(0, 0)] = new();
+		hubIndex = -1;
 		
 		traderOffer = new();
 		playerOffer = new();
@@ -156,6 +168,40 @@ public partial class TradeControl : Node
 		UpdateAllLabels();
 		
 		tradeButton.Disabled = !(traderOffer.Count > 0 || playerOffer.Count > 0);
+	}
+	
+	public void OnReservePress()
+	{
+		if (activeHub == null || hubIndex == -1 || reserveSpin.Value == 0f)
+		{
+			return;
+		}
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		
+		string resID = (string)reserveMenu.GetSelectedMetadata();
+		float amount = (float)reserveSpin.Value;
+		
+		GameData.currentRegion.resources[resID] -= amount;
+		thisInventory[resID] += amount;
+	}
+	
+	public void OnReturnPress()
+	{
+		if (activeHub == null || hubIndex == -1 || returnSpin.Value == 0f)
+		{
+			return;
+		}
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		
+		string resID = (string)returnMenu.GetSelectedMetadata();
+		float amount = (float)returnSpin.Value;
+		
+		thisInventory[resID] -= amount;
+		GameData.currentRegion.resources[resID] += amount;
 	}
 	
 	public void OnTraderOfferPress()

@@ -1,14 +1,6 @@
 res://Scenes/node_2d.tscn
-res://data/traders.json
-res://data/quests.json
-res://data/recipes.json
-res://data/regions.json
-res://data/resources.json
-res://Scenes/MachinePanel.tscn
-res://scripts/GameData.cs
-res://scripts/MachinePanel.cs
-res://scripts/ResourceTest.cs
 res://scripts/TradeControl.cs
+res://scripts/ResourceTest.cs
 res://scripts/TravelControl.cs
 res://scripts/DevControl.cs
 res://scripts/AndroidControl.cs
@@ -18,6 +10,8 @@ res://scripts/MapCell.cs
 res://scripts/QuestControl.cs
 res://scripts/HarvestControl.cs
 res://scripts/InfrastructurePanel.cs
+res://scripts/MachinePanel.cs
 res://scripts/MachinesControl.cs
 res://scripts/ResourceControl.cs
 res://scripts/BuildControl.cs
+res://scripts/GameData.cs
