@@ -181,10 +181,33 @@ public partial class TradeControl : Node
 		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resID = (string)reserveMenu.GetSelectedMetadata();
-		float amount = (float)reserveSpin.Value;
+		float amount = Math.Min((float)reserveSpin.Value, (GameData.currentRegion.resources.ContainsKey(resID) ? GameData.currentRegion.resources[resID] : 0f));
 		
-		GameData.currentRegion.resources[resID] -= amount;
-		thisInventory[resID] += amount;
+		if (GameData.currentRegion.resources.ContainsKey(resID))
+		{
+			GameData.currentRegion.resources[resID] -= amount;
+			if (GameData.currentRegion.resources[resID] <= 0f)
+			{
+				GameData.currentRegion.resources.Remove(resID);
+				GameData.resourceControl.UpdateResourcePanels();
+			}
+		}
+		
+		if (thisInventory.ContainsKey(resID))
+		{
+			thisInventory[resID] += amount;
+		}
+		else
+		{
+			thisInventory[resID] = amount;
+			
+			Control rLabel = CreateResourceLabel(resID, amount);
+			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			
+			reserveResLabels[resID] = aLabel;
+			
+			reserveVBox.AddChild(rLabel);
+		}
 	}
 	
 	public void OnReturnPress()
@@ -198,10 +221,25 @@ public partial class TradeControl : Node
 		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resID = (string)returnMenu.GetSelectedMetadata();
-		float amount = (float)returnSpin.Value;
+		float amount = Math.Min((float)returnSpin.Value, (thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f));
 		
-		thisInventory[resID] -= amount;
-		GameData.currentRegion.resources[resID] += amount;
+		if (thisInventory.ContainsKey(resID))
+		{
+			thisInventory[resID] -= amount;
+			if (thisInventory[resID] <= 0f)
+			{
+				thisInventory.Remove(resID);
+			}
+		}
+		if (GameData.currentRegion.resources.ContainsKey(resID))
+		{
+			GameData.currentRegion.resources[resID] += amount;
+		}
+		else
+		{
+			GameData.currentRegion.resources[resID] = amount;
+			GameData.resourceControl.UpdateResourcePanels();
+		}
 	}
 	
 	public void OnTraderOfferPress()
@@ -473,6 +511,34 @@ public partial class TradeControl : Node
 		UpdateFavorProgress();
 		
 		tradeButton.Disabled = true;
+	}
+	
+	public void UpdateHubReserves()
+	{
+		reserveResLabels.Clear();
+		
+		foreach (var child in reserveVBox.GetChildren())
+		{
+			child.QueueFree();
+		}
+		
+		if (activeHub == null || hubIndex == -1)
+		{
+			return;
+		}
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		
+		foreach (var res in thisInventory)
+		{
+			Control rLabel = CreateResourceLabel(res.Key, res.Value);
+			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			
+			reserveResLabels[res.Key] = aLabel;
+			
+			reserveVBox.AddChild(rLabel);
+		}
 	}
 	
 	public Control CreateResourceLabel(string resID, float amount)
