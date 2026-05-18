@@ -572,14 +572,23 @@ public partial class TradeControl : Node
 			activeTrader = GameData.currentRegion.landedTraders[0];
 		}
 		
+		tradeHubs.Clear();
 		activeHub = null;
+		hubIndex = -1;
 		foreach (var infra in GameData.currentRegion.infrastructure)
 		{
 			if (infra.type == "trade")
 			{
-				activeHub = infra;
-				break;
+				tradeHubs.Add(infra);
+				/*activeHub = infra;
+				break;*/
 			}
+		}
+		
+		if (tradeHubs.Count > 0)
+		{
+			activeHub = tradeHubs[0];
+			hubIndex = 0;
 		}
 		
 		UpdateAllLabels();
@@ -697,6 +706,67 @@ public partial class TradeControl : Node
 		traderRetractButton.Disabled = false;
 	}
 	
+	public void UpdateReserveResourceLabels()
+	{
+		reserveResLabels.Clear();
+		
+		foreach (var child in reserveVBox.GetChildren())
+		{
+			child.QueueFree();
+		}
+		
+		string selectedMeta = (string)returnMenu.GetSelectedMetadata();
+		int selectedIdx = -1;
+		returnMenu.Clear();
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		Dictionary<string, float> thisInventory = hubIndex >= 0 ? hubInventories[coord][hubIndex] : null;
+		
+		if (hubIndex < 0 || thisInventory.Count == 0)
+		{
+			returnMenu.AddItem("No Trade Reserves");
+			returnMenu.SetItemMetadata(0, "N/A");
+			returnMenu.Select(0);
+			returnMenu.Disabled = true;
+			returnSpin.Editable = false;
+			returnButton.Disabled = true;
+			return;
+		}
+		
+		foreach (var res in thisInventory)
+		{
+			Control rLabel = ResourceLabelScene.Instantiate<Control>();
+			Label nLabel = rLabel.GetNode<Label>("HBoxContainer/NameLabel");
+			Label aLabel = rLabel.GetNode<Label>("HBoxContainer/AmountLabel");
+			
+			nLabel.Text = GameData.RESOURCES[res.Key].name;
+			aLabel.Text = GameData.FormatUnit(res.Value, res.Key);
+			
+			reserveResLabels[res.Key] = aLabel;
+			
+			reserveVBox.AddChild(rLabel);
+			
+			returnMenu.AddItem(GameData.RESOURCES[res.Key].name);
+			int idx = returnMenu.ItemCount - 1;
+			returnMenu.SetItemMetadata(idx, res.Key);
+			
+			if (selectedIdx < 0 && selectedMeta == res.Key)
+			{
+				selectedIdx = idx;
+				returnMenu.Select(idx);
+			}
+		}
+		
+		if (selectedIdx < 0)
+		{
+			returnMenu.Select(0);
+		}
+		
+		returnMenu.Disabled = false;
+		returnSpin.Editable = true;
+		returnButton.Disabled = false;
+	}
+	
 	public void UpdateRegionResourceLabels()
 	{
 		resourceResLabels.Clear();
@@ -710,15 +780,25 @@ public partial class TradeControl : Node
 		int selectedIdx = -1;
 		playerTradeMenu.Clear();
 		
+		string selectedReserveMeta = (string)reserveMenu.GetSelectedMetadata();
+		int selectedIdxMeta = -1;
+		reserveMenu.Clear();
+		
 		if (GameData.currentRegion.resources.Count == 0)
 		{
 			playerTradeMenu.AddItem("No Region Resources");
+			reserveMenu.AddItem("No Region Resources");
 			playerTradeMenu.SetItemMetadata(0, "N/A");
+			reserveMenu.SetItemMetadata(0, "N/A");
 			playerTradeMenu.Select(0);
+			reserveMenu.Select(0);
 			playerTradeMenu.Disabled = true;
 			playerTradeSpin.Editable = false;
 			playerOfferButton.Disabled = true;
 			playerRetractButton.Disabled = true;
+			reserveMenu.Disabled = true;
+			reserveSpin.Editable = false;
+			reserveButton.Disabled = true;
 			return;
 		}
 		
@@ -744,6 +824,16 @@ public partial class TradeControl : Node
 				selectedIdx = idx;
 				playerTradeMenu.Select(idx);
 			}
+			
+			reserveMenu.AddItem(GameData.RESOURCES[res.Key].name);
+			idx = reserveMenu.ItemCount - 1;
+			reserveMenu.SetItemMetadata(idx, res.Key);
+			
+			if (selectedIdxMeta < 0 && selectedReserveMeta == res.Key)
+			{
+				selectedIdxMeta = idx;
+				reserveMenu.Select(idx);
+			}
 		}
 		
 		if (selectedIdx < 0)
@@ -755,6 +845,9 @@ public partial class TradeControl : Node
 		playerTradeSpin.Editable = true;
 		playerOfferButton.Disabled = false;
 		playerRetractButton.Disabled = false;
+		reserveMenu.Disabled = false;
+		reserveSpin.Editable = true;
+		reserveButton.Disabled = false;
 	}
 	
 	public void UpdateTraderOfferLabels()
@@ -820,6 +913,31 @@ public partial class TradeControl : Node
 		
 		string resID = (string)traderTradeMenu.GetSelectedMetadata();
 		traderTradeSpin.MaxValue = activeTrader.inventory[resID];
+	}
+	
+	public void UpdateReserveResourceValues()
+	{
+		if (hubIndex < 0)
+		{
+			return;
+		}
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		
+		foreach (var res in thisInventory)
+		{
+			reserveResLabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
+		}
+		
+		if (returnMenu.GetSelectedId() < 0 || (string)returnMenu.GetSelectedMetadata() == "N/A")
+		{
+			returnSpin.MaxValue = 0;
+			return;
+		}
+		
+		string resID = (string)returnMenu.GetSelectedMetadata();
+		returnSpin.MaxValue = thisInventory[resID];
 	}
 	
 	public void UpdateRegionResourceValues()
