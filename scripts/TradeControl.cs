@@ -332,16 +332,54 @@ public partial class TradeControl : Node
 	public void OnPlayerOfferPress()
 	{
 		string resID = (string)playerTradeMenu.GetSelectedMetadata();
-		float amount = Math.Min((float)playerTradeSpin.Value, (GameData.currentRegion.resources.ContainsKey(resID) ? GameData.currentRegion.resources[resID] : 0f));
+		float totalAvailable = GameData.currentRegion.resources.ContainsKey(resID) ? GameData.currentRegion.resources[resID] : 0f;
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		Dictionary<string, float> thisInventory = null;
+		
+		if (hubIndex >= 0)
+		{
+			thisInventory = hubInventories[coord][hubIndex]; 
+			totalAvailable += thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
+		}
+		
+		float amount = Math.Min((float)playerTradeSpin.Value, totalAvailable);
+		float remaining = amount;
 		
 		if (amount <= 0f)
 		{
 			return;
 		}
 		
-		if (GameData.currentRegion.resources.ContainsKey(resID))
+		float hubAvailable = 0f;
+		
+		if (thisInventory != null)
 		{
-			GameData.currentRegion.resources[resID] -= amount;
+			hubAvailable = thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
+		}
+		
+		if (hubAvailable > 0f)
+		{
+			if (hubAvailable >= remaining)
+			{
+				thisInventory[resID] -= remaining;
+				remaining = 0f;
+				
+				if (thisInventory[resID] <= 0f)
+				{
+					thisInventory.Remove(resID);
+				}
+			}
+			else
+			{
+				remaining -= thisInventory[resID];
+				thisInventory.Remove(resID);
+			}
+		}
+		
+		if (remaining > 0f && GameData.currentRegion.resources.ContainsKey(resID))
+		{
+			GameData.currentRegion.resources[resID] -= remaining;
 			if (GameData.currentRegion.resources[resID] <= 0f)
 			{
 				GameData.currentRegion.resources.Remove(resID);
@@ -371,6 +409,7 @@ public partial class TradeControl : Node
 		
 		tradeButton.Disabled = false;
 		
+		UpdateReserveResourceValues();
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
 		UpdateFavorProgress();
@@ -392,7 +431,26 @@ public partial class TradeControl : Node
 		
 		float amount = playerOffer[resID];
 		
-		if (GameData.currentRegion.resources.ContainsKey(resID))
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		Dictionary<string, float> thisInventory = null;
+		
+		if (hubIndex >= 0)
+		{
+			thisInventory = hubInventories[coord][hubIndex];
+		}
+		
+		if (thisInventory != null)
+		{
+			if (thisInventory.ContainsKey(resID))
+			{
+				thisInventory[resID] += amount;
+			}
+			else
+			{
+				thisInventory[resID] = amount;
+			}
+		}
+		else if (GameData.currentRegion.resources.ContainsKey(resID))
 		{
 			GameData.currentRegion.resources[resID] += amount;
 		}
@@ -407,6 +465,7 @@ public partial class TradeControl : Node
 		
 		tradeButton.Disabled = traderOffer.Count == 0 && playerOffer.Count == 0;
 		
+		UpdateReserveResourceValues();
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
 		UpdateFavorProgress();
