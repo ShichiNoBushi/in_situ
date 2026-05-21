@@ -3076,6 +3076,10 @@ public class Infrastructure : Buildable
 				}
 			}
 		}
+		else if (type == "trade")
+		{
+			GameData.tradeControl.AddTradeHub(this);
+		}
 	}
 	
 	public Infrastructure(InfrastructureSave save) : base(save.id, GameData.regionMap[(save.coordX, save.coordY)])
@@ -3146,6 +3150,10 @@ public class Infrastructure : Buildable
 					network.RegisterInfrastructure(this);
 				}
 			}
+		}
+		else if (type == "trade")
+		{
+			GameData.tradeControl.AddTradeHub(this);
 		}
 	}
 	
@@ -3584,6 +3592,10 @@ public class Infrastructure : Buildable
 			
 			link.Unlink();
 			link.Dismantle();
+		}
+		else if (type == "trade")
+		{
+			GameData.tradeControl.RemoveTradeHub(this);
 		}
 		
 		foreach (var phase in serves)

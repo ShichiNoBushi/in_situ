@@ -1,4 +1,5 @@
 res://Scenes/node_2d.tscn
+res://scripts/GameData.cs
 res://scripts/TradeControl.cs
 res://scripts/ResourceTest.cs
 res://scripts/TravelControl.cs
@@ -14,4 +15,3 @@ res://scripts/MachinePanel.cs
 res://scripts/MachinesControl.cs
 res://scripts/ResourceControl.cs
 res://scripts/BuildControl.cs
-res://scripts/GameData.cs

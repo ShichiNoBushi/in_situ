@@ -11,7 +11,7 @@ public partial class TradeControl : Node
 	public Trader activeTrader;
 	public Infrastructure activeHub;
 	
-	public List<Infrastructure> tradeHubs;
+	public Dictionary<(int x, int y), List<Infrastructure>> tradeHubs;
 	public Dictionary<(int x, int y), List<Dictionary<string, float>>> hubInventories;
 	public int hubIndex;
 	
@@ -681,21 +681,19 @@ public partial class TradeControl : Node
 		tradeHubs.Clear();
 		activeHub = null;
 		hubIndex = -1;
-		foreach (var infra in GameData.currentRegion.infrastructure)
+		/*foreach (var infra in GameData.currentRegion.infrastructure)
 		{
 			if (infra.type == "trade")
 			{
 				tradeHubs.Add(infra);
-				/*activeHub = infra;
-				break;*/
 			}
-		}
+		}*/
 		
-		if (tradeHubs.Count > 0)
+		/*if (tradeHubs.Count > 0)
 		{
 			activeHub = tradeHubs[0];
 			hubIndex = 0;
-		}
+		}*/
 		
 		UpdateAllLabels();
 	}
@@ -1154,6 +1152,67 @@ public partial class TradeControl : Node
 		
 		favorProgress.Value = (playerValue > 0f && traderValue > 0f ? playerValue / traderValue : 0f) * 100f;
 		offerValueLabel.Text = $"{playerValue:0.00} / {traderValue:0.00}";
+	}
+	
+	public void AddTradeHub(Infrastructure infra)
+	{
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (!tradeHubs.ContainsKey(coord))
+		{
+			tradeHubs[coord] = new();
+		}
+		
+		tradeHubs[coord].Add(infra);
+		
+		if (!hubInventories.ContainsKey(coord))
+		{
+			hubInventories[coord] = new();
+		}
+		
+		hubInventories[coord].Add(new Dictionary<string, float>());
+		
+		if (activeHub == null)
+		{
+			activeHub = infra;
+			hubIndex = 0;
+		}
+	}
+	
+	public void RemoveTradeHub(Infrastructure infra)
+	{
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (!hubInventories.ContainsKey(coord) || !tradeHubs.ContainsKey(coord) || !tradeHubs[coord].Contains(infra))
+		{
+			return;
+		}
+		
+		int idx = tradeHubs[coord].IndexOf(infra);
+		
+		tradeHubs[coord].Remove(infra);
+		
+		Dictionary<string, float> thisInventory = hubInventories[coord][idx];
+		
+		foreach (var res in thisInventory)
+		{
+			if (GameData.currentRegion.resources.ContainsKey(res.Key))
+			{
+				GameData.currentRegion.resources[res.Key] += res.Value;
+			}
+			else
+			{
+				GameData.currentRegion.resources[res.Key] = res.Value;
+				GameData.resourceControl.UpdateResourcePanels();
+			}
+		}
+		
+		hubInventories[coord].RemoveAt(idx);
+		
+		if (hubInventories[coord].Count == 0)
+		{
+			hubInventories.Remove(coord);
+		}
 	}
 }
 
