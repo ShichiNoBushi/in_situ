@@ -151,9 +151,48 @@ public partial class TradeControl : Node
 			activeTrader = null;
 		}
 		
-		if (save.activeHub >= 0)
+		Dictionary<(int x, int y), List<HubInvSave>> saves = new();
+		
+		foreach (var hubInv in save.hubInventories)
 		{
-			activeHub = GameData.currentRegion.infrastructure[save.activeHub];
+			(int x, int y) coord = (hubInv.coordX, hubInv.coordY);
+			
+			if (!saves.ContainsKey(coord))
+			{
+				saves[coord] = new();
+			}
+			
+			saves[coord].Add(hubInv);
+		}
+		
+		hubInventories = new();
+		tradeHubs = new();
+		
+		foreach (var hubInv in saves)
+		{
+			hubInventories[hubInv.Key] = new(hubInv.Value.Count);
+			
+			foreach (var inv in hubInv.Value)
+			{
+				hubInventories[hubInv.Key][inv.index] = inv.inventory;
+			}
+			
+			tradeHubs[hubInv.Key] = new();
+			
+			foreach (var infra in GameData.regionMap[hubInv.Key].infrastructure)
+			{
+				if (infra.type == "trade")
+				{
+					tradeHubs[hubInv.Key].Add(infra);
+				}
+			}
+		}
+		
+		if (save.activeHubI >= 0)
+		{
+			(int x, int y) coord = (save.activeHubX, save.activeHubY);
+			hubIndex = save.activeHubI;
+			activeHub = tradeHubs[coord][save.activeHubI];
 		}
 		else
 		{
@@ -678,9 +717,17 @@ public partial class TradeControl : Node
 			activeTrader = GameData.currentRegion.landedTraders[0];
 		}
 		
-		tradeHubs.Clear();
+		//tradeHubs.Clear();
 		activeHub = null;
 		hubIndex = -1;
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0)
+		{
+			activeHub = tradeHubs[coord][0];
+			hubIndex = 0;
+		}
 		/*foreach (var infra in GameData.currentRegion.infrastructure)
 		{
 			if (infra.type == "trade")
@@ -1219,7 +1266,11 @@ public partial class TradeControl : Node
 public class TradeSave
 {
 	public int activeTrader;
-	public int activeHub;
+	public int activeHubX;
+	public int activeHubY;
+	public int activeHubI;
+	
+	public List<HubInvSave> hubInventories;
 	
 	public Dictionary<string, float> traderOffer;
 	public Dictionary<string, float> playerOffer;
@@ -1227,7 +1278,11 @@ public class TradeSave
 	public TradeSave()
 	{
 		activeTrader = -1;
-		activeHub = -1;
+		activeHubX = 0;
+		activeHubY = 0;
+		activeHubI = -1;
+		
+		hubInventories = new();
 		
 		traderOffer = new();
 		playerOffer = new();
@@ -1236,18 +1291,64 @@ public class TradeSave
 	public TradeSave(TradeControl tc)
 	{
 		activeTrader = tc.activeTrader != null ? tc.activeTrader.idNum : -1;
-		activeHub = -1;
+		activeHubX = 0;
+		activeHubY = 0;
+		activeHubI = -1;
 		
-		for (int i = 0; i < GameData.currentRegion.infrastructure.Count; i++)
+		hubInventories = new();
+		
+		foreach (var hubInv in tc.hubInventories)
 		{
-			if (tc.activeHub == GameData.currentRegion.infrastructure[i])
+			for (int i = 0; i < hubInv.Value.Count; i++)
 			{
-				activeHub = i;
-				break;
+				hubInventories.Add(new HubInvSave(hubInv.Key.x, hubInv.Key.y, i, hubInv.Value[i]));
+			}
+		}
+		
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (tc.tradeHubs.ContainsKey(coord))
+		{
+			for (int i = 0; i < tc.tradeHubs[coord].Count; i++)
+			{
+				if (tc.activeHub == tc.tradeHubs[coord][i])
+				{
+					activeHubX = coord.x;
+					activeHubY = coord.y;
+					activeHubI = i;
+					break;
+				}
 			}
 		}
 		
 		traderOffer = new(tc.traderOffer);
 		playerOffer = new(tc.playerOffer);
+	}
+}
+
+public class HubInvSave
+{
+	public int coordX;
+	public int coordY;
+	public int index;
+	
+	public Dictionary<string, float> inventory;
+	
+	public HubInvSave()
+	{
+		coordX = 0;
+		coordY = 0;
+		index = -1;
+		
+		inventory = new();
+	}
+	
+	public HubInvSave(int x, int y, int i, Dictionary<string, float> inv)
+	{
+		coordX = x;
+		coordY = y;
+		index = i;
+		
+		inventory = new(inv);
 	}
 }
