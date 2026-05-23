@@ -217,6 +217,12 @@ public partial class TradeControl : Node
 		}
 		
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (hubIndex >= hubInventories[coord].Count)
+		{
+			return;
+		}
+		
 		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resID = (string)reserveMenu.GetSelectedMetadata();
@@ -257,6 +263,12 @@ public partial class TradeControl : Node
 		}
 		
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (hubIndex >= hubInventories[coord].Count)
+		{
+			return;
+		}
+		
 		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resID = (string)returnMenu.GetSelectedMetadata();
@@ -376,7 +388,7 @@ public partial class TradeControl : Node
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
 		Dictionary<string, float> thisInventory = null;
 		
-		if (hubIndex >= 0)
+		if (hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			thisInventory = hubInventories[coord][hubIndex]; 
 			totalAvailable += thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
@@ -473,7 +485,7 @@ public partial class TradeControl : Node
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
 		Dictionary<string, float> thisInventory = null;
 		
-		if (hubIndex >= 0)
+		if (hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			thisInventory = hubInventories[coord][hubIndex];
 		}
@@ -550,7 +562,7 @@ public partial class TradeControl : Node
 	{
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
 		
-		if (hubIndex < 0)
+		if (hubIndex < 0 || hubIndex >= hubInventories[coord].Count)
 		{
 			returnSpin.MaxValue = 0f;
 			return;
@@ -577,7 +589,7 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
 		
-		if (hubIndex >= 0)
+		if (hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 			value += thisInventory.ContainsKey(resKey) ? thisInventory[resKey] : 0f;
@@ -673,6 +685,12 @@ public partial class TradeControl : Node
 		}
 		
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (hubIndex >= hubInventories[coord].Count)
+		{
+			return;
+		}
+		
 		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		foreach (var res in thisInventory)
@@ -872,9 +890,9 @@ public partial class TradeControl : Node
 		returnMenu.Clear();
 		
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
-		Dictionary<string, float> thisInventory = hubIndex >= 0 ? hubInventories[coord][hubIndex] : null;
+		Dictionary<string, float> thisInventory = (hubIndex >= 0 && hubIndex < hubInventories[coord].Count) ? hubInventories[coord][hubIndex] : null;
 		
-		if (hubIndex < 0 || thisInventory.Count == 0)
+		if (hubIndex < 0 || hubIndex >= hubInventories[coord].Count || thisInventory == null || thisInventory.Count == 0)
 		{
 			returnMenu.AddItem("No Trade Reserves");
 			returnMenu.SetItemMetadata(0, "N/A");
@@ -1014,9 +1032,10 @@ public partial class TradeControl : Node
 			}
 		}
 		
-		if (hubIndex >= 0)
+		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
-			(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
 			List<string> hubRes = new(hubInventories[coord][hubIndex].Keys);
 			
 			foreach (var res in hubRes)
@@ -1131,6 +1150,12 @@ public partial class TradeControl : Node
 		}
 		
 		(int x, int y) coord = (GameData.currentRegion.coordX, GameData.currentRegion.coordY);
+		
+		if (hubIndex >= hubInventories[coord].Count)
+		{
+			return;
+		}
+		
 		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		foreach (var res in thisInventory)
