@@ -2008,6 +2008,11 @@ public class Region
 		lastSave = save;
 	}
 	
+	public (int x, int y) GetCoord()
+	{
+		return (coordX, coordY);
+	}
+	
 	public void BuildFromSave()
 	{
 		foreach (var mach in lastSave.machines)
