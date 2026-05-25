@@ -151,46 +151,54 @@ public partial class TradeControl : Node
 			activeTrader = null;
 		}
 		
-		Dictionary<(int x, int y), List<HubInvSave>> saves = new();
-		
-		foreach (var hubInv in save.hubInventories)
-		{
-			(int x, int y) coord1 = (hubInv.coordX, hubInv.coordY);
-			
-			if (!saves.ContainsKey(coord1))
-			{
-				saves[coord1] = new();
-			}
-			
-			saves[coord1].Add(hubInv);
-		}
-		
-		hubInventories = new();
 		tradeHubs = new();
 		
-		foreach (var hubInv in saves)
+		foreach (var reg in GameData.regionMap)
 		{
-			hubInventories[hubInv.Key] = new(hubInv.Value.Count);
-			
-			for (int i = 0; i < hubInv.Value.Count; i++)
-			{
-				hubInventories[hubInv.Key][i] = new();
-			}
-			
-			foreach (var inv in hubInv.Value)
-			{
-				hubInventories[hubInv.Key][inv.index] = inv.inventory;
-			}
-			
-			tradeHubs[hubInv.Key] = new();
-			
-			foreach (var infra in GameData.regionMap[hubInv.Key].infrastructure)
+			foreach (var infra in reg.Value.infrastructure)
 			{
 				if (infra.type == "trade")
 				{
-					tradeHubs[hubInv.Key].Add(infra);
+					if (!tradeHubs.ContainsKey(reg.Key))
+					{
+						tradeHubs[reg.Key] = new();
+					}
+					
+					tradeHubs[reg.Key].Add(infra);
 				}
 			}
+		}
+		
+		hubInventories = new();
+		
+		foreach (var hubs in tradeHubs)
+		{
+			(int x, int y) coord1 = hubs.Key;
+			int hubCount = hubs.Value.Count;
+			
+			hubInventories[coord1] = new();
+			
+			for (int i = 0; i < hubCount; i++)
+			{
+				hubInventories[coord1].Add(new Dictionary<string, float>());
+			}
+		}
+		
+		foreach (var saveInv in save.hubInventories)
+		{
+			(int x, int y) coord2 = (saveInv.coordX, saveInv.coordY);
+			
+			if (!hubInventories.ContainsKey(coord2))
+			{
+				continue;
+			}
+			
+			if (saveInv.index < 0 || saveInv.index >= hubInventories[coord2].Count)
+			{
+				continue;
+			}
+			
+			hubInventories[coord2][saveInv.index] = new Dictionary<string, float>(saveInv.inventory);
 		}
 		
 		(int x, int y) coord = (save.activeHubX, save.activeHubY);
