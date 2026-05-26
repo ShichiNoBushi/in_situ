@@ -464,6 +464,11 @@ public partial class TradeControl : Node
 			amount -= remaining;
 		}
 		
+		if (amount <= 0f)
+		{
+			return;
+		}
+		
 		if (playerOffer.ContainsKey(resID))
 		{
 			playerOffer[resID] += amount;
@@ -1181,6 +1186,11 @@ public partial class TradeControl : Node
 		
 		foreach (var res in thisInventory)
 		{
+			if (!reserveResLabels.ContainsKey(res.Key))
+			{
+				continue;
+			}
+			
 			reserveResLabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
 		}
 		
@@ -1191,7 +1201,7 @@ public partial class TradeControl : Node
 		}
 		
 		string resID = (string)returnMenu.GetSelectedMetadata();
-		returnSpin.MaxValue = thisInventory[resID];
+		returnSpin.MaxValue = thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
 	}
 	
 	public void UpdateRegionResourceValues()
@@ -1319,6 +1329,32 @@ public partial class TradeControl : Node
 		if (hubInventories[coord].Count == 0)
 		{
 			hubInventories.Remove(coord);
+		}
+		
+		if (activeHub == infra)
+		{
+			if (tradeHubs.ContainsKey(coord) && tradeHubs[coord].Count > 0)
+			{
+				activeHub = tradeHubs[coord][0];
+				hubIndex = 0;
+			}
+			else
+			{
+				activeHub = null;
+				hubIndex = -1;
+			}
+		}
+		else
+		{
+			if (tradeHubs.ContainsKey(coord) && tradeHubs[coord].Count > 0)
+			{
+				hubIndex = tradeHubs[coord].IndexOf(activeHub);
+			}
+			else
+			{
+				activeHub = null;
+				hubIndex = -1;
+			}
 		}
 	}
 }
