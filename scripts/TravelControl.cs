@@ -177,6 +177,21 @@ public partial class TravelControl : Control
 		}
 	}
 	
+	public void SelectRegion((int x, int y) coord)
+	{
+		for (int i = 0; i < regionMenu.ItemCount; i++)
+		{
+			Vector2I itemCoord = (Vector2I)regionMenu.GetItemMetadata(i);
+			
+			if (itemCoord.X == coord.x && itemCoord.Y == coord.y)
+			{
+				regionMenu.Select(i);
+				OnRegionSelect(i);
+				return;
+			}
+		}
+	}
+	
 	private void ExploreRegion()
 	{
 		(int x, int y) exploreCoord;

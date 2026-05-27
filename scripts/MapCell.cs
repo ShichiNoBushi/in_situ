@@ -3,6 +3,8 @@ using System;
 
 public partial class MapCell : Control
 {
+	[Signal] public delegate void CellClickedEventHandler(Vector2I coord);
+	
 	public int coordX;
 	public int coordY;
 	
@@ -29,6 +31,14 @@ public partial class MapCell : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+	
+	public override void _GuiInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouse && mouse.ButtonIndex == MouseButton.Left && mouse.Pressed)
+		{
+			EmitSignal(SignalName.CellClicked, new Vector2I(coordX, coordY));
+		}
 	}
 	
 	public void Initialize((int x, int y) coord, bool explored)

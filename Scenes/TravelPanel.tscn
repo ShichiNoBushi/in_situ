@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bjkmfl7l1ajlw"]
+[gd_scene format=3 uid="uid://bjkmfl7l1ajlw"]
 
 [ext_resource type="Script" uid="uid://bvpyhxjo78y57" path="res://scripts/TravelControl.cs" id="1_iyxf0"]
 
-[node name="TravelPanel" type="Control"]
+[node name="TravelPanel" type="Control" unique_id=1086290889]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,12 +13,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_iyxf0")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=321798606]
 layout_mode = 0
 offset_right = 605.0
 offset_bottom = 200.0
 
-[node name="RegionLabel" type="Label" parent="Panel"]
+[node name="RegionLabel" type="Label" parent="Panel" unique_id=1375070537]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 31.0
@@ -26,7 +26,7 @@ offset_right = 213.0
 offset_bottom = 54.0
 text = "Current Region:"
 
-[node name="CurrentLabel" type="Label" parent="Panel"]
+[node name="CurrentLabel" type="Label" parent="Panel" unique_id=1413833200]
 layout_mode = 0
 offset_left = 223.0
 offset_top = 31.0
@@ -35,7 +35,7 @@ offset_bottom = 54.0
 text = "(0, 0)"
 horizontal_alignment = 2
 
-[node name="RegionMenu" type="OptionButton" parent="Panel"]
+[node name="RegionMenu" type="OptionButton" parent="Panel" unique_id=433210559]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 72.0
@@ -46,7 +46,7 @@ item_count = 1
 popup/item_0/text = "(0, 0)"
 popup/item_0/id = 0
 
-[node name="TravelButton" type="Button" parent="Panel"]
+[node name="TravelButton" type="Button" parent="Panel" unique_id=190149524]
 layout_mode = 0
 offset_left = 223.0
 offset_top = 72.0
@@ -54,7 +54,7 @@ offset_right = 344.0
 offset_bottom = 103.0
 text = "Travel"
 
-[node name="DirectionMenu" type="OptionButton" parent="Panel"]
+[node name="DirectionMenu" type="OptionButton" parent="Panel" unique_id=1272753954]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 110.0
@@ -81,7 +81,7 @@ popup/item_7/id = 7
 popup/item_8/text = "NW"
 popup/item_8/id = 8
 
-[node name="ExploreButton" type="Button" parent="Panel"]
+[node name="ExploreButton" type="Button" parent="Panel" unique_id=1848776581]
 layout_mode = 0
 offset_left = 223.0
 offset_top = 110.0
@@ -89,13 +89,13 @@ offset_right = 344.0
 offset_bottom = 141.0
 text = "Explore"
 
-[node name="FeaturesScroll" type="ScrollContainer" parent="Panel"]
+[node name="FeaturesScroll" type="ScrollContainer" parent="Panel" unique_id=1232054211]
 layout_mode = 0
 offset_left = 368.0
 offset_top = 8.0
 offset_right = 593.0
 offset_bottom = 189.0
 
-[node name="FeaturesLabel" type="Label" parent="Panel/FeaturesScroll"]
+[node name="FeaturesLabel" type="Label" parent="Panel/FeaturesScroll" unique_id=20700801]
 layout_mode = 2
 text = "Features:"

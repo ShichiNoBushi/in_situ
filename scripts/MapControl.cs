@@ -109,6 +109,7 @@ public partial class MapControl : Control
 						{
 							GD.Print($"MapControl: Marking cell for explored region {coord}");
 							cell.Initialize(coord, true);
+							cell.CellClicked += OnMapCellClicked;
 						}
 						else
 						{
@@ -130,6 +131,18 @@ public partial class MapControl : Control
 		{
 			GD.PrintErr($"MapControl: Error adding map cells - {e.Message}");
 		}
+	}
+	
+	public void OnMapCellClicked(Vector2I coordV2)
+	{
+		(int x, int y) coord = (coordV2.X, coordV2.Y);
+		
+		if (!GameData.regionMap.ContainsKey(coord))
+		{
+			return;
+		}
+		
+		GameData.travelControl.SelectRegion(coord);
 	}
 	
 	public void UpdateAllColors()
