@@ -308,6 +308,28 @@ public partial class TradeControl : Node
 		}
 	}
 	
+	public void OnPreviousHubPress()
+	{
+		(int x, int y) coord = GameData.currentRegion.GetCoord();
+		
+		if (hubInventories.ContainsKey(coord) && hubIndex > 0)
+		{
+			hubIndex--;
+			UpdateHubReserves();
+		}
+	}
+	
+	public void OnNextHubPress()
+	{
+		(int x, int y) coord = GameData.currentRegion.GetCoord();
+		
+		if (hubInventories.ContainsKey(coord) && hubIndex < hubInventories[coord].Count - 1)
+		{
+			hubIndex++;
+			UpdateHubReserves();
+		}
+	}
+	
 	public void OnTraderOfferPress()
 	{
 		if (activeTrader == null)
@@ -1291,6 +1313,9 @@ public partial class TradeControl : Node
 			activeHub = infra;
 			hubIndex = 0;
 		}
+		
+		previousHubButton.Disabled = false;
+		nextHubButton.Disabled = false;
 	}
 	
 	public void RemoveTradeHub(Infrastructure infra)
@@ -1342,6 +1367,9 @@ public partial class TradeControl : Node
 			{
 				activeHub = null;
 				hubIndex = -1;
+				
+				previousHubButton.Disabled = true;
+				nextHubButton.Disabled = true;
 			}
 		}
 		else
@@ -1354,6 +1382,9 @@ public partial class TradeControl : Node
 			{
 				activeHub = null;
 				hubIndex = -1;
+				
+				previousHubButton.Disabled = true;
+				nextHubButton.Disabled = true;
 			}
 		}
 	}
