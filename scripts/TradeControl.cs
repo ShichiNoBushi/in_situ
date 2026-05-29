@@ -718,6 +718,32 @@ public partial class TradeControl : Node
 		tradeButton.Disabled = true;
 	}
 	
+	public void ResetHubs()
+	{
+		(int x, int y) coord = GameData.currentRegion.GetCoord();
+		
+		if (!hubInventories.ContainsKey(coord))
+		{
+			activeHub = null;
+			hubIndex = -1;
+			UpdateHubReserves();
+			return;
+		}
+		
+		if (hubInventories[coord].Count > 0 && tradeHubs.ContainsKey(coord) && tradeHubs[coord].Count == hubInventories[coord].Count)
+		{
+			activeHub = tradeHubs[coord][0];
+			hubIndex = 0;
+		}
+		else
+		{
+			activeHub = null;
+			hubIndex = -1;
+		}
+		
+		UpdateHubReserves();
+	}
+	
 	public void UpdateHubReserves()
 	{
 		reserveResLabels.Clear();

@@ -1213,6 +1213,7 @@ public partial class GameData : Node
 		}
 		
 		logisticsControl.UpdateRegionLogistics();
+		tradeControl.ResetHubs();
 		tradeControl.UpdateRegionTrade();
 		
 		//Update colored regions on the map.
