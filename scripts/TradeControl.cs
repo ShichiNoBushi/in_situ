@@ -11,6 +11,9 @@ public partial class TradeControl : Node
 	public Trader activeTrader;
 	public Infrastructure activeHub;
 	
+	//public Dictionary<(int x, int y), List<Trader>> traders;
+	//public int traderIndex;
+	
 	public Dictionary<(int x, int y), List<Infrastructure>> tradeHubs;
 	public Dictionary<(int x, int y), List<Dictionary<string, float>>> hubInventories;
 	public int hubIndex;
@@ -115,6 +118,10 @@ public partial class TradeControl : Node
 		activeTrader = null;
 		activeHub = null;
 		
+		//traders = new();
+		//traders[(0, 0)] = new();
+		//traderIndex = -1;
+		
 		tradeHubs = new();
 		hubInventories = new();
 		hubInventories[(0, 0)] = new();
@@ -145,10 +152,25 @@ public partial class TradeControl : Node
 		if (save.activeTrader >= 0)
 		{
 			activeTrader = GameData.traders[save.activeTrader];
+			
+			/*(int x, int y) coord = GameData.currentRegion.GetCoord();
+			traderIndex = -1;
+			
+			if (traders.ContainsKey(coord))
+			{
+				for (int i = 0; i < traders[coord].Count; i++)
+				{
+					if (activeTrader == traders[coord][i])
+					{
+						traderIndex = i;
+					}
+				}
+			}*/
 		}
 		else
 		{
 			activeTrader = null;
+			//traderIndex = -1;
 		}
 		
 		tradeHubs = new();
@@ -306,6 +328,58 @@ public partial class TradeControl : Node
 			GameData.currentRegion.resources[resID] = amount;
 			GameData.resourceControl.UpdateResourcePanels();
 		}
+	}
+	
+	public void OnPreviousTraderPress()
+	{
+		if (GameData.currentRegion.landedTraders.Count <= 0)
+		{
+			return;
+		}
+		
+		int index = -1;
+		
+		for (int i = 0; i < GameData.currentRegion.landedTraders.Count; i++)
+		{
+			if (GameData.currentRegion.landedTraders[i] == activeTrader)
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		if (index <= 0)
+		{
+			return;
+		}
+		
+		activeTrader = GameData.currentRegion.landedTraders[index - 1];
+	}
+	
+	public void OnNextTraderPress()
+	{
+		if (GameData.currentRegion.landedTraders.Count <= 0)
+		{
+			return;
+		}
+		
+		int index = -1;
+		
+		for (int i = 0; i < GameData.currentRegion.landedTraders.Count; i++)
+		{
+			if (GameData.currentRegion.landedTraders[i] == activeTrader)
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		if (index == -1 || index > GameData.currentRegion.landedTraders.Count - 2)
+		{
+			return;
+		}
+		
+		activeTrader = GameData.currentRegion.landedTraders[index + 1];
 	}
 	
 	public void OnPreviousHubPress()
