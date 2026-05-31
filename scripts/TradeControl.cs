@@ -11,9 +11,6 @@ public partial class TradeControl : Node
 	public Trader activeTrader;
 	public Infrastructure activeHub;
 	
-	//public Dictionary<(int x, int y), List<Trader>> traders;
-	//public int traderIndex;
-	
 	public Dictionary<(int x, int y), List<Infrastructure>> tradeHubs;
 	public Dictionary<(int x, int y), List<Dictionary<string, float>>> hubInventories;
 	public int hubIndex;
@@ -118,10 +115,6 @@ public partial class TradeControl : Node
 		activeTrader = null;
 		activeHub = null;
 		
-		//traders = new();
-		//traders[(0, 0)] = new();
-		//traderIndex = -1;
-		
 		tradeHubs = new();
 		hubInventories = new();
 		hubInventories[(0, 0)] = new();
@@ -152,25 +145,10 @@ public partial class TradeControl : Node
 		if (save.activeTrader >= 0)
 		{
 			activeTrader = GameData.traders[save.activeTrader];
-			
-			/*(int x, int y) coord = GameData.currentRegion.GetCoord();
-			traderIndex = -1;
-			
-			if (traders.ContainsKey(coord))
-			{
-				for (int i = 0; i < traders[coord].Count; i++)
-				{
-					if (activeTrader == traders[coord][i])
-					{
-						traderIndex = i;
-					}
-				}
-			}*/
 		}
 		else
 		{
 			activeTrader = null;
-			//traderIndex = -1;
 		}
 		
 		tradeHubs = new();
@@ -354,6 +332,8 @@ public partial class TradeControl : Node
 		}
 		
 		activeTrader = GameData.currentRegion.landedTraders[index - 1];
+		
+		UpdateTraderResourceLabels();
 	}
 	
 	public void OnNextTraderPress()
@@ -380,6 +360,8 @@ public partial class TradeControl : Node
 		}
 		
 		activeTrader = GameData.currentRegion.landedTraders[index + 1];
+		
+		UpdateTraderResourceLabels();
 	}
 	
 	public void OnPreviousHubPress()
@@ -783,6 +765,9 @@ public partial class TradeControl : Node
 			activeTrader = null;
 		}
 		
+		previousTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
+		nextTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
+		
 		traderOffer.Clear();
 		playerOffer.Clear();
 		
@@ -883,7 +868,6 @@ public partial class TradeControl : Node
 			activeTrader = GameData.currentRegion.landedTraders[0];
 		}
 		
-		//tradeHubs.Clear();
 		activeHub = null;
 		hubIndex = -1;
 		
@@ -894,19 +878,12 @@ public partial class TradeControl : Node
 			activeHub = tradeHubs[coord][0];
 			hubIndex = 0;
 		}
-		/*foreach (var infra in GameData.currentRegion.infrastructure)
-		{
-			if (infra.type == "trade")
-			{
-				tradeHubs.Add(infra);
-			}
-		}*/
 		
-		/*if (tradeHubs.Count > 0)
-		{
-			activeHub = tradeHubs[0];
-			hubIndex = 0;
-		}*/
+		previousTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
+		nextTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
+		
+		previousHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2);
+		nextHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2);
 		
 		UpdateAllLabels();
 	}

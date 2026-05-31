@@ -327,6 +327,11 @@ public partial class GameData : Node
 				tradeControl.activeTrader = trad;
 				tradeControl.UpdateTraderResourceLabels();
 			}
+			else if (currentRegion.landedTraders.Count >= 2)
+			{
+				tradeControl.previousTraderButton.Disabled = false;
+				tradeControl.nextTraderButton.Disabled = false;
+			}
 		}
 		
 		UpdateMarket();
