@@ -94,8 +94,16 @@ public partial class TradeControl : Node
 		playerOfferButton = GetNode<Button>("PlayerOfferButton");
 		playerRetractButton = GetNode<Button>("PlayerRetractButton");
 		
+		reserveMenu.ItemSelected += OnReserveSelect;
+		returnMenu.ItemSelected += OnReturnSelect;
+		
 		reserveButton.Pressed += OnReservePress;
 		returnButton.Pressed += OnReturnPress;
+		
+		previousTraderButton.Pressed += OnPreviousTraderPress;
+		nextTraderButton.Pressed += OnNextTraderPress;
+		previousHubButton.Pressed += OnPreviousHubPress;
+		nextHubButton.Pressed += OnNextHubPress;
 		
 		traderOfferButton.Pressed += OnTraderOfferPress;
 		traderRetractButton.Pressed += OnTraderRetractPress;
@@ -666,7 +674,7 @@ public partial class TradeControl : Node
 	{
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (hubIndex < 0 || hubIndex >= hubInventories[coord].Count)
+		if (!hubInventories.ContainsKey(coord) || hubInventories[coord].Count == 0 || hubIndex < 0 || hubIndex >= hubInventories[coord].Count)
 		{
 			returnSpin.MaxValue = 0f;
 			return;
@@ -675,7 +683,7 @@ public partial class TradeControl : Node
 		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resKey = (string)returnMenu.GetItemMetadata((int)index);
-		float value = thisInventory[resKey];
+		float value = thisInventory.ContainsKey(resKey) ? thisInventory[resKey] : 0f;
 		returnSpin.MaxValue = value;
 	}
 	
@@ -1310,11 +1318,10 @@ public partial class TradeControl : Node
 			resourceResLabels[res.Key].Text = GameData.FormatUnit(res.Value, res.Key);
 		}
 		
-		if (playerTradeMenu.GetSelectedId() < 0 || (string)playerTradeMenu.GetSelectedMetadata() == "N/A")
+		/*if (playerTradeMenu.GetSelectedId() < 0 || (string)playerTradeMenu.GetSelectedMetadata() == "N/A")
 		{
-			playerTradeSpin.MaxValue = 0;
-			return;
-		}
+			playerTradeSpin.MaxValue = 0f;
+		}*/
 		
 		string resID = (string)playerTradeMenu.GetSelectedMetadata();
 		
@@ -1322,13 +1329,23 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
+		Dictionary<string, float> thisInventory = new();
+		
 		if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
-			Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+			thisInventory = hubInventories[coord][hubIndex];
 			value += thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
 		}
 		
 		playerTradeSpin.MaxValue = value;
+		
+		resID = (string)reserveMenu.GetSelectedMetadata();
+		
+		reserveSpin.MaxValue = GameData.currentRegion.resources.ContainsKey(resID) ? GameData.currentRegion.resources[resID] : 0f;
+		
+		resID = (string)returnMenu.GetSelectedMetadata();
+		
+		returnSpin.MaxValue = thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
 	}
 	
 	public void UpdateTraderOfferValues()
