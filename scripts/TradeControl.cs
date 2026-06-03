@@ -18,6 +18,9 @@ public partial class TradeControl : Node
 	public Dictionary<string, float> traderOffer;
 	public Dictionary<string, float> playerOffer;
 	
+	public Label traderNameLabel;
+	public Label hubNameLabel;
+	
 	public VBoxContainer traderVBox;
 	public VBoxContainer reserveVBox;
 	public VBoxContainer resourceVBox;
@@ -66,6 +69,9 @@ public partial class TradeControl : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		traderNameLabel = GetNode<Label>("TraderNameLabel");
+		hubNameLabel = GetNode<Label>("HubNameLabel");
+		
 		traderVBox = GetNode<VBoxContainer>("TraderScroll/TraderVBox");
 		reserveVBox = GetNode<VBoxContainer>("ReserveScroll/ReserveVBox");
 		resourceVBox = GetNode<VBoxContainer>("ResourceScroll/ResourceVBox");
@@ -381,6 +387,9 @@ public partial class TradeControl : Node
 			hubIndex--;
 			UpdateHubReserves();
 		}
+		
+		previousHubButton.Disabled = hubIndex > 0;
+		nextHubButton.Disabled = false;
 	}
 	
 	public void OnNextHubPress()
@@ -392,6 +401,9 @@ public partial class TradeControl : Node
 			hubIndex++;
 			UpdateHubReserves();
 		}
+		
+		previousHubButton.Disabled = false;
+		nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
 	}
 	
 	public void OnTraderOfferPress()
@@ -809,6 +821,30 @@ public partial class TradeControl : Node
 		}
 		
 		UpdateHubReserves();
+	}
+	
+	public void UpdateTraderName()
+	{
+		if (GameData.currentRegion.landedTraders.Count == 0)
+		{
+			traderNameLabel.Text = "No Trader";
+			return;
+		}
+		
+		traderNameLabel.Text = activeTrader.name;
+	}
+	
+	public void UpdateHubName()
+	{
+		(int x, int y) coord = GameData.currentRegion.GetCoord();
+		
+		if (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count == 0)
+		{
+			hubNameLabel.Text = "No Trade Hubs";
+			return;
+		}
+		
+		hubNameLabel.Text = $"Hub ({coord.x}, {coord.y}) #{hubIndex + 1}";
 	}
 	
 	public void UpdateHubReserves()
@@ -1408,8 +1444,8 @@ public partial class TradeControl : Node
 			hubIndex = 0;
 		}
 		
-		previousHubButton.Disabled = false;
-		nextHubButton.Disabled = false;
+		previousHubButton.Disabled = hubIndex > 0;
+		nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
 	}
 	
 	public void RemoveTradeHub(Infrastructure infra)
@@ -1461,9 +1497,6 @@ public partial class TradeControl : Node
 			{
 				activeHub = null;
 				hubIndex = -1;
-				
-				previousHubButton.Disabled = true;
-				nextHubButton.Disabled = true;
 			}
 		}
 		else
@@ -1476,11 +1509,11 @@ public partial class TradeControl : Node
 			{
 				activeHub = null;
 				hubIndex = -1;
-				
-				previousHubButton.Disabled = true;
-				nextHubButton.Disabled = true;
 			}
 		}
+		
+		previousHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex > 0);
+		nextHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex < tradeHubs[coord].Count - 1);
 	}
 }
 
