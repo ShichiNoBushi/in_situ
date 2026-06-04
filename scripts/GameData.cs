@@ -322,6 +322,8 @@ public partial class GameData : Node
 			
 			currentRegion.landedTraders.Add(trad);
 			
+			tradeControl.UpdateTraderName();
+			
 			if (tradeControl.activeTrader == null)
 			{
 				tradeControl.activeTrader = trad;
@@ -329,8 +331,10 @@ public partial class GameData : Node
 			}
 			else if (currentRegion.landedTraders.Count >= 2)
 			{
-				tradeControl.previousTraderButton.Disabled = false;
-				tradeControl.nextTraderButton.Disabled = false;
+				int index = currentRegion.landedTraders.IndexOf(tradeControl.activeTrader);
+				
+				tradeControl.previousTraderButton.Disabled = (index <= 0 || currentRegion.landedTraders.Count <= 1);
+				tradeControl.nextTraderButton.Disabled = (index == -1 || currentRegion.landedTraders.Count <= 1 || index == currentRegion.landedTraders.Count - 1);
 			}
 		}
 		

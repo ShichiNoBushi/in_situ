@@ -233,6 +233,8 @@ public partial class TradeControl : Node
 		
 		lastSave = save;
 		
+		UpdateTraderName();
+		UpdateHubName();
 		UpdateAllLabels();
 		
 		tradeButton.Disabled = !(traderOffer.Count > 0 || playerOffer.Count > 0);
@@ -347,6 +349,7 @@ public partial class TradeControl : Node
 		
 		activeTrader = GameData.currentRegion.landedTraders[index - 1];
 		
+		UpdateTraderName();
 		UpdateTraderResourceLabels();
 	}
 	
@@ -375,6 +378,7 @@ public partial class TradeControl : Node
 		
 		activeTrader = GameData.currentRegion.landedTraders[index + 1];
 		
+		UpdateTraderName();
 		UpdateTraderResourceLabels();
 	}
 	
@@ -385,11 +389,13 @@ public partial class TradeControl : Node
 		if (hubInventories.ContainsKey(coord) && hubIndex > 0)
 		{
 			hubIndex--;
+		
+			previousHubButton.Disabled = hubIndex > 0;
+			nextHubButton.Disabled = false;
+			
+			UpdateHubName();
 			UpdateHubReserves();
 		}
-		
-		previousHubButton.Disabled = hubIndex > 0;
-		nextHubButton.Disabled = false;
 	}
 	
 	public void OnNextHubPress()
@@ -399,11 +405,13 @@ public partial class TradeControl : Node
 		if (hubInventories.ContainsKey(coord) && hubIndex < hubInventories[coord].Count - 1)
 		{
 			hubIndex++;
+		
+			previousHubButton.Disabled = false;
+			nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
+			
+			UpdateHubName();
 			UpdateHubReserves();
 		}
-		
-		previousHubButton.Disabled = false;
-		nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
 	}
 	
 	public void OnTraderOfferPress()
@@ -929,6 +937,8 @@ public partial class TradeControl : Node
 		previousHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2);
 		nextHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2);
 		
+		UpdateTraderName();
+		UpdateHubName();
 		UpdateAllLabels();
 	}
 	
@@ -1446,6 +1456,8 @@ public partial class TradeControl : Node
 		
 		previousHubButton.Disabled = hubIndex > 0;
 		nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
+		
+		UpdateHubName();
 	}
 	
 	public void RemoveTradeHub(Infrastructure infra)
@@ -1514,6 +1526,8 @@ public partial class TradeControl : Node
 		
 		previousHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex > 0);
 		nextHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex < tradeHubs[coord].Count - 1);
+		
+		UpdateHubName();
 	}
 }
 
