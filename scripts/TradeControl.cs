@@ -284,6 +284,9 @@ public partial class TradeControl : Node
 			
 			reserveVBox.AddChild(rLabel);
 		}
+		
+		UpdateRegionResourceLabels();
+		UpdateReserveResourceLabels();
 	}
 	
 	public void OnReturnPress()
@@ -322,6 +325,9 @@ public partial class TradeControl : Node
 			GameData.currentRegion.resources[resID] = amount;
 			GameData.resourceControl.UpdateResourcePanels();
 		}
+		
+		UpdateRegionResourceLabels();
+		UpdateReserveResourceLabels();
 	}
 	
 	public void OnPreviousTraderPress()
@@ -331,7 +337,9 @@ public partial class TradeControl : Node
 			return;
 		}
 		
-		int index = -1;
+		int index = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
+		
+		/*int index = -1;
 		
 		for (int i = 0; i < GameData.currentRegion.landedTraders.Count; i++)
 		{
@@ -340,7 +348,7 @@ public partial class TradeControl : Node
 				index = i;
 				break;
 			}
-		}
+		}*/
 		
 		if (index <= 0)
 		{
@@ -360,7 +368,9 @@ public partial class TradeControl : Node
 			return;
 		}
 		
-		int index = -1;
+		int index = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
+		
+		/*int index = -1;
 		
 		for (int i = 0; i < GameData.currentRegion.landedTraders.Count; i++)
 		{
@@ -369,7 +379,7 @@ public partial class TradeControl : Node
 				index = i;
 				break;
 			}
-		}
+		}*/
 		
 		if (index == -1 || index > GameData.currentRegion.landedTraders.Count - 2)
 		{
@@ -1458,6 +1468,7 @@ public partial class TradeControl : Node
 		nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
 		
 		UpdateHubName();
+		UpdateReserveResourceLabels();
 	}
 	
 	public void RemoveTradeHub(Infrastructure infra)
@@ -1528,6 +1539,7 @@ public partial class TradeControl : Node
 		nextHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex < tradeHubs[coord].Count - 1);
 		
 		UpdateHubName();
+		UpdateReserveResourceLabels();
 	}
 }
 
