@@ -391,15 +391,16 @@ public partial class GameData : Node
 		{
 			GD.PrintErr($"GameData: Error generating starting region - {e.Message}");
 		}
+		
+		//Assign the player's initial location as the center of the map.
+		currentRegion = regionMap[(0, 0)];
+		travelControl.AssignCoordinateReferences();
+		
 		//Create starting resources and machines according to JSON labels.
 		GiveStartingResources();
 		GiveStartingMachines();
 		//machinesControl.AddStartingMachines();
 		//machinesControl.AddStartingInfrastructure();
-		
-		//Assign the player's initial location as the center of the map.
-		currentRegion = regionMap[(0, 0)];
-		travelControl.AssignCoordinateReferences();
 		
 		coordStringToTuple.Clear();
 		coordStringToTuple[CoordToString((0, 0))] = (0, 0);

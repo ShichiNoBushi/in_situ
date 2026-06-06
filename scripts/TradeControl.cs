@@ -356,6 +356,10 @@ public partial class TradeControl : Node
 		}
 		
 		activeTrader = GameData.currentRegion.landedTraders[index - 1];
+		index--;
+		
+		previousTraderButton.Disabled = index <= 0;
+		nextTraderButton.Disabled = (index == -1 || index >= GameData.currentRegion.landedTraders.Count - 1);
 		
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
@@ -400,7 +404,7 @@ public partial class TradeControl : Node
 		{
 			hubIndex--;
 		
-			previousHubButton.Disabled = hubIndex > 0;
+			previousHubButton.Disabled = hubIndex <= 0;
 			nextHubButton.Disabled = false;
 			
 			UpdateHubName();
@@ -417,7 +421,7 @@ public partial class TradeControl : Node
 			hubIndex++;
 		
 			previousHubButton.Disabled = false;
-			nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
+			nextHubButton.Disabled = hubIndex >= tradeHubs[coord].Count - 1;
 			
 			UpdateHubName();
 			UpdateHubReserves();
@@ -803,8 +807,10 @@ public partial class TradeControl : Node
 			activeTrader = null;
 		}
 		
-		previousTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
-		nextTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
+		int traderIndex = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
+		
+		previousTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex <= 0);
+		nextTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex == -1 || traderIndex >= GameData.currentRegion.landedTraders.Count - 1);
 		
 		traderOffer.Clear();
 		playerOffer.Clear();
@@ -941,11 +947,13 @@ public partial class TradeControl : Node
 			hubIndex = 0;
 		}
 		
-		previousTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
-		nextTraderButton.Disabled = GameData.currentRegion.landedTraders.Count < 2;
+		int traderIndex = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
 		
-		previousHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2);
-		nextHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2);
+		previousTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex <= 0);
+		nextTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex == -1 || traderIndex >= GameData.currentRegion.landedTraders.Count - 1);
+		
+		previousHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2 || hubIndex <= 0);
+		nextHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2 || hubIndex == -1 || hubIndex >= tradeHubs[coord].Count - 1);
 		
 		UpdateTraderName();
 		UpdateHubName();
@@ -1464,8 +1472,8 @@ public partial class TradeControl : Node
 			hubIndex = 0;
 		}
 		
-		previousHubButton.Disabled = hubIndex > 0;
-		nextHubButton.Disabled = hubIndex < tradeHubs[coord].Count - 1;
+		previousHubButton.Disabled = hubIndex <= 0;
+		nextHubButton.Disabled = hubIndex >= tradeHubs[coord].Count - 1;
 		
 		UpdateHubName();
 		UpdateReserveResourceLabels();

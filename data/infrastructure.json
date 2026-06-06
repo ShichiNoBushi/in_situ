@@ -204,7 +204,7 @@
 		"size": 10,
 		"through": 0.0,
 		"energy cost": 0.0,
-		"starting amount": 0,
+		"starting amount": 1,
 		"available": false,
 		"sort": [3, 0],
 		"description": "Communicates long distances with radio transmissions."
@@ -219,7 +219,7 @@
 		"size": 10,
 		"through": 1000.0,
 		"energy cost": 0.0,
-		"starting amount": 0,
+		"starting amount": 2,
 		"available": false,
 		"sort": [4, 0],
 		"description": "A platform for small ships to land on."
@@ -234,7 +234,7 @@
 		"size": 20,
 		"through": 0.0,
 		"energy cost": 0.0,
-		"starting amount": 0,
+		"starting amount": 2,
 		"available": false,
 		"sort": [4, 0],
 		"description": "A platform for small ships to land on."
