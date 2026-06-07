@@ -339,6 +339,8 @@ public partial class TradeControl : Node
 		
 		int index = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
 		
+		GD.Print($"TradeControl: Previous Trader - old trader index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
+		
 		/*int index = -1;
 		
 		for (int i = 0; i < GameData.currentRegion.landedTraders.Count; i++)
@@ -348,18 +350,21 @@ public partial class TradeControl : Node
 				index = i;
 				break;
 			}
-		}*/
+		}
 		
 		if (index <= 0)
 		{
 			return;
-		}
+		}*/
 		
-		activeTrader = GameData.currentRegion.landedTraders[index - 1];
-		index--;
+		index = Math.Max(index - 1, 0);
+		
+		activeTrader = GameData.currentRegion.landedTraders[index];
+		
+		GD.Print($"Trade Control: Previous Trader - new index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
 		
 		previousTraderButton.Disabled = index <= 0;
-		nextTraderButton.Disabled = (index == -1 || index >= GameData.currentRegion.landedTraders.Count - 1);
+		nextTraderButton.Disabled = index == -1;
 		
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
@@ -373,6 +378,8 @@ public partial class TradeControl : Node
 		}
 		
 		int index = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
+		
+		GD.Print($"TradeControl: Next Trader - old trader index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
 		
 		/*int index = -1;
 		
@@ -390,7 +397,15 @@ public partial class TradeControl : Node
 			return;
 		}
 		
-		activeTrader = GameData.currentRegion.landedTraders[index + 1];
+		//index = Math.Min(index + 1, GameData.currentRegion.landedTraders.Count - 1);
+		index++;
+		
+		activeTrader = GameData.currentRegion.landedTraders[index];
+		
+		GD.Print($"Trade Control: Next Trader - new index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
+		
+		previousTraderButton.Disabled = index == -1;
+		nextTraderButton.Disabled = (index == -1 || index <= GameData.currentRegion.landedTraders.Count - 1);
 		
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
@@ -849,7 +864,7 @@ public partial class TradeControl : Node
 	
 	public void UpdateTraderName()
 	{
-		if (GameData.currentRegion.landedTraders.Count == 0)
+		if (activeTrader == null || GameData.currentRegion.landedTraders.Count == 0)
 		{
 			traderNameLabel.Text = "No Trader";
 			return;
