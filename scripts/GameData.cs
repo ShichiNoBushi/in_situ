@@ -282,12 +282,24 @@ public partial class GameData : Node
 		int pickTrader = rng.RandiRange(0, traders.Count);
 		Trader trad;
 		
+		bool landed = false;
+		
 		GD.Print($"GameData: number {pickTrader} picked out of {traders.Count} traders");
 		
 		if (traders.Count != 0 && pickTrader < traders.Count)
 		{
 			List<int> tradIDs = traders.Keys.ToList();
 			trad = traders[tradIDs[pickTrader]];
+			
+			foreach (var reg in GameData.regionMap.Values)
+			{
+				if (reg.landedTraders.Contains(trad))
+				{
+					landed = true;
+					GD.Print($"GameData: {trad.name} already landed in region ({reg.coordX}, {reg.coordY})");
+					break;
+				}
+			}
 			
 			GD.Print($"GameData: Trader \"{trad.name}\" picked");
 		}
@@ -317,7 +329,7 @@ public partial class GameData : Node
 		
 		GD.Print($"GameData: {currentRegion.landedTraders.Count} traders landed out of {currentRegion.DocksAvailable()}");
 		
-		if (currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
+		if (!landed && currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
 		{
 			trad.GenerateInventory();
 			trad.GenerateSnapshot();

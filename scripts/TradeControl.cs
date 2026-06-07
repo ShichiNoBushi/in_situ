@@ -364,7 +364,7 @@ public partial class TradeControl : Node
 		GD.Print($"Trade Control: Previous Trader - new index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
 		
 		previousTraderButton.Disabled = index <= 0;
-		nextTraderButton.Disabled = index == -1;
+		nextTraderButton.Disabled = (index == -1 || index >= GameData.currentRegion.landedTraders.Count - 1);
 		
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
@@ -404,8 +404,8 @@ public partial class TradeControl : Node
 		
 		GD.Print($"Trade Control: Next Trader - new index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
 		
-		previousTraderButton.Disabled = index == -1;
-		nextTraderButton.Disabled = (index == -1 || index <= GameData.currentRegion.landedTraders.Count - 1);
+		previousTraderButton.Disabled = index <= 0;
+		nextTraderButton.Disabled = (index == -1 || index >= GameData.currentRegion.landedTraders.Count - 1);
 		
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
@@ -945,10 +945,15 @@ public partial class TradeControl : Node
 	
 	public void UpdateRegionTrade()
 	{
-		activeTrader = null;
+		/*activeTrader = null;
 		if (GameData.currentRegion.landedTraders.Count > 0)
 		{
 			activeTrader = GameData.currentRegion.landedTraders[0];
+		}*/
+		
+		if (activeTrader == null || !GameData.currentRegion.landedTraders.Contains(activeTrader))
+		{
+			activeTrader = GameData.currentRegion.landedTraders.Count > 0 ? GameData.currentRegion.landedTraders[0] : null;
 		}
 		
 		activeHub = null;
