@@ -287,6 +287,8 @@ public partial class TradeControl : Node
 		
 		UpdateRegionResourceLabels();
 		UpdateReserveResourceLabels();
+		UpdateResRetMenus();
+		UpdatePlayerTradeMenu();
 	}
 	
 	public void OnReturnPress()
@@ -328,6 +330,8 @@ public partial class TradeControl : Node
 		
 		UpdateRegionResourceLabels();
 		UpdateReserveResourceLabels();
+		UpdateResRetMenus();
+		UpdatePlayerTradeMenu();
 	}
 	
 	public void OnPreviousTraderPress()
@@ -341,22 +345,6 @@ public partial class TradeControl : Node
 		
 		GD.Print($"TradeControl: Previous Trader - old trader index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
 		
-		/*int index = -1;
-		
-		for (int i = 0; i < GameData.currentRegion.landedTraders.Count; i++)
-		{
-			if (GameData.currentRegion.landedTraders[i] == activeTrader)
-			{
-				index = i;
-				break;
-			}
-		}
-		
-		if (index <= 0)
-		{
-			return;
-		}*/
-		
 		index = Math.Max(index - 1, 0);
 		
 		activeTrader = GameData.currentRegion.landedTraders[index];
@@ -368,6 +356,7 @@ public partial class TradeControl : Node
 		
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
+		UpdateTraderTradeMenu();
 	}
 	
 	public void OnNextTraderPress()
@@ -381,24 +370,12 @@ public partial class TradeControl : Node
 		
 		GD.Print($"TradeControl: Next Trader - old trader index {index} (Max: {GameData.currentRegion.landedTraders.Count - 1})");
 		
-		/*int index = -1;
-		
-		for (int i = 0; i < GameData.currentRegion.landedTraders.Count; i++)
-		{
-			if (GameData.currentRegion.landedTraders[i] == activeTrader)
-			{
-				index = i;
-				break;
-			}
-		}*/
-		
 		if (index == -1 || index > GameData.currentRegion.landedTraders.Count - 2)
 		{
 			return;
 		}
 		
-		//index = Math.Min(index + 1, GameData.currentRegion.landedTraders.Count - 1);
-		index++;
+		index = Math.Min(index + 1, GameData.currentRegion.landedTraders.Count - 1);
 		
 		activeTrader = GameData.currentRegion.landedTraders[index];
 		
@@ -409,6 +386,7 @@ public partial class TradeControl : Node
 		
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
+		UpdateTraderTradeMenu();
 	}
 	
 	public void OnPreviousHubPress()
@@ -424,6 +402,8 @@ public partial class TradeControl : Node
 			
 			UpdateHubName();
 			UpdateHubReserves();
+			UpdatePlayerTradeMenu();
+			UpdateResRetMenus();
 		}
 	}
 	
@@ -440,6 +420,8 @@ public partial class TradeControl : Node
 			
 			UpdateHubName();
 			UpdateHubReserves();
+			UpdatePlayerTradeMenu();
+			UpdateResRetMenus();
 		}
 	}
 	
@@ -487,6 +469,7 @@ public partial class TradeControl : Node
 		
 		UpdateTraderResourceValues();
 		UpdateTraderOfferValues();
+		UpdateTraderTradeMenu();
 		UpdateFavorProgress();
 	}
 	
@@ -527,6 +510,7 @@ public partial class TradeControl : Node
 		
 		UpdateTraderResourceValues();
 		UpdateTraderOfferValues();
+		UpdateTraderTradeMenu();
 		UpdateFavorProgress();
 	}
 	
@@ -624,6 +608,8 @@ public partial class TradeControl : Node
 		UpdateReserveResourceValues();
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
+		UpdateResRetMenus();
+		UpdatePlayerTradeMenu();
 		UpdateFavorProgress();
 	}
 	
@@ -680,6 +666,8 @@ public partial class TradeControl : Node
 		UpdateReserveResourceValues();
 		UpdateRegionResourceValues();
 		UpdatePlayerOfferValues();
+		UpdateResRetMenus();
+		UpdatePlayerTradeMenu();
 		UpdateFavorProgress();
 	}
 	
@@ -987,6 +975,9 @@ public partial class TradeControl : Node
 		UpdateRegionResourceLabels();
 		UpdateTraderOfferLabels();
 		UpdatePlayerOfferLabels();
+		UpdateResRetMenus();
+		UpdateTraderTradeMenu();
+		UpdatePlayerTradeMenu();
 	}
 	
 	public void RetractAllOffers()
@@ -1042,7 +1033,7 @@ public partial class TradeControl : Node
 			child.QueueFree();
 		}
 		
-		string selectedMeta = (string)traderTradeMenu.GetSelectedMetadata();
+		/*string selectedMeta = (string)traderTradeMenu.GetSelectedMetadata();
 		int selectedIdx = -1;
 		traderTradeMenu.Clear();
 		
@@ -1056,7 +1047,7 @@ public partial class TradeControl : Node
 			traderOfferButton.Disabled = true;
 			traderRetractButton.Disabled = true;
 			return;
-		}
+		}*/
 		
 		foreach (var res in activeTrader.inventory)
 		{
@@ -1071,7 +1062,7 @@ public partial class TradeControl : Node
 			
 			traderVBox.AddChild(rLabel);
 			
-			traderTradeMenu.AddItem(GameData.RESOURCES[res.Key].name);
+			/*traderTradeMenu.AddItem(GameData.RESOURCES[res.Key].name);
 			int idx = traderTradeMenu.ItemCount - 1;
 			traderTradeMenu.SetItemMetadata(idx, res.Key);
 			
@@ -1079,10 +1070,10 @@ public partial class TradeControl : Node
 			{
 				selectedIdx = idx;
 				traderTradeMenu.Select(idx);
-			}
+			}*/
 		}
 		
-		if (selectedIdx < 0)
+		/*if (selectedIdx < 0)
 		{
 			traderTradeMenu.Select(0);
 		}
@@ -1090,7 +1081,7 @@ public partial class TradeControl : Node
 		traderTradeMenu.Disabled = false;
 		traderTradeSpin.Editable = true;
 		traderOfferButton.Disabled = false;
-		traderRetractButton.Disabled = false;
+		traderRetractButton.Disabled = false;*/
 	}
 	
 	public void UpdateReserveResourceLabels()
@@ -1102,14 +1093,14 @@ public partial class TradeControl : Node
 			child.QueueFree();
 		}
 		
-		string selectedMeta = (string)returnMenu.GetSelectedMetadata();
+		/*string selectedMeta = (string)returnMenu.GetSelectedMetadata();
 		int selectedIdx = -1;
-		returnMenu.Clear();
+		returnMenu.Clear();*/
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		Dictionary<string, float> thisInventory = (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count) ? hubInventories[coord][hubIndex] : null;
 		
-		if (!hubInventories.ContainsKey(coord) || hubIndex < 0 || hubIndex >= hubInventories[coord].Count || thisInventory == null || thisInventory.Count == 0)
+		/*if (!hubInventories.ContainsKey(coord) || hubIndex < 0 || hubIndex >= hubInventories[coord].Count || thisInventory == null || thisInventory.Count == 0)
 		{
 			returnMenu.AddItem("No Trade Reserves");
 			returnMenu.SetItemMetadata(0, "N/A");
@@ -1118,7 +1109,7 @@ public partial class TradeControl : Node
 			returnSpin.Editable = false;
 			returnButton.Disabled = true;
 			return;
-		}
+		}*/
 		
 		foreach (var res in thisInventory)
 		{
@@ -1133,7 +1124,7 @@ public partial class TradeControl : Node
 			
 			reserveVBox.AddChild(rLabel);
 			
-			returnMenu.AddItem(GameData.RESOURCES[res.Key].name);
+			/*returnMenu.AddItem(GameData.RESOURCES[res.Key].name);
 			int idx = returnMenu.ItemCount - 1;
 			returnMenu.SetItemMetadata(idx, res.Key);
 			
@@ -1141,17 +1132,17 @@ public partial class TradeControl : Node
 			{
 				selectedIdx = idx;
 				returnMenu.Select(idx);
-			}
+			}*/
 		}
 		
-		if (selectedIdx < 0)
+		/*if (selectedIdx < 0)
 		{
 			returnMenu.Select(0);
 		}
 		
 		returnMenu.Disabled = false;
 		returnSpin.Editable = true;
-		returnButton.Disabled = false;
+		returnButton.Disabled = false;*/
 	}
 	
 	public void UpdateRegionResourceLabels()
@@ -1163,31 +1154,31 @@ public partial class TradeControl : Node
 			child.QueueFree();
 		}
 		
-		/*string selectedMeta = (string)playerTradeMenu.GetSelectedMetadata();
-		int selectedIdx = -1;
-		playerTradeMenu.Clear();*/
+		/*string selectedTradeMeta = (string)playerTradeMenu.GetSelectedMetadata();
+		int selectedTradeIdx = -1;
+		playerTradeMenu.Clear();
 		
-		string selectedMeta = (string)reserveMenu.GetSelectedMetadata();
-		int selectedIdx = -1;
+		string selectedResMeta = (string)reserveMenu.GetSelectedMetadata();
+		int selectedResIdx = -1;
 		reserveMenu.Clear();
 		
 		if (GameData.currentRegion.resources.Count == 0)
 		{
-			//playerTradeMenu.AddItem("No Region Resources");
+			playerTradeMenu.AddItem("No Region Resources");
 			reserveMenu.AddItem("No Region Resources");
-			//playerTradeMenu.SetItemMetadata(0, "N/A");
+			playerTradeMenu.SetItemMetadata(0, "N/A");
 			reserveMenu.SetItemMetadata(0, "N/A");
-			//playerTradeMenu.Select(0);
+			playerTradeMenu.Select(0);
 			reserveMenu.Select(0);
-			//playerTradeMenu.Disabled = true;
-			//playerTradeSpin.Editable = false;
-			//playerOfferButton.Disabled = true;
-			//playerRetractButton.Disabled = true;
+			playerTradeMenu.Disabled = true;
+			playerTradeSpin.Editable = false;
+			playerOfferButton.Disabled = true;
+			playerRetractButton.Disabled = true;
 			reserveMenu.Disabled = true;
 			reserveSpin.Editable = false;
 			reserveButton.Disabled = true;
 			return;
-		}
+		}*/
 		
 		foreach (var res in GameData.currentRegion.resources)
 		{
@@ -1203,30 +1194,30 @@ public partial class TradeControl : Node
 			resourceVBox.AddChild(rLabel);
 			
 			/*playerTradeMenu.AddItem(GameData.RESOURCES[res.Key].name);
-			int idx = playerTradeMenu.ItemCount - 1;
-			playerTradeMenu.SetItemMetadata(idx, res.Key);
+			int tradeIdx = playerTradeMenu.ItemCount - 1;
+			playerTradeMenu.SetItemMetadata(tradeIdx, res.Key);
 			
-			if (selectedIdx < 0 && selectedMeta == res.Key)
+			if (selectedTradeIdx < 0 && selectedTradeMeta == res.Key)
 			{
-				selectedIdx = idx;
-				playerTradeMenu.Select(idx);
-			}*/
+				selectedTradeIdx = tradeIdx;
+				playerTradeMenu.Select(tradeIdx);
+			}
 			
 			reserveMenu.AddItem(GameData.RESOURCES[res.Key].name);
-			int idx = reserveMenu.ItemCount - 1;
-			reserveMenu.SetItemMetadata(idx, res.Key);
+			int resIdx = reserveMenu.ItemCount - 1;
+			reserveMenu.SetItemMetadata(resIdx, res.Key);
 			
-			if (selectedIdx < 0 && selectedMeta == res.Key)
+			if (selectedResIdx < 0 && selectedResMeta == res.Key)
 			{
-				selectedIdx = idx;
-				reserveMenu.Select(idx);
-			}
+				selectedResIdx = resIdx;
+				reserveMenu.Select(resIdx);
+			}*/
 		}
 		
-		/*if (selectedIdx < 0)
+		/*if (selectedTradeIdx < 0)
 		{
 			playerTradeMenu.Select(0);
-		}*/
+		}
 		
 		playerTradeMenu.Disabled = false;
 		playerTradeSpin.Editable = true;
@@ -1234,7 +1225,127 @@ public partial class TradeControl : Node
 		playerRetractButton.Disabled = false;
 		reserveMenu.Disabled = false;
 		reserveSpin.Editable = true;
-		reserveButton.Disabled = false;
+		reserveButton.Disabled = false;*/
+	}
+	
+	public void UpdateResRetMenus()
+	{
+		string selectedResMeta = (string)reserveMenu.GetSelectedMetadata();
+		int selectedResIdx = -1;
+		
+		reserveMenu.Clear();
+		
+		if (GameData.currentRegion.resources.Count > 0)
+		{
+			foreach (var res in GameData.currentRegion.resources)
+			{
+				reserveMenu.AddItem(GameData.RESOURCES[res.Key].name);
+				int idx = reserveMenu.ItemCount - 1;
+				reserveMenu.SetItemMetadata(idx, res.Key);
+				
+				if (selectedResIdx < 0 && selectedResMeta == res.Key)
+				{
+					selectedResIdx = idx;
+					reserveMenu.Select(idx);
+				}
+			}
+			reserveMenu.Disabled = false;
+			reserveSpin.Editable = true;
+			reserveButton.Disabled = false;
+		}
+		else
+		{
+			reserveMenu.AddItem("No region resources");
+			reserveMenu.SetItemMetadata(0, "N/A");
+			reserveMenu.Disabled = true;
+			reserveSpin.Editable = false;
+			reserveButton.Disabled = true;
+		}
+		
+		if (selectedResIdx < 0)
+		{
+			reserveMenu.Select(0);
+		}
+		
+		string selectedRetMeta = (string)returnMenu.GetSelectedMetadata();
+		int selectedRetIdx = -1;
+		
+		returnMenu.Clear();
+		
+		(int x, int y) coord = GameData.currentRegion.GetCoord();
+		
+		if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0 && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
+		{
+			foreach (var res in hubInventories[coord][hubIndex])
+			{
+				returnMenu.AddItem(GameData.RESOURCES[res.Key].name);
+				int idx = returnMenu.ItemCount - 1;
+				returnMenu.SetItemMetadata(idx, res.Key);
+				
+				if (selectedRetIdx < 0 && selectedRetMeta == res.Key)
+				{
+					selectedRetIdx = idx;
+					returnMenu.Select(idx);
+				}
+			}
+			returnMenu.Disabled = false;
+			returnSpin.Editable = true;
+			returnButton.Disabled = false;
+		}
+		else
+		{
+			returnMenu.AddItem("No reserved resources");
+			returnMenu.SetItemMetadata(0, "N/A");
+			returnMenu.Disabled = true;
+			returnSpin.Editable = false;
+			returnButton.Disabled = true;
+		}
+		
+		if (selectedRetIdx < 0)
+		{
+			returnMenu.Select(0);
+		}
+	}
+	
+	public void UpdateTraderTradeMenu()
+	{
+		string selectedMeta = (string)traderTradeMenu.GetSelectedMetadata();
+		int selectedIdx = -1;
+		traderTradeMenu.Clear();
+		
+		if (activeTrader != null && activeTrader.inventory.Count > 0)
+		{
+			foreach (var res in activeTrader.inventory)
+			{
+				traderTradeMenu.AddItem(GameData.RESOURCES[res.Key].name);
+				int idx = traderTradeMenu.ItemCount - 1;
+				traderTradeMenu.SetItemMetadata(idx, res.Key);
+				
+				if (selectedIdx < 0 && selectedMeta == res.Key)
+				{
+					selectedIdx = idx;
+					traderTradeMenu.Select(idx);
+				}
+				traderTradeMenu.Disabled = false;
+				traderTradeSpin.Editable = true;
+				traderOfferButton.Disabled = false;
+				traderRetractButton.Disabled = false;
+			}
+		}
+		else
+		{
+			traderTradeMenu.AddItem("No trader inventory");
+			traderTradeMenu.SetItemMetadata(0, "N/A");
+			traderTradeMenu.Disabled = true;
+			traderTradeSpin.Editable = false;
+			traderOfferButton.Disabled = true;
+			traderRetractButton.Disabled = true;
+		}
+		
+		if (selectedIdx < 0)
+		{
+			traderTradeMenu.Select(0);
+		}
 	}
 	
 	public void UpdatePlayerTradeMenu()
@@ -1363,6 +1474,7 @@ public partial class TradeControl : Node
 	{
 		if (hubIndex < 0)
 		{
+			GD.Print($"TradeControl: Incompatible hub index ({hubIndex})");
 			return;
 		}
 		
@@ -1370,6 +1482,14 @@ public partial class TradeControl : Node
 		
 		if (!hubInventories.ContainsKey(coord) || hubIndex >= hubInventories[coord].Count)
 		{
+			if (!hubInventories.ContainsKey(coord))
+			{
+				GD.Print($"TradeControl: Incompatible coordinate {coord}");
+			}
+			else
+			{
+				GD.Print($"TradeControl: Hub index too large ({hubIndex} / {hubInventories[coord].Count})");
+			}
 			return;
 		}
 		

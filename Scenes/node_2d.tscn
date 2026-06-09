@@ -703,9 +703,9 @@ text = "Offer"
 [node name="PlayerRetractButton" type="Button" parent="TabContainer/Trade" unique_id=2059916558]
 layout_mode = 0
 offset_left = 1275.0
-offset_top = 544.0
+offset_top = 570.0
 offset_right = 1356.0
-offset_bottom = 575.0
+offset_bottom = 601.0
 disabled = true
 text = "Retract"
 
