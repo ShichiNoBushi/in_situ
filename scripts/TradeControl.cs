@@ -1309,19 +1309,42 @@ public partial class TradeControl : Node
 	
 	public void UpdateTraderTradeMenu()
 	{
+		List<string> resKeys = new();
+		
+		if (activeTrader != null && activeTrader.inventory.Count > 0)
+		{
+			foreach (var res in activeTrader.inventory.Keys)
+			{
+				resKeys.Add(res);
+			}
+		}
+		
+		if (activeTrader != null && traderOffer.Count > 0)
+		{
+			foreach (var res in traderOffer.Keys)
+			{
+				if (!resKeys.Contains(res))
+				{
+					resKeys.Add(res);
+				}
+			}
+		}
+		
 		string selectedMeta = (string)traderTradeMenu.GetSelectedMetadata();
 		int selectedIdx = -1;
 		traderTradeMenu.Clear();
 		
-		if (activeTrader != null && activeTrader.inventory.Count > 0)
+		resKeys.Sort(GameData.CompareResources);
+		
+		if (resKeys.Count > 0)
 		{
-			foreach (var res in activeTrader.inventory)
+			foreach (var res in resKeys)
 			{
-				traderTradeMenu.AddItem(GameData.RESOURCES[res.Key].name);
+				traderTradeMenu.AddItem(GameData.RESOURCES[res].name);
 				int idx = traderTradeMenu.ItemCount - 1;
-				traderTradeMenu.SetItemMetadata(idx, res.Key);
+				traderTradeMenu.SetItemMetadata(idx, res);
 				
-				if (selectedIdx < 0 && selectedMeta == res.Key)
+				if (selectedIdx < 0 && selectedMeta == res)
 				{
 					selectedIdx = idx;
 					traderTradeMenu.Select(idx);
@@ -1375,28 +1398,49 @@ public partial class TradeControl : Node
 			}
 		}
 		
+		foreach (var res in playerOffer.Keys)
+		{
+			if (!resKeys.Contains(res))
+			{
+				resKeys.Add(res);
+			}
+		}
+		
+		string selectedMeta = (string)playerTradeMenu.GetSelectedMetadata();
+		int selectedIdx = -1;
 		playerTradeMenu.Clear();
 		
-		if (resKeys.Count == 0)
+		resKeys.Sort(GameData.CompareResources);
+		
+		if (resKeys.Count > 0)
+		{
+			foreach (var res in resKeys)
+			{
+				string resName = GameData.RESOURCES.ContainsKey(res) ? GameData.RESOURCES[res].name : "invalid res key";
+				playerTradeMenu.AddItem(resName);
+				int idx = playerTradeMenu.ItemCount - 1;
+				playerTradeMenu.SetItemMetadata(idx, res);
+				
+				if (selectedIdx < 0 && selectedMeta == res)
+				{
+					selectedIdx = idx;
+					playerTradeMenu.Select(idx);
+				}
+			}
+		}
+		else
 		{
 			playerTradeMenu.AddItem("No Region Resources");
 			playerTradeMenu.SetItemMetadata(0, "N/A");
-			playerTradeMenu.Select(0);
 			playerTradeMenu.Disabled = true;
 			playerTradeSpin.Editable = false;
 			playerOfferButton.Disabled = true;
 			playerRetractButton.Disabled = true;
-			return;
 		}
 		
-		resKeys.Sort(GameData.CompareResources);
-		
-		foreach (var res in resKeys)
+		if (selectedIdx < 0)
 		{
-			string resName = GameData.RESOURCES.ContainsKey(res) ? GameData.RESOURCES[res].name : "invalid res key";
-			playerTradeMenu.AddItem(resName);
-			int idx = playerTradeMenu.ItemCount - 1;
-			playerTradeMenu.SetItemMetadata(idx, res);
+			playerTradeMenu.Select(0);
 		}
 		
 		playerTradeMenu.Disabled = false;
