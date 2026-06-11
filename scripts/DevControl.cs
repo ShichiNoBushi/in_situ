@@ -115,6 +115,9 @@ public partial class DevControl : Control
 				GameData.currentRegion.resources[resName] = amount;
 				GameData.SortResources(GameData.currentRegion.resources);
 				GameData.resourceControl.UpdateResourcePanels();
+				GameData.tradeControl.UpdateRegionResourceLabels();
+				GameData.tradeControl.UpdateResRetMenus();
+				GameData.tradeControl.UpdatePlayerTradeMenu();
 			}
 			
 			String amountText = GameData.FormatUnit(amount, resName);

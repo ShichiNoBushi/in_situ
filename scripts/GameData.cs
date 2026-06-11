@@ -342,6 +342,7 @@ public partial class GameData : Node
 				tradeControl.activeTrader = trad;
 				tradeControl.UpdateTraderName();
 				tradeControl.UpdateTraderResourceLabels();
+				tradeControl.UpdateTraderTradeMenu();
 			}
 			else if (currentRegion.landedTraders.Count >= 2)
 			{
@@ -443,6 +444,7 @@ public partial class GameData : Node
 		harvestControl.UpdateHarvest();
 		logisticsControl.PopulateResourceMenu();
 		logisticsControl.UpdateRegionLogistics();
+		tradeControl.UpdateRegionTrade();
 		mapControl.GenerateMap();
 		mapControl.UpdateAllColors();
 		UpdateQuestTracking();
@@ -593,6 +595,7 @@ public partial class GameData : Node
 		machinesControl.UpdateMachinePanels();
 		buildControl.UpdateBuildMenu();
 		logisticsControl.UpdateRegionLogistics();
+		tradeControl.UpdateRegionTrade();
 		travelControl.UpdateRegions();
 		mapControl.GenerateMap();
 		mapControl.UpdateAllColors();
@@ -2378,6 +2381,11 @@ public class Buildable
 		
 		diagnosedWear = 0f;
 		maxWear = 0f;
+		
+		if (location == GameData.currentRegion)
+		{
+			GameData.tradeControl.UpdateAllLabels();
+		}
 	}
 	
 	public void ToggleActive(bool on)
@@ -2698,6 +2706,7 @@ public class Buildable
 		{
 			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
+			GameData.tradeControl.UpdateAllLabels();
 		}
 		location.UpdateStorage();
 	}
@@ -2939,6 +2948,7 @@ public class Machine : Buildable
 		{
 			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
+			GameData.tradeControl.UpdateAllLabels();
 		}
 	}
 	
@@ -3381,6 +3391,7 @@ public class Infrastructure : Buildable
 		{
 			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
+			GameData.tradeControl.UpdateAllLabels();
 		}
 	}
 	
@@ -3605,6 +3616,7 @@ public class Infrastructure : Buildable
 		{
 			GameData.SortResources(location.resources);
 			GameData.resourceControl.UpdateResourcePanels();
+			GameData.tradeControl.UpdateAllLabels();
 		}
 	}
 	

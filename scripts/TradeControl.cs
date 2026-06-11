@@ -467,8 +467,8 @@ public partial class TradeControl : Node
 		
 		tradeButton.Disabled = false;
 		
-		UpdateTraderResourceValues();
-		UpdateTraderOfferValues();
+		UpdateTraderResourceLabels();
+		UpdateTraderOfferLabels();
 		UpdateTraderTradeMenu();
 		UpdateFavorProgress();
 	}
@@ -508,8 +508,8 @@ public partial class TradeControl : Node
 		
 		tradeButton.Disabled = traderOffer.Count == 0 && playerOffer.Count == 0;
 		
-		UpdateTraderResourceValues();
-		UpdateTraderOfferValues();
+		UpdateTraderResourceLabels();
+		UpdateTraderOfferLabels();
 		UpdateTraderTradeMenu();
 		UpdateFavorProgress();
 	}
@@ -605,9 +605,9 @@ public partial class TradeControl : Node
 		
 		tradeButton.Disabled = false;
 		
-		UpdateReserveResourceValues();
-		UpdateRegionResourceValues();
-		UpdatePlayerOfferValues();
+		UpdateReserveResourceLabels();
+		UpdateRegionResourceLabels();
+		UpdatePlayerOfferLabels();
 		UpdateResRetMenus();
 		UpdatePlayerTradeMenu();
 		UpdateFavorProgress();
@@ -663,9 +663,9 @@ public partial class TradeControl : Node
 		
 		tradeButton.Disabled = traderOffer.Count == 0 && playerOffer.Count == 0;
 		
-		UpdateReserveResourceValues();
-		UpdateRegionResourceValues();
-		UpdatePlayerOfferValues();
+		UpdateReserveResourceLabels();
+		UpdateRegionResourceLabels();
+		UpdatePlayerOfferLabels();
 		UpdateResRetMenus();
 		UpdatePlayerTradeMenu();
 		UpdateFavorProgress();
@@ -1049,6 +1049,11 @@ public partial class TradeControl : Node
 			return;
 		}*/
 		
+		if (activeTrader == null || activeTrader.inventory.Count == 0)
+		{
+			return;
+		}
+		
 		foreach (var res in activeTrader.inventory)
 		{
 			Control rLabel = ResourceLabelScene.Instantiate<Control>();
@@ -1110,6 +1115,11 @@ public partial class TradeControl : Node
 			returnButton.Disabled = true;
 			return;
 		}*/
+		
+		if (thisInventory == null)
+		{
+			return;
+		}
 		
 		foreach (var res in thisInventory)
 		{
@@ -1274,7 +1284,7 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0 && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
+		if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0 && hubIndex >= 0 && hubIndex < hubInventories[coord].Count && hubInventories[coord][hubIndex].Count > 0)
 		{
 			foreach (var res in hubInventories[coord][hubIndex])
 			{
@@ -1349,11 +1359,12 @@ public partial class TradeControl : Node
 					selectedIdx = idx;
 					traderTradeMenu.Select(idx);
 				}
-				traderTradeMenu.Disabled = false;
-				traderTradeSpin.Editable = true;
-				traderOfferButton.Disabled = false;
-				traderRetractButton.Disabled = false;
 			}
+			
+			traderTradeMenu.Disabled = false;
+			traderTradeSpin.Editable = true;
+			traderOfferButton.Disabled = false;
+			traderRetractButton.Disabled = false;
 		}
 		else
 		{
@@ -1427,6 +1438,11 @@ public partial class TradeControl : Node
 					playerTradeMenu.Select(idx);
 				}
 			}
+			
+			playerTradeMenu.Disabled = false;
+			playerTradeSpin.Editable = true;
+			playerOfferButton.Disabled = false;
+			playerRetractButton.Disabled = false;
 		}
 		else
 		{
@@ -1442,11 +1458,6 @@ public partial class TradeControl : Node
 		{
 			playerTradeMenu.Select(0);
 		}
-		
-		playerTradeMenu.Disabled = false;
-		playerTradeSpin.Editable = true;
-		playerOfferButton.Disabled = false;
-		playerRetractButton.Disabled = false;
 	}
 	
 	public void UpdateTraderOfferLabels()
