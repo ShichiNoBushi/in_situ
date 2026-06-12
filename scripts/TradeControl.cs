@@ -150,6 +150,7 @@ public partial class TradeControl : Node
 	{
 		UpdateTraderResourceValues();
 		UpdateRegionResourceValues();
+		UpdateRegionResourceValues();
 		UpdateTraderOfferValues();
 		UpdatePlayerOfferValues();
 	}
@@ -249,12 +250,18 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (!hubInventories.ContainsKey(coord) || hubIndex >= hubInventories[coord].Count)
+		/*if (!hubInventories.ContainsKey(coord) || hubIndex >= hubInventories[coord].Count)
+		{
+			return;
+		}*/
+		
+		if (!GameData.currentRegion.ContainsTrade())
 		{
 			return;
 		}
 		
-		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
+		//Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resID = (string)reserveMenu.GetSelectedMetadata();
 		float amount = Math.Min((float)reserveSpin.Value, (GameData.currentRegion.resources.ContainsKey(resID) ? GameData.currentRegion.resources[resID] : 0f));
@@ -300,12 +307,18 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (!hubInventories.ContainsKey(coord) || hubIndex >= hubInventories[coord].Count)
+		/*if (!hubInventories.ContainsKey(coord) || hubIndex >= hubInventories[coord].Count)
+		{
+			return;
+		}*/
+		
+		if (!GameData.currentRegion.ContainsTrade())
 		{
 			return;
 		}
 		
-		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
+		//Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resID = (string)returnMenu.GetSelectedMetadata();
 		float amount = Math.Min((float)returnSpin.Value, (thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f));
@@ -522,9 +535,15 @@ public partial class TradeControl : Node
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		Dictionary<string, float> thisInventory = null;
 		
-		if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
+		/*if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			thisInventory = hubInventories[coord][hubIndex]; 
+			totalAvailable += thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
+		}*/
+		
+		if (GameData.currentRegion.ContainsTrade())
+		{
+			thisInventory = GameData.currentRegion.reserves;
 			totalAvailable += thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
 		}
 		
@@ -632,9 +651,14 @@ public partial class TradeControl : Node
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		Dictionary<string, float> thisInventory = null;
 		
-		if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
+		/*if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			thisInventory = hubInventories[coord][hubIndex];
+		}*/
+		
+		if (GameData.currentRegion.ContainsTrade())
+		{
+			thisInventory = GameData.currentRegion.reserves;
 		}
 		
 		if (thisInventory != null)
@@ -711,13 +735,20 @@ public partial class TradeControl : Node
 	{
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (!hubInventories.ContainsKey(coord) || hubInventories[coord].Count == 0 || hubIndex < 0 || hubIndex >= hubInventories[coord].Count)
+		/*if (!hubInventories.ContainsKey(coord) || hubInventories[coord].Count == 0 || hubIndex < 0 || hubIndex >= hubInventories[coord].Count)
+		{
+			returnSpin.MaxValue = 0f;
+			return;
+		}*/
+		
+		if (!GameData.currentRegion.ContainsTrade())
 		{
 			returnSpin.MaxValue = 0f;
 			return;
 		}
 		
-		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
+		//Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		string resKey = (string)returnMenu.GetItemMetadata((int)index);
 		float value = thisInventory.ContainsKey(resKey) ? thisInventory[resKey] : 0f;
@@ -738,10 +769,15 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
+		/*if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 			value += thisInventory.ContainsKey(resKey) ? thisInventory[resKey] : 0f;
+		}*/
+		
+		if (GameData.currentRegion.ContainsTrade())
+		{
+			value += GameData.currentRegion.reserves.ContainsKey(resKey) ? GameData.currentRegion.reserves[resKey] : 0f;
 		}
 		
 		playerTradeSpin.MaxValue = value;
@@ -826,17 +862,20 @@ public partial class TradeControl : Node
 	
 	public void ResetHubs()
 	{
-		(int x, int y) coord = GameData.currentRegion.GetCoord();
+		//(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (!hubInventories.ContainsKey(coord))
+		/*if (!hubInventories.ContainsKey(coord))
 		{
 			activeHub = null;
 			hubIndex = -1;
 			UpdateHubReserves();
 			return;
-		}
+		}*/
 		
-		if (hubInventories[coord].Count > 0 && tradeHubs.ContainsKey(coord) && tradeHubs[coord].Count == hubInventories[coord].Count)
+		activeHub = null;
+		hubIndex = -1;
+		
+		/*if (hubInventories[coord].Count > 0 && tradeHubs.ContainsKey(coord) && tradeHubs[coord].Count == hubInventories[coord].Count)
 		{
 			activeHub = tradeHubs[coord][0];
 			hubIndex = 0;
@@ -845,7 +884,7 @@ public partial class TradeControl : Node
 		{
 			activeHub = null;
 			hubIndex = -1;
-		}
+		}*/
 		
 		UpdateHubReserves();
 	}
@@ -883,19 +922,25 @@ public partial class TradeControl : Node
 			child.QueueFree();
 		}
 		
-		if (activeHub == null || hubIndex == -1)
+		/*if (activeHub == null || hubIndex == -1)
+		{
+			return;
+		}*/
+		
+		if (!GameData.currentRegion.ContainsTrade())
 		{
 			return;
 		}
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (hubIndex >= hubInventories[coord].Count)
+		/*if (hubIndex >= hubInventories[coord].Count)
 		{
 			return;
-		}
+		}*/
 		
-		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
+		//Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		foreach (var res in thisInventory)
 		{
@@ -939,29 +984,31 @@ public partial class TradeControl : Node
 			activeTrader = GameData.currentRegion.landedTraders[0];
 		}*/
 		
-		if (activeTrader == null || !GameData.currentRegion.landedTraders.Contains(activeTrader))
+		/*if (activeTrader == null || !GameData.currentRegion.landedTraders.Contains(activeTrader))
 		{
 			activeTrader = GameData.currentRegion.landedTraders.Count > 0 ? GameData.currentRegion.landedTraders[0] : null;
-		}
+		}*/
 		
 		activeHub = null;
 		hubIndex = -1;
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0)
+		/*if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0)
 		{
 			activeHub = tradeHubs[coord][0];
 			hubIndex = 0;
-		}
+		}*/
 		
 		int traderIndex = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
 		
 		previousTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex <= 0);
 		nextTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex == -1 || traderIndex >= GameData.currentRegion.landedTraders.Count - 1);
 		
-		previousHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2 || hubIndex <= 0);
-		nextHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2 || hubIndex == -1 || hubIndex >= tradeHubs[coord].Count - 1);
+		//previousHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2 || hubIndex <= 0);
+		//nextHubButton.Disabled = (!tradeHubs.ContainsKey(coord) || tradeHubs[coord].Count < 2 || hubIndex == -1 || hubIndex >= tradeHubs[coord].Count - 1);
+		previousHubButton.Disabled = true;
+		nextHubButton.Disabled = true;
 		
 		UpdateTraderName();
 		UpdateHubName();
@@ -1103,7 +1150,8 @@ public partial class TradeControl : Node
 		returnMenu.Clear();*/
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
-		Dictionary<string, float> thisInventory = (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count) ? hubInventories[coord][hubIndex] : null;
+		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
+		//Dictionary<string, float> thisInventory = (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count) ? hubInventories[coord][hubIndex] : null;
 		
 		/*if (!hubInventories.ContainsKey(coord) || hubIndex < 0 || hubIndex >= hubInventories[coord].Count || thisInventory == null || thisInventory.Count == 0)
 		{
@@ -1284,9 +1332,27 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0 && hubIndex >= 0 && hubIndex < hubInventories[coord].Count && hubInventories[coord][hubIndex].Count > 0)
+		/*if (hubInventories.ContainsKey(coord) && hubInventories[coord].Count > 0 && hubIndex >= 0 && hubIndex < hubInventories[coord].Count && hubInventories[coord][hubIndex].Count > 0)
 		{
 			foreach (var res in hubInventories[coord][hubIndex])
+			{
+				returnMenu.AddItem(GameData.RESOURCES[res.Key].name);
+				int idx = returnMenu.ItemCount - 1;
+				returnMenu.SetItemMetadata(idx, res.Key);
+				
+				if (selectedRetIdx < 0 && selectedRetMeta == res.Key)
+				{
+					selectedRetIdx = idx;
+					returnMenu.Select(idx);
+				}
+			}
+			returnMenu.Disabled = false;
+			returnSpin.Editable = true;
+			returnButton.Disabled = false;
+		}*/
+		if (GameData.currentRegion.ContainsTrade() && GameData.currentRegion.reserves.Count > 0)
+		{
+			foreach (var res in GameData.currentRegion.reserves)
 			{
 				returnMenu.AddItem(GameData.RESOURCES[res.Key].name);
 				int idx = returnMenu.ItemCount - 1;
@@ -1396,9 +1462,21 @@ public partial class TradeControl : Node
 		
 		(int x, int y) coord = GameData.currentRegion.GetCoord();
 		
-		if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
+		/*if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			List<string> hubRes = new(hubInventories[coord][hubIndex].Keys);
+			
+			foreach (var res in hubRes)
+			{
+				if (!resKeys.Contains(res))
+				{
+					resKeys.Add(res);
+				}
+			}
+		}*/
+		if (GameData.currentRegion.ContainsTrade() && GameData.currentRegion.reserves.Count > 0)
+		{
+			List<string> hubRes = new(GameData.currentRegion.reserves.Keys);
 			
 			foreach (var res in hubRes)
 			{
@@ -1527,7 +1605,7 @@ public partial class TradeControl : Node
 	
 	public void UpdateReserveResourceValues()
 	{
-		if (hubIndex < 0)
+		/*if (hubIndex < 0)
 		{
 			GD.Print($"TradeControl: Incompatible hub index ({hubIndex})");
 			return;
@@ -1546,9 +1624,15 @@ public partial class TradeControl : Node
 				GD.Print($"TradeControl: Hub index too large ({hubIndex} / {hubInventories[coord].Count})");
 			}
 			return;
+		}*/
+		
+		if (!GameData.currentRegion.ContainsTrade())
+		{
+			return;
 		}
 		
-		Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
+		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
+		//Dictionary<string, float> thisInventory = hubInventories[coord][hubIndex];
 		
 		foreach (var res in thisInventory)
 		{
@@ -1590,9 +1674,15 @@ public partial class TradeControl : Node
 		
 		Dictionary<string, float> thisInventory = new();
 		
-		if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
+		/*if (hubInventories.ContainsKey(coord) && hubIndex >= 0 && hubIndex < hubInventories[coord].Count)
 		{
 			thisInventory = hubInventories[coord][hubIndex];
+			value += thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
+		}*/
+		
+		if (GameData.currentRegion.ContainsTrade())
+		{
+			thisInventory = GameData.currentRegion.reserves;
 			value += thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f;
 		}
 		
@@ -1645,7 +1735,7 @@ public partial class TradeControl : Node
 	
 	public void AddTradeHub(Infrastructure infra)
 	{
-		(int x, int y) coord = infra.location.GetCoord();
+		/*(int x, int y) coord = infra.location.GetCoord();
 		
 		if (!tradeHubs.ContainsKey(coord))
 		{
@@ -1668,7 +1758,7 @@ public partial class TradeControl : Node
 		}
 		
 		previousHubButton.Disabled = hubIndex <= 0;
-		nextHubButton.Disabled = hubIndex >= tradeHubs[coord].Count - 1;
+		nextHubButton.Disabled = hubIndex >= tradeHubs[coord].Count - 1;*/
 		
 		UpdateHubName();
 		UpdateReserveResourceLabels();
@@ -1676,7 +1766,7 @@ public partial class TradeControl : Node
 	
 	public void RemoveTradeHub(Infrastructure infra)
 	{
-		(int x, int y) coord = infra.location.GetCoord();
+		/*(int x, int y) coord = infra.location.GetCoord();
 		
 		if (!hubInventories.ContainsKey(coord) || !tradeHubs.ContainsKey(coord) || !tradeHubs[coord].Contains(infra))
 		{
@@ -1685,27 +1775,33 @@ public partial class TradeControl : Node
 		
 		int idx = tradeHubs[coord].IndexOf(infra);
 		
-		tradeHubs[coord].Remove(infra);
+		tradeHubs[coord].Remove(infra);*/
 		
-		Dictionary<string, float> thisInventory = hubInventories[coord][idx];
+		Dictionary<string, float> thisInventory = infra.location.reserves;
+		//Dictionary<string, float> thisInventory = hubInventories[coord][idx];
 		
-		foreach (var res in thisInventory)
+		if (!infra.location.ContainsTrade())
 		{
-			if (infra.location.resources.ContainsKey(res.Key))
+			foreach (var res in thisInventory)
 			{
-				infra.location.resources[res.Key] += res.Value;
-			}
-			else
-			{
-				infra.location.resources[res.Key] = res.Value;
-				if (infra.location == GameData.currentRegion)
+				if (infra.location.resources.ContainsKey(res.Key))
 				{
-					GameData.resourceControl.UpdateResourcePanels();
+					infra.location.resources[res.Key] += res.Value;
+				}
+				else
+				{
+					infra.location.resources[res.Key] = res.Value;
+					if (infra.location == GameData.currentRegion)
+					{
+						GameData.resourceControl.UpdateResourcePanels();
+					}
 				}
 			}
+			
+			thisInventory.Clear();
 		}
 		
-		hubInventories[coord].RemoveAt(idx);
+		/*hubInventories[coord].RemoveAt(idx);
 		
 		if (hubInventories[coord].Count == 0)
 		{
@@ -1739,7 +1835,9 @@ public partial class TradeControl : Node
 		}
 		
 		previousHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex > 0);
-		nextHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex < tradeHubs[coord].Count - 1);
+		nextHubButton.Disabled = (tradeHubs[coord].Count == 0 || hubIndex < tradeHubs[coord].Count - 1);*/
+		previousHubButton.Disabled = true;
+		nextHubButton.Disabled = true;
 		
 		UpdateHubName();
 		UpdateReserveResourceLabels();

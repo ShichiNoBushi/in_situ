@@ -1922,6 +1922,7 @@ public class Region
 	public float solarState;
 	
 	public Dictionary<string, float> resources;
+	public Dictionary<string, float> reserves;
 	public Dictionary<string, (float amount, string unit)> maxStorage;
 	public List<Machine> machines;
 	public List<Infrastructure> infrastructure;
@@ -1954,6 +1955,7 @@ public class Region
 		solarState = 0f;
 		
 		resources = new();
+		reserves = new();
 		maxStorage = new();
 		machines = new();
 		infrastructure = new();
@@ -2008,6 +2010,7 @@ public class Region
 		solarState = save.solarState;
 		
 		resources = new(save.resources);
+		reserves = new(save.reserves);
 		maxStorage = new();
 		foreach (var res in GameData.RESOURCES)
 		{
@@ -2282,6 +2285,7 @@ public class RegionSave
 	public float solarState {get; set;}
 	
 	public Dictionary<string, float> resources {get; set;}
+	public Dictionary<string, float> reserves {get; set;}
 	public List<MachineSave> machines {get; set;}
 	public List<InfrastructureSave> infrastructure {get; set;}
 	public List<string> nodes {get; set;}
@@ -2296,6 +2300,7 @@ public class RegionSave
 		solarState = 0f;
 		
 		resources = new();
+		reserves = new();
 		machines = new();
 		infrastructure = new();
 		nodes = new();
@@ -2314,6 +2319,7 @@ public class RegionSave
 		solarState = reg.solarState;
 		
 		resources = new(reg.resources);
+		reserves = new(reg.reserves);
 		
 		machines = new();
 		foreach (var mach in reg.machines)
