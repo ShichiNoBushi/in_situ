@@ -243,7 +243,12 @@ public partial class TradeControl : Node
 	
 	public void OnReservePress()
 	{
-		if (activeHub == null || hubIndex == -1 || reserveSpin.Value == 0f)
+		/*if (activeHub == null || hubIndex == -1 || reserveSpin.Value == 0f)
+		{
+			return;
+		}*/
+		
+		if (!GameData.currentRegion.ContainsTrade() || reserveSpin.Value == 0f)
 		{
 			return;
 		}
@@ -300,7 +305,12 @@ public partial class TradeControl : Node
 	
 	public void OnReturnPress()
 	{
-		if (activeHub == null || hubIndex == -1 || returnSpin.Value == 0f)
+		/*if (activeHub == null || hubIndex == -1 || returnSpin.Value == 0f)
+		{
+			return;
+		}*/
+		
+		if (!GameData.currentRegion.ContainsTrade() || returnSpin.Value == 0f)
 		{
 			return;
 		}
