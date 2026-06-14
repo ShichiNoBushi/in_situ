@@ -484,14 +484,6 @@ offset_right = 470.0
 offset_bottom = 29.0
 text = "Reserve"
 
-[node name="HubNameLabel" type="Label" parent="TabContainer/Trade" unique_id=481422308]
-layout_mode = 0
-offset_left = 398.0
-offset_top = 29.0
-offset_right = 722.0
-offset_bottom = 52.0
-text = "No Trade Hubs"
-
 [node name="ReservePanel" type="Panel" parent="TabContainer/Trade" unique_id=1000143226]
 layout_mode = 0
 offset_left = 395.0
@@ -509,25 +501,6 @@ offset_bottom = 516.0
 [node name="ReserveVBox" type="VBoxContainer" parent="TabContainer/Trade/ReserveScroll" unique_id=1593076399]
 custom_minimum_size = Vector2(370, 460)
 layout_mode = 2
-
-[node name="PreviousHubButton" type="Button" parent="TabContainer/Trade" unique_id=1442338187]
-layout_mode = 0
-offset_left = 390.0
-offset_top = 524.0
-offset_right = 521.0
-offset_bottom = 555.0
-disabled = true
-text = "Previous Hub
-"
-
-[node name="NextHubButton" type="Button" parent="TabContainer/Trade" unique_id=1335144966]
-layout_mode = 0
-offset_left = 529.0
-offset_top = 524.0
-offset_right = 660.0
-offset_bottom = 555.0
-disabled = true
-text = "Next Hub"
 
 [node name="ResourceLabel" type="Label" parent="TabContainer/Trade" unique_id=463460980]
 layout_mode = 0
