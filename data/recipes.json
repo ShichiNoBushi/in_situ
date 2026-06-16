@@ -733,7 +733,7 @@
 		"inputs": {"stone": 5, "energy": 1},
 		"outputs": {"stone brick": 4, "stone dust": 1},
 		"available": false,
-		"machines": ["stone carver"],
+		"machines": ["material carver"],
 		"local": "",
 		"description": "Carves stone into uniform bricks."
 	},

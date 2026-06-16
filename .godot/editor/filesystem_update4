@@ -15,3 +15,7 @@ res://scripts/MachinesControl.cs
 res://scripts/ResourceControl.cs
 res://scripts/BuildControl.cs
 res://scripts/GameData.cs
+res://data/infrastructure.json
+res://data/machines.json
+res://data/recipes.json
+res://data/resources.json

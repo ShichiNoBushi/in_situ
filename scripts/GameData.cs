@@ -3635,6 +3635,8 @@ public class Infrastructure : Buildable
 		Region linkedRegion;
 		List<LogisticsNetwork> affectedNetworks = new();
 		
+		location.infrastructure.Remove(this);
+		
 		if (type == "conveyer" && link != null)
 		{
 			linkedRegion = link.location;
@@ -3665,8 +3667,6 @@ public class Infrastructure : Buildable
 				net.RepartitionNetwork();
 			}
 		}
-		
-		location.infrastructure.Remove(this);
 	}
 	
 	public void SetLink(Infrastructure lnk)

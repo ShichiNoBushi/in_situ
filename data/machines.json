@@ -98,8 +98,8 @@
 		"sort": [2, 4],
 		"description": "Mints metals into conveniently tradable bullion."
 	},
-	"stone carver": {
-		"name": "Stone Carver",
+	"material carver": {
+		"name": "Material Carver",
 		"type": "crafter",
 		"cost": {"iron plate": 10, "iron blade": 5, "electric motor": 5},
 		"durability": 5000,
@@ -107,7 +107,7 @@
 		"starting amount": 0,
 		"available": false,
 		"sort": [2, 5],
-		"description": "Carves stone into specified shapes."
+		"description": "Carves solid resources into specified shapes."
 	},
 	"parts assembler": {
 		"name": "Parts Assembler",

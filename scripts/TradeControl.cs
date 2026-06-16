@@ -14,7 +14,6 @@ public partial class TradeControl : Node
 	public Dictionary<string, float> playerOffer;
 	
 	public Label traderNameLabel;
-	public Label hubNameLabel;
 	
 	public VBoxContainer traderVBox;
 	public VBoxContainer reserveVBox;
@@ -131,7 +130,7 @@ public partial class TradeControl : Node
 	public override void _Process(double delta)
 	{
 		UpdateTraderResourceValues();
-		UpdateRegionResourceValues();
+		UpdateReserveResourceValues();
 		UpdateRegionResourceValues();
 		UpdateTraderOfferValues();
 		UpdatePlayerOfferValues();
@@ -166,15 +165,15 @@ public partial class TradeControl : Node
 			return;
 		}
 		
-		if (!GameData.currentRegion.ContainsTrade())
-		{
-			return;
-		}
-		
 		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
 		
 		string resID = (string)reserveMenu.GetSelectedMetadata();
 		float amount = Math.Min((float)reserveSpin.Value, (GameData.currentRegion.resources.ContainsKey(resID) ? GameData.currentRegion.resources[resID] : 0f));
+		
+		if (resID == "N/A" || amount <= 0f)
+		{
+			return;
+		}
 		
 		if (GameData.currentRegion.resources.ContainsKey(resID))
 		{
@@ -215,15 +214,15 @@ public partial class TradeControl : Node
 			return;
 		}
 		
-		if (!GameData.currentRegion.ContainsTrade())
-		{
-			return;
-		}
-		
 		Dictionary<string, float> thisInventory = GameData.currentRegion.reserves;
 		
 		string resID = (string)returnMenu.GetSelectedMetadata();
 		float amount = Math.Min((float)returnSpin.Value, (thisInventory.ContainsKey(resID) ? thisInventory[resID] : 0f));
+		
+		if (resID == "N/A" || amount <= 0f)
+		{
+			return;
+		}
 		
 		if (thisInventory.ContainsKey(resID))
 		{
@@ -1294,6 +1293,8 @@ public partial class TradeControl : Node
 	public void AddTradeHub(Infrastructure infra)
 	{
 		UpdateReserveResourceLabels();
+		UpdateResRetMenus();
+		UpdatePlayerTradeMenu();
 	}
 	
 	public void RemoveTradeHub(Infrastructure infra)
