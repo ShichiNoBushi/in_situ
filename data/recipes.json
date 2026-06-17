@@ -197,6 +197,15 @@
 		"local": "",
 		"description": "Crafts a sharp blade of iron from a mold."
 	},
+	"silicon boule mold": {
+		"name": "Silicon Boule (Mold)",
+		"inputs": {"high-purity silicon": 1, "energy": 3},
+		"outputs": {"silicon boule": 0.95, "silicon scrap": 0.05},
+		"available": false,
+		"machines": ["component mold"],
+		"local": "",
+		"description": "Crudely forms high-purity silicon into a cylindrical boule for wafers."
+	},
 	"alumimum plate press": {
 		"name": "Aluminum Plate (Press)",
 		"inputs": {"aluminum": 4, "energy": 0.5},
@@ -449,6 +458,15 @@
 		"local": "",
 		"description": "Craft a regulated battery module."
 	},
+	"package central processor": {
+		"name": "Package Central Processor",
+		"inputs": {"processor die": 1.0, "gold wire": 0.1, "copper wire": 0.2, "ceramic": 0.2, "low-density polyethylene": 0.2, "energy": 1},
+		"outputs": {"central processor": 1.7},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble processor die into a central processing unit."
+	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",
 		"inputs": {"iron rod": 1, "energy": 2},
@@ -484,6 +502,15 @@
 		"machines": ["etching bath"],
 		"local": "",
 		"description": "Prints a circuit board with etching bath."
+	},
+	"etch processor die": {
+		"name": "Etch Processor Die",
+		"inputs": {"doped wafer": 1.0, "gold": 0.05, "copper foil": 0.1, "copper chloride etchant": 0.2, "energy": 4},
+		"outputs": {"processor die": 0.95, "silicon scrap": 0.2, "spent copper etchent": 0.2},
+		"available": false,
+		"machines": ["etching bath"],
+		"local": "",
+		"description": "Prepares a wafer into a processor die base."
 	},
 	"melt ice": {
 		"name": "Melt Ice",
@@ -583,6 +610,24 @@
 		"machines": ["chemical reactor"],
 		"local": "",
 		"description": "Create lithium phosphate for batteries."
+	},
+	"purify silicon": {
+		"name": "Purify Silicon",
+		"inputs": {"silicon": 1.0, "hydrochloric acid": 0.15, "energy": 2},
+		"outputs": {"high-purity silicon": 0.9, "silicon scrap": 0.1},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Purifies silicon into electronics-grade high-purity silicon."
+	},
+	"dope wafer": {
+		"name": "Dope Wafer",
+		"inputs": {"silicon wafer": 1.0, "boron": 0.01, "phosphorus": 0.01, "energy": 2},
+		"outputs": {"doped wafer": 1.02},
+		"available": false,
+		"machines": ["chemical reactor"],
+		"local": "",
+		"description": "Purifies silicon into electronics-grade high-purity silicon."
 	},
 	"polymerize ldpe": {
 		"name": "Polymerize LDPE",
@@ -736,6 +781,15 @@
 		"machines": ["material carver"],
 		"local": "",
 		"description": "Carves stone into uniform bricks."
+	},
+	"cut silicon wafer crude": {
+		"name": "Carve Silicon Wafer (Crude)",
+		"inputs": {"silicon boule": 1, "energy": 2},
+		"outputs": {"silicon wafer": 0.55, "silicon scrap": 0.45},
+		"available": false,
+		"machines": ["material carver"],
+		"local": "",
+		"description": "Crudely slices wafers from silicon boule."
 	},
 	"crush lithium ore": {
 		"name": "Crush Lithium Ore",
