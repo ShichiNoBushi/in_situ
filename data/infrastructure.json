@@ -164,6 +164,21 @@
 		"sort": [2, 2, 0],
 		"description": "Stores fluids safely."
 	},
+	"data terminal": {
+		"name": "Data Terminal",
+		"type": "storage",
+		"serves": ["data"],
+		"smart": false,
+		"cost": {"copper plate": 20, "iron plate": 10, "iron rod": 10},
+		"durability": 5000,
+		"size": 5,
+		"through": 200.0,
+		"energy cost": 0.0,
+		"starting amount": 0,
+		"available": false,
+		"sort": [2, 3, 0],
+		"description": "Stores data."
+	},
 	"lithium battery": {
 		"name": "Lithium Battery",
 		"type": "storage",
@@ -176,7 +191,7 @@
 		"energy cost": 0.0,
 		"starting amount": 1,
 		"available": false,
-		"sort": [2, 3, 0],
+		"sort": [2, 4, 0],
 		"description": "Stores electrical energy for later use."
 	},
 	"mechanical accumulator": {
@@ -191,7 +206,7 @@
 		"energy cost": 0.0,
 		"starting amount": 0,
 		"available": false,
-		"sort": [2, 3, 1],
+		"sort": [2, 4, 1],
 		"description": "Uses motors and heavy weights to store energy as mechanical potential energy and releases it to generate and release it."
 	},
 	"radio antenna": {

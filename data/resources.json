@@ -1608,6 +1608,48 @@
 		"sort": [7, 1, 0],
 		"description": "Shards of broken glass that can be recycled."
 	},
+	"meteorological data": {
+		"name": "Meteorological Data",
+		"abbreviation": "Met-Dat",
+		"type": "data",
+		"subtypes": ["weather"],
+		"phase": "data",
+		"unit": "B",
+		"starting amount": 0.0,
+		"scrap": {"meteorological data": 1.0},
+		"value": 0.2,
+		"liquidity": 2000.0,
+		"sort": [7, 0, 0],
+		"description": "Raw data recorded from local weather readings."
+	},
+	"geological data": {
+		"name": "Geological Data",
+		"abbreviation": "Geo-Dat",
+		"type": "data",
+		"subtypes": ["geology"],
+		"phase": "data",
+		"unit": "B",
+		"starting amount": 0.0,
+		"scrap": {"geological data": 1.0},
+		"value": 0.2,
+		"liquidity": 2000.0,
+		"sort": [7, 0, 1],
+		"description": "Raw data recorded from the earth."
+	},
+	"material data": {
+		"name": "Material Data",
+		"abbreviation": "Mat-Dat",
+		"type": "data",
+		"subtypes": ["material"],
+		"phase": "data",
+		"unit": "B",
+		"starting amount": 0.0,
+		"scrap": {"material data": 1.0},
+		"value": 0.2,
+		"liquidity": 2000.0,
+		"sort": [7, 0, 2],
+		"description": "Raw data from scanning material samples."
+	},
 	"energy": {
 		"name": "Energy",
 		"abbreviation": "Eng",
@@ -1619,7 +1661,7 @@
 		"scrap": {"energy": 1.0},
 		"value": 0.2,
 		"liquidity": 2000.0,
-		"sort": [7, 0],
+		"sort": [8, 0],
 		"description": "Energy used to power machines."
 	}
 }
