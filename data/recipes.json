@@ -467,6 +467,42 @@
 		"local": "",
 		"description": "Assemble processor die into a central processing unit."
 	},
+	"package memory chip": {
+		"name": "Package Memory Chip",
+		"inputs": {"memory die": 1.0, "gold wire": 0.1, "copper wire": 0.2, "ceramic": 0.2, "low-density polyethylene": 0.2, "energy": 1},
+		"outputs": {"memory chip": 1.7},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble memory die into a memory chip."
+	},
+	"package storage chip": {
+		"name": "Package Storage Chip",
+		"inputs": {"storage die": 1.0, "gold wire": 0.1, "copper wire": 0.2, "ceramic": 0.2, "low-density polyethylene": 0.2, "energy": 1},
+		"outputs": {"central processor": 1.7},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble storage die into a data storage chip."
+	},
+	"memory module": {
+		"name": "Memory Module",
+		"inputs": {"printed circuit board": 1.0, "memory chip": 4.0, "capacitor": 0.5, "resistor": 0.5, "gold wire": 0.2, "energy": 1},
+		"outputs": {"memory module": 6.2},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a memory storage module."
+	},
+	"solid-state storage module": {
+		"name": "Solid-State Storage Module",
+		"inputs": {"printed circuit board": 1.0, "storage chip": 4.0, "memory chip": 1.0, "capacitor": 0.5, "energy": 1},
+		"outputs": {"solid-state storage module": 6.5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a solid-state drive for data storage."
+	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",
 		"inputs": {"iron rod": 1, "energy": 2},
@@ -511,6 +547,24 @@
 		"machines": ["etching bath"],
 		"local": "",
 		"description": "Prepares a wafer into a processor die base."
+	},
+	"etch memory die": {
+		"name": "Etch Memory Die",
+		"inputs": {"doped wafer": 1.0, "gold": 0.05, "copper foil": 0.1, "copper chloride etchant": 0.2, "energy": 4},
+		"outputs": {"memory die": 0.95, "silicon scrap": 0.2, "spent copper etchent": 0.2},
+		"available": false,
+		"machines": ["etching bath"],
+		"local": "",
+		"description": "Prepares a wafer into a memory die base."
+	},
+	"etch storage die": {
+		"name": "Etch Storage Die",
+		"inputs": {"doped wafer": 1.0, "silver": 0.05, "copper foil": 0.1, "copper chloride etchant": 0.2, "energy": 4},
+		"outputs": {"storage die": 0.95, "silicon scrap": 0.2, "spent copper etchent": 0.2},
+		"available": false,
+		"machines": ["etching bath"],
+		"local": "",
+		"description": "Prepares a wafer into a storage die base."
 	},
 	"melt ice": {
 		"name": "Melt Ice",
