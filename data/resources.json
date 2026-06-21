@@ -1496,6 +1496,48 @@
 		"sort": [5, 18, 10],
 		"description": "A computer component for data storage."
 	},
+	"power regulator": {
+		"name": "Power Regulator",
+		"abbreviation": "Pow-Reg",
+		"type": "component",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {},
+		"value": 2.0,
+		"liquidity": 80.0,
+		"sort": [5, 19, 0],
+		"description": "A component that manages power source for electronics."
+	},
+	"cooling fan": {
+		"name": "Cooling Fan",
+		"abbreviation": "CoolFn",
+		"type": "component",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {},
+		"value": 2.0,
+		"liquidity": 80.0,
+		"sort": [5, 19, 1],
+		"description": "A component to keep components from overheating."
+	},
+	"heat sink": {
+		"name": "Heat Sink",
+		"abbreviation": "HetSnk",
+		"type": "component",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {},
+		"value": 2.0,
+		"liquidity": 80.0,
+		"sort": [5, 19, 2],
+		"description": "A component to quickly disperse heat into the environment."
+	},
 	"aluminum bullion": {
 		"name": "Aluminum Bullion",
 		"abbreviation": "AlBullion",
