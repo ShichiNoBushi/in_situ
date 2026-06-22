@@ -503,6 +503,33 @@
 		"local": "",
 		"description": "Assemble a solid-state drive for data storage."
 	},
+	"power regulator": {
+		"name": "Power Regulator",
+		"inputs": {"printed circuit board": 4.0, "capacitor": 1.0, "resistor": 1.0, "copper wire": 2.0, "energy": 1},
+		"outputs": {"power regulator": 8.0},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a power regulator to manage power distribution."
+	},
+	"cooling fan": {
+		"name": "Cooling Fan",
+		"inputs": {"aluminum plate": 2.0, "electric motor": 2.0, "control board": 1.0, "energy": 1},
+		"outputs": {"cooling fan": 5.0},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a cooling fan for heat management."
+	},
+	"heat sink": {
+		"name": "Heat Sink",
+		"inputs": {"aluminum plate": 1.0, "aluminum rod": 1.0, "energy": 1},
+		"outputs": {"heat sink": 6.5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a heat sink for heat distribution."
+	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",
 		"inputs": {"iron rod": 1, "energy": 2},
