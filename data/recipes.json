@@ -530,6 +530,69 @@
 		"local": "",
 		"description": "Assemble a heat sink for heat distribution."
 	},
+	"glass lens": {
+		"name": "Glass Lens",
+		"inputs": {"glass pane": 2.0, "energy": 1},
+		"outputs": {"glass lens": 1.1, "glass shard": 0.9},
+		"available": false,
+		"machines": ["material carver"],
+		"local": "",
+		"description": "Carve a pane of glass into a lens."
+	},
+	"glass prism": {
+		"name": "Glass Prism",
+		"inputs": {"glass pane": 2.0, "energy": 1},
+		"outputs": {"glass prism": 1.1, "glass shard": 0.9},
+		"available": false,
+		"machines": ["material carver"],
+		"local": "",
+		"description": "Carve a pane of glass into a prism."
+	},
+	"laser diode": {
+		"name": "Laser Diode",
+		"inputs": {"silicon wafer": 1.0, "gold wire": 0.2, "copper foil": 0.5, "energy": 1},
+		"outputs": {"heat sink": 1.5, "silicon scrap": 0.2},
+		"available": false,
+		"machines": ["etching bath"],
+		"local": "",
+		"description": "Etch a diode for creating lasers."
+	},
+	"optical cavity": {
+		"name": "Optical Cavity",
+		"inputs": {"aluminum plate": 1.0, "ceramic": 0.5, "glass lens": 0.2, "silver": 0.2, "energy": 1},
+		"outputs": {"optical cavity": 1.9},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a chamber for focusing lasers."
+	},
+	"laser emitter": {
+		"name": "Laser Emitter",
+		"inputs": {"laser diode": 0.5, "optical cavity": 0.5, "heat sink": 0.2, "control board": 0.3, "energy": 1},
+		"outputs": {"laser emitter": 1.5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a device to emit lasers."
+	},
+	"precision laser": {
+		"name": "Precision Laser",
+		"inputs": {"laser emitter": 0.5, "central processor": 0.1, "memory chip": 0.2, "glass lens": 0.2, "power regulator": 0.5, "energy": 1},
+		"outputs": {"precision laser": 1.5},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a laser for fine detail work."
+	},
+	"high-power laser": {
+		"name": "High-Power Laser",
+		"inputs": {"laser emitter": 1.0, "battery module": 1.0, "capacitor": 0.5, "control board": 0.5, "energy": 1},
+		"outputs": {"high-power laser": 3.0},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a laser for high intensity work."
+	},
 	"magnetize iron": {
 		"name": "Magnetize Iron",
 		"inputs": {"iron rod": 1, "energy": 2},
