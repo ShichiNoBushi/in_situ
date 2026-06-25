@@ -208,6 +208,39 @@
 		"sort": [7, 3],
 		"description": "Vat for submerging boards in etching solution."
 	},
+	"weather station": {
+		"name": "Weather Station",
+		"type": "computers",
+		"cost": {"iron plate": 10, "electric motor": 5, "processor": 1, "memory module": 1, "solid-state storage module": 1},
+		"durability": 5000,
+		"size": 10,
+		"starting amount": 0,
+		"available": false,
+		"sort": [8, 0],
+		"description": "Station for recording weather data."
+	},
+	"observatory": {
+		"name": "Observatory",
+		"type": "computers",
+		"cost": {"iron plate": 10, "electric motor": 2, "glass lens": 3, "processor": 1, "memory module": 1, "solid-state storage module": 1},
+		"durability": 5000,
+		"size": 10,
+		"starting amount": 0,
+		"available": false,
+		"sort": [8, 1],
+		"description": "Station for recording the sky."
+	},
+	"seismic sensor": {
+		"name": "Seismic Sensor",
+		"type": "computers",
+		"cost": {"iron plate": 10, "magnet": 2, "copper wire": 3, "processor": 1, "memory module": 1, "solid-state storage module": 1},
+		"durability": 5000,
+		"size": 10,
+		"starting amount": 0,
+		"available": false,
+		"sort": [8, 0],
+		"description": "Station for recording geological and seismic data."
+	},
 	"srg": {
 		"name": "Stirling Radioisotope Generator (SRG)",
 		"type": "generator",
@@ -216,7 +249,7 @@
 		"size": 5,
 		"starting amount": 1,
 		"available": false,
-		"sort": [8, 0],
+		"sort": [9, 0],
 		"description": "Uses a radioactive isotope to steadily generate energy."
 	},
 	"wind turbine": {
@@ -227,7 +260,7 @@
 		"size": 5,
 		"starting amount": 0,
 		"available": false,
-		"sort": [8, 1],
+		"sort": [9, 1],
 		"description": "A turbine designed to catch wind currents to generate energy"
 	},
 	"solar array": {
@@ -238,7 +271,7 @@
 		"size": 5,
 		"starting amount": 0,
 		"available": false,
-		"sort": [8, 2],
+		"sort": [9, 2],
 		"description": "Array of solar panels to generate energy."
 	}
 }
