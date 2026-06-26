@@ -953,6 +953,33 @@
 		"local": "",
 		"description": "Mixes and washes lithium ore for processing and refinement."
 	},
+	"scan weather": {
+		"name": "Scan Weather",
+		"inputs": {"energy": 1},
+		"outputs": {"metorological data": 0.5},
+		"available": false,
+		"machines": ["weather station"],
+		"local": "wind",
+		"description": "Scans weather patterns for data."
+	},
+	"scan stars": {
+		"name": "Scan Stars",
+		"inputs": {"energy": 1},
+		"outputs": {"astronomical data": 0.5},
+		"available": false,
+		"machines": ["observatory"],
+		"local": "solar",
+		"description": "Scans skies and stars for data."
+	},
+	"scan seismic activity": {
+		"name": "Scan Seismic Activity",
+		"inputs": {"energy": 1},
+		"outputs": {"geological data": 0.5},
+		"available": false,
+		"machines": ["seismic sensor"],
+		"local": "",
+		"description": "Scans tremors for data."
+	},
 	"scrap small iron gear": {
 		"name": "Scrap Small Iron Gear",
 		"inputs": {"iron gear small": 1, "energy": 0.5},

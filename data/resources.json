@@ -1846,6 +1846,20 @@
 		"sort": [7, 0, 0],
 		"description": "Raw data recorded from local weather readings."
 	},
+	"astronomical data": {
+		"name": "Astronomical Data",
+		"abbreviation": "Astro-Dat",
+		"type": "data",
+		"subtypes": ["stellar"],
+		"phase": "data",
+		"unit": "B",
+		"starting amount": 0.0,
+		"scrap": {"astronomical data": 1.0},
+		"value": 0.2,
+		"liquidity": 2000.0,
+		"sort": [7, 0, 0],
+		"description": "Raw data recorded from the sky and stars."
+	},
 	"geological data": {
 		"name": "Geological Data",
 		"abbreviation": "Geo-Dat",
