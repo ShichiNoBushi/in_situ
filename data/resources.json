@@ -853,6 +853,20 @@
 		"sort": [5, 2, 0],
 		"description": "A thin filament of glass."
 	},
+	"optical cable": {
+		"name": "Optical Cable",
+		"abbreviation": "Cable-Opt",
+		"type": "component",
+		"subtypes": ["wire", "glass"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"glass scrap": 0.667, "low-density polyethylene": 0.333},
+		"value": 0.5,
+		"liquidity": 400.0,
+		"sort": [5, 2, 1],
+		"description": "Insulated cable made of glass."
+	},
 	"insulated cable cu": {
 		"name": "Insulated Cable (Cu)",
 		"abbreviation": "Cable-Cu",

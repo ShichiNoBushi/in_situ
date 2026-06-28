@@ -297,13 +297,22 @@
 		"description": "Extrudes copper into thin wire."
 	},
 	"coat copper cable": {
-		"name": "coat wire cable",
+		"name": "Coat Wire Cable",
 		"inputs": {"copper wire": 5, "low-density polyethylene": 1, "energy": 1},
 		"outputs": {"insulated cable cu": 6},
 		"available": false,
 		"machines": ["wire coater"],
 		"local": "",
 		"description": "Coats copper wire in plastic insulator."
+	},
+	"coat optical cable": {
+		"name": "Coat Optical Cable",
+		"inputs": {"glass filiment": 5, "low-density polyethylene": 1, "energy": 1},
+		"outputs": {"optical cable": 6},
+		"available": false,
+		"machines": ["wire coater"],
+		"local": "",
+		"description": "Coats glass filiment in plastic insulator."
 	},
 	"electric motor": {
 		"name": "Electric Motor",
