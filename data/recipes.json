@@ -980,6 +980,42 @@
 		"local": "",
 		"description": "Scans tremors for data."
 	},
+	"analyze meteorological data": {
+		"name": "Analyze Meteorological Data",
+		"inputs": {"meteorological data":1, "energy": 1},
+		"outputs": {"meteorological information": 0.5},
+		"available": false,
+		"machines": ["mainframe"],
+		"local": "",
+		"description": "Analyzes and refines weather data."
+	},
+	"analyze astronomical data": {
+		"name": "Analyze Astronomical Data",
+		"inputs": {"astronomical data":1, "energy": 1},
+		"outputs": {"astronomical information": 0.5},
+		"available": false,
+		"machines": ["mainframe"],
+		"local": "",
+		"description": "Analyzes and refines stellar data."
+	},
+	"analyze geological data": {
+		"name": "Analyze Geological Data",
+		"inputs": {"geological data":1, "energy": 1},
+		"outputs": {"geological information": 0.5},
+		"available": false,
+		"machines": ["mainframe"],
+		"local": "",
+		"description": "Analyzes and refines seismic data."
+	},
+	"analyze material data": {
+		"name": "Analyze Material Data",
+		"inputs": {"material data":1, "energy": 1},
+		"outputs": {"material information": 0.5},
+		"available": false,
+		"machines": ["mainframe"],
+		"local": "",
+		"description": "Analyzes and refines spectroscopic data."
+	},
 	"scrap small iron gear": {
 		"name": "Scrap Small Iron Gear",
 		"inputs": {"iron gear small": 1, "energy": 0.5},

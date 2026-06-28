@@ -238,8 +238,19 @@
 		"size": 10,
 		"starting amount": 0,
 		"available": false,
-		"sort": [8, 0],
+		"sort": [8, 2],
 		"description": "Station for recording geological and seismic data."
+	},
+	"mainframe": {
+		"name": "Mainframe",
+		"type": "computers",
+		"cost": {"iron plate": 10, "computer board": 3, "processor": 1, "memory module": 1, "solid-state storage module": 1, "cooling fan": 1, "heat sink": 1},
+		"durability": 5000,
+		"size": 10,
+		"starting amount": 0,
+		"available": false,
+		"sort": [8, 4],
+		"description": "Computer for processing data."
 	},
 	"srg": {
 		"name": "Stirling Radioisotope Generator (SRG)",
