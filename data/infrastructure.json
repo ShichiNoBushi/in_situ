@@ -26,7 +26,7 @@
 		"energy cost": 0.5,
 		"starting amount": 0,
 		"available": false,
-		"sort": [0, 0],
+		"sort": [0, 1],
 		"description": "Distributes solid and fluid resources between regions. Uses smart logistics."
 	},
 	"substation": {
@@ -41,7 +41,7 @@
 		"energy cost": 0.0,
 		"starting amount":  0,
 		"available": false,
-		"sort": [0, 1],
+		"sort": [0, 2],
 		"description": "Distributes electricity to local region."
 	},
 	"smart substation": {
@@ -56,8 +56,23 @@
 		"energy cost": 0.0,
 		"starting amount":  0,
 		"available": false,
-		"sort": [0, 1],
+		"sort": [0, 3],
 		"description": "Distributes electricity to local region. Uses smart logistics."
+	},
+	"communications hub": {
+		"name": "Communications Hub",
+		"type": "hub",
+		"serves": ["data"],
+		"smart": true,
+		"cost": {"iron plate": 20, "processor": 5, "memory module": 5, "computer board": 10},
+		"durability": 5000,
+		"size": 10,
+		"through": 50.0,
+		"energy cost": 0.0,
+		"starting amount":  0,
+		"available": false,
+		"sort": [0, 4],
+		"description": "Distributes data between regions. Uses smart logistics."
 	},
 	"conveyer bus": {
 		"name": "Conveyer Bus",
@@ -102,6 +117,21 @@
 		"starting amount": 0,
 		"available": false,
 		"sort": [1, 2],
+		"description": "Transmits high-voltage power between regions."
+	},
+	"fiberoptic conduit": {
+		"name": "Fiberoptic Conduit",
+		"type": "conveyer",
+		"serves": ["data"],
+		"smart": false,
+		"cost": {"optical cable": 20, "iron plate": 10, "iron rod": 10, "electromagnetic relay": 5},
+		"durability": 5000,
+		"size": 1,
+		"through": 20.0,
+		"energy cost": 0,
+		"starting amount": 0,
+		"available": false,
+		"sort": [1, 3],
 		"description": "Transmits high-voltage power between regions."
 	},
 	"stockpile": {
