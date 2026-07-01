@@ -64,7 +64,7 @@
 		"type": "hub",
 		"serves": ["data"],
 		"smart": true,
-		"cost": {"iron plate": 20, "processor": 5, "memory module": 5, "computer board": 10},
+		"cost": {"iron plate": 20, "central processor": 5, "memory module": 5, "computer board": 10},
 		"durability": 5000,
 		"size": 10,
 		"through": 50.0,
@@ -132,7 +132,7 @@
 		"starting amount": 0,
 		"available": false,
 		"sort": [1, 3],
-		"description": "Transmits high-voltage power between regions."
+		"description": "Transmits data between regions."
 	},
 	"stockpile": {
 		"name": "Stockpile",

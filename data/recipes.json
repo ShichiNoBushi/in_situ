@@ -965,7 +965,7 @@
 	"scan weather": {
 		"name": "Scan Weather",
 		"inputs": {"energy": 1},
-		"outputs": {"metorological data": 0.5},
+		"outputs": {"meteorological data": 0.5},
 		"available": false,
 		"machines": ["weather station"],
 		"local": "wind",
