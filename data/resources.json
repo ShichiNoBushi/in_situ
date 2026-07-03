@@ -1133,6 +1133,20 @@
 		"sort": [5, 12, 3],
 		"description": "A switch that activates automatically to close a circuit."
 	},
+	"vacuum chamber": {
+		"name": "Vacuum Chamber",
+		"abbreviation": "Vac-Cham",
+		"type": "component",
+		"subtypes": ["control", "pressure"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {},
+		"value": 2.0,
+		"liquidity": 80.0,
+		"sort": [5, 12, 4],
+		"description": "A chamber for controlling internal pressure."
+	},
 	"resistor": {
 		"name": "Resistor",
 		"abbreviation": "Rstr",
@@ -1482,6 +1496,20 @@
 		"sort": [5, 18, 8],
 		"description": "A base for data storage."
 	},
+	"photodiode die": {
+		"name": "Photodiode Die",
+		"abbreviation": "Photo-Die",
+		"type": "component",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"p-doped silicon": 0.5, "n-doped silicon": 0.5},
+		"value": 2.0,
+		"liquidity": 80.0,
+		"sort": [5, 18, 9],
+		"description": "A base for a photodiode."
+	},
 	"data storage chip": {
 		"name": "Data Storage Chip",
 		"abbreviation": "Data-Chip",
@@ -1493,7 +1521,7 @@
 		"scrap": {"p-doped silicon": 0.5, "n-doped silicon": 0.5},
 		"value": 2.0,
 		"liquidity": 80.0,
-		"sort": [5, 18, 9],
+		"sort": [5, 18, 10],
 		"description": "A chip for data storage."
 	},
 	"solid-state storage module": {
@@ -1507,8 +1535,22 @@
 		"scrap": {"p-doped silicon": 0.5, "n-doped silicon": 0.5},
 		"value": 2.0,
 		"liquidity": 80.0,
-		"sort": [5, 18, 10],
+		"sort": [5, 18, 11],
 		"description": "A computer component for data storage."
+	},
+	"photodiode": {
+		"name": "Photodiode",
+		"abbreviation": "Ph-Diode",
+		"type": "component",
+		"subtypes": ["metal", "electronic"],
+		"phase": "solid",
+		"unit": "g",
+		"starting amount": 0.0,
+		"scrap": {"p-doped silicon": 0.5, "n-doped silicon": 0.5},
+		"value": 2.0,
+		"liquidity": 80.0,
+		"sort": [5, 18, 12],
+		"description": "A sensor for detecting specific light."
 	},
 	"power regulator": {
 		"name": "Power Regulator",
