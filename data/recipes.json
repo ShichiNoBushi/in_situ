@@ -350,6 +350,15 @@
 		"local": "",
 		"description": "Craft a relay to function as an automated switch."
 	},
+	"vacuum chamber": {
+		"name": "Vacuum Chamber",
+		"inputs": {"iron plate": 2, "aluminum plate": 1, "glass pane": 0.5, "high-density polyethylene": 0.25, "copper wire": 0.1, "electromagnetic relay": 0.15, "energy": 2},
+		"outputs": {"vacuum chamber": 4},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assembles a sealed chamber for maintaining controlled pressure."
+	},
 	"resistor": {
 		"name": "Resistor",
 		"inputs": {"copper wire": 1, "carbon": 2, "ceramic": 1, "energy": 2},
@@ -512,6 +521,15 @@
 		"local": "",
 		"description": "Assemble a solid-state drive for data storage."
 	},
+	"photodiode": {
+		"name": "Photodiode",
+		"inputs": {"photodiode die": 1.0, "copper wire": 0.2, "glass lens": 0.1, "ceramic": 0.5, "energy": 1},
+		"outputs": {"solid-state storage module": 1.8},
+		"available": false,
+		"machines": ["parts assembler"],
+		"local": "",
+		"description": "Assemble a photodiode that detects light."
+	},
 	"power regulator": {
 		"name": "Power Regulator",
 		"inputs": {"printed circuit board": 4.0, "capacitor": 1.0, "resistor": 1.0, "copper wire": 2.0, "energy": 1},
@@ -664,6 +682,15 @@
 		"machines": ["etching bath"],
 		"local": "",
 		"description": "Prepares a wafer into a storage die base."
+	},
+	"etch photodiode die": {
+		"name": "Etch Photodiode Die",
+		"inputs": {"doped wafer": 1.0, "gold": 0.05, "copper foil": 0.1, "copper chloride etchant": 0.2, "energy": 4},
+		"outputs": {"photodiode die": 0.95, "silicon scrap": 0.2, "spent copper etchent": 0.2},
+		"available": false,
+		"machines": ["etching bath"],
+		"local": "",
+		"description": "Prepares a wafer into a photodiode die base."
 	},
 	"melt ice": {
 		"name": "Melt Ice",
