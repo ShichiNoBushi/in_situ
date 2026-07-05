@@ -1016,6 +1016,33 @@
 		"local": "",
 		"description": "Scans tremors for data."
 	},
+	"scan stone": {
+		"name": "Scan stone",
+		"inputs": {"stone": 1.0, "energy": 1},
+		"outputs": {"material data": 0.1, "stone dust": 0.5},
+		"available": false,
+		"machines": ["spectroscopic scanner"],
+		"local": "",
+		"description": "Scans stone for spectroscopic data."
+	},
+	"scan iron ore": {
+		"name": "Scan Iron Ore",
+		"inputs": {"iron ore": 1.0, "energy": 1},
+		"outputs": {"material data": 0.2, "stone dust": 0.5},
+		"available": false,
+		"machines": ["spectroscopic scanner"],
+		"local": "",
+		"description": "Scans iron ore for spectroscopic data."
+	},
+	"scan copper ore": {
+		"name": "Scan Copper Ore",
+		"inputs": {"copper ore": 1.0, "energy": 1},
+		"outputs": {"material data": 0.2, "stone dust": 0.5},
+		"available": false,
+		"machines": ["spectroscopic scanner"],
+		"local": "",
+		"description": "Scans copper ore for spectroscopic data."
+	},
 	"analyze meteorological data": {
 		"name": "Analyze Meteorological Data",
 		"inputs": {"meteorological data":1, "energy": 1},
