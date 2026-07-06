@@ -286,7 +286,7 @@
 		"description": "A turbine designed to catch wind currents to generate energy"
 	},
 	"solar array": {
-		"name": "Solar Panel Array",
+		"name": "Solar Array",
 		"type": "generator",
 		"cost": {"iron plate": 5, "iron rod": 5, "solar cell": 10, "glass pane": 5},
 		"durability": 20000,

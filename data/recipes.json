@@ -577,7 +577,7 @@
 	},
 	"laser diode": {
 		"name": "Laser Diode",
-		"inputs": {"silicon wafer": 1.0, "gold wire": 0.2, "copper foil": 0.5, "energy": 1},
+		"inputs": {"doped wafer": 1.0, "gold wire": 0.2, "copper foil": 0.5, "energy": 1},
 		"outputs": {"heat sink": 1.5, "silicon scrap": 0.2},
 		"available": false,
 		"machines": ["etching bath"],
