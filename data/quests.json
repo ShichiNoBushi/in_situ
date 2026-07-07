@@ -1192,6 +1192,134 @@
 			"quests": []
 		},
 		"unlocks": {
+			"quests": ["computer procedural", "memory problems", "storage wars"],
+			"recipes": ["etch processor die", "etch memory die", "etch storage die"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"computer procedural": {
+		"name": "procedural",
+		"start": false,
+		"requirement": {
+			"resources": {"processor die": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["trust the process"],
+			"recipes": ["package central processor"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"trust the process": {
+		"name": "Trust the Process",
+		"start": false,
+		"requirement": {
+			"resources": {"central processor": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"memory problems": {
+		"name": "Memory Problems",
+		"start": false,
+		"requirement": {
+			"resources": {"memory die": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["memory solutions"],
+			"recipes": ["package memory chip"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"memory solutions": {
+		"name": "Memory Solutions",
+		"start": false,
+		"requirement": {
+			"resources": {"memory chip": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["ram shortage"],
+			"recipes": ["memory module"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"ram shortage": {
+		"name": "RAM Shortage",
+		"start": false,
+		"requirement": {
+			"resources": {"memory module": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"storage wars": {
+		"name": "Storage Wars",
+		"start": false,
+		"requirement": {
+			"resources": {"storage die": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["store is open"],
+			"recipes": ["package storage chip"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"store is open": {
+		"name": "Store is Open",
+		"start": false,
+		"requirement": {
+			"resources": {"storage chip": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["solid state"],
+			"recipes": ["solid-state storage module"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"solid state": {
+		"name": "Solid State",
+		"start": false,
+		"requirement": {
+			"resources": {"solid-state storage module": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
 			"quests": [],
 			"recipes": [],
 			"machines": []
