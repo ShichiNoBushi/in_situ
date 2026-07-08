@@ -953,7 +953,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["smelt gold ore"],
+			"recipes": ["smelt silver"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
@@ -969,7 +969,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["smelt gold ore"],
+			"recipes": ["smelt gold"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
@@ -1224,7 +1224,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["custom rig"],
 			"recipes": [],
 			"machines": []
 		},
@@ -1272,7 +1272,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["custom rig"],
 			"recipes": [],
 			"machines": []
 		},
@@ -1320,8 +1320,88 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["custom rig"],
 			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"custom rig": {
+		"name": "Custom Rig",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {},
+			"quests": ["trust the process", "ram shortage", "solid state"]
+		},
+		"unlocks": {
+			"quests": ["computer basics"],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"computer basics": {
+		"name": "Computer Basics",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"mainframe": 1, "data terminal": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["weather report", "star searching", "tremors"],
+			"recipes": [],
+			"machines": ["weather station", "observatory", "seismic sensor"]
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"weather report": {
+		"name": "Weather Report",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"weather station": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["scan weather"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"star searching": {
+		"name": "Star Searching",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"observatory": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["scan stars"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"tremors": {
+		"name": "Tremors",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"seismic sensor": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["scan seismic activity"],
 			"machines": []
 		},
 		"text": "<placeholder text>",

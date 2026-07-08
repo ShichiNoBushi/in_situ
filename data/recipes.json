@@ -206,7 +206,7 @@
 		"local": "",
 		"description": "Crudely forms high-purity silicon into a cylindrical boule for wafers."
 	},
-	"alumimum plate press": {
+	"aluminum plate press": {
 		"name": "Aluminum Plate (Press)",
 		"inputs": {"aluminum": 4, "energy": 0.5},
 		"outputs": {"aluminum plate": 4},
@@ -719,7 +719,7 @@
 		"local": "",
 		"description": "Electrolyze brine into lye and chlorine with byproducts."
 	},
-	"eletrolyze alumina": {
+	"electrolyze alumina": {
 		"name": "Electrolyze Alumina",
 		"inputs": {"alumina": 5, "energy": 2},
 		"outputs": {"aluminum": 2.65, "oxygen": 2.35},
@@ -782,7 +782,7 @@
 		"local": "",
 		"description": "Create bleach from lye and chlirine."
 	},
-	"synthesize lithium phosophate": {
+	"synthesize lithium phosphate": {
 		"name": "Synthesize Lithium Phosphate",
 		"inputs": {"lithium": 0.67, "phosphorus": 1, "oxygen": 2.07, "energy": 1},
 		"outputs": {"lithium phosphate": 3.74},
