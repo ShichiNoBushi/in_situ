@@ -728,7 +728,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["electric oscillations", "better silicon"],
+			"quests": ["electric oscillations", "better silicon", "cool parts", "the other sink"],
 			"recipes": ["lc oscillator module", "refine silicon"],
 			"machines": ["smelter extruder", "component printer", "parts assembler"]
 		},
@@ -1194,6 +1194,38 @@
 		"unlocks": {
 			"quests": ["computer procedural", "memory problems", "storage wars"],
 			"recipes": ["etch processor die", "etch memory die", "etch storage die"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"cool parts": {
+		"name": "Cool Parts",
+		"start": false,
+		"requirement": {
+			"resources": {"cooling fan": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["custom rig"],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"the other sink": {
+		"name": "The Other Sink",
+		"start": false,
+		"requirement": {
+			"resources": {"heat sink": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["custom rig"],
+			"recipes": [],
 			"machines": []
 		},
 		"text": "<placeholder text>",
