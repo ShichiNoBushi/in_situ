@@ -1384,8 +1384,8 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["weather report", "star searching", "tremors"],
-			"recipes": [],
+			"quests": ["weather report", "star searching", "tremors", "glass works"],
+			"recipes": ["glass lens", "glass prism"],
 			"machines": ["weather station", "observatory", "seismic sensor"]
 		},
 		"text": "<placeholder text>",
@@ -1434,6 +1434,70 @@
 		"unlocks": {
 			"quests": [],
 			"recipes": ["scan seismic activity"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"glass works": {
+		"name": "Glass Works",
+		"start": false,
+		"requirement": {
+			"resources": {"glass lens": 10, "glass prism": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["light amplification"],
+			"recipes": ["laser diode", "optical cavity"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"light amplification": {
+		"name": "light amplification",
+		"start": false,
+		"requirement": {
+			"resources": {"laser diode": 10, "optical cavity": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["stimulated emission of radiation"],
+			"recipes": ["laser emitter"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"stimulated emission of radiation": {
+		"name": "Stimulated Emission of Radiation",
+		"start": false,
+		"requirement": {
+			"resources": {"laser emitter": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["frickin' lasers"],
+			"recipes": ["precision laser", "high-power laser"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"frickin' lasers": {
+		"name": "Frickin' Lasers",
+		"start": false,
+		"requirement": {
+			"resources": {"precision laser": 20, "high-power laser": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
 			"machines": []
 		},
 		"text": "<placeholder text>",
