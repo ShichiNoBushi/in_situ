@@ -497,7 +497,7 @@
 	"package storage chip": {
 		"name": "Package Storage Chip",
 		"inputs": {"storage die": 1.0, "gold wire": 0.1, "copper wire": 0.2, "ceramic": 0.2, "low-density polyethylene": 0.2, "energy": 1},
-		"outputs": {"central processor": 1.7},
+		"outputs": {"storage chip": 1.7},
 		"available": false,
 		"machines": ["parts assembler"],
 		"local": "",
@@ -524,7 +524,7 @@
 	"photodiode": {
 		"name": "Photodiode",
 		"inputs": {"photodiode die": 1.0, "copper wire": 0.2, "glass lens": 0.1, "ceramic": 0.5, "energy": 1},
-		"outputs": {"solid-state storage module": 1.8},
+		"outputs": {"photodiode": 1.8},
 		"available": false,
 		"machines": ["parts assembler"],
 		"local": "",
@@ -1312,6 +1312,15 @@
 		"machines": ["miner"],
 		"local": "mining",
 		"description": "Extract raw stone from the earth."
+	},
+	"mine lithium ore": {
+		"name": "Mine (Lithium Ore)",
+		"inputs": {"energy": 1},
+		"outputs": {"lithium ore": 1},
+		"available": false,
+		"machines": ["miner"],
+		"local": "mining",
+		"description": "Extract lithium ore from a local vein."
 	},
 	"mine boron ore": {
 		"name": "Mine (Boron Ore)",

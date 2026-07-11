@@ -105,7 +105,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["mine stone", "mine iron ore", "mine copper ore", "mine ice", "mine boron ore", "mine phosphate ore", "mine limestone", "mine lithium ore", "mine bauxite ore"],
+			"recipes": ["mine stone", "mine iron ore", "mine copper ore", "mine ice", "mine boron ore", "mine phosphate ore", "mine limestone", "mine lithium ore", "mine bauxite ore", "mine silver ore", "mine gold ore"],
 			"machines": []
 		},
 		"text": "Now that you can make motors, it is time to get the machines to do work for you and save yourself from having to harvest the raw resources yourself.\n\nThe schematics for an automated miner have been unlocked for you.",
@@ -472,12 +472,28 @@
 			"quests": []
 		},
 		"unlocks": {
+			"quests": ["put a coat on"],
+			"recipes": ["coat copper cable", "coat optical cable"],
+			"machines": ["wire coater"]
+		},
+		"text": "With ethylene as a base monomer, you can now make polyethylene, a basic plastic with versatile applications. The process of polymerization is more complicated, so you will need a more advanced machine with relays and control boards to automatically manage the process.",
+		"hint": "Construct a polymerizer and in it select the recipes for \"Polymerize LDPE\" and \"Polymerize HDPE\"."
+	},
+	"put a coat on": {
+		"name": "Put a Coat On",
+		"start": false,
+		"requirement": {
+			"resources": {"insulated cable cu": 10},
+			"machines": {"wire coater": 1},
+			"quests": []
+		},
+		"unlocks": {
 			"quests": [],
 			"recipes": [],
 			"machines": []
 		},
-		"text": "With ethylene as a base monomer, you can now make polyethylene, a basic plastic with versatile applications. The process of polymerization is more complicated, so you will need a more advanced machine with relays and control boards to automatically manage the process.",
-		"hint": "Construct a polymerizer and in it select the recipes for \"Polymerize LDPE\" and \"Polymerize HDPE\"."
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
 	},
 	"pottery": {
 		"name": "Pottery",
