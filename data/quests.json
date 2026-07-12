@@ -744,12 +744,28 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["electric oscillations", "better silicon", "cool parts", "the other sink"],
+			"quests": ["smart logistics", "electric oscillations", "better silicon", "cool parts", "the other sink"],
 			"recipes": ["lc oscillator module", "refine silicon"],
-			"machines": ["smelter extruder", "component printer", "parts assembler"]
+			"machines": ["smelter extruder", "component printer", "parts assembler", "smart logistics hub", "smart substation"]
 		},
 		"text": "With transistors and a proper printed circuit board, you can now assemble boards used in more advanced computering hardware. These can then be programmed for smarter automation.",
 		"hint": "In a parts assembler, craft transistors, resistors, and capacitors with printed circuit boards."
+	},
+	"smart logistics": {
+		"name": "Smart Logistics",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"smart logistics hub": 1, "smart substation": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
 	},
 	"limey stone": {
 		"name": "Limey Stone",
@@ -1400,9 +1416,25 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["weather report", "star searching", "tremors", "glass works"],
+			"quests": ["series of tubes", "weather report", "star searching", "tremors", "glass works"],
 			"recipes": ["glass lens", "glass prism"],
-			"machines": ["weather station", "observatory", "seismic sensor"]
+			"machines": ["communications hub", "fiberoptic conduit", "weather station", "observatory", "seismic sensor"]
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"series of tubes": {
+		"name": "Series of Tubes",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"communications hub": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
 		},
 		"text": "<placeholder text>",
 		"hint": "<placeholder text>"
@@ -1508,6 +1540,70 @@
 		"start": false,
 		"requirement": {
 			"resources": {"precision laser": 20, "high-power laser": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["light sensors"],
+			"recipes": ["etch photodiode die", "photodiode"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"light sensors": {
+		"name": "Light Sensors",
+		"start": false,
+		"requirement": {
+			"resources": {"photodiode": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["the other vacuum"],
+			"recipes": ["vacuum chamber"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"the other vacuum": {
+		"name": "The Other Vacuum",
+		"start": false,
+		"requirement": {
+			"resources": {"vacuum chamber": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"mass spectroscopy pt1": {
+		"name": "Mass Spectroscopy Part I",
+		"start": false,
+		"requirement": {
+			"resources": {},
+			"machines": {"spectroscopic scanner": 1},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": ["mass spectroscopy pt2"],
+			"recipes": ["scan stone", "scan iron ore", "scan copper ore"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"mass spectroscopy pt2": {
+		"name": "Mass Spectroscopy Part II",
+		"start": false,
+		"requirement": {
+			"resources": {"material data": 20},
 			"machines": {},
 			"quests": []
 		},
