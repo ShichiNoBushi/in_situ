@@ -1448,7 +1448,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["data analysis a"],
 			"recipes": ["scan weather"],
 			"machines": []
 		},
@@ -1464,7 +1464,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["data analysis b"],
 			"recipes": ["scan stars"],
 			"machines": []
 		},
@@ -1480,7 +1480,7 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["data analysis c"],
 			"recipes": ["scan seismic activity"],
 			"machines": []
 		},
@@ -1610,6 +1610,70 @@
 		"unlocks": {
 			"quests": [],
 			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"data analysis a": {
+		"name": "Data Analysis A",
+		"start": false,
+		"requirement": {
+			"resources": {"weather data": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["analyze weather data"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"data analysis b": {
+		"name": "Data Analysis B",
+		"start": false,
+		"requirement": {
+			"resources": {"astronomical data": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["analyze astronomical data"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"data analysis c": {
+		"name": "Data Analysis C",
+		"start": false,
+		"requirement": {
+			"resources": {"geological data": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["analyze geological data"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"data analysis d": {
+		"name": "Data Analysis D",
+		"start": false,
+		"requirement": {
+			"resources": {"material data": 20},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": ["analyze material data"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
