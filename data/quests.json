@@ -601,7 +601,7 @@
 		},
 		"unlocks": {
 			"quests": ["dont be a dope"],
-			"recipes": ["refine boron", "refine phosphorus", "p-dope silicon", "n-dope silicon"],
+			"recipes": ["refine boron", "refine phosphorus", "p-dope silicon", "n-dope silicon", "recycle boron scrap"],
 			"machines": []
 		},
 		"text": "You have been working on creating electronics, but the mineral deposits around your initial landing zone are only going to get you so far, and more advanced electronics and automation will require transistors which need combinations of silicon doped with special impurities. Common elements you can utilize are boron and phosphorus to dope your silicon.\n\nAs you explore, you will need to keep an eye out for boron ore and phosphate ore. If you find any veins, you can either mine them manually or construct an automated miner. Then build a set of logistics hubs and conveyers connecting the region to your base and load the ore to be transported or carry it over yourself. Once you have either transported the ore to your base or constructed any machines at the site, refine it into boron and silicon to get ready to dope it with silicon.",
@@ -664,12 +664,28 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["basics of acid"],
-			"recipes": ["synthesize hydrochloric acid"],
+			"quests": ["clean chemistry", "basics of acid"],
+			"recipes": ["synthesize bleach", "synthesize hydrochloric acid"],
 			"machines": []
 		},
 		"text": "To use the base elements of NaCl salt, you will need to break it down chemically. Like you did with regular water before, you can again electrolyze a mix of salt water to create biproducts of sodium hydroxide (NaOH), or lye soda, and chlorine.",
 		"hint": "In a mixer, combine salt with water to make salt water. Then use the electrolyzer to electrolize it."
+	},
+	"clean chemistry": {
+		"name": "Clean Chemistry",
+		"start": false,
+		"requirement": {
+			"resources": {"bleach": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
+			"quests": [],
+			"recipes": [],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
 	},
 	"basics of acid": {
 		"name": "Basics of Acid",
@@ -745,7 +761,7 @@
 		},
 		"unlocks": {
 			"quests": ["smart logistics", "electric oscillations", "better silicon", "cool parts", "the other sink"],
-			"recipes": ["lc oscillator module", "refine silicon"],
+			"recipes": ["lc oscillator module", "purify silicon"],
 			"machines": ["smelter extruder", "component printer", "parts assembler", "smart logistics hub", "smart substation"]
 		},
 		"text": "With transistors and a proper printed circuit board, you can now assemble boards used in more advanced computering hardware. These can then be programmed for smarter automation.",
@@ -873,7 +889,7 @@
 		},
 		"unlocks": {
 			"quests": ["batteries included pt1"],
-			"recipes": ["carbon anode", "synthesize lithium phosphate"],
+			"recipes": ["carbon anode", "synthesize lithium phosphate", "recycle lithium scrap"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
@@ -985,7 +1001,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["smelt silver"],
+			"recipes": ["smelt silver", "recycle silver scrap"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
@@ -1001,7 +1017,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["smelt gold"],
+			"recipes": ["smelt gold", "recycle gold scrap"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
@@ -1224,8 +1240,8 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": ["computer procedural", "memory problems", "storage wars"],
-			"recipes": ["etch processor die", "etch memory die", "etch storage die"],
+			"quests": ["cool parts", "the other sink", "computer procedural", "memory problems", "storage wars"],
+			"recipes": ["cooling fan", "heat sink", "etch processor die", "etch memory die", "etch storage die"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
@@ -1402,7 +1418,7 @@
 		"unlocks": {
 			"quests": ["computer basics"],
 			"recipes": [],
-			"machines": []
+			"machines": ["mainframe", "data terminal"]
 		},
 		"text": "<placeholder text>",
 		"hint": "<placeholder text>"
@@ -1496,6 +1512,22 @@
 			"quests": []
 		},
 		"unlocks": {
+			"quests": ["pesky regulations"],
+			"recipes": ["power regulator"],
+			"machines": []
+		},
+		"text": "<placeholder text>",
+		"hint": "<placeholder text>"
+	},
+	"pesky regulations": {
+		"name": "Pesky Regulations",
+		"start": false,
+		"requirement": {
+			"resources": {"power regulator": 10},
+			"machines": {},
+			"quests": []
+		},
+		"unlocks": {
 			"quests": ["light amplification"],
 			"recipes": ["laser diode", "optical cavity"],
 			"machines": []
@@ -1576,9 +1608,9 @@
 			"quests": []
 		},
 		"unlocks": {
-			"quests": [],
+			"quests": ["mass spectroscopy pt1"],
 			"recipes": [],
-			"machines": []
+			"machines": ["spectroscopic scanner"]
 		},
 		"text": "<placeholder text>",
 		"hint": "<placeholder text>"
@@ -1625,7 +1657,7 @@
 		},
 		"unlocks": {
 			"quests": [],
-			"recipes": ["analyze weather data"],
+			"recipes": ["analyze meteorological data"],
 			"machines": []
 		},
 		"text": "<placeholder text>",
