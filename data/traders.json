@@ -267,5 +267,34 @@
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0
+	},
+	"scientist": {
+		"preferences": {
+			"meteorological data": 0.8,
+			"astronomical data": 0.8,
+			"geological data": 0.8,
+			"material data": 0.8,
+			"meteorological information": 1.2,
+			"astronomical information": 1.2,
+			"geological information": 1.2,
+			"material information": 1.2,
+			"iron bullion": 1.0,
+			"copper bullion": 1.0,
+			"silver bullion": 1.0,
+			"gold bullion": 1.0
+		},
+		"catalog": {
+			"meteorological data": 1.0,
+			"astronomical data": 1.0,
+			"geological data": 1.0,
+			"material data": 1.0,
+			"iron bullion": 1.0,
+			"copper bullion": 1.0,
+			"silver bullion": 1.0,
+			"gold bullion": 1.0
+		},
+		"frequency": 1.0,
+		"greed": 1.2,
+		"landing_fee": 50.0
 	}
 }
