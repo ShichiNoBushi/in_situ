@@ -268,6 +268,46 @@
 		"greed": 1.2,
 		"landing_fee": 50.0
 	},
+	"computer engineer": {
+		"preferences": {
+			"printed circuit board": 0.8,
+			"resistor": 0.8,
+			"capacitor": 0.8,
+			"transistor": 0.8,
+			"computer board": 0.8,
+			"high-purity silicon": 0.6,
+			"silicon wafer": 0.6,
+			"central processor": 1.1,
+			"memory chip": 0.8,
+			"memory module": 1.2,
+			"data storage chip": 0.8,
+			"solid-state storage module": 1.2,
+			"photodiode": 0.8,
+			"power regulator": 1.2,
+			"cooling fan": 1.1,
+			"heat sink": 1.1,
+			"iron bullion": 1.0,
+			"copper bullion": 1.0,
+			"silver bullion": 1.0,
+			"gold bullion": 1.0
+		},
+		"catalog": {
+			"silicon": 5.0,
+			"aluminum": 1.0,
+			"printed circuit board": 2.0,
+			"resistor": 1.0,
+			"capacitor": 1.0,
+			"transistor": 1.0,
+			"computer board": 1.0,
+			"iron bullion": 1.0,
+			"copper bullion": 1.0,
+			"silver bullion": 1.0,
+			"gold bullion": 1.0
+		},
+		"frequency": 1.0,
+		"greed": 1.2,
+		"landing_fee": 50.0
+	},
 	"scientist": {
 		"preferences": {
 			"meteorological data": 0.8,

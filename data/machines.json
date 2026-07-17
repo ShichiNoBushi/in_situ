@@ -10,6 +10,17 @@
 		"sort": [0, 0],
 		"description": "Extracts raw ore from the ground."
 	},
+	"laser miner": {
+		"name": "Laser Miner",
+		"type": "collector",
+		"cost": {"iron plate": 20, "electric motor": 10, "high-power laser": 10},
+		"durability": 10000,
+		"size": 10,
+		"starting amount": 0,
+		"available": false,
+		"sort": [0, 1],
+		"description": "Uses powerful lasers to extract raw ore."
+	},
 	"atmospheric compressor": {
 		"name": "Atmospheric Compressor",
 		"type": "collector",
@@ -18,7 +29,7 @@
 		"size": 10,
 		"starting amount": 0,
 		"available": false,
-		"sort": [0, 1],
+		"sort": [0, 2],
 		"description": "Collects gasses from the atmosphere."
 	},
 	"smelter extruder": {

@@ -1412,6 +1412,114 @@
 		"local": "mining",
 		"description": "Extract limestone from a local deposit."
 	},
+	"laser mine stone": {
+		"name": "Laser Mine (Stone)",
+		"inputs": {"energy": 3},
+		"outputs": {"stone": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract raw stone from the earth."
+	},
+	"laser mine lithium ore": {
+		"name": "Laser Mine (Lithium Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"lithium ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract lithium ore from a local vein."
+	},
+	"laser mine boron ore": {
+		"name": "Laser Mine (Boron Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"boron ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract boron ore from a local vein."
+	},
+	"laser mine bauxite ore": {
+		"name": "Laser Mine (Bauxite Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"bauxite ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract bauxite ore from a local vein."
+	},
+	"laser mine phosphate ore": {
+		"name": "Laser Mine (Phosphate Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"phosphate ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract phosphate ore from a local vein."
+	},
+	"laser mine iron ore": {
+		"name": "Laser Mine (Iron Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"iron ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract iron ore from a local vein."
+	},
+	"laser mine copper ore": {
+		"name": "Laser Mine (Copper Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"copper ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract copper ore from a local vein."
+	},
+	"laser mine silver ore": {
+		"name": "Laser Mine (Silver Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"silver ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract silver ore from a local vein."
+	},
+	"laser mine gold ore": {
+		"name": "Laser Mine (Gold Ore)",
+		"inputs": {"energy": 3},
+		"outputs": {"gold ore": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract gold ore from a local vein."
+	},
+	"laser mine ice": {
+		"name": "Laser Mine (Ice)",
+		"inputs": {"energy": 3},
+		"outputs": {"ice": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract ice from a local deposit."
+	},
+	"laser mine salt": {
+		"name": "Laser Mine (Salt)",
+		"inputs": {"energy": 3},
+		"outputs": {"salt": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract salt from a local deposit."
+	},
+	"laser mine limestone": {
+		"name": "Laser Mine (Limestone)",
+		"inputs": {"energy": 3},
+		"outputs": {"limestone": 5},
+		"available": false,
+		"machines": ["laser miner"],
+		"local": "mining",
+		"description": "Extract limestone from a local deposit."
+	},
 	"collect atmosphere": {
 		"name": "Collect Atmosphere",
 		"inputs": {"energy": 2},
