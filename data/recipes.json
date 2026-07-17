@@ -551,7 +551,7 @@
 	"heat sink": {
 		"name": "Heat Sink",
 		"inputs": {"aluminum plate": 1.0, "aluminum rod": 1.0, "energy": 1},
-		"outputs": {"heat sink": 6.5},
+		"outputs": {"heat sink": 2.0},
 		"available": false,
 		"machines": ["parts assembler"],
 		"local": "",
