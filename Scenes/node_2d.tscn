@@ -31,9 +31,10 @@ ResourceLabelSceneRef = ExtResource("5_v7gqg")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 3
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -362,7 +363,6 @@ offset_bottom = 189.0
 text = "Transfer"
 
 [node name="Communication" type="Control" parent="TabContainer" unique_id=1898777306]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
@@ -415,6 +415,32 @@ offset_top = 849.0
 offset_right = 124.0
 offset_bottom = 882.0
 text = "Call Trader"
+
+[node name="TraderCommsLabel" type="Label" parent="TabContainer/Communication" unique_id=520137268]
+layout_mode = 0
+offset_left = 1222.0
+offset_top = 42.0
+offset_right = 1665.0
+offset_bottom = 211.0
+text = "No Communication Infrastructure"
+
+[node name="LandButton" type="Button" parent="TabContainer/Communication" unique_id=1515209076]
+layout_mode = 0
+offset_left = 1222.0
+offset_top = 211.0
+offset_right = 1330.0
+offset_bottom = 242.0
+disabled = true
+text = "Land"
+
+[node name="DismissButton" type="Button" parent="TabContainer/Communication" unique_id=1238927994]
+layout_mode = 0
+offset_left = 1343.0
+offset_top = 211.0
+offset_right = 1451.0
+offset_bottom = 242.0
+disabled = true
+text = "Dismiss"
 
 [node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
 visible = false

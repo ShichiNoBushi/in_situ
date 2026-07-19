@@ -1,15 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "qBGjpwjHLLE=",
+  "dgSpecHash": "KU/WS/lpYSI=",
   "success": true,
   "projectFilePath": "/Users/jameshidahl/workspace/in_situ/In Situ.csproj",
   "expectedPackageFiles": [
-    "/Users/jameshidahl/.nuget/packages/godot.sourcegenerators/4.6.1/godot.sourcegenerators.4.6.1.nupkg.sha512",
-    "/Users/jameshidahl/.nuget/packages/godotsharp/4.6.1/godotsharp.4.6.1.nupkg.sha512",
+    "/Users/jameshidahl/.nuget/packages/godot.sourcegenerators/4.7.1/godot.sourcegenerators.4.7.1.nupkg.sha512",
+    "/Users/jameshidahl/.nuget/packages/godotsharp/4.7.1/godotsharp.4.7.1.nupkg.sha512",
+    "/Users/jameshidahl/.nuget/packages/godotsharpeditor/4.7.1/godotsharpeditor.4.7.1.nupkg.sha512",
     "/Users/jameshidahl/.nuget/packages/microsoft.netcore.app.ref/8.0.11/microsoft.netcore.app.ref.8.0.11.nupkg.sha512",
-    "/Users/jameshidahl/.nuget/packages/microsoft.netcore.app.runtime.osx-arm64/8.0.11/microsoft.netcore.app.runtime.osx-arm64.8.0.11.nupkg.sha512",
-    "/Users/jameshidahl/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512",
-    "/Users/jameshidahl/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-arm64/8.0.11/microsoft.aspnetcore.app.runtime.osx-arm64.8.0.11.nupkg.sha512"
+    "/Users/jameshidahl/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512"
   ],
   "logs": []
 }

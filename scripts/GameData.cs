@@ -72,6 +72,9 @@ public partial class GameData : Node
 	public static VBoxContainer marketVBox;
 	public static ItemList tradersList;
 	public static RichTextLabel traderInfoLabel;
+	public static Label traderCommsLabel;
+	public static Button landButton;
+	public static Button dismissButton;
 	public static Button callButton;
 	
 	public static Button newButton;
@@ -130,8 +133,13 @@ public partial class GameData : Node
 		marketVBox = GetNode<VBoxContainer>("../TabContainer/Communication/MarketScroll/MarketVBox");
 		tradersList = GetNode<ItemList>("../TabContainer/Communication/TradersList");
 		traderInfoLabel = GetNode<RichTextLabel>("../TabContainer/Communication/TraderInfoLabel");
+		traderCommsLabel = GetNode<Label>("../TabContainer/Communication/TraderCommsLabel");
+		landButton = GetNode<Button>("../TabContainer/Communication/LandButton");
+		dismissButton = GetNode<Button>("../TabContainer/Communication/DismissButton");
 		callButton = GetNode<Button>("../TabContainer/Communication/CallButton");
 		tradersList.ItemSelected += DisplayTraderInfo;
+		landButton.Pressed += OnLandPressed;
+		dismissButton.Pressed += OnDismissPressed;
 		callButton.Pressed += OnCallPressed;
 		
 		objectiveLabel = GetNode<Label>("../TabContainer/Base/QuestPanel/ObjectiveScroll/ObjectiveLabel");
@@ -271,6 +279,20 @@ public partial class GameData : Node
 		traderInfoLabel.Text = info;
 	}
 	
+	public void OnLandPressed()
+	{
+		traderCommsLabel.Text = "No trader comms";
+		landButton.Disabled = true;
+		dismissButton.Disabled = true;
+	}
+	
+	public void OnDismissPressed()
+	{
+		traderCommsLabel.Text = "No trader comms";
+		landButton.Disabled = true;
+		dismissButton.Disabled = true;
+	}
+	
 	public void OnCallPressed()
 	{
 		if (!currentRegion.ContainsCommunication() || !currentRegion.ContainsTrade() || !currentRegion.ContainsDock())
@@ -353,6 +375,10 @@ public partial class GameData : Node
 				tradeControl.previousTraderButton.Disabled = (index <= 0 || currentRegion.landedTraders.Count <= 1);
 				tradeControl.nextTraderButton.Disabled = (index == -1 || currentRegion.landedTraders.Count <= 1 || index == currentRegion.landedTraders.Count - 1);
 			}
+			
+			traderCommsLabel.Text = $"{trad.name} called\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
+			landButton.Disabled = false;
+			dismissButton.Disabled = false;
 		}
 		
 		GD.Print($"GameData: Landed Traders");
