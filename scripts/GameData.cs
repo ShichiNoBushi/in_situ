@@ -43,6 +43,7 @@ public partial class GameData : Node
 	public static Dictionary<string, List<LogisticsNetwork>> networks = new();
 	
 	public static Dictionary<int, Trader> traders = new();
+	public static List<Trader> traderComms = new();
 	//public static List<Trader> landedTraders = new();
 	
 	//The region the player is currently in.
@@ -281,16 +282,73 @@ public partial class GameData : Node
 	
 	public void OnLandPressed()
 	{
-		traderCommsLabel.Text = "No trader comms";
-		landButton.Disabled = true;
-		dismissButton.Disabled = true;
+		if (traderComms.Count == 0)
+		{
+			traderCommsLabel.Text = "No trader comms";
+			landButton.Disabled = true;
+			dismissButton.Disabled = true;
+			return;
+		}
+		
+		Trader trad = traderComms[0];
+		
+		if (currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
+		
+		trad.GenerateInventory();
+		trad.GenerateSnapshot();
+		
+		currentRegion.landedTraders.Add(trad);
+		
+		if (tradeControl.activeTrader == null)
+		{
+			GD.Print($"GameData: {trad.name} landed and active");
+			tradeControl.activeTrader = trad;
+			tradeControl.UpdateTraderName();
+			tradeControl.UpdateTraderResourceLabels();
+			tradeControl.UpdateTraderTradeMenu();
+		}
+		else if (currentRegion.landedTraders.Count >= 2)
+		{
+			int index = currentRegion.landedTraders.IndexOf(tradeControl.activeTrader);
+			
+			GD.Print($"GameData: {trad.name} landed and registered as index {index}");
+			
+			tradeControl.previousTraderButton.Disabled = (index <= 0 || currentRegion.landedTraders.Count <= 1);
+			tradeControl.nextTraderButton.Disabled = (index == -1 || currentRegion.landedTraders.Count <= 1 || index == currentRegion.landedTraders.Count - 1);
+		}
+		
+		traderComms.RemoveAt(0);
+		
+		if (traderComms.Count > 0)
+		{
+			Trader newTrad = traderComms[0];
+			traderCommsLabel.Text = $"{newTrad.name} called\n{traderComms.Count} in queue\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
+			landButton.Disabled = currentRegion.landedTraders.Count >= currentRegion.DocksAvailable();
+		}
+		else
+		{
+			traderCommsLabel.Text = "No trader comms";
+			landButton.Disabled = true;
+			dismissButton.Disabled = true;
+		}
 	}
 	
 	public void OnDismissPressed()
 	{
-		traderCommsLabel.Text = "No trader comms";
-		landButton.Disabled = true;
-		dismissButton.Disabled = true;
+		traderComms.RemoveAt(0);
+		
+		if (traderComms.Count > 0)
+		{
+			Trader newTrad = traderComms[0];
+			traderCommsLabel.Text = $"{newTrad.name} called\n{traderComms.Count} in queue\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
+			landButton.Disabled = currentRegion.landedTraders.Count >= currentRegion.DocksAvailable();
+		}
+		else
+		{
+			traderCommsLabel.Text = "No trader comms";
+			landButton.Disabled = true;
+			dismissButton.Disabled = true;
+		}
 	}
 	
 	public void OnCallPressed()
@@ -351,7 +409,25 @@ public partial class GameData : Node
 		
 		GD.Print($"GameData: {currentRegion.landedTraders.Count} traders landed out of {currentRegion.DocksAvailable()}");
 		
-		if (!landed && currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
+		if (!landed && !traderComms.Contains(trad))
+		{
+			traderComms.Add(trad);
+			
+			if (traderComms.Count == 1)
+			{
+				traderCommsLabel.Text = $"{trad.name} called\n{traderComms.Count} in queue\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
+			}
+			else
+			{
+				Trader oldTrad = traderComms[0];
+				traderCommsLabel.Text = $"{oldTrad.name} called\n{traderComms.Count} in queue\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
+			}
+			
+			landButton.Disabled = currentRegion.landedTraders.Count >= currentRegion.DocksAvailable();
+			dismissButton.Disabled = false;
+		}
+		
+		/*if (!landed && currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
 		{
 			trad.GenerateInventory();
 			trad.GenerateSnapshot();
@@ -379,7 +455,7 @@ public partial class GameData : Node
 			traderCommsLabel.Text = $"{trad.name} called\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
 			landButton.Disabled = false;
 			dismissButton.Disabled = false;
-		}
+		}*/
 		
 		GD.Print($"GameData: Landed Traders");
 		foreach (var t in GameData.currentRegion.landedTraders)
