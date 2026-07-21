@@ -237,6 +237,11 @@ public partial class GameData : Node
 			GD.PrintErr($"GameData: Error updating max storage - {e.Message}");
 		}
 		
+		foreach (var trad in traders.Values)
+		{
+			trad.Tick(delta);
+		}
+		
 		try
 		{
 			UpdateQuestTracking();
@@ -298,6 +303,7 @@ public partial class GameData : Node
 		trad.GenerateSnapshot();
 		
 		currentRegion.landedTraders.Add(trad);
+		trad.SetState(Trader.TraderStatus.Landed);
 		
 		if (tradeControl.activeTrader == null)
 		{
@@ -335,7 +341,9 @@ public partial class GameData : Node
 	
 	public void OnDismissPressed()
 	{
+		Trader oldTrad = traderComms[0];
 		traderComms.RemoveAt(0);
+		oldTrad.SetState(Trader.TraderStatus.Departing);
 		
 		if (traderComms.Count > 0)
 		{
@@ -412,6 +420,7 @@ public partial class GameData : Node
 		if (!landed && !traderComms.Contains(trad))
 		{
 			traderComms.Add(trad);
+			trad.SetState(Trader.TraderStatus.Calling);
 			
 			if (traderComms.Count == 1)
 			{
@@ -426,36 +435,6 @@ public partial class GameData : Node
 			landButton.Disabled = currentRegion.landedTraders.Count >= currentRegion.DocksAvailable();
 			dismissButton.Disabled = false;
 		}
-		
-		/*if (!landed && currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
-		{
-			trad.GenerateInventory();
-			trad.GenerateSnapshot();
-			
-			currentRegion.landedTraders.Add(trad);
-			
-			if (tradeControl.activeTrader == null)
-			{
-				GD.Print($"GameData: {trad.name} landed and active");
-				tradeControl.activeTrader = trad;
-				tradeControl.UpdateTraderName();
-				tradeControl.UpdateTraderResourceLabels();
-				tradeControl.UpdateTraderTradeMenu();
-			}
-			else if (currentRegion.landedTraders.Count >= 2)
-			{
-				int index = currentRegion.landedTraders.IndexOf(tradeControl.activeTrader);
-				
-				GD.Print($"GameData: {trad.name} landed and registered as index {index}");
-				
-				tradeControl.previousTraderButton.Disabled = (index <= 0 || currentRegion.landedTraders.Count <= 1);
-				tradeControl.nextTraderButton.Disabled = (index == -1 || currentRegion.landedTraders.Count <= 1 || index == currentRegion.landedTraders.Count - 1);
-			}
-			
-			traderCommsLabel.Text = $"{trad.name} called\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
-			landButton.Disabled = false;
-			dismissButton.Disabled = false;
-		}*/
 		
 		GD.Print($"GameData: Landed Traders");
 		foreach (var t in GameData.currentRegion.landedTraders)
@@ -5070,8 +5049,19 @@ public class Trader
 	public Dictionary<string, float> inventory {get; private set;}
 	public Dictionary<string, float> marketSnapshot {get; private set;}
 	
+	public enum TraderStatus {
+		Arriving,
+		Calling,
+		Landed,
+		Departing
+	}
+	
+	public TraderStatus state;
+	public float wait;
+	
 	public TraderSave lastSave;
 	
+	public static float WAIT_FACTOR = 6000.0f;
 	public static List<string> CATALOG = new() {
 		"hydrogen",
 		"carbon",
@@ -5118,6 +5108,9 @@ public class Trader
 		inventory = new();
 		marketSnapshot = new();
 		
+		state = TraderStatus.Arriving;
+		wait = -1f;
+		
 		lastSave = null;
 	}
 	
@@ -5135,6 +5128,27 @@ public class Trader
 		
 		inventory = new(save.inventory);
 		marketSnapshot = new(save.marketSnapshot);
+		
+		switch (save.state)
+		{
+			case "arriving":
+				state = TraderStatus.Arriving;
+				break;
+			case "calling":
+				state = TraderStatus.Arriving;
+				break;
+			case "landed":
+				state = TraderStatus.Landed;
+				break;
+			case "departing":
+				state = TraderStatus.Departing;
+				break;
+			default:
+				state = TraderStatus.Arriving;
+				break;
+		}
+		
+		wait = save.wait;
 		
 		lastSave = save;
 	}
@@ -5281,6 +5295,39 @@ public class Trader
 	{
 		prosperity += pros;
 	}
+	
+	public void SetState(TraderStatus s)
+	{
+		state = s;
+		
+		if (s == TraderStatus.Departing)
+		{
+			wait = data.frequency * WAIT_FACTOR;
+		}
+		else
+		{
+			wait = -1f;
+		}
+	}
+	
+	public void Tick(double delta)
+	{
+		if (wait <= 0 || state != TraderStatus.Departing)
+		{
+			wait = -1;
+			return;
+		}
+		
+		float dt = (float)delta;
+		
+		wait -= dt;
+		
+		if (wait <= 0)
+		{
+			state = TraderStatus.Arriving;
+			wait = -1;
+		}
+	}
 }
 
 public class TraderSave
@@ -5295,6 +5342,9 @@ public class TraderSave
 	public Dictionary<string, float> inventory {get; private set;}
 	public Dictionary<string, float> marketSnapshot {get; private set;}
 	
+	public string state;
+	public float wait;
+	
 	public TraderSave()
 	{
 		id = "no ID";
@@ -5306,6 +5356,9 @@ public class TraderSave
 		
 		inventory = new();
 		marketSnapshot = new();
+		
+		state = "arriving";
+		wait = -1f;
 	}
 	
 	public TraderSave(Trader t)
@@ -5319,6 +5372,24 @@ public class TraderSave
 		
 		inventory = new(t.inventory);
 		marketSnapshot = new(t.marketSnapshot);
+		
+		switch (t.state)
+		{
+			case Trader.TraderStatus.Arriving:
+				state = "arriving";
+				break;
+			case Trader.TraderStatus.Calling:
+				state = "calling";
+				break;
+			case Trader.TraderStatus.Landed:
+				state = "landed";
+				break;
+			case Trader.TraderStatus.Departing:
+				state = "departing";
+				break;
+		}
+		
+		wait = t.wait;
 	}
 }
 

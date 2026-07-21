@@ -669,6 +669,7 @@ public partial class TradeControl : Node
 		
 		activeTrader.AdjustFavor(bonusFavor);
 		activeTrader.AdjustProsperity(bonusProsperity);
+		activeTrader.SetState(Trader.TraderStatus.Departing);
 		
 		GameData.currentRegion.landedTraders.Remove(activeTrader);
 		
