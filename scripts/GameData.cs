@@ -287,6 +287,11 @@ public partial class GameData : Node
 	
 	public void OnLandPressed()
 	{
+		if (currentRegion.landedTraders.Count >= currentRegion.DocksAvailable())
+		{
+			return;
+		}
+		
 		if (traderComms.Count == 0)
 		{
 			traderCommsLabel.Text = "No trader comms";
@@ -298,49 +303,58 @@ public partial class GameData : Node
 		Trader trad = traderComms[0];
 		
 		if (currentRegion.landedTraders.Count < currentRegion.DocksAvailable())
-		
-		trad.GenerateInventory();
-		trad.GenerateSnapshot();
-		
-		currentRegion.landedTraders.Add(trad);
-		trad.SetState(Trader.TraderStatus.Landed);
-		
-		if (tradeControl.activeTrader == null)
 		{
-			GD.Print($"GameData: {trad.name} landed and active");
-			tradeControl.activeTrader = trad;
-			tradeControl.UpdateTraderName();
-			tradeControl.UpdateTraderResourceLabels();
-			tradeControl.UpdateTraderTradeMenu();
-		}
-		else if (currentRegion.landedTraders.Count >= 2)
-		{
-			int index = currentRegion.landedTraders.IndexOf(tradeControl.activeTrader);
+			trad.GenerateInventory();
+			trad.GenerateSnapshot();
 			
-			GD.Print($"GameData: {trad.name} landed and registered as index {index}");
+			currentRegion.landedTraders.Add(trad);
+			trad.SetState(Trader.TraderStatus.Landed);
 			
-			tradeControl.previousTraderButton.Disabled = (index <= 0 || currentRegion.landedTraders.Count <= 1);
-			tradeControl.nextTraderButton.Disabled = (index == -1 || currentRegion.landedTraders.Count <= 1 || index == currentRegion.landedTraders.Count - 1);
-		}
-		
-		traderComms.RemoveAt(0);
-		
-		if (traderComms.Count > 0)
-		{
-			Trader newTrad = traderComms[0];
-			traderCommsLabel.Text = $"{newTrad.name} called\n{traderComms.Count} in queue\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
-			landButton.Disabled = currentRegion.landedTraders.Count >= currentRegion.DocksAvailable();
-		}
-		else
-		{
-			traderCommsLabel.Text = "No trader comms";
-			landButton.Disabled = true;
-			dismissButton.Disabled = true;
+			if (tradeControl.activeTrader == null)
+			{
+				GD.Print($"GameData: {trad.name} landed and active");
+				tradeControl.activeTrader = trad;
+				tradeControl.UpdateTraderName();
+				tradeControl.UpdateTraderResourceLabels();
+				tradeControl.UpdateTraderTradeMenu();
+			}
+			else if (currentRegion.landedTraders.Count >= 2)
+			{
+				int index = currentRegion.landedTraders.IndexOf(tradeControl.activeTrader);
+				
+				GD.Print($"GameData: {trad.name} landed and registered as index {index}");
+				
+				tradeControl.previousTraderButton.Disabled = (index <= 0 || currentRegion.landedTraders.Count <= 1);
+				tradeControl.nextTraderButton.Disabled = (index == -1 || currentRegion.landedTraders.Count <= 1 || index == currentRegion.landedTraders.Count - 1);
+			}
+			
+			traderComms.RemoveAt(0);
+			
+			if (traderComms.Count > 0)
+			{
+				Trader newTrad = traderComms[0];
+				traderCommsLabel.Text = $"{newTrad.name} called\n{traderComms.Count} in queue\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
+				landButton.Disabled = currentRegion.landedTraders.Count >= currentRegion.DocksAvailable();
+			}
+			else
+			{
+				traderCommsLabel.Text = "No trader comms";
+				landButton.Disabled = true;
+				dismissButton.Disabled = true;
+			}
 		}
 	}
 	
 	public void OnDismissPressed()
 	{
+		if (traderComms.Count == 0)
+		{
+			traderCommsLabel.Text = "No trader comms";
+			landButton.Disabled = true;
+			dismissButton.Disabled = true;
+			return;
+		}
+		
 		Trader oldTrad = traderComms[0];
 		traderComms.RemoveAt(0);
 		oldTrad.SetState(Trader.TraderStatus.Departing);
@@ -417,7 +431,7 @@ public partial class GameData : Node
 		
 		GD.Print($"GameData: {currentRegion.landedTraders.Count} traders landed out of {currentRegion.DocksAvailable()}");
 		
-		if (!landed && !traderComms.Contains(trad))
+		if (!landed && trad.Available() && !traderComms.Contains(trad))
 		{
 			traderComms.Add(trad);
 			trad.SetState(Trader.TraderStatus.Calling);
@@ -607,6 +621,15 @@ public partial class GameData : Node
 			traders[newTrad.idNum] = newTrad;
 		}
 		
+		traderComms.Clear();
+		foreach (var id in save.traderComms)
+		{
+			if (traders.ContainsKey(id))
+			{
+				traderComms.Add(traders[id]);
+			}
+		}
+		
 		regionMap.Clear();
 		coordStringToTuple.Clear();
 		foreach (var reg in save.regionMap)
@@ -626,6 +649,8 @@ public partial class GameData : Node
 		{
 			reg.LinkFromSave();
 		}
+		
+		UpdateComms();
 		
 		galMarket.Clear();
 		foreach (var commSave in save.galMarket)
@@ -1328,6 +1353,8 @@ public partial class GameData : Node
 			GD.PrintErr($"GameData: Error updating machines {e.Message}");
 		}
 		
+		UpdateComms();
+		
 		logisticsControl.UpdateRegionLogistics();
 		tradeControl.ResetHubs();
 		tradeControl.UpdateRegionTrade();
@@ -1508,6 +1535,23 @@ public partial class GameData : Node
 		buildControl.UpdateNeighborMenu();
 	}
 	
+	public static void UpdateComms()
+	{
+		if (traderComms.Count == 0)
+		{
+			traderCommsLabel.Text = "No trader comms";
+			landButton.Disabled = true;
+			dismissButton.Disabled = true;
+			return;
+		}
+		
+		Trader trad = traderComms[0];
+		
+		traderCommsLabel.Text = $"{trad.name} called\n{traderComms.Count} in queue\nPress \"Land\" to confirm and \"Dismiss\" to reject\n(testing...)";
+		landButton.Disabled = currentRegion.landedTraders.Count >= currentRegion.DocksAvailable();
+		dismissButton.Disabled = false;
+	}
+	
 	public static void SortResources(Dictionary<string, float> resources)
 	{
 		Dictionary<string, float> clone = new Dictionary<string, float>(resources);
@@ -1662,6 +1706,7 @@ public class GameSave
 	public AndroidSave android {get; set;}
 	
 	public List<TraderSave> traders {get; set;}
+	public List<int> traderComms {get; set;}
 	
 	public List<RegionSave> regionMap {get; set;}
 	public int currentX {get; set;}
@@ -1687,6 +1732,12 @@ public class GameSave
 		foreach (var trad in GameData.traders.Values)
 		{
 			traders.Add(new TraderSave(trad));
+		}
+		
+		traderComms = new();
+		foreach (var trad in GameData.traderComms)
+		{
+			traderComms.Add(trad.idNum);
 		}
 		
 		regionMap = new();
@@ -5135,7 +5186,7 @@ public class Trader
 				state = TraderStatus.Arriving;
 				break;
 			case "calling":
-				state = TraderStatus.Arriving;
+				state = TraderStatus.Calling;
 				break;
 			case "landed":
 				state = TraderStatus.Landed;
@@ -5308,6 +5359,11 @@ public class Trader
 		{
 			wait = -1f;
 		}
+	}
+	
+	public bool Available()
+	{
+		return state == TraderStatus.Arriving && wait < 0;
 	}
 	
 	public void Tick(double delta)
