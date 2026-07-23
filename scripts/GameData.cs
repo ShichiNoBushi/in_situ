@@ -44,7 +44,9 @@ public partial class GameData : Node
 	
 	public static Dictionary<int, Trader> traders = new();
 	public static List<Trader> traderComms = new();
-	//public static List<Trader> landedTraders = new();
+	
+	public const float TRADER_CONTACT_INTERVAL = 60f;
+	public static float traderContactTimer;
 	
 	//The region the player is currently in.
 	public static Region currentRegion;
@@ -241,6 +243,8 @@ public partial class GameData : Node
 		{
 			trad.Tick(delta);
 		}
+		
+		TickTraderContacts(delta);
 		
 		try
 		{
@@ -494,7 +498,8 @@ public partial class GameData : Node
 		android = new();
 		androidControl.UpdateAndroid();
 		traders = new();
-		//landedTraders = new();
+		
+		traderContactTimer = TRADER_CONTACT_INTERVAL;
 		
 		//Reset the map.
 		regionMap.Clear();
@@ -629,6 +634,8 @@ public partial class GameData : Node
 				traderComms.Add(traders[id]);
 			}
 		}
+		
+		traderContactTimer = TRADER_CONTACT_INTERVAL;
 		
 		regionMap.Clear();
 		coordStringToTuple.Clear();
@@ -1089,6 +1096,105 @@ public partial class GameData : Node
 			}
 			objectiveLabel.Text = text;
 		}
+	}
+	
+	public void TickTraderContacts(double delta)
+	{
+		if (!TradeAvailable())
+		{
+			return;
+		}
+		
+		traderContactTimer -= (float)delta;
+		
+		if (traderContactTimer > 0f)
+		{
+			return;
+		}
+		
+		traderContactTimer = TRADER_CONTACT_INTERVAL;
+		GenerateTraderContact();
+	}
+	
+	public void GenerateTraderContact()
+	{
+		Trader trad = PickAvailableNewTrader();
+		
+		if (trad == null)
+		{
+			return;
+		}
+		
+		traderComms.Add(trad);
+		trad.SetState(Trader.TraderStatus.Calling);
+		
+		UpdateComms();
+	}
+	
+	public Trader PickAvailableNewTrader()
+	{
+		List<Trader> available = traders.Values.Where(t => t.Available()).ToList();
+		
+		int pick = rng.RandiRange(0, available.Count);
+		
+		if (pick < available.Count)
+		{
+			return available[pick];
+		}
+		
+		return CreateNewTrader();
+	}
+	
+	public Trader CreateNewTrader()
+	{
+		if (TRADERS.Count == 0 || traderComms.Count > 0)
+		{
+			return null;
+		}
+		
+		int idx = rng.RandiRange(0, TRADERS.Count - 1);
+		string tradID = TRADERS.Keys.ToList()[idx];
+		
+		Trader trad = new Trader(tradID);
+		traders[trad.idNum] = trad;
+		
+		tradersList.AddItem(trad.name);
+		int tradIdx = tradersList.ItemCount - 1;
+		tradersList.SetItemMetadata(tradIdx, trad.idNum);
+		
+		return trad;
+	}
+	
+	public bool TradeAvailable()
+	{
+		bool hasRadio = false;
+		bool hasTrade = false;
+		bool hasDock = false;
+		
+		foreach (var reg in regionMap.Values)
+		{
+			if (reg.ContainsCommunication())
+			{
+				hasRadio = true;
+			}
+			
+			if (reg.ContainsTrade())
+			{
+				hasTrade = true;
+			}
+			
+			if (reg.ContainsDock())
+			{
+				hasDock = true;
+			}
+			
+			if (hasRadio && hasTrade && hasDock)
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public static string FormatUnit(float amount, string resource)
@@ -5112,7 +5218,7 @@ public class Trader
 	
 	public TraderSave lastSave;
 	
-	public static float WAIT_FACTOR = 6000.0f;
+	public static float WAIT_FACTOR = 60f;
 	public static List<string> CATALOG = new() {
 		"hydrogen",
 		"carbon",
