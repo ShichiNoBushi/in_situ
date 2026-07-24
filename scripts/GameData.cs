@@ -46,6 +46,7 @@ public partial class GameData : Node
 	public static List<Trader> traderComms = new();
 	
 	public const float TRADER_CONTACT_INTERVAL = 60f;
+	public const float TRADER_CONTACT_LAMBDA = 15f;
 	public static float traderContactTimer;
 	
 	//The region the player is currently in.
@@ -1112,7 +1113,8 @@ public partial class GameData : Node
 			return;
 		}
 		
-		traderContactTimer = TRADER_CONTACT_INTERVAL;
+		float rand = rng.RandfRange(TRADER_CONTACT_INTERVAL - TRADER_CONTACT_LAMBDA, TRADER_CONTACT_INTERVAL + TRADER_CONTACT_LAMBDA);
+		traderContactTimer = Math.Max(rand, 0f);
 		GenerateTraderContact();
 	}
 	
