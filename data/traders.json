@@ -1,5 +1,5 @@
 {
-	"generic trader": {
+	"corporate trader": {
 		"preferences": {
 			"hydrogen": 1.0,
 			"lithium": 1.0,
@@ -11,7 +11,12 @@
 			"phosphorus": 1.0,
 			"chlorine": 1.0,
 			"iron": 1.0,
-			"copper": 1.0
+			"copper": 1.0,
+			"aluminum bullion": 1.0,
+			"iron bullion": 1.0,
+			"copper bullion": 1.0,
+			"silver bullion": 1.0,
+			"gold bullion": 1.0
 		},
 		"catalog": {
 			"hydrogen": 1.0,
@@ -24,8 +29,14 @@
 			"phosphorus": 1.0,
 			"chlorine": 1.0,
 			"iron": 1.0,
-			"copper": 1.0
+			"copper": 1.0,
+			"aluminum bullion": 1.0,
+			"iron bullion": 1.0,
+			"copper bullion": 1.0,
+			"silver bullion": 1.0,
+			"gold bullion": 1.0
 		},
+		"corporate": true,
 		"frequency": 1.0,
 		"greed": 1.0,
 		"landing_fee": 1.0
@@ -73,6 +84,7 @@
 			"silver bullion": 1.0,
 			"gold bullion": 1.0
 		},
+		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0
@@ -117,6 +129,7 @@
 			"silver bullion": 1.0,
 			"gold bullion": 1.0
 		},
+		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0
@@ -159,6 +172,7 @@
 			"silver bullion": 1.0,
 			"gold bullion": 1.0
 		},
+		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0
@@ -217,6 +231,7 @@
 			"silver bullion": 1.0,
 			"gold bullion": 1.0
 		},
+		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0
@@ -264,6 +279,7 @@
 			"silver bullion": 1.0,
 			"gold bullion": 1.0
 		},
+		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0
@@ -306,6 +322,7 @@
 			"silver bullion": 1.0,
 			"gold bullion": 1.0
 		},
+		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0
@@ -337,6 +354,7 @@
 			"silver bullion": 1.0,
 			"gold bullion": 1.0
 		},
+		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
 		"landing_fee": 50.0

@@ -2126,6 +2126,7 @@ public class TraderData
 {
 	public Dictionary<string, float> preferences {get; set;}
 	public Dictionary<string, float> catalog {get; set;}
+	public bool corporate {get; set;}
 	public float frequency {get; set;}
 	public float greed {get; set;}
 	public float landingFee {get; set;}
@@ -2134,6 +2135,7 @@ public class TraderData
 	{
 		preferences = new();
 		catalog = new();
+		corporate = false;
 		frequency = 0f;
 		greed = 1f;
 		landingFee = 0f;
@@ -5201,6 +5203,7 @@ public class Trader
 	public TraderData data {get; private set;}
 	public int idNum {get; private set;}
 	public string name {get; private set;}
+	public bool corporate {get; private set;}
 	public float favor {get; private set;}
 	public float prosperity {get; private set;}
 	public float greed {get; private set;}
@@ -5260,6 +5263,7 @@ public class Trader
 		while (GameData.traders.Keys.Contains(idNum));
 		
 		name = $"Trader-{idNum}";
+		corporate = data.corporate;
 		favor = 0.5f;
 		prosperity = 1f;
 		greed = data.greed;
@@ -5281,6 +5285,7 @@ public class Trader
 		idNum = save.idNum;
 		
 		name = save.name;
+		corporate = save.corporate;
 		favor = save.favor;
 		prosperity = save.prosperity;
 		greed = save.greed;
@@ -5499,6 +5504,7 @@ public class TraderSave
 	public string id {get; private set;}
 	public int idNum {get; private set;}
 	public string name {get; private  set;}
+	public bool corporate {get; private set;}
 	public float favor {get; private set;}
 	public float prosperity {get; private set;}
 	public float greed {get; private set;}
@@ -5514,6 +5520,7 @@ public class TraderSave
 		id = "no ID";
 		idNum = -1;
 		name = "no name";
+		corporate = false;
 		favor = 0f;
 		prosperity = 0f;
 		greed = 0f;
@@ -5530,6 +5537,7 @@ public class TraderSave
 		id = t.id;
 		idNum = t.idNum;
 		name = t.name;
+		corporate = t.corporate;
 		favor = t.favor;
 		prosperity = t.prosperity;
 		greed = t.greed;
