@@ -39,7 +39,7 @@
 		"corporate": true,
 		"frequency": 1.0,
 		"greed": 1.0,
-		"landing_fee": 1.0
+		"takeoff_fee": 1.0
 	},
 	"asteroid miner": {
 		"preferences": {
@@ -87,7 +87,7 @@
 		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
-		"landing_fee": 50.0
+		"takeoff_fee": 50.0
 	},
 	"chemical supplier": {
 		"preferences": {
@@ -132,7 +132,7 @@
 		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
-		"landing_fee": 50.0
+		"takeoff_fee": 50.0
 	},
 	"mechanic": {
 		"preferences": {
@@ -175,7 +175,7 @@
 		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
-		"landing_fee": 50.0
+		"takeoff_fee": 50.0
 	},
 	"electrical engineer": {
 		"preferences": {
@@ -234,7 +234,7 @@
 		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
-		"landing_fee": 50.0
+		"takeoff_fee": 50.0
 	},
 	"salvager": {
 		"preferences": {
@@ -282,7 +282,7 @@
 		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
-		"landing_fee": 50.0
+		"takeoff_fee": 50.0
 	},
 	"computer engineer": {
 		"preferences": {
@@ -325,7 +325,7 @@
 		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
-		"landing_fee": 50.0
+		"takeoff_fee": 50.0
 	},
 	"scientist": {
 		"preferences": {
@@ -357,6 +357,6 @@
 		"corporate": false,
 		"frequency": 1.0,
 		"greed": 1.2,
-		"landing_fee": 50.0
+		"takeoff_fee": 50.0
 	}
 }

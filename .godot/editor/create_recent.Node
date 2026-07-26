@@ -1,12 +1,12 @@
-Button
 Label
+Panel
+Button
 SpinBox
 OptionButton
 HBoxContainer
 HSlider
 CheckBox
 ColorRect
-Panel
 ScrollContainer
 RichTextLabel
 ItemList

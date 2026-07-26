@@ -42,6 +42,9 @@ public partial class GameData : Node
 	
 	public static Dictionary<string, List<LogisticsNetwork>> networks = new();
 	
+	public static float credits;
+	public static float debt;
+	
 	public static Dictionary<int, Trader> traders = new();
 	public static List<Trader> traderComms = new();
 	
@@ -499,6 +502,8 @@ public partial class GameData : Node
 		android = new();
 		androidControl.UpdateAndroid();
 		traders = new();
+		credits = 0f;
+		debt = 10000000f;
 		
 		traderContactTimer = TRADER_CONTACT_INTERVAL;
 		
@@ -636,7 +641,10 @@ public partial class GameData : Node
 			}
 		}
 		
-		traderContactTimer = TRADER_CONTACT_INTERVAL;
+		traderContactTimer = save.traderContactTimer;
+		
+		credits = save.credits;
+		debt = save.debt;
 		
 		regionMap.Clear();
 		coordStringToTuple.Clear();
@@ -1816,6 +1824,11 @@ public class GameSave
 	public List<TraderSave> traders {get; set;}
 	public List<int> traderComms {get; set;}
 	
+	public float traderContactTimer {get; set;}
+	
+	public float credits {get; set;}
+	public float debt {get; set;}
+	
 	public List<RegionSave> regionMap {get; set;}
 	public int currentX {get; set;}
 	public int currentY {get; set;}
@@ -1847,6 +1860,11 @@ public class GameSave
 		{
 			traderComms.Add(trad.idNum);
 		}
+		
+		traderContactTimer = GameData.traderContactTimer;
+		
+		credits = GameData.credits;
+		debt = GameData.debt;
 		
 		regionMap = new();
 		foreach (var reg in GameData.regionMap.Values)
@@ -2129,7 +2147,7 @@ public class TraderData
 	public bool corporate {get; set;}
 	public float frequency {get; set;}
 	public float greed {get; set;}
-	public float landingFee {get; set;}
+	public float takeoffFee {get; set;}
 	
 	public TraderData()
 	{
@@ -2138,7 +2156,7 @@ public class TraderData
 		corporate = false;
 		frequency = 0f;
 		greed = 1f;
-		landingFee = 0f;
+		takeoffFee = 0f;
 	}
 }
 

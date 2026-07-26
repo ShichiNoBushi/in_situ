@@ -41,8 +41,12 @@ public partial class TradeControl : Node
 	public Button playerOfferButton;
 	public Button playerRetractButton;
 	
+	public Panel favorPanel;
 	public ProgressBar favorProgress;
 	public Label offerValueLabel;
+	
+	public Panel creditsPanel;
+	public Label creditsLabel;
 	
 	public Button tradeButton;
 	
@@ -103,8 +107,12 @@ public partial class TradeControl : Node
 		playerOfferButton.Pressed += OnPlayerOfferPress;
 		playerRetractButton.Pressed += OnPlayerRetractPress;
 		
-		favorProgress = GetNode<ProgressBar>("FavorProgress");
-		offerValueLabel = GetNode<Label>("OfferValueLabel");
+		favorPanel = GetNode<Panel>("FavorPanel");
+		favorProgress = GetNode<ProgressBar>("FavorPanel/FavorProgress");
+		offerValueLabel = GetNode<Label>("FavorPanel/OfferValueLabel");
+		
+		creditsPanel = GetNode<Panel>("CreditsPanel");
+		creditsLabel = GetNode<Label>("CreditsPanel/CreditsLabel");
 		
 		tradeButton = GetNode<Button>("TradeButton");
 		
@@ -348,7 +356,15 @@ public partial class TradeControl : Node
 		UpdateTraderResourceLabels();
 		UpdateTraderOfferLabels();
 		UpdateTraderTradeMenu();
-		UpdateFavorProgress();
+		
+		if (activeTrader != null && activeTrader.corporate)
+		{
+			UpdateCreditValue();
+		}
+		else
+		{
+			UpdateFavorProgress();
+		}
 	}
 	
 	public void OnTraderRetractPress()
@@ -389,7 +405,15 @@ public partial class TradeControl : Node
 		UpdateTraderResourceLabels();
 		UpdateTraderOfferLabels();
 		UpdateTraderTradeMenu();
-		UpdateFavorProgress();
+		
+		if (activeTrader != null && activeTrader.corporate)
+		{
+			UpdateCreditValue();
+		}
+		else
+		{
+			UpdateFavorProgress();
+		}
 	}
 	
 	public void OnPlayerOfferPress()
@@ -487,7 +511,15 @@ public partial class TradeControl : Node
 		UpdatePlayerOfferLabels();
 		UpdateResRetMenus();
 		UpdatePlayerTradeMenu();
-		UpdateFavorProgress();
+		
+		if (activeTrader != null && activeTrader.corporate)
+		{
+			UpdateCreditValue();
+		}
+		else
+		{
+			UpdateFavorProgress();
+		}
 	}
 	
 	public void OnPlayerRetractPress()
@@ -544,7 +576,15 @@ public partial class TradeControl : Node
 		UpdatePlayerOfferLabels();
 		UpdateResRetMenus();
 		UpdatePlayerTradeMenu();
-		UpdateFavorProgress();
+		
+		if (activeTrader != null && activeTrader.corporate)
+		{
+			UpdateCreditValue();
+		}
+		else
+		{
+			UpdateFavorProgress();
+		}
 	}
 	
 	public void OnTradePress()
@@ -663,12 +703,21 @@ public partial class TradeControl : Node
 		}
 		
 		float playerValue = activeTrader.CalculateFavor(playerOffer);
-		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
-		float favorRatio = traderValue > 0f ? playerValue / traderValue : 2f;
-		float bonusFavor = Mathf.Clamp((favorRatio - 1f) * 0.25f, -0.25f, 0.5f);
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + activeTrader.data.takeoffFee;
 		
-		activeTrader.AdjustFavor(bonusFavor);
-		activeTrader.AdjustProsperity(bonusProsperity);
+		if (activeTrader.corporate)
+		{
+			
+		}
+		else
+		{
+			float favorRatio = traderValue > 0f ? playerValue / traderValue : 2f;
+			float bonusFavor = Mathf.Clamp((favorRatio - 1f) * 0.25f, -0.25f, 0.5f);
+			
+			activeTrader.AdjustFavor(bonusFavor);
+			activeTrader.AdjustProsperity(bonusProsperity);
+		}
+		
 		activeTrader.SetState(Trader.TraderStatus.Departing);
 		
 		GameData.currentRegion.landedTraders.Remove(activeTrader);
@@ -691,7 +740,15 @@ public partial class TradeControl : Node
 		playerOffer.Clear();
 		
 		UpdateAllLabels();
-		UpdateFavorProgress();
+		
+		if (activeTrader != null && activeTrader.corporate)
+		{
+			UpdateCreditValue();
+		}
+		else
+		{
+			UpdateFavorProgress();
+		}
 		
 		tradeButton.Disabled = true;
 	}
@@ -1282,13 +1339,29 @@ public partial class TradeControl : Node
 		}
 	}
 	
+	public void UpdateFavorCreditsDisplay()
+	{
+		bool corp = activeTrader != null && activeTrader.corporate;
+		favorPanel.Visible = !corp;
+		creditsPanel.Visible = corp;
+	}
+	
 	public void UpdateFavorProgress()
 	{
 		float playerValue = activeTrader.CalculateFavor(playerOffer);
-		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + activeTrader.data.takeoffFee;
 		
 		favorProgress.Value = (playerValue > 0f && traderValue > 0f ? playerValue / traderValue : 0f) * 100f;
 		offerValueLabel.Text = $"{playerValue:0.00} / {traderValue:0.00}";
+	}
+	
+	public void UpdateCreditValue()
+	{
+		float playerValue = activeTrader.CalculateFavor(playerOffer);
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + activeTrader.data.takeoffFee;
+		float totalValue = playerValue - traderValue;
+		
+		creditsLabel.Text = $"{totalValue} Credits";
 	}
 	
 	public void AddTradeHub(Infrastructure infra)
