@@ -14,6 +14,8 @@ public partial class AndroidControl : Control
 	public CheckBox fromInventoryRadio;
 	public SpinBox transferSpin;
 	public Button transferButton;
+	public Label creditLabel;
+	public Label debtLabel;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -29,6 +31,8 @@ public partial class AndroidControl : Control
 		fromInventoryRadio = GetNode<CheckBox>("FromInventoryRadio");
 		transferSpin = GetNode<SpinBox>("TransferSpin");
 		transferButton = GetNode<Button>("TransferButton");
+		creditLabel = GetNode<Label>("CreditLabel");
+		debtLabel = GetNode<Label>("DebtLabel");
 		
 		//fullInventoryLabel.BbcodeEnabled = true;
 		
@@ -42,6 +46,7 @@ public partial class AndroidControl : Control
 			}
 		}*/
 		UpdateResourceMenu();
+		UpdateCreditDebt();
 		CallDeferred(nameof(UpdateResourceMenu));
 		
 		transferButton.Pressed += TransferResource;
@@ -89,6 +94,12 @@ public partial class AndroidControl : Control
 	public void UpdateAndroid()
 	{
 		android = GameData.android;
+	}
+	
+	public void UpdateCreditDebt()
+	{
+		creditLabel.Text = $"{GameData.credits:0.0000}";
+		debtLabel.Text = $"{GameData.debt:0.0000}";
 	}
 	
 	public void DisplayInventory()

@@ -598,21 +598,37 @@ public partial class TradeControl : Node
 		GD.Print("TradeControl: Beginning trade negotiations...");
 		
 		float playerValue = activeTrader.CalculateFavor(playerOffer);
-		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + TAKEOFF_FEE;
+		float traderValue = activeTrader.CalculateFavor(traderOffer) * activeTrader.greed + activeTrader.data.takeoffFee;
 		float totalValue = traderValue > 0f ? playerValue / traderValue: 2f;
 		
-		float rand1 = GameData.rng.Randf();
-		float rand2 = GameData.rng.Randf();
-		
-		if (rand1 <= totalValue && rand2 <= totalValue)
+		if (activeTrader.corporate)
 		{
-			GD.Print($"TradeControl: Trade confirmed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
-			TradeOffers();
+			if (GameData.credits + totalValue >= 0f)
+			{
+				GD.Print($"TradeControl: Corporate Trade confirmed - new balance {GameData.credits + totalValue}");
+				TradeOffers();
+			}
+			else
+			{
+				GD.Print($"TradeControl: Corporate Trade failed - insufficient funds");
+				tradeButton.Disabled = true;
+			}
 		}
 		else
 		{
-			GD.Print($"TradeControl: Trade failed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
-			tradeButton.Disabled = true;
+			float rand1 = GameData.rng.Randf();
+			float rand2 = GameData.rng.Randf();
+			
+			if (rand1 <= totalValue && rand2 <= totalValue)
+			{
+				GD.Print($"TradeControl: Trade confirmed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
+				TradeOffers();
+			}
+			else
+			{
+				GD.Print($"TradeControl: Trade failed - random numbers {rand1:0.00} and {rand2:0.00} compared to value {totalValue:0.00}");
+				tradeButton.Disabled = true;
+			}
 		}
 	}
 	
@@ -707,7 +723,9 @@ public partial class TradeControl : Node
 		
 		if (activeTrader.corporate)
 		{
-			
+			float totalValue = playerValue - traderValue;
+			GameData.credits += totalValue;
+			GameData.androidControl.UpdateCreditDebt();
 		}
 		else
 		{

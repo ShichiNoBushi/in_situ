@@ -31,7 +31,7 @@ ResourceLabelSceneRef = ExtResource("5_v7gqg")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 4
+current_tab = 2
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
 visible = false
@@ -248,7 +248,6 @@ custom_minimum_size = Vector2(665, 429)
 layout_mode = 2
 
 [node name="Android" type="Control" parent="TabContainer" unique_id=1531498862]
-visible = false
 layout_mode = 2
 script = ExtResource("12_c32x4")
 metadata/_tab_index = 2
@@ -362,6 +361,40 @@ offset_right = 679.0
 offset_bottom = 189.0
 text = "Transfer"
 
+[node name="CreditsTextLabel" type="Label" parent="TabContainer/Android" unique_id=711834392]
+layout_mode = 0
+offset_left = 553.0
+offset_top = 200.0
+offset_right = 593.0
+offset_bottom = 223.0
+text = "Credits"
+
+[node name="CreditsLabel" type="Label" parent="TabContainer/Android" unique_id=212868278]
+layout_mode = 0
+offset_left = 553.0
+offset_top = 228.0
+offset_right = 746.0
+offset_bottom = 251.0
+text = "0"
+horizontal_alignment = 2
+
+[node name="DebtTextLabel" type="Label" parent="TabContainer/Android" unique_id=1992694349]
+layout_mode = 0
+offset_left = 756.0
+offset_top = 200.0
+offset_right = 796.0
+offset_bottom = 223.0
+text = "Debt"
+
+[node name="DebtLabel" type="Label" parent="TabContainer/Android" unique_id=868616443]
+layout_mode = 0
+offset_left = 756.0
+offset_top = 228.0
+offset_right = 949.0
+offset_bottom = 251.0
+text = "0"
+horizontal_alignment = 2
+
 [node name="Communication" type="Control" parent="TabContainer" unique_id=1898777306]
 visible = false
 layout_mode = 2
@@ -444,6 +477,7 @@ disabled = true
 text = "Dismiss"
 
 [node name="Trade" type="Control" parent="TabContainer" unique_id=388554634]
+visible = false
 layout_mode = 2
 script = ExtResource("14_gwne5")
 ResourceLabelScene = ExtResource("5_v7gqg")
