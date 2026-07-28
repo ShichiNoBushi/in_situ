@@ -31,10 +31,9 @@ ResourceLabelSceneRef = ExtResource("5_v7gqg")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 2
+current_tab = 0
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -248,6 +247,7 @@ custom_minimum_size = Vector2(665, 429)
 layout_mode = 2
 
 [node name="Android" type="Control" parent="TabContainer" unique_id=1531498862]
+visible = false
 layout_mode = 2
 script = ExtResource("12_c32x4")
 metadata/_tab_index = 2
@@ -790,6 +790,14 @@ offset_right = 796.0
 offset_bottom = 647.0
 disabled = true
 text = "Trade"
+
+[node name="DismissButton" type="Button" parent="TabContainer/Trade" unique_id=770657820]
+layout_mode = 0
+offset_left = 801.0
+offset_top = 616.0
+offset_right = 895.0
+offset_bottom = 647.0
+text = "Dismiss"
 
 [node name="TraderTradePanel" type="Panel" parent="TabContainer/Trade" unique_id=1982494694]
 layout_mode = 0

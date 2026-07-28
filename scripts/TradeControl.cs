@@ -49,6 +49,7 @@ public partial class TradeControl : Node
 	public Label creditsLabel;
 	
 	public Button tradeButton;
+	public Button dismissButton;
 	
 	public VBoxContainer traderTradeVBox;
 	public VBoxContainer playerTradeVBox;
@@ -115,8 +116,10 @@ public partial class TradeControl : Node
 		creditsLabel = GetNode<Label>("CreditsPanel/CreditsLabel");
 		
 		tradeButton = GetNode<Button>("TradeButton");
+		dismissButton = GetNode<Button>("DismissButton");
 		
 		tradeButton.Pressed += OnTradePress;
+		dismissButton.Pressed += OnDismissPress;
 		
 		traderTradeVBox = GetNode<VBoxContainer>("TraderTradeScroll/TraderTradeVBox");
 		playerTradeVBox = GetNode<VBoxContainer>("PlayerTradeScroll/PlayerTradeVBox");
@@ -279,6 +282,7 @@ public partial class TradeControl : Node
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
 		UpdateTraderTradeMenu();
+		UpdateFavorCreditsDisplay();
 	}
 	
 	public void OnNextTraderPress()
@@ -309,6 +313,7 @@ public partial class TradeControl : Node
 		UpdateTraderName();
 		UpdateTraderResourceLabels();
 		UpdateTraderTradeMenu();
+		UpdateFavorCreditsDisplay();
 	}
 	
 	public void OnTraderOfferPress()
@@ -632,6 +637,56 @@ public partial class TradeControl : Node
 		}
 	}
 	
+	public void OnDismissPress()
+	{
+		if (activeTrader == null)
+		{
+			return;
+		}
+		
+		RetractAllOffers();
+		
+		if (activeTrader.corporate)
+		{
+			GameData.credits -= activeTrader.data.takeoffFee;
+		}
+		else
+		{
+			activeTrader.AdjustFavor(-0.25f);
+		}
+		
+		activeTrader.SetState(Trader.TraderStatus.Departing);
+		
+		GameData.currentRegion.landedTraders.Remove(activeTrader);
+		
+		if (GameData.currentRegion.landedTraders.Count > 0)
+		{
+			activeTrader = GameData.currentRegion.landedTraders[0];
+		}
+		else
+		{
+			activeTrader = null;
+		}
+		
+		int traderIndex = GameData.currentRegion.landedTraders.IndexOf(activeTrader);
+		
+		previousTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex <= 0);
+		nextTraderButton.Disabled = (GameData.currentRegion.landedTraders.Count < 2 || traderIndex == -1 || traderIndex >= GameData.currentRegion.landedTraders.Count - 1);
+		
+		if (activeTrader != null && activeTrader.corporate)
+		{
+			UpdateCreditValue();
+		}
+		else
+		{
+			UpdateFavorProgress();
+		}
+		
+		UpdateFavorCreditsDisplay();
+		
+		tradeButton.Disabled = true;
+	}
+	
 	public void OnReserveSelect(long index)
 	{
 		string resKey = (string)reserveMenu.GetItemMetadata((int)index);
@@ -758,6 +813,7 @@ public partial class TradeControl : Node
 		playerOffer.Clear();
 		
 		UpdateAllLabels();
+		UpdateFavorCreditsDisplay();
 		
 		if (activeTrader != null && activeTrader.corporate)
 		{
