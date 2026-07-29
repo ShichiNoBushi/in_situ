@@ -797,6 +797,7 @@ offset_left = 801.0
 offset_top = 616.0
 offset_right = 895.0
 offset_bottom = 647.0
+disabled = true
 text = "Dismiss"
 
 [node name="TraderTradePanel" type="Panel" parent="TabContainer/Trade" unique_id=1982494694]

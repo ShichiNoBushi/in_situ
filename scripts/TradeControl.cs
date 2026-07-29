@@ -167,6 +167,7 @@ public partial class TradeControl : Node
 		UpdateAllLabels();
 		
 		tradeButton.Disabled = !(traderOffer.Count > 0 || playerOffer.Count > 0);
+		dismissButton.Disabled = GameData.currentRegion.landedTraders.Count == 0;
 	}
 	
 	public void OnReservePress()
@@ -685,6 +686,7 @@ public partial class TradeControl : Node
 		UpdateFavorCreditsDisplay();
 		
 		tradeButton.Disabled = true;
+		dismissButton.Disabled = GameData.currentRegion.landedTraders.Count == 0;
 	}
 	
 	public void OnReserveSelect(long index)
@@ -825,6 +827,7 @@ public partial class TradeControl : Node
 		}
 		
 		tradeButton.Disabled = true;
+		dismissButton.Disabled = GameData.currentRegion.landedTraders.Count == 0;
 	}
 	
 	public void ResetHubs()
@@ -956,6 +959,9 @@ public partial class TradeControl : Node
 			GameData.SortResources(GameData.currentRegion.resources);
 			GameData.resourceControl.UpdateResourcePanels();
 		}
+		
+		tradeButton.Disabled = true;
+		dismissButton.Disabled = GameData.currentRegion.landedTraders.Count == 0;
 		
 		UpdateAllLabels();
 	}
