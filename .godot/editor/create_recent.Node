@@ -1,7 +1,7 @@
 Button
+SpinBox
 Label
 Panel
-SpinBox
 OptionButton
 HBoxContainer
 HSlider

@@ -31,9 +31,10 @@ ResourceLabelSceneRef = ExtResource("5_v7gqg")
 offset_right = 1728.0
 offset_bottom = 972.0
 tab_alignment = 1
-current_tab = 0
+current_tab = 2
 
 [node name="Base" type="Control" parent="TabContainer" unique_id=1893193738]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -247,7 +248,6 @@ custom_minimum_size = Vector2(665, 429)
 layout_mode = 2
 
 [node name="Android" type="Control" parent="TabContainer" unique_id=1531498862]
-visible = false
 layout_mode = 2
 script = ExtResource("12_c32x4")
 metadata/_tab_index = 2
@@ -394,6 +394,24 @@ offset_right = 949.0
 offset_bottom = 251.0
 text = "0"
 horizontal_alignment = 2
+
+[node name="PaySpin" type="SpinBox" parent="TabContainer/Android" unique_id=150590198]
+layout_mode = 0
+offset_left = 553.0
+offset_top = 259.0
+offset_right = 743.0
+offset_bottom = 290.0
+max_value = 0.0
+step = 0.001
+alignment = 2
+
+[node name="PayButton" type="Button" parent="TabContainer/Android" unique_id=1152281540]
+layout_mode = 0
+offset_left = 762.0
+offset_top = 259.0
+offset_right = 836.0
+offset_bottom = 290.0
+text = "Pay"
 
 [node name="Communication" type="Control" parent="TabContainer" unique_id=1898777306]
 visible = false

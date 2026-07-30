@@ -650,6 +650,8 @@ public partial class TradeControl : Node
 		if (activeTrader.corporate)
 		{
 			GameData.credits -= activeTrader.data.takeoffFee;
+			GameData.androidControl.UpdateCreditDebt();
+			GameData.androidControl.UpdatePayMax();
 		}
 		else
 		{
@@ -684,6 +686,8 @@ public partial class TradeControl : Node
 		}
 		
 		UpdateFavorCreditsDisplay();
+		UpdateAllLabels();
+		UpdateTraderName();
 		
 		tradeButton.Disabled = true;
 		dismissButton.Disabled = GameData.currentRegion.landedTraders.Count == 0;
@@ -783,6 +787,7 @@ public partial class TradeControl : Node
 			float totalValue = playerValue - traderValue;
 			GameData.credits += totalValue;
 			GameData.androidControl.UpdateCreditDebt();
+			GameData.androidControl.UpdatePayMax();
 		}
 		else
 		{

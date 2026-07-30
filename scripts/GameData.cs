@@ -2147,6 +2147,8 @@ public class TraderData
 	public bool corporate {get; set;}
 	public float frequency {get; set;}
 	public float greed {get; set;}
+	
+	[System.Text.Json.Serialization.JsonPropertyName("takeoff_fee")]
 	public float takeoffFee {get; set;}
 	
 	public TraderData()

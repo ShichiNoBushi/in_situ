@@ -16,6 +16,8 @@ public partial class AndroidControl : Control
 	public Button transferButton;
 	public Label creditLabel;
 	public Label debtLabel;
+	public SpinBox paySpin;
+	public Button payButton;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -33,6 +35,8 @@ public partial class AndroidControl : Control
 		transferButton = GetNode<Button>("TransferButton");
 		creditLabel = GetNode<Label>("CreditLabel");
 		debtLabel = GetNode<Label>("DebtLabel");
+		paySpin = GetNode<SpinBox>("PaySpin");
+		payButton = GetNode<Button>("PayButton");
 		
 		//fullInventoryLabel.BbcodeEnabled = true;
 		
@@ -50,6 +54,7 @@ public partial class AndroidControl : Control
 		CallDeferred(nameof(UpdateResourceMenu));
 		
 		transferButton.Pressed += TransferResource;
+		payButton.Pressed += PayDebt;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -100,6 +105,11 @@ public partial class AndroidControl : Control
 	{
 		creditLabel.Text = $"{GameData.credits:0.0000}";
 		debtLabel.Text = $"{GameData.debt:0.0000}";
+	}
+	
+	public void UpdatePayMax()
+	{
+		paySpin.MaxValue = Math.Min(GameData.credits, GameData.debt);
 	}
 	
 	public void DisplayInventory()
@@ -270,5 +280,23 @@ public partial class AndroidControl : Control
 		
 		float after = GameData.currentRegion.resources.ContainsKey(res) ? GameData.currentRegion.resources[res] : 0f;
 		GD.Print($"AndroidControl: {GameData.FormatUnit(after, res)} after transfer");
+	}
+	
+	public void PayDebt()
+	{
+		if (paySpin.Value <= 0f)
+		{
+			paySpin.Value = 0f;
+			return;
+		}
+		
+		float maxValue = Math.Min(GameData.credits, GameData.debt);
+		float payValue = Math.Min((float)paySpin.Value, maxValue);
+		
+		GameData.credits -= payValue;
+		GameData.debt -= payValue;
+		
+		UpdateCreditDebt();
+		UpdatePayMax();
 	}
 }
