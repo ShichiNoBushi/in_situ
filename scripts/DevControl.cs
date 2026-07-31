@@ -75,15 +75,15 @@ public partial class DevControl : Control
 	
 	private void HandleGive(String[] args)
 	{
-		if (args.Length < 4)
+		if (args.Length < 3)
 		{
-			devLabel.Text = "Give format \"give resource <name> <amount>\"";
+			devLabel.Text = "Give format \"give resource <name> <amount>\" or \"give credits <amount>\"";
 			return;
 		}
 		
 		String category = args[1].ToLower();
 		
-		if (category == "resource")
+		if (category == "resource" && args.Length >= 4)
 		{
 			String resName = args[2];
 			
@@ -124,9 +124,29 @@ public partial class DevControl : Control
 			
 			devLabel.Text = $"Gave {amountText} of {GameData.RESOURCES[resName].name}.";
 		}
+		else if (category == "credits" && args.Length >= 3)
+		{
+			if (!float.TryParse(args[2], out float amount))
+			{
+				devLabel.Text = $"Invalid amount: {args[2]}";
+				return;
+			}
+			
+			if (GameData.credits + amount < 0f)
+			{
+				devLabel.Text = $"Credit deficit reduces balance into negative: {amount} credits, {GameData.credits} available";
+			}
+			
+			GameData.credits += amount;
+			
+			GameData.androidControl.UpdateCreditDebt();
+			GameData.androidControl.UpdatePayMax();
+			
+			devLabel.Text = $"Gave {amount} credits. Balance: {GameData.credits}.";
+		}
 		else
 		{
-			devLabel.Text = "Give format \"give resource <name> <amount>\"";
+			devLabel.Text = "Give format \"give resource <name> <amount>\" or \"give credits <amount>\"";
 		}
 	}
 	

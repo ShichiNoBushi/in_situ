@@ -33,7 +33,7 @@ public partial class AndroidControl : Control
 		fromInventoryRadio = GetNode<CheckBox>("FromInventoryRadio");
 		transferSpin = GetNode<SpinBox>("TransferSpin");
 		transferButton = GetNode<Button>("TransferButton");
-		creditLabel = GetNode<Label>("CreditLabel");
+		creditLabel = GetNode<Label>("CreditsLabel");
 		debtLabel = GetNode<Label>("DebtLabel");
 		paySpin = GetNode<SpinBox>("PaySpin");
 		payButton = GetNode<Button>("PayButton");
@@ -103,12 +103,24 @@ public partial class AndroidControl : Control
 	
 	public void UpdateCreditDebt()
 	{
+		if (creditLabel == null || debtLabel == null)
+		{
+			GD.PrintErr($"AndroidControl: Error updating credit and debt, no credit or debt label");
+			return;
+		}
+		
 		creditLabel.Text = $"{GameData.credits:0.0000}";
 		debtLabel.Text = $"{GameData.debt:0.0000}";
 	}
 	
 	public void UpdatePayMax()
 	{
+		if (paySpin == null)
+		{
+			GD.PrintErr($"AndroidControl: Error updating pay SpinBox max, null value");
+			return;
+		}
+		
 		paySpin.MaxValue = Math.Min(GameData.credits, GameData.debt);
 	}
 	

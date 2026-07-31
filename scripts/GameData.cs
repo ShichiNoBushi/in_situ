@@ -505,6 +505,9 @@ public partial class GameData : Node
 		credits = 0f;
 		debt = 10000000f;
 		
+		androidControl.UpdateCreditDebt();
+		androidControl.UpdatePayMax();
+		
 		traderContactTimer = TRADER_CONTACT_INTERVAL;
 		
 		//Reset the map.
@@ -645,6 +648,9 @@ public partial class GameData : Node
 		
 		credits = save.credits;
 		debt = save.debt;
+		
+		androidControl.UpdateCreditDebt();
+		androidControl.UpdatePayMax();
 		
 		regionMap.Clear();
 		coordStringToTuple.Clear();
